@@ -1,0 +1,18 @@
+<resources>
+	<images>
+		<image code="gameover" name="gameover.png" alpha="True"/>
+	</images>
+    <sprites>
+        <sprite code="granny" name="granny.png" rows="8" columns="12" alpha="True"/>
+    </sprites>
+	<fonts>
+		<font code="droidsans" name="DroidSans.ttf" size="20"/>
+	</fonts>
+	<musics>
+		<music code="empire" name="multimedia/here_comes_the_8_t_Empire.ogg"/>
+	</musics>
+	<sounds>
+		<sound code="vanquish" name="vanquish.wav"/>
+	</sounds>
+</resources>
+
