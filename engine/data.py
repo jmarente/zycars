@@ -62,7 +62,7 @@ def __load_basic_image(image_name):
             
     try:
         image = pygame.image.load(image_path)
-    except pygame.Error, message:
+    except pygame.error, message:
         raise SystemExit, message
     
     return image

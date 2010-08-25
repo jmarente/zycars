@@ -21,7 +21,7 @@ __fonts = {}
 __fonts_info = {}
 
 def __initialize_module():
-	'''
+    '''
 	Función privada del módulo.
 	Es la encargada de parsear un fichero xml que contendrá todos los recursos necesarios 
 	en el sistema.
@@ -53,7 +53,7 @@ def __initialize_module():
         __fonts_info[code] = name 
 
 def __check_initialize():
-	'''
+    '''
 	Función privada del módulo encargada de comprobar si el modulo ya se ha inicializado.
 	Si no es asi se procede a inicializarlo.
 	'''
@@ -63,7 +63,7 @@ def __check_initialize():
         __initialize[0] = True
 
 def get_image(image_code):
-	'''
+    '''
 	Devuelve la imagen asociada al código de imagen dado.
 	'''
     __check_initialize()
@@ -76,7 +76,7 @@ def get_image(image_code):
     return __images[image_code]
         
 def get_sprite(sprite_code):
-	'''
+    '''
 	Devuelve el sprite asociada al código de sprite dado.
 	'''
     __check_initialize()
@@ -90,7 +90,7 @@ def get_sprite(sprite_code):
     return __sprites[sprite_code]
     
 def get_sound(sound_code):
-	'''
+    '''
 	Devuelve el sonido asociado al código del sonido dado.
 	'''
     __check_initialize()
@@ -103,7 +103,7 @@ def get_sound(sound_code):
     return __sounds[sound_code]
     
 def get_font(font_code, size):
-	'''
+    '''
 	Devuelve la fuente asociado con el codigo de fuente y tamaño dado.
 	'''
     __check_initialize()
