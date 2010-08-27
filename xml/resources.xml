@@ -1,0 +1,15 @@
+<resources>
+	<images>
+		<image code="icon" name="icon.png" alpha="True"/>
+	</images>
+    <sprites>
+        <sprite code="granny" name="granny.png" rows="8" columns="12" alpha="True"/>
+    </sprites>
+	<fonts>
+	</fonts>
+	<musics>
+	</musics>
+	<sounds>
+	</sounds>
+</resources>
+
