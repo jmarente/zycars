@@ -3,6 +3,7 @@
 import pygame
 import data
 import resource
+import keyboard
 import xml.dom.minidom
 
 from pygame.locals import *
@@ -35,25 +36,18 @@ class Game:
         
         pygame.display.set_icon(self.icon)
         self.clock = pygame.time.Clock()
-        self.__exit = False
         self.__actual_state = None
-        
-    def __control_exit(self):
-        '''
-        Función privada que controla la salida del juego
-        '''
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                self.__exit = True
             
     def run(self):
         '''
         Función que contiene el bucle principal del juego.
         Actualiza y dibuja el estado actual.
         '''
-        while not self.__exit:
+        while not keyboard.quit():
+            
             self.clock.tick(self.fps)
-            self.__control_exit()
+            
+            keyboard.update()
             
             self.screen.fill((0,0,0))
             
