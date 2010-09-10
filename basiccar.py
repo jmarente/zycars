@@ -3,11 +3,14 @@
 import pygame
 import gameobject
 import xml.dom.minidom
+import math
+
+from math import *
 
 class BasicCar(gameobject.GameObject):
     '''
     Clase "virtual pura" que abstrae el comportamiento y las características 
-    básicas de los vehiculos en el juego.
+    básicas de los vehiculos en el juego
     '''
     def __init__(self, game_control):
         '''
@@ -75,6 +78,14 @@ class BasicCar(gameobject.GameObject):
         self.rect.y = int(self.y) - self.rect.h / 2
         self.x += self.dx
         self.y += self.dy
+
+    def trigonometry(self):
+        '''
+        Control de rotación.
+        '''
+        angle = radians(self.actual_angle)
+        self.dx = cos(angle) * self.actual_speed
+        self.dy = sin(angle) * self.actual_speed
         
     def get_speed(self):
         '''
