@@ -166,8 +166,8 @@ class PlayerCar(BasicCar):
         elif player == 2:
             self.UP = K_w
             self.DOWN = K_s
-            self.RIGHT = K_a
-            self.LEFT = K_d
+            self.RIGHT = K_d
+            self.LEFT = K_a
     
     def __update(self):
         '''
