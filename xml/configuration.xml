@@ -1,0 +1,5 @@
+<configuration>
+    <screen width = "800" height = "600" caption = "Zycars"/>
+    <fps value = "100"/>
+    <icon code = "icon"/>
+</configuration>

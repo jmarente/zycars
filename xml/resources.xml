@@ -1,0 +1,16 @@
+<resources>
+	<images>
+		<image code="icon" name="icon.png" alpha="True"/>
+	</images>
+    <sprites>
+        <sprite code="prueba" name="coche_prueba.png" rows="3" columns="1" alpha="True"/>
+        <sprite code="prueba2" name="red.png" rows="1" columns="1" alpha="True"/>
+    </sprites>
+	<fonts>
+	</fonts>
+	<musics>
+	</musics>
+	<sounds>
+	</sounds>
+</resources>
+

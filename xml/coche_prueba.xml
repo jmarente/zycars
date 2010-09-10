@@ -1,0 +1,13 @@
+<car sprite_code="prueba" max_speed="6" min_speed="4" aceleration="0.3" desaceleration="0.1" rotation_angle="0.6">
+<!--NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW-->
+    <animations>
+        <animation name="normal" frames="1" delay="1"/>
+        <animation name="noaction" frames="1" delay="1"/>
+        <animation name="foward" frames="2" delay="1"/>
+        <animation name="run" frames="0" delay="1"/>
+        <animation name="reverse" frames="2" delay="1"/>
+        <animation name="damaged" frames="1" delay="1"/>
+        <animation name="erase" frames="0" delay="1"/>
+        <animation name="yaw" frames="1" delay="1"/>
+    </animations>
+</car>
