@@ -96,9 +96,9 @@ class PlayerCar(BasicCar):
         if keyboard.pressed(self.DOWN):
             self.state = REVERSE
             
-        self.__control_rotation()
+        self.control_rotation()
         
-        self.__trigonometry()
+        self.trigonometry()
             
     def __noaction_state(self):
         '''
@@ -117,9 +117,9 @@ class PlayerCar(BasicCar):
             self.actual_speed = 0
             self.state = NORMAL
                     
-        self.__control_rotation()
+        self.control_rotation()
             
-        self.__trigonometry()
+        self.trigonometry()
             
     def __reverse_state(self):
         '''
@@ -132,9 +132,9 @@ class PlayerCar(BasicCar):
         if keyboard.pressed(self.UP):
             self.state = RUN
         
-        self.__control_rotation()
+        self.control_rotation()
         
-        self.__trigonometry()
+        self.trigonometry()
     
     def __forward_state(self):
         pass
@@ -145,15 +145,7 @@ class PlayerCar(BasicCar):
     def __yaw_state(self):
         pass
     
-    def __trigonometry(self):
-        '''
-        Control de rotación.
-        '''
-        angle = radians(self.actual_angle)
-        self.dx = cos(angle) * self.actual_speed
-        self.dy = sin(angle) * self.actual_speed
-    
-    def __control_rotation(self):
+    def control_rotation(self):
         '''
         Control del cambio de dirección.
         '''
