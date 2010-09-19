@@ -42,7 +42,7 @@ class Game:
         
         ###########PRUEBA DE CIRCUIT###########
         
-        self.circuit = circuit.Circuit(None, 'mapa1.tmx')
+        self.circuit = circuit.Circuit(None, 'level1.tmx')
         #self.circuit.move(0, self.circuit.get_height() * self.circuit.get_tile_height() - pygame.display.get_surface().get_height())
             
     def run(self):
@@ -61,15 +61,14 @@ class Game:
             #self.__actual_state.update()
             #self.__actual_state.draw(screen)
             
-            if keyboard.pressed(K_DOWN):
-                self.circuit.move(0, self.circuit.get_y() + 50)
-            elif keyboard.pressed(K_UP):
-                self.circuit.move(0, self.circuit.get_y() - 50)
+            if keyboard.pressed(K_LEFT):
+                self.circuit.move(self.circuit.get_x() - 50, 0)
+            elif keyboard.pressed(K_RIGHT):
+                self.circuit.move(self.circuit.get_x() + 50, 0)
             
             self.circuit.draw(self.screen, 0)
             self.circuit.draw(self.screen, 1)
             self.circuit.draw(self.screen, 2)
-            
             
             pygame.display.flip()
         

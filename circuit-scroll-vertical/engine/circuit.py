@@ -66,7 +66,7 @@ class Circuit:
                 
         print "Tileset_height: " + str(tileset_height) + ' Tileset_width: ' + str(tileset_width)
         
-        self.tileset = data.load_sprite(image_name, tileset_width, tileset_height)
+        self.tileset = data.load_sprite(image_name, tileset_height, tileset_width)
         #self.collision_map = data.load_image(collision_map_name)#, tileset_height, tileset_width)
 
         #Suponiendo que 4 sera el numero de capas que tendrá el mapa
@@ -123,7 +123,7 @@ class Circuit:
             n = 0
         
         self.x = 0
-        self.y = self.height * self.tile_height - pygame.display.get_surface().get_height()
+        self.y = 0
         #y = alto_ * tile_alto_ - juego_->univ()->pantalla_alto();
         
         print str(num_layer)
@@ -139,7 +139,7 @@ class Circuit:
         if layer < 0 or layer > 3:
             print "Error: número de capa incorrecto" 
             sys.exit(1)
-
+            
         screen_w = screen.get_width()
         screen_h = screen.get_height()
         
@@ -153,7 +153,7 @@ class Circuit:
         '''num_blocks_x = self.width
         num_blocks_y = self.height'''
         
-        #Si aún sobra pixeles, si el modulo es 0 no es necesario dibujar mas
+        #Si aun sobra pixeles, si el modulo es 0 no es necesario dibujar mas
         margin_x = self.x % self.tile_width
         margin_y = self.y % self.tile_height
         
@@ -162,6 +162,7 @@ class Circuit:
             num_blocks_x += 1
             #print "Entra x"
         if margin_y:
+            # or ((self.y + screen_h) < self.height * self.tile_height):
             num_blocks_y += 1
             #print "Entra y"
                     
@@ -171,8 +172,8 @@ class Circuit:
         row = 0
         column = 0
         
-        '''while (row + ly) < self.height:
-            while (column + lx) < self.width:
+        while row < num_blocks_y:
+            while column < num_blocks_x:
                 frame = self.map[layer][row + ly][column + lx].frame - 1
                 if frame > -1:
                     pos_x = column * self.tile_width - margin_x
@@ -180,18 +181,18 @@ class Circuit:
                     screen.blit(self.tileset[frame], (pos_x, pos_y))
                 column += 1
             row += 1
-            print 'Columnas: ' + str(column)
+            print "Columnas: " + str(column)
             column = 0
         
-        print 'Filas: ' + str(row)'''
+        print "Filas: " + str(row)
         
-        for row in range(num_blocks_y):
+        '''for row in range(num_blocks_y):
             for column in range(num_blocks_x):
                 frame = self.map[layer][row + ly][column + lx].frame - 1
                 if frame > -1:
                     pos_x = column * self.tile_width - margin_x
                     pos_y = row * self.tile_width - margin_y
-                    screen.blit(self.tileset[frame], (pos_x, pos_y))
+                    screen.blit(self.tileset[frame], (pos_x, pos_y))'''
         
     def move(self, x, y):
         '''
