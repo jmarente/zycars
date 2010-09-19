@@ -42,7 +42,7 @@ class Game:
         ######PRUEBA MODULO PLAYER CAR##########
         
         self.car = playercar.PlayerCar("juego", 'coche_prueba.xml', 400, 300, 180)
-        self.car2 = playercar.PlayerCar("juego", 'coche_prueba3.xml', 600, 300, 180, 2)
+        #self.car2 = playercar.PlayerCar("juego", 'coche_prueba3.xml', 600, 300, 180, 2)
             
     def run(self):
         '''
@@ -60,9 +60,9 @@ class Game:
             ######PRUEBA MODULO PLAYER CAR##########
 
             self.car.update()
-            self.car2.update()
+            #self.car2.update()
             self.car.draw(self.screen)
-            self.car2.draw(self.screen)
+            #self.car2.draw(self.screen)
             
             #self.__actual_state.update()
             #self.__actual_state.draw(screen)
