@@ -6,7 +6,6 @@ import resource
 import xml.dom.minidom
 import sys
 import pygame
-import math
 
 #Distintos tipos de tiles
 PASSABLE, NOPASSABLE, LAG = range(3)
@@ -26,10 +25,10 @@ class Circuit:
     def __init__(self, game_control, xml_path):
         '''
         Game_control objeto GameControl con el que se asocia.
-        Xml_path ruta del archivo del circuito en cuestión.
+        Xml_path ruta del archivo del circuito en cuestiÃ³n.
         
         Parseamos el archivo xml y cargamos las distintas propiedades
-        de los tiles, así como la posicion de estos, su capa y el tipo.
+        de los tiles, asÃ­ como la posicion de estos, su capa y el tipo.
         '''
         self.game_control = game_control
         
@@ -54,8 +53,8 @@ class Circuit:
         collision_map_name = None
         
         #Parseamos las distintas propiedades editadas para el mapa, como
-        #el número de tiles en el ancho del tileset y en el alto,
-        #así como el mapa de colisiones correspondiente
+        #el nÃºmero de tiles en el ancho del tileset y en el alto,
+        #asÃ­ como el mapa de colisiones correspondiente
         for element in parser.getElementsByTagName('property'):
             name = element.getAttribute('name')
             if name == 'tileset_ancho':
@@ -70,7 +69,7 @@ class Circuit:
         self.tileset = data.load_sprite(image_name, tileset_height, tileset_width)
         #self.collision_map = data.load_image(collision_map_name)#, tileset_height, tileset_width)
 
-        #Suponiendo que 4 sera el numero de capas que tendrá el mapa
+        #Suponiendo que 4 sera el numero de capas que tendrÃ¡ el mapa
         #Self.map sera la matriz logica que indicara donse se posiciona
         #cada tile y de que tipo son.
         self.map = range(4) 
@@ -125,7 +124,6 @@ class Circuit:
         
         self.x = 0
         self.y = 0
-        #self.y = self.height * self.tile_height - pygame.display.get_surface().get_height()
         #y = alto_ * tile_alto_ - juego_->univ()->pantalla_alto();
         
         print str(num_layer)
@@ -207,15 +205,15 @@ class Circuit:
         
     def move(self, x, y):
         '''
-        x nueva coordenada en el eje x en píxeles.
-        y nueva coordenada en el eje y en píxeles.
+        x nueva coordenada en el eje x en pÃ­xeles.
+        y nueva coordenada en el eje y en pÃ­xeles.
         '''
         self.x = x
         self.y = y
          
     def load_actors(self):
         '''
-        Función encargada de cargar los objetos del juego.
+        FunciÃ³n encargada de cargar los objetos del juego.
         '''
         pass
         
@@ -224,7 +222,7 @@ class Circuit:
         x Coordenada del eje x del tile a consultar.
         y Coordenada del eje y del tile a consultar.
         
-        Devuelve el Tile() de esa posición.
+        Devuelve el Tile() de esa posiciÃ³n.
         '''
         #Si el tile que se pide no esta en la pantalla, ni el tileset, 
         #suponemos que este es pasable.
@@ -233,19 +231,19 @@ class Circuit:
             tile = Tile()
             return tile
             
-        #Dado que despues de añadir las capas a self.map, añadimos el 
-        #tamaño del ancho se entiende [y][x]
+        #Dado que despues de aÃ±adir las capas a self.map, aÃ±adimos el 
+        #tamaÃ±o del ancho se entiende [y][x]
         return self.map[layer][y][x]
         
     def get_tile_height(self):
         '''
-        Devuelve el alto de un tile en píxeles
+        Devuelve el alto de un tile en pÃ­xeles
         '''
         return self.tile_height 
         
     def get_tile_width(self):
         '''
-        Devuelve el ancho de un tile en píxeles
+        Devuelve el ancho de un tile en pÃ­xeles
         '''
         return self.tile_width 
         
@@ -263,12 +261,12 @@ class Circuit:
         
     def get_x(self):
         '''
-        Coordenada actual en x del circuito en píxeles
+        Coordenada actual en x del circuito en pÃ­xeles
         '''
         return self.x
         
     def get_y(self):
         '''
-        Coordenada actual en y del circuito en píxeles 
+        Coordenada actual en y del circuito en pÃ­xeles 
         '''
         return self.y

@@ -6,6 +6,7 @@ import resource
 import xml.dom.minidom
 import sys
 import pygame
+import math
 
 #Distintos tipos de tiles
 PASSABLE, NOPASSABLE, LAG = range(3)
@@ -123,6 +124,7 @@ class Circuit:
             n = 0
         
         self.x = 0
+        #self.y = 0
         self.y = self.height * self.tile_height - pygame.display.get_surface().get_height()
         #y = alto_ * tile_alto_ - juego_->univ()->pantalla_alto();
         
@@ -137,9 +139,9 @@ class Circuit:
         Dibuja la capa indicada sobre la superficie.
         '''                
         if layer < 0 or layer > 3:
-            print "Error: número de capa incorrecto" 
+            print "Error: nÃºmero de capa incorrecto" 
             sys.exit(1)
-
+            
         screen_w = screen.get_width()
         screen_h = screen.get_height()
         
@@ -153,15 +155,16 @@ class Circuit:
         '''num_blocks_x = self.width
         num_blocks_y = self.height'''
         
-        #Si aún sobra pixeles, si el modulo es 0 no es necesario dibujar mas
+        #Si aun sobra pixeles, si el modulo es 0 no es necesario dibujar mas
         margin_x = self.x % self.tile_width
         margin_y = self.y % self.tile_height
         
-        #Añadimos un bloque mas de relleno
+        #AÃ±adimos un bloque mas de relleno
         if margin_x:
             num_blocks_x += 1
             #print "Entra x"
         if margin_y:
+            # or ((self.y + screen_h) < self.height * self.tile_height):
             num_blocks_y += 1
             #print "Entra y"
                     
@@ -171,8 +174,8 @@ class Circuit:
         row = 0
         column = 0
         
-        '''while (row + ly) < self.height:
-            while (column + lx) < self.width:
+        '''while row < num_blocks_y:
+            while column < num_blocks_x:
                 frame = self.map[layer][row + ly][column + lx].frame - 1
                 if frame > -1:
                     pos_x = column * self.tile_width - margin_x
@@ -180,18 +183,27 @@ class Circuit:
                     screen.blit(self.tileset[frame], (pos_x, pos_y))
                 column += 1
             row += 1
-            print 'Columnas: ' + str(column)
+            print "Columnas: " + str(column)
             column = 0
         
-        print 'Filas: ' + str(row)'''
+        print "Filas: " + str(row)'''
         
-        for row in range(num_blocks_y):
+        suma = 0
+        
+        if self.y >= self.height * self.tile_height - pygame.display.get_surface().get_height() or self.y == 0:
+            suma = 0
+        else:
+            suma = 1
+        
+        for row in range(num_blocks_y + suma):
             for column in range(num_blocks_x):
                 frame = self.map[layer][row + ly][column + lx].frame - 1
                 if frame > -1:
                     pos_x = column * self.tile_width - margin_x
                     pos_y = row * self.tile_width - margin_y
                     screen.blit(self.tileset[frame], (pos_x, pos_y))
+            print row
+            print num_blocks_y
         
     def move(self, x, y):
         '''
