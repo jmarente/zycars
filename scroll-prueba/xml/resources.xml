@@ -1,0 +1,14 @@
+<resources>
+	<images>
+		<image code="icon" name="icon.png" alpha="True"/>
+	</images>
+    <sprites>
+    </sprites>
+	<fonts>
+	</fonts>
+	<musics>
+	</musics>
+	<sounds>
+	</sounds>
+</resources>
+
