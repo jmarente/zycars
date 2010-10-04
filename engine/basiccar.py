@@ -2,6 +2,7 @@
 
 import pygame
 import gameobject
+import data
 import xml.dom.minidom
 import math
 
@@ -12,7 +13,7 @@ class BasicCar(gameobject.GameObject):
     Clase "virtual pura" que abstrae el comportamiento y las características 
     básicas de los vehiculos en el juego
     '''
-    def __init__(self, game_control):
+    def __init__(self, game_control, xml_file, x, y, angle = 0):
         '''
         Obtiene como parametro la referencia a GameControl al que pertenece
         el objeto.
@@ -28,6 +29,24 @@ class BasicCar(gameobject.GameObject):
         self.aceleration = None
         self.desaceleration = None
         self.break_force = None
+        
+        parser = xml.dom.minidom.parse(data.get_path_xml(xml_file))
+        self.parser_car_info(parser)
+        self.parser_basic_info(parser)
+        
+        self.x = x
+        self.y = y
+        
+        if angle == 0:
+            self.dx = 0
+            self.dy = 0
+        else:
+            self.actual_angle = angle
+            self.dx = cos(angle) * self.actual_speed
+            self.dy = sin(angle) * self.actual_speed
+            
+        self.update_position()
+        self.update_image()
         
     def parser_car_info(self, parse):
         '''

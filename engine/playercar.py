@@ -28,27 +28,9 @@ class PlayerCar(BasicCar):
         Player, si su valor es 1 se asignarán los controles de las flechas,
         si el valor es 2, w,a,s,d.
         '''
-        basiccar.BasicCar.__init__(self, game_control)
-        
-        parser = xml.dom.minidom.parse(data.get_path_xml(xml_file))
-        self.parser_car_info(parser)
-        self.parser_basic_info(parser)
+        basiccar.BasicCar.__init__(self, game_control, xml_file, x, y, angle)
         
         self.__assing_controls(player)
-        
-        self.x = x
-        self.y = y
-        
-        if angle == 0:
-            self.dx = 0
-            self.dy = 0
-        else:
-            self.actual_angle = angle
-            self.dx = cos(angle) * self.actual_speed
-            self.dy = sin(angle) * self.actual_speed
-            
-        self.update_position()
-        self.update_image()
         
         #Simulación se Switch de C o C++.
         #Según el estado llamaremos a una función u otra.
