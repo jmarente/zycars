@@ -147,13 +147,19 @@ def get_path_music(music_name):
         
     return music_path
     
-def get_path_xml(xml_name):
+def get_path_xml(xml_name, xml = True):
     '''
     Funcion encargada de cargar y devolver la ruta de un archivo xml.
     '''
-    if check_extension(xml_name, ".xml"):
-        xml_path = os.path.join(XML_DIR, xml_name)
+    if xml:
+        if check_extension(xml_name, ".xml"):
+            xml_path = os.path.join(XML_DIR, xml_name)
+        else:
+            xml_path = os.path.join(XML_DIR, xml_name + ".xml")
     else:
-        xml_path = os.path.join(XML_DIR, xml_name + ".xml")
+        if check_extension(xml_name, ".tmx"):
+            xml_path = os.path.join(XML_DIR, xml_name)
+        else:
+            xml_path = os.path.join(XML_DIR, xml_name + ".tmx")
         
     return xml_path
