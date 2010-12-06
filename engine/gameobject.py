@@ -100,5 +100,11 @@ class GameObject(pygame.sprite.Sprite):
         
     def get_y(self):
         return self.rect.y
+        
+    def get_width(self):
+        return self.rect.w
+        
+    def get_height(self):
+        return self.rect.h
     
 

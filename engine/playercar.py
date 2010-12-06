@@ -58,6 +58,12 @@ class PlayerCar(BasicCar):
         self.update_position()
         self.update_image()
         
+        if self.actual_angle < 0:
+            self.actual_angle += 360
+        if self.actual_angle > 360:
+            self.actual_angle -= 360
+        
+        
     def __normal_state(self):
         '''
         Control del estado normal, el coche esta detenido.
