@@ -63,12 +63,14 @@ class CollisionManager:
         if self.__collision_ver(sprite, circ, tile_pos):
             x_collision = True
             print "Colision en el eje x"
+            #sprite.set_speed(0)
         else:
             print "No hay colision en el eje x"
             
         if self.__collision_hor(sprite, circ, tile_pos):
             y_collision = True
             print "Colision en el eje Y"
+            #sprite.set_speed(0)
         else:
             print "No hay colision en el eje y"
             
