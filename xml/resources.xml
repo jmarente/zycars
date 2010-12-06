@@ -1,6 +1,7 @@
 <resources>
 	<images>
 		<image code="icon" name="icon.png" alpha="True"/>
+		<image code="rejilla" name="rejilla.png" alpha="True"/>
 	</images>
     <sprites>
         <sprite code="prueba" name="coche_prueba.png" rows="3" columns="1" alpha="True"/>
