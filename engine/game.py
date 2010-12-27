@@ -41,8 +41,8 @@ class Game:
         self.__actual_state = None
         
         self.button = button.Button("menu/mainoption1.xml", "Prueba", 400, 300, 'cheesebu', True)
-        self.button2 = button.Button("menu/mainoption2.xml", "Prueba2", 400, 360, 'cheesebu', True)
-        self.button3 = button.Button("menu/mainoption1.xml", "Prueba2", 400, 400, 'cheesebu', True)
+        self.button2 = button.Button("menu/mainoption2.xml", "Prueba2lslsls", 400, 365, 'cheesebu', True)
+        self.button3 = button.Button("menu/mainoption1.xml", "Prueba3", 400, 405, 'cheesebu', True)
             
     def run(self):
         '''

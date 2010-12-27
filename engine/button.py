@@ -5,20 +5,20 @@ import data
 import xml.dom.minidom
 
 class Button:
-    def __init__(self, xml_file, text, x, y, font_code, center = False):
+    def __init__(self, xml_file, text, centerx, centery, font_code, center = True):
         
         self.text = text
         
         parser = xml.dom.minidom.parse(data.get_path_xml(xml_file))
         
-        if center:           
-            self.centerx = x
-            self.centery = y
-        else:
-            self.centerx = (self.rect.w + self.rect.x) / 2
-            self.centery = (self.rect.h + self.rect.y) / 2
+        self.centerx = centerx
+        self.centery = centery 
             
         aux_rect = None
+        
+        father = parser.firstChild
+        
+        self.text_position = str(father.getAttribute('text_position'))
         
         for element in parser.getElementsByTagName('normal'):
             
@@ -56,8 +56,9 @@ class Button:
             self.normal_font = resource.get_font(font_code, font_size)
             self.text_render_normal = self.normal_font.render(self.text, True, color)
             self.normal_text_rect = self.text_render_normal.get_rect()
-            self.normal_text_rect.x = int(element.getAttribute('x'))
-            self.normal_text_rect.y = int(element.getAttribute('y'))
+            posx = int(element.getAttribute('x'))
+            posy = int(element.getAttribute('y'))
+            self.normal_text_rect = self.__set_rect_text(self.normal_text_rect, posx, posy)
             
         for element in parser.getElementsByTagName('selected_text'):
             
@@ -69,13 +70,16 @@ class Button:
             self.selected_font = resource.get_font(font_code, font_size)
             self.text_render_selected = self.selected_font.render(self.text, True, color)
             self.selected_text_rect = self.text_render_selected.get_rect()
-            self.selected_text_rect.x = int(element.getAttribute('x'))
-            self.selected_text_rect.y = int(element.getAttribute('y'))
+            posx = int(element.getAttribute('x'))
+            posy = int(element.getAttribute('y'))
+            self.selected_text_rect = self.__set_rect_text(self.selected_text_rect, posx, posy)
+
             
         self.selected = False
         self.actual_rect = self.rect_normal
         self.actual_rect_text = self.normal_text_rect
         self.rect_draw = self.normal_image.get_rect()
+            
         self.rect_draw.centery = self.centery
         self.rect_draw.centerx = self.centerx
         
@@ -85,11 +89,11 @@ class Button:
         destiny_rect = None
 
         if self.selected:
-            aux_surface = self.selected_image
+            aux_surface = self.selected_image.copy()
             aux_surface.blit(self.text_render_selected, self.selected_text_rect)
 
         else:
-            aux_surface = self.normal_image
+            aux_surface = self.normal_image.copy()
             aux_surface.blit(self.text_render_normal, self.normal_text_rect)
 
         screen.blit(aux_surface, self.rect_draw)
@@ -115,6 +119,14 @@ class Button:
     def set_selected(boolean):
         self.selected = boolean
         
+    def __set_rect_text(self, rect, posx, posy):
+        if self.text_position == 'left':
+            rect.x = posx
+            rect.y = posy
+        elif self.text_position == 'right':
+            rect.x = posx - rect.w
+            rect.y = posy
+        return rect
 
         
 
