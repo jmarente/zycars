@@ -127,6 +127,12 @@ class Button:
             rect.x = posx - rect.w
             rect.y = posy
         return rect
+        
+    def get_option():
+        return self.text
+    
+    def set_option(new_text):
+        self.text = new_text
 
         
 
