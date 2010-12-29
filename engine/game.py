@@ -37,9 +37,11 @@ class Game:
             icon_code = str(element.getAttribute('code'))
             self.icon = resource.get_image(icon_code)
         
+        pygame.mouse.set_visible(False)
         pygame.display.set_icon(self.icon)
         self.clock = pygame.time.Clock()
-        self.__actual_state = mainmenu.MainMenu(self, 'menu/mainmenu.xml')                  
+        self.__actual_state = mainmenu.MainMenu(self, 'menu/mainmenu.xml')  
+                        
     def run(self):
         '''
         Función que contiene el bucle principal del juego.

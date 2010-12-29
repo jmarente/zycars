@@ -1,6 +1,8 @@
 <resources>
 	<images>
 		<image code="icon" name="icon.png" alpha="True"/>
+		<image code="normal_cursor" name="normal_cursor.png" alpha="True"/>
+		<image code="over_cursor" name="over_cursor.png" alpha="True"/>
 		<image code="normal_button1" name="menu/normal_button1.png" alpha="True"/>
 		<image code="normal_button2" name="menu/normal_button2.png" alpha="True"/>
 		<image code="selected_button1" name="menu/selected_button1.png" alpha="True"/>
