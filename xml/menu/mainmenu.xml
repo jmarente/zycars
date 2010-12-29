@@ -1,4 +1,5 @@
 <mainmenu background="background_menu">
+    <title text="Menu Principal" font="cheesebu" size="30" r="0" g="0" b="0" x="15" y="15"/>
     <images>
         <image image_code="separator_line" x="0" y="240"></image>
         <image image_code="logo_menu" x="130" y="5"></image>

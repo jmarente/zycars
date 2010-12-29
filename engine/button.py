@@ -113,10 +113,10 @@ class Button:
         self.rect_draw.centery = self.centery
         self.rect_draw.centerx = self.centerx
         
-    def get_selected():
+    def get_selected(self):
         return self.selected
     
-    def set_selected(boolean):
+    def set_selected(self, boolean):
         self.selected = boolean
         
     def __set_rect_text(self, rect, posx, posy):
@@ -127,6 +127,12 @@ class Button:
             rect.x = posx - rect.w
             rect.y = posy
         return rect
+        
+    def get_option(self):
+        return self.text
+    
+    def set_option(self, new_text):
+        self.text = new_text
 
         
 
