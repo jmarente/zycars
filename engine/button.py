@@ -82,6 +82,10 @@ class Button:
             
         self.rect_draw.centery = self.centery
         self.rect_draw.centerx = self.centerx
+    
+        self.normal_mask = pygame.mask.from_surface(self.normal_image)
+        self.actual_mask = self.normal_mask
+        self.selected_mask = pygame.mask.from_surface(self.selected_image)
         
     def draw(self, screen):
         
@@ -100,15 +104,18 @@ class Button:
         
     def update(self):
                 
-        if self.rect_draw.collidepoint(pygame.mouse.get_pos()):
+        #if self.rect_draw.collidepoint(pygame.mouse.get_pos()):
+        if self.mask_collision(pygame.mouse.get_pos()):
             self.selected = True
             self.actual_rect = self.rect_selected
             self.rect_draw = self.selected_image.get_rect()
+            self.actual_mask = self.selected_mask
 
         else:
             self.selected = False
             self.actual_rect = self.rect_normal
             self.rect_draw = self.normal_image.get_rect()
+            self.actual_mask = self.normal_mask
 
         self.rect_draw.centery = self.centery
         self.rect_draw.centerx = self.centerx
@@ -133,6 +140,18 @@ class Button:
     
     def set_option(self, new_text):
         self.text = new_text
+    
+    def mask_collision(self, pos):
+        
+        x = int(pos[0])
+        y = int(pos[1])
+        
+        x -= self.rect_draw.x
+        y -= self.rect_draw.y
+        
+        if 0 <= x < self.rect_draw.w and 0 <= y < self.rect_draw.h:
+            return self.actual_mask.get_at((x, y))
+        
 
         
 
