@@ -7,45 +7,18 @@ import button
 import keyboard
 import pygame
 import cursor
+import basicmenu
 import xml.dom.minidom
 
-class MainMenu(state.State):
+class MainMenu(basicmenu.BasicMenu):
     def __init__(self, game, path_xml):
-        state.State.__init__(self, game)
+        basicmenu.BasicMenu.__init__(self, game)
         
         pygame.display.set_caption("Zycars: Menú Principal")
         
         parse = xml.dom.minidom.parse(data.get_path_xml(path_xml))
         
-        parent = parse.firstChild
-        
-        image_code = str(parent.getAttribute('background'))
-        self.background = resource.get_image(image_code)
-        cursor_xml = str(parent.getAttribute('cursor'))
-        self.cursor = cursor.Cursor(data.get_path_xml(cursor_xml))
-        
-        for element in parse.getElementsByTagName('title'):
-            font_code = str(element.getAttribute('font'))
-            font_size = int(element.getAttribute('size'))
-            font = resource.get_font(font_code, font_size)
-            text = str(element.getAttribute('text'))
-            r = int(element.getAttribute('r'))
-            g = int(element.getAttribute('g'))
-            b = int(element.getAttribute('b'))
-            color = (r, g, b)
-            self.title = font.render(text, True, color)
-            self.title_rect = self.title.get_rect()
-            self.title_rect.x = int(element.getAttribute('x'))
-            self.title_rect.y = int(element.getAttribute('y'))
-        
-        self.images = []
-        for element in parse.getElementsByTagName('image'):
-            image_code = str(element.getAttribute('image_code'))
-            image = resource.get_image(image_code)
-            rect = image.get_rect()
-            rect.x = int(element.getAttribute('x'))
-            rect.y = int(element.getAttribute('y'))
-            self.images.append((image_code, image, rect))
+        self.parser_basic_info(parse)
         
         self.buttons = []
         for element in parse.getElementsByTagName('option'):
@@ -56,17 +29,10 @@ class MainMenu(state.State):
             y = int(element.getAttribute('y'))
             aux_button = button.Button(xml_file, text, x, y, font_code, True)
             self.buttons.append(aux_button)
-        
-        self.actual_option = None
-    
+            
     def draw(self, screen):
         
-        screen.blit(self.background, (0, 0))
-        
-        screen.blit(self.title, self.title_rect)
-        
-        for image in self.images:
-            screen.blit(image[1], image[2])
+        self.draw_basic_elements(screen)
         
         for button in self.buttons:
             button.draw(screen)
@@ -89,9 +55,9 @@ class MainMenu(state.State):
         self.cursor.update()
 
         if pygame.mouse.get_pressed()[0]:
-            self.__treat_option()
+            self.treat_option()
             
-    def __treat_option(self):
+    def treat_option(self):
         if self.actual_option == "Carrera Rapida":
             print "Elegido: Carrera Rapida"
         elif self.actual_option == "Campeonato":
