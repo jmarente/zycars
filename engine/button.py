@@ -59,21 +59,24 @@ class Button:
             posx = int(element.getAttribute('x'))
             posy = int(element.getAttribute('y'))
             self.normal_text_rect = self.__set_rect_text(self.normal_text_rect, posx, posy)
+        
+        if len(parser.getElementsByTagName('selected_text')) > 0:
+            for element in parser.getElementsByTagName('selected_text'):
             
-        for element in parser.getElementsByTagName('selected_text'):
-            
-            font_size = int(element.getAttribute('size'))
-            r = int(element.getAttribute('r'))
-            g = int(element.getAttribute('g'))
-            b = int(element.getAttribute('b'))
-            color = (r, g, b)
-            self.selected_font = resource.get_font(font_code, font_size)
-            self.text_render_selected = self.selected_font.render(self.text, True, color)
-            self.selected_text_rect = self.text_render_selected.get_rect()
-            posx = int(element.getAttribute('x'))
-            posy = int(element.getAttribute('y'))
-            self.selected_text_rect = self.__set_rect_text(self.selected_text_rect, posx, posy)
-
+                font_size = int(element.getAttribute('size'))
+                r = int(element.getAttribute('r'))
+                g = int(element.getAttribute('g'))
+                b = int(element.getAttribute('b'))
+                color = (r, g, b)
+                self.selected_font = resource.get_font(font_code, font_size)
+                self.text_render_selected = self.selected_font.render(self.text, True, color)
+                self.selected_text_rect = self.text_render_selected.get_rect()
+                posx = int(element.getAttribute('x'))
+                posy = int(element.getAttribute('y'))
+                self.selected_text_rect = self.__set_rect_text(self.selected_text_rect, posx, posy)
+        else:
+            self.text_render_selected = self.text_render_normal
+            self.selected_text_rect = self.normal_text_rect
             
         self.selected = False
         self.actual_rect = self.rect_normal
