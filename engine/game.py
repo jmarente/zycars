@@ -40,7 +40,8 @@ class Game:
         self.clock = pygame.time.Clock()
         self.__actual_state = None
         
-        self.button = imagebutton.ImageButton("menu/boxbutton.xml", "Prueba", 400, 300, 'cheesebu', 'icon_controls', True)
+        self.button = imagebutton.ImageButton("menu/boxbutton.xml", "Lalallalalalalaalalala", 200, 300, 'cheesebu', 'icon_controls', 10, 10, True)
+        self.button2 = imagebutton.ImageButton("menu/boxbutton.xml", "Prueba", 500, 300, 'cheesebu', 'icon_controls', 10, 10, True)
             
     def run(self):
         '''
@@ -54,10 +55,12 @@ class Game:
             keyboard.update()
             
             self.button.update()
+            self.button2.update()
 
             self.screen.fill(THECOLORS['white'])
             
             self.button.draw(self.screen)
+            self.button2.draw(self.screen)
             
             #self.__actual_state.update()
             #self.__actual_state.draw(screen)
