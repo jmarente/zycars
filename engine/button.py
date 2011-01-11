@@ -4,6 +4,9 @@ import resource
 import data
 import xml.dom.minidom
 
+def strTobool(string):
+    return string.lower() in ['yes', 'true', 't', '1']
+
 class Button:
     def __init__(self, xml_file, text, centerx, centery, font_code, center = True):
         
@@ -19,6 +22,11 @@ class Button:
         father = parser.firstChild
         
         self.text_position = str(father.getAttribute('text_position'))
+        
+        if father.hasAttribute('on_button'):
+            self.on_button = strTobool(str(father.getAttribute('on_button')))
+        else:
+            self.on_button = True
         
         for element in parser.getElementsByTagName('normal'):
             
@@ -45,6 +53,11 @@ class Button:
             self.rect_selected.y = int(element.getAttribute('y')) + aux_rect.y
             self.rect_selected.w = int(element.getAttribute('w'))
             self.rect_selected.h = int(element.getAttribute('h'))
+        
+        self.rect_draw = self.normal_image.get_rect()
+            
+        self.rect_draw.centery = self.centery
+        self.rect_draw.centerx = self.centerx
             
         for element in parser.getElementsByTagName('normal_text'):
             
@@ -55,6 +68,11 @@ class Button:
             color = (r, g, b)
             self.normal_font = resource.get_font(font_code, font_size)
             self.text_render_normal = self.normal_font.render(self.text, True, color)
+            
+            if element.hasAttribute('angle'):
+                angle = int(element.getAttribute('angle'))
+                self.text_render_normal = pygame.transform.rotozoom(self.text_render_normal, angle, 1)
+                
             self.normal_text_rect = self.text_render_normal.get_rect()
             posx = int(element.getAttribute('x'))
             posy = int(element.getAttribute('y'))
@@ -70,6 +88,11 @@ class Button:
                 color = (r, g, b)
                 self.selected_font = resource.get_font(font_code, font_size)
                 self.text_render_selected = self.selected_font.render(self.text, True, color)
+                
+                if element.hasAttribute('angle'):
+                    angle = int(element.getAttribute('angle'))
+                    self.text_render_selected = pygame.transform.rotozoom(self.text_render_selected, angle, 1)
+                
                 self.selected_text_rect = self.text_render_selected.get_rect()
                 posx = int(element.getAttribute('x'))
                 posy = int(element.getAttribute('y'))
@@ -79,17 +102,11 @@ class Button:
             self.selected_text_rect = self.normal_text_rect
             
         self.selected = False
-        self.actual_rect = self.rect_normal
-        self.actual_rect_text = self.normal_text_rect
-        self.rect_draw = self.normal_image.get_rect()
-            
-        self.rect_draw.centery = self.centery
-        self.rect_draw.centerx = self.centerx
     
         self.normal_mask = pygame.mask.from_surface(self.normal_image)
-        self.actual_mask = self.normal_mask
         self.selected_mask = pygame.mask.from_surface(self.selected_image)
-        
+        self.actual_mask = self.normal_mask
+
     def draw(self, screen):
         
         aux_surface = None
@@ -110,13 +127,11 @@ class Button:
         #if self.rect_draw.collidepoint(pygame.mouse.get_pos()):
         if self.mask_collision(pygame.mouse.get_pos()):
             self.selected = True
-            self.actual_rect = self.rect_selected
             self.rect_draw = self.selected_image.get_rect()
             self.actual_mask = self.selected_mask
 
         else:
             self.selected = False
-            self.actual_rect = self.rect_normal
             self.rect_draw = self.normal_image.get_rect()
             self.actual_mask = self.normal_mask
 
@@ -135,6 +150,12 @@ class Button:
             rect.y = posy
         elif self.text_position == 'right':
             rect.x = posx - rect.w
+            rect.y = posy
+        elif self.text_position == 'bottom':
+            rect.x = posx
+            rect.y = posy - rect.h
+        else:
+            rect.x = posx
             rect.y = posy
         return rect
         
