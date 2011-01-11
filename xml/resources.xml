@@ -1,0 +1,28 @@
+<resources>
+	<images>
+		<image code="icon" name="icon.png" alpha="True"/>
+		<image code="normal_cursor" name="normal_cursor.png" alpha="True"/>
+		<image code="over_cursor" name="over_cursor.png" alpha="True"/>
+		<image code="normal_generic" name="menu/normal_generic.png" alpha="True"/>
+		<image code="selected_generic" name="menu/selected_generic.png" alpha="True"/>
+		<image code="background_menu" name="menu/background_menu.png" alpha="True"/>
+		<image code="logo_option" name="menu/logo_option.png" alpha="True"/>
+		<image code="logo_menu" name="menu/logo_menu.png" alpha="True"/>
+		<image code="separator_line" name="menu/separator_line.png" alpha="True"/>
+		<image code="icon_controls" name="menu/icon_controls.png" alpha="True"/>
+		<image code="icon_screen" name="menu/icon_screen.png" alpha="True"/>
+		<image code="icon_sound" name="menu/icon_sound.png" alpha="True"/>
+		<image code="normal_box" name="menu/normal_box.png" alpha="True"/>
+		<image code="selected_box" name="menu/selected_box.png" alpha="True"/>
+	</images>
+    <sprites>
+    </sprites>
+	<fonts>
+		<font code="cheesebu" name="cheesebu.ttf" size="20"/>
+	</fonts>
+	<musics>
+	</musics>
+	<sounds>
+	</sounds>
+</resources>
+
