@@ -1,0 +1,5 @@
+<slider>
+    <bar image_code='slider_bar'/>
+    <controler image_code='slider_controler'/>
+    <font font_code='cheesebu' r="190" g="31" b="39"/>
+</slider>
