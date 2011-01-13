@@ -14,6 +14,8 @@
 		<image code="icon_sound" name="menu/icon_sound.png" alpha="True"/>
 		<image code="normal_box" name="menu/normal_box.png" alpha="True"/>
 		<image code="selected_box" name="menu/selected_box.png" alpha="True"/>
+		<image code="slider_bar" name="menu/slider_bar.png" alpha="True"/>
+		<image code="slider_controler" name="menu/slider_controler.png" alpha="True"/>
 	</images>
     <sprites>
     </sprites>

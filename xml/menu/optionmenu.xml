@@ -14,4 +14,26 @@
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Aceptar" center="True" x="550" y="550"></option>
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="700" y="550"></option>
     </options>
+    <layers>
+        <layer name="Sonido" font_code="cheesebu" size="30">
+            <texts>
+                <text value="Efectos de sonido" x="70" y="325"/>
+                <text value="Musica" x="70" y="375"/>
+            </texts>
+            <sliders>
+                <slider xml_file="menu/slider.xml" x="350" y="340"/>
+                <slider xml_file="menu/slider.xml" x="350" y="390"/>
+            </sliders>
+        </layer>
+        <layer name="Pantalla" font_code="cheesebu" size="30">
+            <texts>
+                <text value="Opciones de pantalla" x="70" y="325"/>
+            </texts>
+        </layer>
+        <layer name="Controles" font_code="cheesebu" size="30">
+            <texts>
+                <text value="Opciones de controles" x="70" y="325"/>
+            </texts>
+        </layer>
+    </layers>
 </mainmenu>

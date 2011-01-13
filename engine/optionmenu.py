@@ -2,8 +2,10 @@
 
 import basicmenu
 import data
+import resource
 import button
 import imagebutton
+import slider
 import xml.dom.minidom
 import pygame
 
@@ -18,6 +20,7 @@ class OptionMenu(basicmenu.BasicMenu):
         self.parser_basic_info(parse)
         
         self.buttons = []
+        
         for element in parse.getElementsByTagName('option'):
             xml_file = str(element.getAttribute('xml_file'))
             font_code = str(element.getAttribute('font'))
@@ -38,6 +41,45 @@ class OptionMenu(basicmenu.BasicMenu):
                 
             self.buttons.append(aux_button)
         
+        self.text_layers = {}
+        self.elements_layers = {}
+        self.actual_layer = None
+        
+        for element in parse.getElementsByTagName('layer'):
+            
+            name_layer = str(element.getAttribute('name'))
+            self.text_layers[name_layer] = []
+            self.elements_layers[name_layer] = []
+            
+            font_code = str(element.getAttribute('font_code'))
+            size = int(element.getAttribute('size'))
+            
+            font_temp = resource.get_font(font_code, size)
+            
+            for text in element.getElementsByTagName('text'):
+                
+                value = str(text.getAttribute('value'))
+                posx = int(text.getAttribute('x'))
+                posy = int(text.getAttribute('y'))
+                text_render = font_temp.render(value, True, (0,0,0))
+                text_render_rect = text_render.get_rect()
+                text_render_rect.x = posx
+                text_render_rect.y = posy
+                
+                self.text_layers[name_layer].append((text_render, text_render_rect))
+            
+            for slider_option in element.getElementsByTagName('slider'):
+                xml_path = str(slider_option.getAttribute('xml_file'))
+                x = int(slider_option.getAttribute('x'))
+                y = int(slider_option.getAttribute('y'))
+                new_slider = slider.Slider(xml_path, 50, 100, x, y)
+                self.elements_layers[name_layer].append(new_slider)
+                
+                
+        
+        self.actual_layer = "Sonido"
+                            
+        
     def update(self):
         
         self.actual_option = None
@@ -53,24 +95,41 @@ class OptionMenu(basicmenu.BasicMenu):
         else:
             self.cursor.normal()
         
+        for element in self.elements_layers[self.actual_layer]:
+            element.update()
+        
         self.cursor.update()
 
         if pygame.mouse.get_pressed()[0]:
             self.treat_option()
-            
-        self.cursor.update()
-        
+                    
     def draw(self, screen):
             
         self.draw_basic_elements(screen)
         
         for button in self.buttons:
             button.draw(screen)
+        
+        for element in self.text_layers[self.actual_layer]:
+            screen.blit(element[0], element[1])
+
+        for element in self.elements_layers[self.actual_layer]:
+            element.draw(screen)
             
         self.cursor.draw(screen)
         
     def treat_option(self):
         if self.actual_option == "Aceptar":
             print "Aceptar"
+            
         elif self.actual_option == "Cancelar":
             print "Cancelar"
+            
+        elif self.actual_option == "Sonido":
+            self.actual_layer = "Sonido"
+            
+        elif self.actual_option == "Pantalla":
+            self.actual_layer = "Pantalla"
+            
+        elif self.actual_option == "Controles":
+            self.actual_layer = "Controles"
