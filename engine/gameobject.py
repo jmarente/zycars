@@ -26,9 +26,10 @@ class GameObject(pygame.sprite.Sprite):
         self.rect = None
         self.mask = None
         self.original_sprite = None
-        self.state = self.previous_state = NORMAL
+        self.state = self.previous_state = self.old_state = NORMAL
         self.animations = {}
-        self.dx = self.dy = self.x = self.y = None
+        self.dx = self.dy = self.x = self.y = self.old_x = self.old_y = None
+        self.right_direction = self.left_direction = self.up_direction = self.down_direction = False
         
     def parser_basic_info(self, parse):
         '''
@@ -69,11 +70,40 @@ class GameObject(pygame.sprite.Sprite):
         Función que debe ser implementada por cualquier objeto de juego descendiente.
         '''
         raise NotImplemented("La funcion update de GameObject debe ser implementada por sus descendientes")
+    
+    def update_direction(self):
+        
+        if self.old_x < self.x:
+            self.right_direction = True
+            self.left_direction = False
+        elif self.old_x > self.x:
+            self.right_direction = False
+            self.left_direction = True
+        '''else:
+            self.right_direction = False
+            self.left_direction = False'''
+            
+        self.old_x = self.x
+        
+        if self.old_y < self.y:
+            self.down_direction = True
+            self.up_direction = False
+        elif self.old_y > self.y:
+            self.down_direction = False
+            self.up_direction = True
+        '''else:
+            self.down_direction = False
+            self.up_direction = False'''
+            
+        self.old_y = self.y
+    
     def draw(self, screen):
         '''
         Dibuja al objeto sobre la superficie dada.
         '''
         screen.blit(self.image, (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y()))
+        pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
+        
     def get_rect(self):
         '''
         Devuelve el rectangulo con las dimensiones de la imagen actual.
@@ -106,5 +136,20 @@ class GameObject(pygame.sprite.Sprite):
         
     def get_height(self):
         return self.rect.h
+    
+    def go_right(self):
+        return self.right_direction
+    
+    def go_left(self):
+        return self.left_direction
+    
+    def go_up(self):
+        return self.up_direction
+    
+    def go_down(self):
+        return self.down_direction
+    
+    def get_old_state(self):
+        return self.old_state
     
 

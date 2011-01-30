@@ -16,7 +16,7 @@ class GameControl(state.State):
         state.State.__init__(self, game)
         
         #Coche del jugador.
-        self.player = playercar.PlayerCar(self, 'coche_prueba.xml', 250, 300, 0)
+        self.player = playercar.PlayerCar(self, 'coche_prueba_red.xml', 300, 200, 0)
         
         #Circuito actual que vamos a jugar.
         self.circuit = circuit.Circuit(self, path)
@@ -55,14 +55,25 @@ class GameControl(state.State):
         print "Centro del coche: " + str(self.player.get_rect().centerx - self.circuit.get_x())
         print "Grado del coche: " + str(self.player.get_angle())
         print "Velocidad actual del coche: " + str(self.player.get_speed())'''
+        '''if self.player.go_right():
+            print 'Hacia la derecha'
+        elif self.player.go_left():
+            print 'Hacia la izquierda'
+        else:
+            print 'No hay movimiento horizontal'
+        
+        if self.player.go_up():
+            print 'Hacia la arriba'
+        elif self.player.go_down():
+            print 'Hacia la abajo'
+        else:
+            print 'No hay movimiento vertical'''
         
         #Controlamos el scroll de la pantalla
         self.scroll_control()
             
         #Controlamos posibles colisiones
         self.check_collisions()
-
-
 
     def draw(self, screen):
         self.circuit.draw(screen, 0)

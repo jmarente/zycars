@@ -98,9 +98,11 @@ class Circuit:
         frame = None
         for layer in parser.getElementsByTagName('layer'):
             for tile in layer.getElementsByTagName('tile'):
+                
                 num_row = int(n / self.width)
                 num_column = (n % self.width) % self.width
                 frame = int(tile.getAttribute('gid'))
+                
                 self.map[num_layer][num_row][num_column].frame = frame
                 
                 if frame == 0:
@@ -112,11 +114,14 @@ class Circuit:
                     if pxarray[p_x][p_y] == pxarray_tile_types[0]:
                         self.map[num_layer][num_row][num_column].type = PASSABLE
                         print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " es pasable."
+                        
                     elif pxarray[p_x][p_y] == pxarray_tile_types[1]:
                         self.map[num_layer][num_row][num_column].type = NOPASSABLE
                         print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " NO es pasable."
+                        
                     elif pxarray[p_x][p_y] == pxarray_tile_types[2]:
                         self.map[num_layer][num_row][num_column].type = LAG
+                        
                     else:
                         self.map[num_layer][num_row][num_column].type = PASSABLE
                         
@@ -176,23 +181,9 @@ class Circuit:
         row = 0
         column = 0
         
-        '''while row < num_blocks_y:
-            while column < num_blocks_x:
-                frame = self.map[layer][row + ly][column + lx].frame - 1
-                if frame > -1:
-                    pos_x = column * self.tile_width - margin_x
-                    pos_y = row * self.tile_width - margin_y
-                    screen.blit(self.tileset[frame], (pos_x, pos_y))
-                column += 1
-            row += 1
-            print "Columnas: " + str(column)
-            column = 0
-        
-        print "Filas: " + str(row)'''
-        
         suma = 0
         
-        if self.y >= self.height * self.tile_height - pygame.display.get_surface().get_height() or self.y == 0:
+        if self.y >= self.height * self.tile_height - pygame.display.get_surface().get_height() - self.tile_height or self.y == 0:
             suma = 0
         else:
             suma = 1

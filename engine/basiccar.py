@@ -34,8 +34,8 @@ class BasicCar(gameobject.GameObject):
         self.parser_car_info(parser)
         self.parser_basic_info(parser)
         
-        self.x = x
-        self.y = y
+        self.x = self.old_x = x
+        self.y = self.old_y = y
         
         if angle == 0:
             self.dx = 0

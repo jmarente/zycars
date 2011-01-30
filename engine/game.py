@@ -7,6 +7,7 @@ import keyboard
 import playercar
 import xml.dom.minidom
 import gamecontrol
+import os
 
 from pygame.locals import *
 
@@ -19,6 +20,8 @@ class Game:
         '''
         Carga e inicializa la configuración principal y las variables principales de la clase
         '''
+        os.environ["SDL_VIDEO_CENTERED"] = "1"
+        
         parser = xml.dom.minidom.parse(data.get_path_xml('configuration.xml'))
         
         for element in parser.getElementsByTagName('screen'):
@@ -38,7 +41,7 @@ class Game:
         
         pygame.display.set_icon(self.icon)
         self.clock = pygame.time.Clock()
-        self.__actual_state = gamecontrol.GameControl(self, 'circuito.tmx')
+        self.__actual_state = gamecontrol.GameControl(self, 'circuito2.tmx')
         
         ######PRUEBA MODULO GAME CONTROL##########
         

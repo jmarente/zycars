@@ -50,13 +50,14 @@ class PlayerCar(BasicCar):
         Actualiza lógicamente al personaje.
         '''
         if self.state != self.previous_state :
-            self.previous_state
+            self.previous_state = self.state
             self.animations[self.state].restart()
             
         self.states[self.state]()
         
         self.update_position()
         self.update_image()
+        self.update_direction()
         
         if self.actual_angle < 0:
             self.actual_angle += 360
@@ -69,8 +70,10 @@ class PlayerCar(BasicCar):
         Control del estado normal, el coche esta detenido.
         '''
         if keyboard.pressed(self.UP):
+            self.old_state = NORMAL
             self.state = RUN
         elif keyboard.pressed(self.DOWN):
+            self.old_state = NORMAL
             self.state = REVERSE
             
     def __run_state(self):
@@ -80,8 +83,10 @@ class PlayerCar(BasicCar):
         self.move(+1)
         
         if keyboard.release(self.UP):
+            self.old_state = RUN
             self.state = NOACTION
         if keyboard.pressed(self.DOWN):
+            self.old_state = RUN
             self.state = REVERSE
             
         self.control_rotation()
@@ -93,9 +98,11 @@ class PlayerCar(BasicCar):
         Control del estado, no se pulsa ningún boton de dirección.
         '''
         if keyboard.pressed(self.UP):
-            state = RUN
+            self.old_state = NOACTION
+            self.state = RUN
         if keyboard.pressed(self.DOWN):
-            state = REVERSE
+            self.old_state = NOACTION
+            self.state = REVERSE
         
         if self.actual_speed > self.desaceleration:
             self.actual_speed -= self.desaceleration
@@ -116,8 +123,10 @@ class PlayerCar(BasicCar):
         self.move(-1)
         
         if keyboard.release(self.DOWN):
+            self.old_state = REVERSE
             self.state = NOACTION
         if keyboard.pressed(self.UP):
+            self.old_state = REVERSE
             self.state = RUN
         
         self.control_rotation()
