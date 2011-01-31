@@ -48,7 +48,7 @@ class BasicMenu(state.State):
             font_code = str(element.getAttribute('font'))
             font_size = int(element.getAttribute('size'))
             font = resource.get_font(font_code, font_size)
-            text = str(element.getAttribute('text'))
+            text = element.getAttribute('text')
             r = int(element.getAttribute('r'))
             g = int(element.getAttribute('g'))
             b = int(element.getAttribute('b'))
@@ -76,7 +76,7 @@ class BasicMenu(state.State):
         for element in parse.getElementsByTagName('option'):
             xml_file = str(element.getAttribute('xml_file'))
             font_code = str(element.getAttribute('font'))
-            text = str(element.getAttribute('text'))
+            text = element.getAttribute('text')
             x = int(element.getAttribute('x'))
             y = int(element.getAttribute('y'))
             
