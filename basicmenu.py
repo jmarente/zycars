@@ -4,6 +4,8 @@ import state
 import cursor
 import data
 import resource
+import button
+#import imagebutton
 import xml.dom.minidom
 import pygame
 
@@ -56,7 +58,6 @@ class BasicMenu(state.State):
             self.title_rect.x = int(element.getAttribute('x'))
             self.title_rect.y = int(element.getAttribute('y'))
         
-        self.images = []
         for element in parse.getElementsByTagName('image'):
             image_code = str(element.getAttribute('image_code'))
             image = resource.get_image(image_code)
@@ -71,6 +72,30 @@ class BasicMenu(state.State):
             rect.x = int(element.getAttribute('x'))
             rect.y = int(element.getAttribute('y'))
             self.images.append((image_code, image, rect))
+        
+        for element in parse.getElementsByTagName('option'):
+            xml_file = str(element.getAttribute('xml_file'))
+            font_code = str(element.getAttribute('font'))
+            text = str(element.getAttribute('text'))
+            x = int(element.getAttribute('x'))
+            y = int(element.getAttribute('y'))
+            
+            type_button = 'normal'
+            
+            if element.hasAttribute('type'):
+                type_button = str(element.getAttribute('type'))
+            
+            image_button = None
+            
+            if type_button == 'normal':
+                aux_button = button.Button(xml_file, text, x, y, font_code, True)
+            elif type_button == 'image_button':
+                image_code = str(element.getAttribute('image'))
+                image_x = int(element.getAttribute('image_x'))
+                image_y = int(element.getAttribute('image_y'))
+                aux_button = imagebutton.ImageButton(xml_file, text, x, y, font_code, image_code, image_x, image_y, True)
+                
+            self.buttons.append(aux_button)
             
     def treat_option(self):
         #raise NotImplemented('Esta función debe ser implementada por todos los descendientes de BasicMenu')
