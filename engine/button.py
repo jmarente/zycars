@@ -154,6 +154,9 @@ class Button:
         elif self.text_position == 'bottom':
             rect.x = posx
             rect.y = posy - rect.h
+        elif self.text_position == 'center':
+            rect.centerx = posx
+            rect.centery = posy
         else:
             rect.x = posx
             rect.y = posy
