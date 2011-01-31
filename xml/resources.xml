@@ -1,0 +1,23 @@
+<resources>
+	<images>
+		<image code="icon" name="icon.png" alpha="True"/>
+		<image code="normal_cursor" name="normal_cursor.png" alpha="True"/>
+		<image code="over_cursor" name="over_cursor.png" alpha="True"/>
+		<image code="normal_generic" name="menu/normal_generic.png" alpha="True"/>
+		<image code="normal_generic2" name="menu/normal_generic2.png" alpha="True"/>
+		<image code="selected_generic" name="menu/selected_generic.png" alpha="True"/>
+		<image code="selected_generic2" name="menu/selected_generic2.png" alpha="True"/>
+		<image code="background_pause" name="menu/background_pause.png" alpha="True"/>
+		<image code="logo_menu" name="menu/logo_menu.png" alpha="True"/>
+	</images>
+    <sprites>
+    </sprites>
+	<fonts>
+		<font code="cheesebu" name="cheesebu.ttf" size="20"/>
+	</fonts>
+	<musics>
+	</musics>
+	<sounds>
+	</sounds>
+</resources>
+
