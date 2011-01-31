@@ -19,17 +19,7 @@ class MainMenu(basicmenu.BasicMenu):
         parse = xml.dom.minidom.parse(data.get_path_xml(path_xml))
         
         self.parser_basic_info(parse)
-        
-        self.buttons = []
-        for element in parse.getElementsByTagName('option'):
-            xml_file = str(element.getAttribute('xml_file'))
-            font_code = str(element.getAttribute('font'))
-            text = str(element.getAttribute('text'))
-            x = int(element.getAttribute('x'))
-            y = int(element.getAttribute('y'))
-            aux_button = button.Button(xml_file, text, x, y, font_code, True)
-            self.buttons.append(aux_button)
-            
+
     def draw(self, screen):
         
         self.draw_basic_elements(screen)
