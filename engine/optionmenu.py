@@ -19,28 +19,6 @@ class OptionMenu(basicmenu.BasicMenu):
         
         self.parser_basic_info(parse)
         
-        self.buttons = []
-        
-        for element in parse.getElementsByTagName('option'):
-            xml_file = str(element.getAttribute('xml_file'))
-            font_code = str(element.getAttribute('font'))
-            text = str(element.getAttribute('text'))
-            x = int(element.getAttribute('x'))
-            y = int(element.getAttribute('y'))
-            type_button = str(element.getAttribute('type'))
-            
-            image_button = None
-            
-            if type_button == 'normal':
-                aux_button = button.Button(xml_file, text, x, y, font_code, True)
-            elif type_button == 'image_button':
-                image_code = str(element.getAttribute('image'))
-                image_x = int(element.getAttribute('image_x'))
-                image_y = int(element.getAttribute('image_y'))
-                aux_button = imagebutton.ImageButton(xml_file, text, x, y, font_code, image_code, image_x, image_y, True)
-                
-            self.buttons.append(aux_button)
-        
         self.text_layers = {}
         self.elements_layers = {}
         self.actual_layer = None
@@ -75,11 +53,8 @@ class OptionMenu(basicmenu.BasicMenu):
                 new_slider = slider.Slider(xml_path, 50, 100, x, y)
                 self.elements_layers[name_layer].append(new_slider)
                 
-                
-        
         self.actual_layer = "Sonido"
                             
-        
     def update(self):
         
         self.actual_option = None

@@ -27,8 +27,12 @@
         </layer>
         <layer name="Pantalla" font_code="cheesebu" size="30">
             <texts>
-                <text value="Opciones de pantalla" x="70" y="325"/>
+                <text value="Resolucion:" x="70" y="325"/>
+                <text value="Pantalla completa" x="100" y="380"/>
             </texts>
+            <buttons>
+                <button/>
+            </buttons>
         </layer>
         <layer name="Controles" font_code="cheesebu" size="30">
             <texts>
