@@ -36,7 +36,7 @@ class OptionMenu(basicmenu.BasicMenu):
             
             for text in element.getElementsByTagName('text'):
                 
-                value = str(text.getAttribute('value'))
+                value = text.getAttribute('value')
                 posx = int(text.getAttribute('x'))
                 posy = int(text.getAttribute('y'))
                 text_render = font_temp.render(value, True, (0,0,0))

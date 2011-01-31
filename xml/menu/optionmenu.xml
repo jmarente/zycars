@@ -18,7 +18,7 @@
         <layer name="Sonido" font_code="cheesebu" size="30">
             <texts>
                 <text value="Efectos de sonido" x="70" y="325"/>
-                <text value="Musica" x="70" y="375"/>
+                <text value="Música" x="70" y="375"/>
             </texts>
             <sliders>
                 <slider xml_file="menu/slider.xml" x="350" y="340"/>
@@ -27,7 +27,7 @@
         </layer>
         <layer name="Pantalla" font_code="cheesebu" size="30">
             <texts>
-                <text value="Resolucion:" x="70" y="325"/>
+                <text value="Resolución:" x="70" y="325"/>
                 <text value="Pantalla completa" x="100" y="380"/>
             </texts>
             <buttons>
