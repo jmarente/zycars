@@ -1,0 +1,179 @@
+#-*- encoding: utf-8 -*-
+
+import time
+import resource
+import pygame
+
+class Timer:
+    '''
+    @brief Clase Timer, simula el comportamiento de de un cronómetro.
+    '''
+    def __init__(self, font_code, color, x, y, text, minutes = 0, seconds = 0, hseconds = 0):
+        '''
+        @brief Constructor de timer
+        
+        @param font_code Código de la fuente a usar.
+        @param color Color de la fuente.
+        @param x Posición en el eje x.
+        @param y Posición en el eje y.
+        @param text Texto que representará al cronómetro.
+        @param minutes Minutos iniciales, por defecto 0.
+        @param seconds Segundos iniciales, por defecto 0.
+        @param hseconds Centésimas de segundo inidicales, por defecto 0.
+        '''
+        
+        #Pasamos los minutos a segundos
+        self.__start = minutes * 60.0
+        #Añadimos los segundos
+        self.__start += seconds
+        #Pasamos las centésimas de segundo a segundos
+        self.__start += hseconds / 100.0
+        
+        #Asignamos variable
+        self.minutes = minutes
+        self.seconds = seconds
+        self.hseconds = hseconds
+        
+        #Chivatos
+        self.running = False
+        self.time_paused = False
+        self.time_stopped = False
+        
+        #Cargamos la fuente necesaria
+        self.font = resource.get_font(font_code, 100)
+        self.color = color
+        self.x = x
+        self.y = y
+        
+        #Obtenemos la superficie con el texto dado
+        self.text = self.font.render(text, True, color)
+        self.rect_text = self.text.get_rect()
+        self.update_surface()
+        
+    def update(self):
+        '''
+        @brief Actualiza el estado del cronómetro
+        '''
+        #si el cronómetro esta en marcha
+        if self.running:
+            
+            #Obtenemos el tiempo transcurrido
+            elap = time.time() - self.__start
+            
+            #Hacemos las distintas conversiones
+            #Obtenemos los minutos
+            self.minutes = int(elap / 60) 
+            #Obtenemos los segundos, restando los minutos anteriores
+            self.seconds = int(elap - self.minutes * 60.0)
+            #Obtenemos las centésimas de segundo, restando tanto minutos, como segundos anteriores
+            self.hseconds = int((elap - self.minutes * 60.0 - self.seconds) * 100)
+            
+            #Actualizamos la superficie del cronometro
+            self.update_surface()
+            
+    def draw(self, screen):
+        '''
+        @brief Dibuja los distintos elementos en pantalla
+        
+        @param screen Superficie destino
+        '''
+        screen.blit(self.text, (self.x, self.y))
+        screen.blit(self.surface, (self.x, self.y + self.rect_text.h)) 
+        
+    def start(self):
+        '''
+        @brief Pone el cronómetro en marcha
+        '''
+        #Si el cronometro estaba parado, los reiniciamos
+        if self.time_stopped:
+            self.__start = time.time()
+            self.time_stopped = False
+        #Si no estaba en marcha o estaba pausado, comenzamos desde donde estaba
+        elif not self.running or self.time_paused:
+            self.__start = abs(self.__start - time.time())
+
+        self.running = True 
+
+    def stop(self):
+        '''
+        @brief Detiene y reinicia el cronómetro
+        '''
+        self.running = False
+        self.time_stopped = True
+        self.minutes = self.seconds = self.hseconds = 0
+        self.update_surface()
+    
+    def pause(self):
+        '''
+        @brief Pausa el cronómetro
+        '''
+        self.running = False
+        
+        #Guardamos los valores actuales
+        self.__start = self.minutes * 60.0
+        self.__start += self.seconds
+        self.__start += self.hseconds / 100.0
+        
+    def get_minutes(self):
+        '''
+        @brief Método que devuelve los minutos actuales
+        '''
+        return self.minutes
+        
+    def set_minutes(self, new_value):
+        '''
+        @brief Situa un nuevo valor para los minutos, preservando los segundos 
+        y centésimas anteriores
+        
+        @param new_value nuevo valor para los minutos
+        '''
+        self.minutes =  new_value
+        self.__start = new_value * 60
+        self.__start += self.seconds
+        self.__start += self.hseconds / 100.0        
+        self.update_surface()
+        
+    def get_seconds(self):
+        '''
+        @brief Método que devuelve los segundos actuales
+        '''
+        return self.seconds 
+        
+    def set_seconds(self, new_value):
+        '''
+        @brief Situa un nuevo valor para los segundos, preservando los minutos
+         y centésimas anteriores
+        
+        @param new_value nuevo valor para los segundos
+        '''
+        self.seconds = new_value
+        self.__start = new_value
+        self.__start += self.minutes * 60
+        self.__start += self.hseconds / 100.0
+        self.update_surface()
+
+    def get_hseconds(self):
+        '''
+        @brief Método que devuelve las centésimas de segundo actuales
+        '''
+        return self.hseconds
+        
+    def set_hseconds(self, new_value):
+        '''
+        @brief Situa un nuevo valor para los segundos, preservando los minutos
+         y segundos anteriores
+        
+        @param new_value nuevo valor para las centesimas
+        '''
+        self.hseconds = new_value
+        self.__start = new_value / 100        
+        self.__start += self.minutes * 60
+        self.__start += self.seconds
+        self.update_surface()
+    
+    def update_surface(self):
+        '''
+        @brief Método que actualiza la superficie del cronómetro
+        '''
+        string = '%02d:%02d:%02d' % (self.minutes, self.seconds, self.hseconds)
+        self.surface = self.font.render(string, True, self.color)
