@@ -48,7 +48,7 @@ class BasicMenu(state.State):
             font_code = str(element.getAttribute('font'))
             font_size = int(element.getAttribute('size'))
             font = resource.get_font(font_code, font_size)
-            text = str(element.getAttribute('text'))
+            text = element.getAttribute('text')
             r = int(element.getAttribute('r'))
             g = int(element.getAttribute('g'))
             b = int(element.getAttribute('b'))
@@ -79,6 +79,11 @@ class BasicMenu(state.State):
             text = element.getAttribute('text')
             x = int(element.getAttribute('x'))
             y = int(element.getAttribute('y'))
+            show_text = True
+            
+            if element.hasAttribute('show_text'):
+                show_text = element.getAttribute('show_text')
+                show_text = button.strTobool(show_text)
             
             type_button = 'normal'
             
@@ -88,12 +93,12 @@ class BasicMenu(state.State):
             image_button = None
             
             if type_button == 'normal':
-                aux_button = button.Button(xml_file, text, x, y, font_code, True)
+                aux_button = button.Button(xml_file, text, x, y, font_code, show_text, True)
             elif type_button == 'image_button':
                 image_code = str(element.getAttribute('image'))
                 image_x = int(element.getAttribute('image_x'))
                 image_y = int(element.getAttribute('image_y'))
-                aux_button = imagebutton.ImageButton(xml_file, text, x, y, font_code, image_code, image_x, image_y, True)
+                aux_button = imagebutton.ImageButton(xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
                 
             self.buttons.append(aux_button)
             
