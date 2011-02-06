@@ -1,0 +1,33 @@
+<resources>
+	<images>
+		<image code="icon" name="icon.png" alpha="True"/>
+		<image code="normal_cursor" name="normal_cursor.png" alpha="True"/>
+		<image code="over_cursor" name="over_cursor.png" alpha="True"/>
+		<image code="normal_generic" name="menu/normal_generic.png" alpha="True"/>
+		<image code="selected_generic" name="menu/selected_generic.png" alpha="True"/>
+		<image code="background_menu" name="menu/background_menu.png" alpha="True"/>
+		<image code="logo_player" name="menu/logo_player.png" alpha="True"/>
+		<image code="logo_menu" name="menu/logo_menu.png" alpha="True"/>
+		<image code="separator_line" name="menu/separator_line.png" alpha="True"/>
+		<image code="row_right" name="menu/row_right.png" alpha="True"/>
+		<image code="row_left" name="menu/row_left.png" alpha="True"/>
+		<image code="normal_box" name="menu/normal_box.png" alpha="True"/>
+		<image code="selected_box" name="menu/selected_box.png" alpha="True"/>
+		<image code="slider_controler" name="menu/slider_controler.png" alpha="True"/>
+		
+		<image code="car1" name="character/car1.png" alpha="True"/>
+		<image code="car2" name="character/car2.png" alpha="True"/>
+		<image code="character2" name="character/character2.png" alpha="True"/>
+		<image code="character1" name="character/character1.png" alpha="True"/>
+	</images>
+    <sprites>
+    </sprites>
+	<fonts>
+		<font code="cheesebu" name="cheesebu.ttf" size="20"/>
+	</fonts>
+	<musics>
+	</musics>
+	<sounds>
+	</sounds>
+</resources>
+

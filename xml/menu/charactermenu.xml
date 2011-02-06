@@ -1,0 +1,22 @@
+<charactermenu background="background_menu" cursor="cursor.xml">
+    <title text="Selecciona Corredor" font="cheesebu" size="35" r="0" g="0" b="0" x="125" y="40"/>
+    <images>
+        <image image_code="separator_line" x="0" y="250" scale="1"></image>
+        <image image_code="logo_menu" x="600" y="3" scale="0.35"></image>
+        <image image_code="logo_player" x="30" y="15" scale="1"></image>
+    </images>
+    <options>
+        <option type="normal" xml_file="menu/rowleftbutton.xml" font="cheesebu" text="Izquierda" show_text='false' center="True" x="100" y="175"></option>
+        <option type="normal" xml_file="menu/rowrightbutton.xml" font="cheesebu" text="Derecha" show_text='false' center="True" x="700" y="175"></option>
+        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Aceptar" center="True" x="550" y="550"></option>
+        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="700" y="550"></option>
+    </options>
+    <characters normal_image='normal_box' selected_image='selected_box'>
+        <character image='character1' name='character1' image_car='car1' path_xml="car1.xml"/>
+        <character image='character2' name='character2' image_car='car2' path_xml="car2.xml"/>
+        <character image='character1' name='character1' image_car='car1' path_xml="car1.xml"/>
+        <character image='character2' name='character2' image_car='car2' path_xml="car2.xml"/>
+        <character image='character1' name='character1' image_car='car1' path_xml="car1.xml"/>
+        <character image='character2' name='character2' image_car='car2' path_xml="car2.xml"/>
+    </characters>
+</charactermenu>
