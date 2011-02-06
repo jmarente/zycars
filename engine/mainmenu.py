@@ -48,7 +48,8 @@ class MainMenu(basicmenu.BasicMenu):
             self.treat_option()
             
     def treat_option(self):
-        if self.actual_option == "Carrera Rapida":
+        
+        if self.actual_option == "Carrera Rápida":
             print "Elegido: Carrera Rapida"
         elif self.actual_option == "Campeonato":
             print "Elegido: Campeonato"
