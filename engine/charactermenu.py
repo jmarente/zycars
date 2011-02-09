@@ -133,21 +133,14 @@ class GroupOption:
         for element in parse_xml.getElementsByTagName('character'):
             image_code = element.getAttribute('image')
             name = element.getAttribute('name')
-            rotation = float(element.getAttribute('rotation'))
-            aceleration = float(element.getAttribute('aceleration'))
-            speed = float(element.getAttribute('speed'))
             
             result = {}
             result['name'] = name
             result['image'] = resource.get_image(image_code)
-            result['speed'] = speed
-            result['aceleration'] = aceleration
-            result['rotation'] = rotation
             self.right_options.append(result)
         
         #Situamos opcion actual como la primera que se encontraba en las opciones de la derecha
         self.actual_option = self.right_options.popleft()
-        self.father.update_car_features(self.actual_option['speed'], self.actual_option['aceleration'], self.actual_option['rotation'])
         #La siguiente sera la opción de la derecha
         self.actual_right = self.right_options.popleft()
 
@@ -199,9 +192,7 @@ class GroupOption:
             
             #La opción de la derecha pasa a ser la actual
             self.actual_option = self.actual_right
-            
-            self.father.update_car_features(self.actual_option['speed'], self.actual_option['aceleration'], self.actual_option['rotation'])
-            
+                        
             #Si aún hay opciones en la lista de la derecha
             if len(self.right_options) > 0:
                 #La primera de ella pasa a la opcion derecha actual
@@ -223,7 +214,6 @@ class GroupOption:
             #Actualizamos las distintas opciones 
             self.actual_right = self.actual_option
             self.actual_option = self.actual_left
-            self.father.update_car_features(self.actual_option['speed'], self.actual_option['aceleration'], self.actual_option['rotation'])
             
             #Si aún quedan opciones en la izquierda
             if len(self.left_options) > 0:
@@ -278,76 +268,135 @@ class CharacterMenu(basicmenu.BasicMenu):
                 
         self.cars = {}
         first = True
+        
+        #Obtenemos las distintas caracterísitcas del personaje
         for element in parse.getElementsByTagName('character'):
             
             character_name = element.getAttribute('name')
             image_car_code = element.getAttribute('image_car')
             path_xml = element.getAttribute('path_xml')
+            rotation = float(element.getAttribute('rotation'))
+            aceleration = float(element.getAttribute('aceleration'))
+            speed = float(element.getAttribute('speed'))
 
-            
             self.cars[character_name] = {}
             self.cars[character_name]['image_car'] = resource.get_image(image_car_code)
             self.cars[character_name]['name_character'] = resource.get_font('cheesebu', 40).render(character_name, True, (255, 255, 255))
             self.cars[character_name]['path_xml'] = path_xml
-        
+            self.cars[character_name]['speed'] = speed
+            self.cars[character_name]['aceleration'] = aceleration
+            self.cars[character_name]['rotation'] = rotation
+            
+            if first:
+                self.car_features.update_values(speed, aceleration, rotation)
+                first = False
+
         self.new_pressed = True
         
     def update(self):
-        
+        '''
+        @brief Método que actualiza el menú
+        '''
+        #Actualizamos todos los botones
         self.actual_option = None
         for button in self.buttons:
             button.update()
+            #Si el puntero esta sobre alguno de ellos
             if button.get_selected():
+                #Nos quedamos con su opción
                 self.actual_option = button.get_option()
         
+        #Si hay alguna opción seleccionada
         if self.actual_option:
+            #Modificamos el cursor
             self.cursor.over()
+            #Si pulsamos el ratón
             if pygame.mouse.get_pressed()[0]:
+                #Tratamos la opción
                 self.treat_option()
                 self.new_pressed = False
             else:
                 self.new_pressed = True
+        #Si no, el cursor sigue normal
         else:
             self.cursor.normal()
-                
+        
+        #Actualizamos el cursor
         self.cursor.update()
     
     def draw(self, screen):
-        
+        '''
+        @brief Método que dibuja los elementos del menú en pantalla
+        '''
+        #Dibujamos los elementos básicos
         self.draw_basic_elements(screen)
-
+        
+        #Dibujamos todos y cada uno de los botones
         for button in self.buttons:
             button.draw(screen)
         
         self.group_option.draw(screen)
         
+        #Mostramos el coche del personaje actual
         screen.blit(self.cars[self.group_option.actual_selected()]['image_car'], (50, 325))
         
+        #Mostramos el nombre del personaje
         position_name = self.cars[self.group_option.actual_selected()]['name_character'].get_rect()
         position_name.y = 270
         position_name.centerx = 400
         screen.blit(self.cars[self.group_option.actual_selected()]['name_character'], position_name)
         
+        #Mostramos las caracteristicas del coche
         self.car_features.draw(screen)
         
+        #Dibujamos el cursor sobre todo
         self.cursor.draw(screen)
     
     def treat_option(self):
+        '''
+        @brief Método que se llama cuando se pulsa algun boton
+        
+        '''
+        #Si pulsamos el botón de aceptar
         if self.actual_option == "Aceptar":
+            #Guardamos el coche seleccionado
             print "Aceptar, Elegido:" + self.cars[self.group_option.actual_selected()]['path_xml']
             
+        #Si pulsamos cancelar
         elif self.actual_option == "Cancelar":
+            #Volveriamos al menú anterior
             print "Cancelar"
         
+        #Si pulsamos la felcha hacia la izquierda
         elif self.actual_option == "Izquierda":
+            #Y no estaba el ratón pulsado anteriormente
             if self.new_pressed:
                 print "Izquierda"
+                #Movemos hacia la izquierda el grupo de opciones
                 self.group_option.move_right()
-            
+                
+                #Actualizamos CarFeatures
+                speed = self.cars[self.group_option.actual_selected()]['speed']
+                aceleration = self.cars[self.group_option.actual_selected()]['aceleration']
+                rotation = self.cars[self.group_option.actual_selected()]['rotation']
+                self.car_features.update_values(speed, aceleration, rotation)
+        
+        #Si pulsamos la felcha hacia la derecha
         elif self.actual_option == "Derecha":
+            #Y no estaba el ratón pulsado anteriormente
             if self.new_pressed:
-                print "Derecha"            
+                print "Derecha" 
+                #Movemos el grupo de opciones
                 self.group_option.move_left()
                 
+                #Actualizamos CarFeatures
+                speed = self.cars[self.group_option.actual_selected()]['speed']
+                aceleration = self.cars[self.group_option.actual_selected()]['aceleration']
+                rotation = self.cars[self.group_option.actual_selected()]['rotation']
+                self.car_features.update_values(speed, aceleration, rotation)
+
     def update_car_features(self, speed, aceleration, rotation):
+        '''
+        @brief Método para actualizar las características del coche
+        '''
         self.car_features.update_values(speed, aceleration, rotation)
