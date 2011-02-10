@@ -41,9 +41,9 @@ class Game:
         
         pygame.display.set_icon(self.icon)
         self.clock = pygame.time.Clock()
-        self.__actual_state = gamecontrol.GameControl(self, 'circuito2.tmx')
         
         ######PRUEBA MODULO GAME CONTROL##########
+        self.__actual_state = gamecontrol.GameControl(self, 'circuito2.tmx')
         
     def run(self):
         '''

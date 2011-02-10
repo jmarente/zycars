@@ -90,25 +90,27 @@ class CollisionManager:
         #Comprobamos el eje X.
         x_collision = False
         y_collision = False
+        result = None
         tile_pos = None
         tile_rect = None
         
         #Colisiones verticales, con el eje x
         if sprite.go_left():
-            tile_rect = self.__collision_ver(sprite, circ, "left")
+            result = self.__collision_ver(sprite, circ, "left")
             
-        elif not tile_rect and sprite.go_right():
-            tile_rect = self.__collision_ver(sprite, circ, "right")
+        elif not result and sprite.go_right():
+            result = self.__collision_ver(sprite, circ, "right")
             
         #Colision horizontales, con el eje y
-        elif not tile_rect and sprite.go_up():
-            tile_rect = self.__collision_hor(sprite, circ, "up")
+        elif not result and sprite.go_up():
+            result = self.__collision_hor(sprite, circ, "up")
             
-        elif not tile_rect and sprite.go_down():
-            tile_rect = self.__collision_hor(sprite, circ, "down")
+        elif not result and sprite.go_down():
+            result = self.__collision_hor(sprite, circ, "down")
             
-        if tile_rect:
+        if result and result['type'] == circuit.NOPASSABLE:
             
+            tile_rect = result['rect']
             edge = self.actor_tile_edgecollision(sprite, tile_rect)
                         
             collision = collision_top = collision_bottom = \
@@ -183,6 +185,14 @@ class CollisionManager:
                 else:
                     sprite.actual_speed = sprite.get_max_speed()
                 sprite.actual_speed *= -1
+        
+        elif result and result['type'] == circuit.LAG:
+            
+            if(abs(sprite.actual_speed) > (abs(sprite.get_max_speed()) / 2)):
+                if sprite.actual_speed > 0:
+                    sprite.actual_speed = abs(sprite.get_max_speed()) / 2
+                else:
+                    sprite.actual_speed = -1 * (abs(sprite.get_max_speed()) / 2)
                 
     def __collision_ver(self, sprite, circ, direction):
 
@@ -201,10 +211,23 @@ class CollisionManager:
             (circ.get_tile(0, tilecoordx, i).type == circuit.NOPASSABLE):
                 tilecoordx *= circ.get_tile_width()
                 
-                rect = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
+                result = {}
+                result['type'] = circuit.NOPASSABLE
+                result['rect'] = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
                 circ.get_tile_width(), circ.get_tile_height()))
                 
-                return rect
+                return result
+            
+            elif (circ.get_tile(1, tilecoordx, i).type == circuit.LAG) or \
+            (circ.get_tile(0, tilecoordx, i).type == circuit.LAG):
+                
+                result = {}
+                result['type'] = circuit.LAG
+                result['rect'] = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
+                circ.get_tile_width(), circ.get_tile_height()))
+                
+                return result
+                
             i += 1
         
         return False
@@ -226,10 +249,22 @@ class CollisionManager:
             (circ.get_tile(0, i, tilecoordy).type == circuit.NOPASSABLE):
                 tilecoordy *= circ.get_tile_height()
                 
-                rect = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
+                result = {}
+                result['type'] = circuit.NOPASSABLE
+                resutl['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
                 circ.get_tile_width(), circ.get_tile_height()))
                 
                 return rect
+            elif (circ.get_tile(1, i, tilecoordy).type == circuit.LAG) or \
+            (circ.get_tile(0, i, tilecoordy).type == circuit.LAG):
+                
+                result = {}
+                result['type'] = circuit.LAG
+                resutl['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
+                circ.get_tile_width(), circ.get_tile_height()))
+                
+                return result
+                
             i += 1
             
         return False
