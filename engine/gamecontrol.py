@@ -12,7 +12,17 @@ import resource
 from pygame.locals import *
 
 class GameControl(state.State):
+    '''
+    @brief Clase encargada de controlar los aspectos básicos de una carrera, desde
+    las colisiones hasta el control de las vueltas
+    '''
     def __init__(self, game, path):
+        '''
+        @brief Constructor
+        
+        @param game Referencia a game
+        @param path archivo xml del circuito en cuestión
+        '''
         state.State.__init__(self, game)
         
         #Coche del jugador.
@@ -23,8 +33,10 @@ class GameControl(state.State):
         
         #Grupo de sprites que contentrá los coches de la IA.
         self.ia_cars = pygame.sprite.Group()
+        
         #Grupo de sprites que contendrá las cajas de items. 
         self.items_box = pygame.sprite.Group()
+        
         #Grupo de sprite que contendrá las balas.
         self.bullets = pygame.sprite.Group()
         
@@ -35,6 +47,9 @@ class GameControl(state.State):
         self.grid = resource.get_image("rejilla")
         
     def update(self):
+        '''
+        @brief Método encargado de actualizar todos los componentes del circuito
+        '''
         #Actualizamos al coche del jugador.
         self.player.update()
         
@@ -49,26 +64,7 @@ class GameControl(state.State):
         #Actualizamos las balas.
         for bullet in self.bullets:
             bullet.update()
-        
-        ###Controlamos el scroll del jugador.###
-        '''print self.player.get_rect()
-        print "Centro del coche: " + str(self.player.get_rect().centerx - self.circuit.get_x())
-        print "Grado del coche: " + str(self.player.get_angle())
-        print "Velocidad actual del coche: " + str(self.player.get_speed())'''
-        '''if self.player.go_right():
-            print 'Hacia la derecha'
-        elif self.player.go_left():
-            print 'Hacia la izquierda'
-        else:
-            print 'No hay movimiento horizontal'
-        
-        if self.player.go_up():
-            print 'Hacia la arriba'
-        elif self.player.go_down():
-            print 'Hacia la abajo'
-        else:
-            print 'No hay movimiento vertical'''
-        
+                
         #Controlamos el scroll de la pantalla
         self.scroll_control()
             
@@ -76,19 +72,35 @@ class GameControl(state.State):
         self.check_collisions()
 
     def draw(self, screen):
+        '''
+        @brief Método encargado de dibujar todos los elementos en pantalla
+        
+        @param screen Superficie destino
+        '''
+        #Dibujamos las dos primeras capas del circuito
         self.circuit.draw(screen, 0)
         self.circuit.draw(screen, 1)
+        
+        #Dibujamos al jugador
         self.player.draw(screen)
+        
+        #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
+        
+        #Dibujamos rejilla de referencia
         screen.blit(self.grid, (0, 0))
         
     def check_collisions(self):
-        
+        '''
+        @brief Método encargada de gestionar las distintas colisiones
+        '''
         #colisiones jugador-escenario
         self.collision_manager.level_collision(self.player, self.circuit)
         
     def scroll_control(self):
-        
+        '''
+        @brief Método encargado de controlar el scroll de la pantalla según la posición del coche
+        '''
         ###SCROLL HORIZONTAL###
         #Si le jugador se sale por la derecha, hacemos scroll hacia la derecha.
         #Si el centro del coche con respecto a la pantalla es mayor que el ancho de esta
@@ -131,24 +143,54 @@ class GameControl(state.State):
                 self.circuit.move(self.circuit.get_x(), scroll_down_y)
         
     def add_bullet(self, bullet):
+        '''
+        @brief Método que añade una nueva bala al grupo de balas
+        
+        @param bullet Bala a añadir
+        '''
         self.bullets.add(bullet)
         
     def add_ia_car(self, ia_car):
+        '''
+        @brief Mñetodo que añade un nuevo coche controlado por la IA al grupo
+        
+        @param ia_car Nuevo coche
+        '''
         self.ia_car.add(ia_car)
         
     def add_item_box(self, item_box):
+        '''
+        @brief Método que añade una nueva caja de items al grupo
+        
+        @param item_box Caja a añadir
+        '''
         self.items_box.add(item_box)
         
     def add_player(self, player):
+        '''
+        @Método que define quien es el jugador principal
+        
+        @param player Jugador
+        '''
         self.player = player
     
     def circuit_x(self):
+        '''
+        @brief Método que devuelve la x actual del circuito
+        
+        @return posicion x del circuito
+        '''
         if self.circuit:
             return self.circuit.get_x()
         else:
             return 0
             
     def circuit_y(self):
+        '''
+        @brief Método que devuelve la y actual del circuito
+        
+        @return posicion y del circuito
+        '''
         if self.circuit:
             return self.circuit.get_y()
         else:
