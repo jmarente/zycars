@@ -37,6 +37,7 @@ def main():
     
     font1_render = font1.render('Prueba de Font1', True, (0, 0, 0))
     font2_render = font2.render('Prueba de Font2', False, (0, 0, 0))
+    font3_render = font1.render('Prueba de asasas', True, (0, 0, 0))
     
     path_music1 = data.get_path_music('waterski_me')
     path_music2 = data.get_path_music('waterski_me.ogg')
@@ -91,6 +92,7 @@ def main():
         screen.blit(sprite2[95], (5,200))  
         screen.blit(font1_render, (400,5))    
         screen.blit(font2_render, (400,100))    
+        screen.blit(font3_render, (400,300))    
         pygame.display.flip()
     
 if __name__ == "__main__":
