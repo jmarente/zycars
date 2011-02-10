@@ -9,6 +9,7 @@ import pygame
 import cursor
 import basicmenu
 import xml.dom.minidom
+import unicodedata
 
 class MainMenu(basicmenu.BasicMenu):
     def __init__(self, game, path_xml):
@@ -49,7 +50,7 @@ class MainMenu(basicmenu.BasicMenu):
             
     def treat_option(self):
         
-        if self.actual_option == "Carrera Rápida":
+        if self.actual_option == u"Carrera Rápida":
             print "Elegido: Carrera Rapida"
         elif self.actual_option == "Campeonato":
             print "Elegido: Campeonato"
