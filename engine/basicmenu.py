@@ -5,7 +5,7 @@ import cursor
 import data
 import resource
 import button
-#import imagebutton
+import imagebutton
 import xml.dom.minidom
 import pygame
 

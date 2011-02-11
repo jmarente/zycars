@@ -8,6 +8,7 @@ import keyboard
 import pygame
 import cursor
 import basicmenu
+import optionmenu
 import xml.dom.minidom
 import unicodedata
 
@@ -78,6 +79,7 @@ class MainMenu(basicmenu.BasicMenu):
             print "Ha elegido: Contrarreloj"
         elif self.actual_option == "Opciones":
             print "Ha elegido: Opciones"
+            self.game.change_state(optionmenu.OptionMenu(self.game, 'menu/optionmenu.xml'))
         elif self.actual_option == "Salir":
             print "Ha elegido: Salir"
             keyboard.set_quit(True)

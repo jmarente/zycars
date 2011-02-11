@@ -93,7 +93,7 @@ class Intro(state.State):
         if self.quit:
             print "Al menú principal"
             #Pasamos al menu principal
-            self.game.change_state(mainmenu.MainMenu(self, 'menu/mainmenu.xml'))
+            self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
             
     def draw(self, screen):
         '''
