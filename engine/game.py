@@ -43,7 +43,8 @@ class Game:
         self.clock = pygame.time.Clock()
         
         ######PRUEBA MODULO GAME CONTROL##########
-        self.__actual_state = gamecontrol.GameControl(self, 'circuito2.tmx')
+        self.__actual_state = gamecontrol.GameControl(self, 'circuits/circuit1-beach.tmx')
+        #self.__actual_state = gamecontrol.GameControl(self, 'circuits/circuito2.tmx')
         
     def run(self):
         '''

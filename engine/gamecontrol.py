@@ -26,22 +26,25 @@ class GameControl(state.State):
         state.State.__init__(self, game)
         
         #Coche del jugador.
-        self.player = playercar.PlayerCar(self, 'coche_prueba_red.xml', 300, 200, 0)
-        
-        #Circuito actual que vamos a jugar.
-        self.circuit = circuit.Circuit(self, path)
+        #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_red.xml', 300, 300, 0)
+        self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 300, 300, 0)
+
         
         #Grupo de sprites que contentrá los coches de la IA.
         self.ia_cars = pygame.sprite.Group()
         
         #Grupo de sprites que contendrá las cajas de items. 
         self.items_box = pygame.sprite.Group()
+        self.checkpoints = []
         
         #Grupo de sprite que contendrá las balas.
         self.bullets = pygame.sprite.Group()
         
         #Gestor de colisiones
         self.collision_manager = collisionmanager.CollisionManager()
+
+        #Circuito actual que vamos a jugar.
+        self.circuit = circuit.Circuit(self, path)
         
         #Rejilla
         self.grid = resource.get_image("rejilla")
@@ -84,11 +87,14 @@ class GameControl(state.State):
         #Dibujamos al jugador
         self.player.draw(screen)
         
+        for cp in self.checkpoints:
+            cp.draw(screen)
+        
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
         
         #Dibujamos rejilla de referencia
-        screen.blit(self.grid, (0, 0))
+        #screen.blit(self.grid, (0, 0))
         
     def check_collisions(self):
         '''
@@ -164,7 +170,7 @@ class GameControl(state.State):
         
         @param item_box Caja a añadir
         '''
-        self.items_box.add(item_box)
+        self.checkpoints.append(item_box)
         
     def add_player(self, player):
         '''

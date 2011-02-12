@@ -3,6 +3,7 @@
 #import gamecontrol
 import data
 import resource
+import checkpoint
 import xml.dom.minidom
 import sys
 import pygame
@@ -52,6 +53,8 @@ class Circuit:
         tileset_width = 1
         tileset_height = 1
         collision_map_name = None
+        self.circuit_width = 0
+        self.elements_map = {}
         
         #Parseamos las distintas propiedades editadas para el mapa, como
         #el número de tiles en el ancho del tileset y en el alto,
@@ -64,6 +67,14 @@ class Circuit:
                 tileset_height = int(element.getAttribute('value'))
             elif name == 'collision_map':
                 collision_map_name = str(element.getAttribute('value'))
+            elif name == 'ancho_pista':
+                self.circuit_width = int(element.getAttribute('value'))
+            elif name == 'checkpointH':
+                frame = int(element.getAttribute('value'))
+                self.elements_map[frame] = name
+            elif name == 'checkpointV':
+                frame = int(element.getAttribute('value'))
+                self.elements_map[frame] = name
                 
         print "Tileset_height: " + str(tileset_height) + ' Tileset_width: ' + str(tileset_width)
         
@@ -136,7 +147,7 @@ class Circuit:
         #y = alto_ * tile_alto_ - juego_->univ()->pantalla_alto();
         
         print str(num_layer)
-        self.load_actors()            
+        self.load_elements()            
         
     def draw(self, screen, layer):
         '''
@@ -182,14 +193,20 @@ class Circuit:
         column = 0
         
         suma = 0
+        suma_x = 0
         
         if self.y >= self.height * self.tile_height - pygame.display.get_surface().get_height() - self.tile_height or self.y == 0:
             suma = 0
         else:
             suma = 1
+
+        if self.x >= self.width * self.tile_width - pygame.display.get_surface().get_width() - self.tile_width:
+            suma_x = 0
+        else:
+            suma_x = 1
         
         for row in range(num_blocks_y + suma):
-            for column in range(num_blocks_x):
+            for column in range(num_blocks_x + suma_x):
                 frame = self.map[layer][row + ly][column + lx].frame - 1
                 if frame > -1:
                     pos_x = column * self.tile_width - margin_x
@@ -210,11 +227,34 @@ class Circuit:
         else:
             self.y = y
          
-    def load_actors(self):
+    def load_elements(self):
         '''
         Función encargada de cargar los objetos del juego.
         '''
-        pass
+        n_checkpointH = 0
+        n_checkpointV = 0
+        cp = None
+        for i in range(0, self.height):
+            for j in range(0, self.width):
+                frame = self.map[3][i][j].frame
+                
+                if self.elements_map.has_key(frame):
+                     x = j * self.tile_height
+                     y = i * self.tile_width
+                                          
+                     if self.elements_map[frame] == 'checkpointH':
+                        n_checkpointH += 1
+                        cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, self.tile_height)
+                        self.game_control.add_item_box(cp)
+                    
+                     elif self.elements_map[frame] == 'checkpointV':
+                        n_checkpointV += 1
+                        cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
+                        self.game_control.add_item_box(cp)
+        
+        print "Tiene ", n_checkpointH, "Puntos de control horizontal"
+        print "Tiene ", n_checkpointV, 'Puntos de control vertical'
+                     
         
     def get_tile(self, layer, x, y):
         '''
