@@ -74,6 +74,9 @@ class Circuit:
                 self.elements_map[frame] = name
             elif name == 'checkpointV':
                 frame = int(element.getAttribute('value'))
+                self.elements_map[frame] = name            
+            elif name == 'goal':
+                frame = int(element.getAttribute('value'))
                 self.elements_map[frame] = name
                 
         print "Tileset_height: " + str(tileset_height) + ' Tileset_width: ' + str(tileset_width)
@@ -124,11 +127,11 @@ class Circuit:
                     
                     if pxarray[p_x][p_y] == pxarray_tile_types[0]:
                         self.map[num_layer][num_row][num_column].type = PASSABLE
-                        print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " es pasable."
+                        #print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " es pasable."
                         
                     elif pxarray[p_x][p_y] == pxarray_tile_types[1]:
                         self.map[num_layer][num_row][num_column].type = NOPASSABLE
-                        print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " NO es pasable."
+                        #print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " NO es pasable."
                         
                     elif pxarray[p_x][p_y] == pxarray_tile_types[2]:
                         self.map[num_layer][num_row][num_column].type = LAG
@@ -244,16 +247,24 @@ class Circuit:
                                           
                      if self.elements_map[frame] == 'checkpointH':
                         n_checkpointH += 1
-                        cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, self.tile_height)
-                        self.game_control.add_item_box(cp)
+                        #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, self.tile_height)
+                        cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
+                        self.game_control.add_checkpoint(cp)
                     
                      elif self.elements_map[frame] == 'checkpointV':
                         n_checkpointV += 1
-                        cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
-                        self.game_control.add_item_box(cp)
+                        #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
+                        cp = checkpoint.CheckPoint(self.game_control, x, y, 2, self.tile_height * self.circuit_width)
+                        self.game_control.add_checkpoint(cp)
+                        
+                     elif self.elements_map[frame] == 'goal':
+                        n_checkpointV += 1
+                        #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
+                        cp = checkpoint.CheckPoint(self.game_control, x, y, 2, self.tile_height * self.circuit_width)
+                        self.game_control.set_goal(cp)
         
-        print "Tiene ", n_checkpointH, "Puntos de control horizontal"
-        print "Tiene ", n_checkpointV, 'Puntos de control vertical'
+        print "Tiene ", n_checkpointH, "Puntos de control horizontale"
+        print "Tiene ", n_checkpointV, 'Puntos de control verticales'
                      
         
     def get_tile(self, layer, x, y):

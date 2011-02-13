@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="45" tileheight="45">
  <properties>
-  <property name="ancho_pista" value="4"/>
+  <property name="ancho_pista" value="5"/>
   <property name="checkpointH" value="321"/>
   <property name="checkpointV" value="322"/>
   <property name="collision_map" value="collisionmapbeach.png"/>
+  <property name="goal" value="323"/>
   <property name="tileset_alto" value="22"/>
   <property name="tileset_ancho" value="20"/>
  </properties>
@@ -5079,7 +5080,7 @@
    <tile gid="0"/>
    <tile gid="322"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="323"/>
    <tile gid="0"/>
    <tile gid="322"/>
    <tile gid="0"/>

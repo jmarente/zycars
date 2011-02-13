@@ -305,7 +305,7 @@ class CollisionManager:
                 
                 result = {}
                 result['type'] = circuit.LAG
-                resutl['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
+                result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
                 circ.get_tile_width(), circ.get_tile_height()))
                 
                 return result

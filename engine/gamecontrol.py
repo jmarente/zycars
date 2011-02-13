@@ -6,6 +6,7 @@ import collisionmanager
 import playercar
 import basiccar
 import circuit
+import checkpoint
 import resource
 
 
@@ -27,19 +28,20 @@ class GameControl(state.State):
         
         #Coche del jugador.
         #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_red.xml', 300, 300, 0)
-        self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 300, 300, 0)
+        self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 500, 400, 0)
 
-        
         #Grupo de sprites que contentrá los coches de la IA.
         self.ia_cars = pygame.sprite.Group()
         
         #Grupo de sprites que contendrá las cajas de items. 
         self.items_box = pygame.sprite.Group()
-        self.checkpoints = []
+        
+        #Checkpoints que posee el circuito
+        self.checkpoints = checkpoint.CheckPoints(self)
         
         #Grupo de sprite que contendrá las balas.
         self.bullets = pygame.sprite.Group()
-        
+                
         #Gestor de colisiones
         self.collision_manager = collisionmanager.CollisionManager()
 
@@ -70,9 +72,12 @@ class GameControl(state.State):
                 
         #Controlamos el scroll de la pantalla
         self.scroll_control()
-            
+        
         #Controlamos posibles colisiones
         self.check_collisions()
+        
+        #Controlamos todos los puntos de control    
+        self.checkpoints.update(self.player)
 
     def draw(self, screen):
         '''
@@ -87,8 +92,8 @@ class GameControl(state.State):
         #Dibujamos al jugador
         self.player.draw(screen)
         
-        for cp in self.checkpoints:
-            cp.draw(screen)
+        #Dibujamos los Puntos de control en pantalla
+        self.checkpoints.draw(screen)
         
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
@@ -158,7 +163,7 @@ class GameControl(state.State):
         
     def add_ia_car(self, ia_car):
         '''
-        @brief Mñetodo que añade un nuevo coche controlado por la IA al grupo
+        @brief Método que añade un nuevo coche controlado por la IA al grupo
         
         @param ia_car Nuevo coche
         '''
@@ -170,7 +175,7 @@ class GameControl(state.State):
         
         @param item_box Caja a añadir
         '''
-        self.checkpoints.append(item_box)
+        self.items_box.add(item_box)
         
     def add_player(self, player):
         '''
@@ -179,6 +184,22 @@ class GameControl(state.State):
         @param player Jugador
         '''
         self.player = player
+        
+    def add_checkpoint(self, checkpoint):
+        '''
+        @brief Método que añade un nuevo punto de control al circuito
+        
+        @param checkpoint Nuevo punto de control a añadir
+        '''
+        self.checkpoints.add_checkpoint(checkpoint)
+
+    def set_goal(self, goal):
+        '''
+        @brief Método que asigna la meta del circuito
+        
+        @param goal Meta a asignar
+        '''
+        self.checkpoints.set_goal(goal)
     
     def circuit_x(self):
         '''
