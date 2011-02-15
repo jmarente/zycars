@@ -1,0 +1,6 @@
+<option text_position="center">
+    <selected selected_image="selected_generic" x="0" y="0" w="319" h="48"/>
+    <normal normal_image="normal_generic" x="0" y="0" w="319" h="41"/>
+    <selected_text r="188" g="8" b="37" x="70" y="30" size="31"/>
+    <normal_text r="248" g="179" b="52" x="70" y="30" size="30"/>
+</option>

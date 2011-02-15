@@ -8,7 +8,9 @@ import basiccar
 import circuit
 import checkpoint
 import resource
-
+import countdown
+import pausemenu
+import keyboard
 
 from pygame.locals import *
 
@@ -51,33 +53,65 @@ class GameControl(state.State):
         #Rejilla
         self.grid = resource.get_image("rejilla")
         
+        #Menú de pausa
+        self.pause = pausemenu.PauseMenu(self.game, self, 'menu/pausemenu.xml')
+        #Cuenta atras
+        self.count_down = countdown.CountDown('cheesebu', 300, 0.002, 0.025, (221, 113, 5), 3)
+        
+        #Indicamos el estado
+        self.actual_state = 'race'
+        
+        #Actualizamos el estado en carrera para posicionar bien la pantalla
+        self.update()
+        
+        #Pasamos al estado de cuenta atras
+        self.actual_state = 'countdown'
+        
     def update(self):
         '''
         @brief Método encargado de actualizar todos los componentes del circuito
         '''
-        #Actualizamos al coche del jugador.
-        self.player.update()
         
-        #Actualizamos la IA.
-        for ia_car in self.ia_cars:
-            ia_car.update()
+        #Si estamos en la cuenta atrás actualizamos la cuenta atrás
+        if self.actual_state == 'countdown':
+            self.count_down.update()
+            #Si se ha completado cambiamos el estado del juego
+            if self.count_down.complete():
+                self.actual_state = 'race'
+
+        #Si estamos en pause, actualizamos el menú de pause
+        elif self.actual_state == 'pause':
+            self.pause.update()
         
-        #Actualizamos las cajas de items
-        for box in self.items_box:
-            box.update()
-        
-        #Actualizamos las balas.
-        for bullet in self.bullets:
-            bullet.update()
-                
-        #Controlamos el scroll de la pantalla
-        self.scroll_control()
-        
-        #Controlamos posibles colisiones
-        self.check_collisions()
-        
-        #Controlamos todos los puntos de control    
-        self.checkpoints.update(self.player)
+        #Si estamos el estado en carrera, actualizamos todos los estado de carrera
+        elif self.actual_state == 'race':
+            
+            #Si pulsamos el espacio o escape, cambiamos al estado pause
+            if keyboard.pressed(K_SPACE) or keyboard.pressed(K_ESCAPE):
+                self.actual_state = 'pause'
+            #Actualizamos al coche del jugador.
+            self.player.update()
+            
+            #Actualizamos la IA.
+            for ia_car in self.ia_cars:
+                ia_car.update()
+            
+            #Actualizamos las cajas de items
+            for box in self.items_box:
+                box.update()
+            
+            #Actualizamos las balas.
+            for bullet in self.bullets:
+                bullet.update()
+                    
+            #Controlamos el scroll de la pantalla
+            self.scroll_control()
+            
+            #Controlamos posibles colisiones
+            self.check_collisions()
+            
+            #Controlamos todos los puntos de control    
+            self.checkpoints.update(self.player)
 
     def draw(self, screen):
         '''
@@ -85,6 +119,9 @@ class GameControl(state.State):
         
         @param screen Superficie destino
         '''
+        #Siempre dibujamos todos los elementos de juego, ya que estarán de 
+        #fondo aunque cambiemos de estado
+        
         #Dibujamos las dos primeras capas del circuito
         self.circuit.draw(screen, 0)
         self.circuit.draw(screen, 1)
@@ -98,12 +135,21 @@ class GameControl(state.State):
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
         
+        #Si estamos en el estado de cuenta atras, mostramos la cuenta atrás
+        if self.actual_state == 'countdown':
+            self.count_down.draw(screen)
+            
+        #Si estamos en el estado de pause, mostramos el menú de pause
+        elif self.actual_state == 'pause':
+            self.pause.draw(screen)
+            
         #Dibujamos rejilla de referencia
         #screen.blit(self.grid, (0, 0))
         
     def check_collisions(self):
         '''
-        @brief Método encargada de gestionar las distintas colisiones
+        @brief Método encargada de gestionar las distintas colisiones, de los 
+        elemento del juego, entre ellos y el escenario
         '''
         #colisiones jugador-escenario
         self.collision_manager.level_collision(self.player, self.circuit)
@@ -222,6 +268,14 @@ class GameControl(state.State):
             return self.circuit.get_y()
         else:
             return 0
+    
+    def set_state(self, new_state):
+        '''
+        @brief Función que cambia el estado actual de juego
+        
+        @param new_state Nuevo estado para el juego
+        '''
+        self.actual_state = new_state
             
     def horizontal_speed(self):
         '''Sin uso'''

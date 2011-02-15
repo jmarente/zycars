@@ -38,9 +38,12 @@ class Game:
         for element in parser.getElementsByTagName('icon'):
             icon_code = str(element.getAttribute('code'))
             self.icon = resource.get_image(icon_code)
-        
+            
+        pygame.mouse.set_visible(False)
         pygame.display.set_icon(self.icon)
+        
         self.clock = pygame.time.Clock()
+        keyboard.update()
         
         ######PRUEBA MODULO GAME CONTROL##########
         self.__actual_state = gamecontrol.GameControl(self, 'circuits/circuit1-beach.tmx')
