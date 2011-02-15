@@ -70,7 +70,7 @@ def get_image(image_code):
     if __images.has_key(image_code):
         print "Imagen " + image_code + " ya cargada."
     else:
-        print "Imagen " + str(image_code) + " no estaba cargada aún, cargando..."
+        print "Imagen " + image_code + " no estaba cargada aún, cargando..."
         __images[image_code] = data.load_image(__images_info[image_code][0], __images_info[image_code][1])
         
     return __images[image_code]

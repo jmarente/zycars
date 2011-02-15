@@ -70,8 +70,3 @@ def quit():
     True si se produce el evento de salida, False en caso contrario.
     '''
     return __quit
-
-def set_quit(new_value):
-    
-    global __quit
-    __quit = new_value

@@ -1,45 +1,12 @@
 <resources>
 	<images>
 		<image code="icon" name="icon.png" alpha="True"/>
-		<!--CURSOR-->
-		<image code="normal_cursor" name="normal_cursor.png" alpha="True"/>
-		<image code="over_cursor" name="over_cursor.png" alpha="True"/>
-		<!--BOTONES-->
-		<image code="normal_button1" name="menu/normal_button1.png" alpha="True"/>
-		<image code="normal_button2" name="menu/normal_button2.png" alpha="True"/>
-		<image code="normal_generic" name="menu/normal_generic.png" alpha="True"/>
-		<image code="selected_generic" name="menu/selected_generic.png" alpha="True"/>
-		<image code="selected_button1" name="menu/selected_button1.png" alpha="True"/>
-		<image code="selected_button2" name="menu/selected_button2.png" alpha="True"/>
-		<image code="normal_box" name="menu/normal_box.png" alpha="True"/>
-		<image code="selected_box" name="menu/selected_box.png" alpha="True"/>		
-		<image code="normal_box2" name="menu/normal_box2.png" alpha="True"/>
-		<image code="selected_box2" name="menu/selected_box2.png" alpha="True"/>
-		<image code="row_right" name="menu/row_right.png" alpha="True"/>
-		<image code="row_left" name="menu/row_left.png" alpha="True"/>
-		<!--ELEMENTOS DE MENÚ(FONDO, LOGOS, ICONOS, IMAGENES)-->
-		<image code="background_menu" name="menu/background_menu.png" alpha="True"/>
-		<image code="logo_menu" name="menu/logo_menu.png" alpha="True"/>
-		<image code="logo_option" name="menu/logo_option.png" alpha="True"/>
-		<image code="separator_line" name="menu/separator_line.png" alpha="True"/>
-		<image code="icon_controls" name="menu/icon_controls.png" alpha="True"/>
-		<image code="icon_screen" name="menu/icon_screen.png" alpha="True"/>
-		<image code="icon_sound" name="menu/icon_sound.png" alpha="True"/>
-		<image code="logo_player" name="menu/logo_player.png" alpha="True"/>
-		<!--SLIDER-->
-		<image code="slider_bar" name="menu/slider_bar.png" alpha="True"/>
-		<image code="slider_controler" name="menu/slider_controler.png" alpha="True"/>
-		<!--PERSONAJES-->
-		<image code="car1" name="character/car1.png" alpha="True"/>
-		<image code="car2" name="character/car2.png" alpha="True"/>
-		<!--COCHES MENU-->
-		<image code="character2" name="character/character2.png" alpha="True"/>
-		<image code="character1" name="character/character1.png" alpha="True"/>
+		<image code="particle" name="particle.png" alpha="True"/>
+		<image code="particle2" name="particle2.png" alpha="True"/>
 	</images>
     <sprites>
     </sprites>
 	<fonts>
-		<font code="cheesebu" name="cheesebu.ttf" size="20"/>
 	</fonts>
 	<musics>
 	</musics>
