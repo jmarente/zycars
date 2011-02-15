@@ -16,14 +16,15 @@ class CountDown:
     '''
     @brief Clase que simula una cuenta atrás
     '''
-    def __init__(self, font_code, size_font, inicial_scale, increase_scale, number = 3):
+    def __init__(self, font_code, size_font, inicial_scale, increase_scale, color, number = 3):
         '''
         @brief Constructor
         
         @param font_code Código de la fuente a usar
         @param size_font Tamaño de la fuente a usar
         @param inicial_scale Escala inicial
-        @param increase_scale Parametro de incremento de la escalaa
+        @param increase_scale Parametro de incremento de la escala
+        @param color Color de la fuente
         @param number Número en segundos de la cuenta atrás
         '''
         #Obtenemos la fuente
@@ -34,10 +35,10 @@ class CountDown:
         
         #Introducimos todos los elementos
         for i in range(1,number + 1):
-            self.elements.appendleft(self.font.render(str(i), True, (0, 0, 0)))
+            self.elements.appendleft(self.font.render(str(i), True, color))
         
         #Introducimos el fin de la cuenta atras
-        self.elements.append(self.font.render('Go!!!', True, (0, 0, 0)))
+        self.elements.append(self.font.render('Go!!!', True, color))
         
         #Obtenemos el primer elemento de la cola
         self.actual_element = self.elements.popleft()

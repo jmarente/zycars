@@ -37,7 +37,7 @@ class Game:
         
         pygame.display.set_icon(self.icon)
         self.clock = pygame.time.Clock()
-        self.__actual_state = countdown.CountDown('cheesebu', 300, 0.002, 0.025, 5)
+        self.__actual_state = countdown.CountDown('cheesebu', 300, 0.002, 0.025, (1, 21, 15), 5)
             
     def run(self):
         '''
