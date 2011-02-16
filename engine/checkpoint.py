@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file checkpoint.py
+Implementa la clase CheckPoint y CheckPoints
+@author José Jesús Marente Florín
+@date Febrero 2011.
+'''
+
 import pygame
 from collections import deque
 from log import Log

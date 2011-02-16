@@ -55,6 +55,7 @@ class Circuit:
         collision_map_name = None
         self.circuit_width = 0
         self.elements_map = {}
+        self.car_angle = 0
         
         #Parseamos las distintas propiedades editadas para el mapa, como
         #el número de tiles en el ancho del tileset y en el alto,
@@ -75,9 +76,16 @@ class Circuit:
             elif name == 'checkpointV':
                 frame = int(element.getAttribute('value'))
                 self.elements_map[frame] = name            
-            elif name == 'goal':
+            elif name == 'goalV':
                 frame = int(element.getAttribute('value'))
                 self.elements_map[frame] = name
+            elif name == 'goalH':
+                frame = int(element.getAttribute('value'))
+                self.elements_map[frame] = name
+            elif name == 'grado_coche':
+                self.car_angle = int(element.getAttribute('value'))
+
+
                 
         print "Tileset_height: " + str(tileset_height) + ' Tileset_width: ' + str(tileset_width)
         
@@ -234,8 +242,6 @@ class Circuit:
         '''
         Función encargada de cargar los objetos del juego.
         '''
-        n_checkpointH = 0
-        n_checkpointV = 0
         cp = None
         for i in range(0, self.height):
             for j in range(0, self.width):
@@ -246,26 +252,26 @@ class Circuit:
                      y = i * self.tile_width
                                           
                      if self.elements_map[frame] == 'checkpointH':
-                        n_checkpointH += 1
                         #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, self.tile_height)
                         cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
                         self.game_control.add_checkpoint(cp)
                     
                      elif self.elements_map[frame] == 'checkpointV':
-                        n_checkpointV += 1
                         #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
                         cp = checkpoint.CheckPoint(self.game_control, x, y, 2, self.tile_height * self.circuit_width)
                         self.game_control.add_checkpoint(cp)
                         
-                     elif self.elements_map[frame] == 'goal':
-                        n_checkpointV += 1
+                     elif self.elements_map[frame] == 'goalV':
                         #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
                         cp = checkpoint.CheckPoint(self.game_control, x, y, 2, self.tile_height * self.circuit_width)
                         self.game_control.set_goal(cp)
-        
-        print "Tiene ", n_checkpointH, "Puntos de control horizontale"
-        print "Tiene ", n_checkpointV, 'Puntos de control verticales'
-                     
+                        self.game_control.set_start(self, x, y, 'goal', 'vertical', self.car_angle)
+
+                     elif self.elements_map[frame] == 'goalH':
+                        #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
+                        cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
+                        self.game_control.set_goal(cp)
+                        self.game_control.set_start(self, x, y, 'goal', 'horizontal', self.car_angle)
         
     def get_tile(self, layer, x, y):
         '''
@@ -326,3 +332,6 @@ class Circuit:
     
     def get_real_height(self):
         return self.height * self.tile_height
+    
+    def get_circuit_width(self):
+        return self.circuit_width

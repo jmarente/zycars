@@ -4,6 +4,7 @@ import pygame
 import state
 import collisionmanager
 import playercar
+import gameobject
 import basiccar
 import circuit
 import checkpoint
@@ -11,6 +12,7 @@ import resource
 import countdown
 import pausemenu
 import keyboard
+import start
 
 from pygame.locals import *
 
@@ -29,8 +31,8 @@ class GameControl(state.State):
         state.State.__init__(self, game)
         
         #Coche del jugador.
-        #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_red.xml', 300, 300, 0)
-        self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 500, 400, 0)
+        #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 0, 0, 0)
+        #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 500, 400, 0)
 
         #Grupo de sprites que contentrá los coches de la IA.
         self.ia_cars = pygame.sprite.Group()
@@ -46,7 +48,10 @@ class GameControl(state.State):
                 
         #Gestor de colisiones
         self.collision_manager = collisionmanager.CollisionManager()
-
+                
+        #Linea de salida
+        self.start = None
+        
         #Circuito actual que vamos a jugar.
         self.circuit = circuit.Circuit(self, path)
         
@@ -55,8 +60,9 @@ class GameControl(state.State):
         
         #Menú de pausa
         self.pause = pausemenu.PauseMenu(self.game, self, 'menu/pausemenu.xml')
+        
         #Cuenta atras
-        self.count_down = countdown.CountDown('cheesebu', 300, 0.002, 0.025, (221, 113, 5), 3)
+        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.025, (221, 113, 5), 3)
         
         #Indicamos el estado
         self.actual_state = 'race'
@@ -85,10 +91,7 @@ class GameControl(state.State):
         
         #Si estamos el estado en carrera, actualizamos todos los estado de carrera
         elif self.actual_state == 'race':
-            
-            #Si pulsamos el espacio o escape, cambiamos al estado pause
-            if keyboard.pressed(K_SPACE) or keyboard.pressed(K_ESCAPE):
-                self.actual_state = 'pause'
+                
             #Actualizamos al coche del jugador.
             self.player.update()
             
@@ -113,6 +116,11 @@ class GameControl(state.State):
             #Controlamos todos los puntos de control    
             self.checkpoints.update(self.player)
 
+            #Si pulsamos el espacio o escape, cambiamos al estado pause
+            if keyboard.pressed(K_SPACE) or keyboard.pressed(K_ESCAPE):
+                self.actual_state = 'pause'
+                self.player.set_state(gameobject.NOACTION)
+
     def draw(self, screen):
         '''
         @brief Método encargado de dibujar todos los elementos en pantalla
@@ -125,6 +133,9 @@ class GameControl(state.State):
         #Dibujamos las dos primeras capas del circuito
         self.circuit.draw(screen, 0)
         self.circuit.draw(screen, 1)
+        
+        #Dibujamos linea de meta
+        self.start.draw(screen)
         
         #Dibujamos al jugador
         self.player.draw(screen)
@@ -246,6 +257,19 @@ class GameControl(state.State):
         @param goal Meta a asignar
         '''
         self.checkpoints.set_goal(goal)
+    
+    def set_start(self, circuit, x, y, image_code, orientation, car_angle):
+        '''
+        @brief Método que situa la linea de salida y los coches en meta
+        
+        @param x Posición x
+        @param y Posición y
+        @param image_code Código de la imagen
+        @param orientation Orientación de la linea de salida
+        @param circuit_width Ancho del circuito
+        @param car_angle Angulo de los coches
+        '''
+        self.start = start.Start(self, circuit, x, y, image_code, orientation, car_angle)
     
     def circuit_x(self):
         '''
