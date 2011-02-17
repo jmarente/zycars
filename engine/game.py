@@ -7,6 +7,7 @@ import resource
 import keyboard
 import button
 import timer
+import time
 import xml.dom.minidom
 
 import sys
@@ -49,10 +50,13 @@ class Game:
         self.buttons.append(button.Button("menu/genericbutton.xml", "Pausar", 500, 200, 'cheesebu', True))
         self.buttons.append(button.Button("menu/genericbutton.xml", "Salir", 700, 200, 'cheesebu', True))
         
-        self.timer = timer.Timer('cheesebu', (0,0,0), 250, 300, "Tiempo:")
-        self.timer.set_minutes(1)
-        self.timer.set_seconds(5)
-            
+        self.timer = timer.Timer('cheesebu', 50, (255, 100, 100), 50, 300, "Tiempo Actual:")
+        self.timer2 = timer.Timer('cheesebu', 50, (100, 255, 100), 400, 300, "Tiempo Guardado:")
+        self.timer3 = timer.Timer('cheesebu', 50, (100, 100, 255), 250, 450, "Tiempo Total:")
+        #self.timer.set_minutes(1)
+        #self.timer.set_seconds(5)
+        self.__start = None
+        
     def run(self):
         '''
         Función que contiene el bucle principal del juego.
@@ -70,6 +74,8 @@ class Game:
                     self.treat_option(button.get_option())
             
             self.timer.update()
+            self.timer2.update()
+            self.timer3.update()
             
             self.screen.fill(THECOLORS['white'])
             
@@ -77,9 +83,17 @@ class Game:
                 button.draw(self.screen)
                 
             self.timer.draw(self.screen)
-            
+            self.timer2.draw(self.screen)
+            self.timer3.draw(self.screen)
             #self.__actual_state.update()
             #self.__actual_state.draw(screen)
+            
+            if self.__start and time.time() - self.__start >= 5:
+                self.__start = time.time()
+                if self.timer2.less_than(self.timer):
+                    self.timer2.assign(self.timer)
+                elif self.timer2.more_than(self.timer):
+                    print "Es mayoooor"
             
             pygame.display.flip()
         
@@ -106,7 +120,11 @@ class Game:
             sys.exit()
         elif text == "Iniciar":
             self.timer.start()
+            self.timer3.start()
+            self.__start = time.time()
         elif text == "Parar":
             self.timer.stop()
+            self.timer3.pause()
         elif text == "Pausar":
             self.timer.pause()
+            self.timer3.pause()

@@ -8,11 +8,12 @@ class Timer:
     '''
     @brief Clase Timer, simula el comportamiento de de un cronómetro.
     '''
-    def __init__(self, font_code, color, x, y, text, minutes = 0, seconds = 0, hseconds = 0):
+    def __init__(self, font_code, font_size, color, x, y, text, minutes = 0, seconds = 0, hseconds = 0):
         '''
-        @brief Constructor de timer
+        @brief Constructor de timer.
         
         @param font_code Código de la fuente a usar.
+        @param font_size Tamaño de la fuente.
         @param color Color de la fuente.
         @param x Posición en el eje x.
         @param y Posición en el eje y.
@@ -40,7 +41,7 @@ class Timer:
         self.time_stopped = False
         
         #Cargamos la fuente necesaria
-        self.font = resource.get_font(font_code, 100)
+        self.font = resource.get_font(font_code, font_size)
         self.color = color
         self.x = x
         self.y = y
@@ -177,3 +178,70 @@ class Timer:
         '''
         string = '%02d:%02d:%02d' % (self.minutes, self.seconds, self.hseconds)
         self.surface = self.font.render(string, True, self.color)
+    
+    def assign(self, timer):
+        '''
+        @brief Método que actualiza un cronometo, con los datos de otro
+        
+        @param timer Recibe un nuevo timer, del que obtendrá todos los campos
+        '''
+        #Pasamos los minutos a segundos
+        self.__start = timer.get_minutes() * 60.0
+        #Añadimos los segundos
+        self.__start += timer.get_seconds()
+        #Pasamos las centésimas de segundo a segundos
+        self.__start += timer.get_hseconds() / 100.0
+        
+        #Asignamos variable
+        self.minutes = timer.get_minutes()
+        self.seconds = timer.get_seconds()
+        self.hseconds = timer.get_hseconds()
+        self.update_surface()
+    
+    def less_than(self, timer):
+        '''
+        @brief Método que comprueba si el timer es menor que el que pasamos
+        
+        @param timer Timer a comparar
+        @return True si el timer pasado el mayor, False si es menor o igual
+        '''
+        if self.minutes < timer.get_minutes():
+            return True 
+                  
+        elif self.minutes == timer.get_minutes():
+            
+            if self.seconds < timer.get_seconds():
+                return True
+            elif self.seconds == timer.get_seconds():
+                
+                if self.hseconds < timer.get_hseconds():
+                    return True
+                return False
+                
+            return False
+
+        return False
+    
+    def like(self, timer):
+        '''
+        @brief Método que comprueba si dos timer tienen el mismo valor.
+        
+        @param timer Timer a comparar
+        @return True si son iguales, false en caso contrario
+        '''
+        if self.minutes == timer.get_minutes() and self.seconds == timer.get_seconds() \
+            and self.hseconds == timer.get_hseconds():
+            return True
+        return False
+    
+    def more_than(self, timer):
+        '''
+        @brief Método que comprueba si el timer es mayor que el que pasamos
+        
+        @param timer Timer a comparar
+        @return True si el timer pasado es menor, False si es mayor o igual
+        '''
+        if not self.like(timer) and not self.less_than(timer):
+            return True
+        return False
+
