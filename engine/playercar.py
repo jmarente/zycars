@@ -195,3 +195,5 @@ class PlayerCar(BasicCar):
 
         self.update_position()
         self.update_image()
+        self.update_direction()
+
