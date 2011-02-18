@@ -13,6 +13,7 @@ import countdown
 import pausemenu
 import keyboard
 import start
+import timer
 
 from pygame.locals import *
 
@@ -52,6 +53,22 @@ class GameControl(state.State):
         #Linea de salida
         self.start = None
         
+        #Vueltas al circuito
+        self.max_laps = 3
+        self.actual_laps = 0
+        
+        #Contador de vueltas
+        self.font = resource.get_font('cheesebu', 50)
+        self.laps_counter = None
+        self.laps_counter_rect = None
+        self.update_laps_counter()
+        
+        #Cronómetros de carrera
+        self.actual_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 10, "Actual:")
+        self.best_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 80, "Mejor:")
+        #self.total_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 150, "Total:")
+        self.best_time.set_minutes(10)
+                
         #Circuito actual que vamos a jugar.
         self.circuit = circuit.Circuit(self, path)
         
@@ -62,7 +79,7 @@ class GameControl(state.State):
         self.pause = pausemenu.PauseMenu(self.game, self, 'menu/pausemenu.xml')
         
         #Cuenta atras
-        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.025, (221, 113, 5), 3)
+        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.025, (221, 113, 5), 0)
         
         #Indicamos el estado
         self.actual_state = 'race'
@@ -84,6 +101,7 @@ class GameControl(state.State):
             #Si se ha completado cambiamos el estado del juego
             if self.count_down.complete():
                 self.actual_state = 'race'
+                self.actual_time.start()
 
         #Si estamos en pause, actualizamos el menú de pause
         elif self.actual_state == 'pause':
@@ -91,7 +109,10 @@ class GameControl(state.State):
         
         #Si estamos el estado en carrera, actualizamos todos los estado de carrera
         elif self.actual_state == 'race':
-                
+                        
+            #Actualizamos el tiempo actual
+            self.actual_time.update()
+            
             #Actualizamos al coche del jugador.
             self.player.update()
             
@@ -119,8 +140,9 @@ class GameControl(state.State):
             #Si pulsamos el espacio o escape, cambiamos al estado pause
             if keyboard.pressed(K_SPACE) or keyboard.pressed(K_ESCAPE):
                 self.actual_state = 'pause'
+                self.actual_time.pause()
                 self.player.set_state(gameobject.NOACTION)
-
+            
     def draw(self, screen):
         '''
         @brief Método encargado de dibujar todos los elementos en pantalla
@@ -146,6 +168,10 @@ class GameControl(state.State):
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
         
+        self.actual_time.draw(screen)
+        
+        screen.blit(self.laps_counter, (self.laps_counter_rect))
+        self.best_time.draw(screen)
         #Si estamos en el estado de cuenta atras, mostramos la cuenta atrás
         if self.actual_state == 'countdown':
             self.count_down.draw(screen)
@@ -299,7 +325,37 @@ class GameControl(state.State):
         
         @param new_state Nuevo estado para el juego
         '''
+        if self.actual_state == 'pause' and new_state == 'race':
+            self.actual_time.start()
+            
         self.actual_state = new_state
+    
+    def lap_complete(self):
+        '''
+        @brief Método que es llamado cuando el jugador  ha dado una vuelta al circuito
+        '''
+        #Aumentamos el número de vueltas dadas
+        self.actual_laps += 1
+        self.update_laps_counter()
+        
+        #Comprobamos si el tiempo ha mejorado
+        if self.actual_time.less_than(self.best_time):
+            
+            self.best_time.assign(self.actual_time)
+        
+        #Reiniciamos el cronometro principal
+        self.actual_time.stop()
+        self.actual_time.start()
+        
+        if self.actual_laps == self.max_laps:
+            print "Terminado carrera"
+    
+    def update_laps_counter(self):
+        laps = str(self.actual_laps) + '/' + str(self.max_laps)
+        self.laps_counter = self.font.render(laps, True, (0, 0, 0))
+        self.laps_counter_rect = self.laps_counter.get_rect()
+        self.laps_counter_rect.centerx = pygame.display.get_surface().get_width() / 2
+        self.laps_counter_rect.y = 10
             
     def horizontal_speed(self):
         '''Sin uso'''

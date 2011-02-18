@@ -129,6 +129,7 @@ class CheckPoints:
                 #Aumentamos en uno el número de vueltas dadas
                 self.laps += 1
                 Log().info("Nº de vueltas:" + str(self.laps))
+                self.game_control.lap_complete()
                 
                 #Todos los puntos de control pasan a estar sin chequear
                 self.unchecked = self.checked

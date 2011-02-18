@@ -130,7 +130,7 @@ class CollisionManager:
         result = None
         tile_pos = None
         tile_rect = None
-        
+
         #Colisiones verticales, con el eje x
         if sprite.go_left():
             result = self.__collision_ver(sprite, circ, "left")
@@ -220,11 +220,31 @@ class CollisionManager:
             
             #Vemos en que estado esta el coche para aplicar una fuerza en una dirección u otra
             if collision:
-                if sprite.get_state() == gameobject.REVERSE or \
-                (sprite.get_state() == gameobject.NOACTION and sprite.get_old_state() == gameobject.REVERSE):
+                print Log().critical(sprite.get_state())
+                print Log().critical(sprite.get_old_state())
+                if (sprite.get_state() == gameobject.REVERSE or \
+                    (sprite.get_state() == gameobject.NOACTION and sprite.get_old_state() == gameobject.REVERSE))\
+                    and sprite.actual_speed < 0:
+                    Log().debug("1")
                     sprite.actual_speed = sprite.get_max_speed()
-                else:
+
+                elif (sprite.get_state() == gameobject.RUN or \
+                    (sprite.get_state() == gameobject.NOACTION and sprite.get_old_state() == gameobject.RUN))\
+                    and sprite.actual_speed > 0:
                     sprite.actual_speed = -sprite.get_max_speed()
+                    Log().debug("4")
+                
+                #elif sprite.get_state() != gameobject.REVERSE and sprite.get_state() != gameobject.RUN and sprite.actual_speed > 0:
+                #    sprite.actual_speed = -sprite.get_max_speed()
+                #    Log().debug("2")
+                #elif sprite.get_state() != gameobject.REVERSE and sprite.get_state() != gameobject.RUN and sprite.actual_speed < 0:
+                #    sprite.actual_speed = sprite.get_max_speed()
+                #    Log().debug("3")
+                #elif (sprite.get_old_state() == gameobject.RUN or sprite.get_state() == gameobject.RUN) and sprite.actual_speed < 0:
+                #    sprite.actual_speed = sprite.get_max_speed()
+                #elif (sprite.get_old_state() == gameobject.REVERSE or sprite.get_state() == gameobject.REVERSE) and sprite.actual_speed > 0:
+                #    sprite.actual_speed = -sprite.get_max_speed()
+
                 #sprite.actual_speed *= -1
                 
         #Si hemos obtenido colisión y es de tipo lag
