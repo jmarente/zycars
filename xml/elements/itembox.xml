@@ -1,0 +1,6 @@
+<car sprite_code="item_box" max_speed="5" min_speed="5" aceleration="0.5" desaceleration="0.2" rotation_angle="0.4">
+<!--NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW-->
+    <animations>
+        <animation name="normal" frames="0" delay="1"/>
+    </animations>
+</car>

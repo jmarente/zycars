@@ -49,7 +49,7 @@ class PlayerCar(BasicCar):
         '''
         Actualiza lógicamente al personaje.
         '''
-        if self.state != self.previous_state :
+        if self.state != self.previous_state:
             self.previous_state = self.state
             self.animations[self.state].restart()
             

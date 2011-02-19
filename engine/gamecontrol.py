@@ -39,7 +39,8 @@ class GameControl(state.State):
         self.ia_cars = pygame.sprite.Group()
         
         #Grupo de sprites que contendrá las cajas de items. 
-        self.items_box = pygame.sprite.Group()
+        #self.items_box = pygame.sprite.Group()
+        self.items_box = []
         
         #Checkpoints que posee el circuito
         self.checkpoints = checkpoint.CheckPoints(self)
@@ -58,7 +59,7 @@ class GameControl(state.State):
         self.actual_laps = 0
         
         #Contador de vueltas
-        self.font = resource.get_font('cheesebu', 50)
+        self.font = resource.get_font('cheesebu', 30)
         self.laps_counter = None
         self.laps_counter_rect = None
         self.update_laps_counter()
@@ -122,8 +123,9 @@ class GameControl(state.State):
             
             #Actualizamos las cajas de items
             for box in self.items_box:
-                box.update()
-            
+                if self.on_screen(box):
+                    box.update()
+                        
             #Actualizamos las balas.
             for bullet in self.bullets:
                 bullet.update()
@@ -161,17 +163,25 @@ class GameControl(state.State):
         
         #Dibujamos al jugador
         self.player.draw(screen)
-        
+
+        #Dibujamos todas las cajas de items
+        for box in self.items_box:
+            if self.on_screen(box):
+                box.draw(screen)
+            
         #Dibujamos los Puntos de control en pantalla
         self.checkpoints.draw(screen)
         
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
         
+        #Mostramos los dos cronómetros
         self.actual_time.draw(screen)
-        
-        screen.blit(self.laps_counter, (self.laps_counter_rect))
         self.best_time.draw(screen)
+        
+        #Mostramos el marcador de vueltas
+        screen.blit(self.laps_counter, (self.laps_counter_rect))
+
         #Si estamos en el estado de cuenta atras, mostramos la cuenta atrás
         if self.actual_state == 'countdown':
             self.count_down.draw(screen)
@@ -188,8 +198,15 @@ class GameControl(state.State):
         @brief Método encargada de gestionar las distintas colisiones, de los 
         elemento del juego, entre ellos y el escenario
         '''
-        #colisiones jugador-escenario
+        #Colisiones jugador-escenario
         self.collision_manager.level_collision(self.player, self.circuit)
+        
+        #Colisiones con las cajas de items
+        for box in self.items_box:
+            if self.on_screen(box) and box.get_state() != gameobject.EXPLOSION and \
+                self.collision_manager.actor_rectanglecollision(self.player, box) \
+                and self.collision_manager.actor_perfectcollision(self.player, box):
+                box.set_state(gameobject.EXPLOSION)
         
     def scroll_control(self):
         '''
@@ -258,7 +275,7 @@ class GameControl(state.State):
         
         @param item_box Caja a añadir
         '''
-        self.items_box.add(item_box)
+        self.items_box.append(item_box)
         
     def add_player(self, player):
         '''
@@ -351,11 +368,44 @@ class GameControl(state.State):
             print "Terminado carrera"
     
     def update_laps_counter(self):
-        laps = str(self.actual_laps) + '/' + str(self.max_laps)
+        '''
+        @brief Método que se llama para actualizar el contador visible de las vueltas
+        '''
+        #Obtenemos la cadena
+        laps = 'Vuelta ' + str(self.actual_laps) + '/' + str(self.max_laps)
+        
+        #Renderizamos
         self.laps_counter = self.font.render(laps, True, (0, 0, 0))
+        
+        #Indicamos la posicion
         self.laps_counter_rect = self.laps_counter.get_rect()
         self.laps_counter_rect.centerx = pygame.display.get_surface().get_width() / 2
         self.laps_counter_rect.y = 10
+    
+    def on_screen(self, element):
+        '''
+        @brief Método que comprueba si un elemento del juego se encuentra en pantalla
+        
+        @param element Elemento a comprobar si se encuentra en pantalla o no
+        
+        @return True si está en pantalla, False en caso contrario
+        '''
+        #Obtenemos las distintas variables necesarias
+        x = element.get_rect().x
+        y = element.get_rect().y
+        w = element.get_rect().w
+        h = element.get_rect().h
+        circuit_x = self.circuit_x()
+        circuit_y = self.circuit_y()
+        screen_width = pygame.display.get_surface().get_width()
+        screen_height = pygame.display.get_surface().get_height()
+        
+        #Realizamos la comprobación
+        if x + w > circuit_x and y + h > circuit_y and \
+            x < circuit_x + screen_width and y < circuit_y + screen_height:
+            return True
+        
+        return False
             
     def horizontal_speed(self):
         '''Sin uso'''

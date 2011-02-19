@@ -4,6 +4,7 @@
 import data
 import resource
 import checkpoint
+import itembox
 import xml.dom.minidom
 import sys
 import pygame
@@ -84,6 +85,9 @@ class Circuit:
                 self.elements_map[frame] = name
             elif name == 'grado_coche':
                 self.car_angle = int(element.getAttribute('value'))
+            elif name == 'item_box':
+                frame = int(element.getAttribute('value'))
+                self.elements_map[frame] = name
 
 
                 
@@ -272,6 +276,10 @@ class Circuit:
                         cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
                         self.game_control.set_goal(cp)
                         self.game_control.set_start(self, x, y, 'goal', 'horizontal', self.car_angle)
+                    
+                     elif self.elements_map[frame] == 'item_box':
+                         item_box = itembox.ItemBox(self.game_control, 'elements/itembox.xml', x, y)
+                         self.game_control.add_item_box(item_box)
         
     def get_tile(self, layer, x, y):
         '''

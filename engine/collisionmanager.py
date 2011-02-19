@@ -27,7 +27,7 @@ class CollisionManager:
         
         @return True si existe colisión, False en caso contrario
         '''
-        return pygame.sprite.collision_mask(sprite1, sprite2)
+        return pygame.sprite.collide_mask(sprite1, sprite2)
         
     def actor_rectanglecollision(self, sprite1, sprite2):
         '''
@@ -38,7 +38,7 @@ class CollisionManager:
         
         @return True si existe colisión, False en caso contrario
         '''
-        return pygame.sprite.collision_rect(sprite1, sprite2)
+        return pygame.sprite.collide_rect(sprite1, sprite2)
         
     def actor_edgecollision(self, sprite1, sprite2):
         '''

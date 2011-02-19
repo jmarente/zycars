@@ -12,11 +12,13 @@
 		<image code="icon" name="icon.png" alpha="True"/>
 		<image code="rejilla" name="rejilla.png" alpha="True"/>
 		<image code="goal" name="goal.png" alpha="True"/>
+		<image code="particle" name="particle.png" alpha="True"/>
     </images>
     <sprites>
         <sprite code="prueba" name="coche_prueba.png" rows="3" columns="1" alpha="True"/>
         <sprite code="red" name="red.png" rows="1" columns="1" alpha="True"/>
         <sprite code="yellow" name="yellow.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="item_box" name="item_box.png" rows="1" columns="1" alpha="True"/>
         <sprite code="prueba3" name="prueba.png" rows="1" columns="1" alpha="True"/>
     </sprites>
     <fonts>

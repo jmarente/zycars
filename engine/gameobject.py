@@ -7,7 +7,7 @@ import resource
 import xml.dom.minidom
 
 #Distinos estado que pueden tener los objetos del juego.
-NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW = range(8)
+NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION = range(9)
 
 class GameObject(pygame.sprite.Sprite):
     '''
@@ -102,7 +102,7 @@ class GameObject(pygame.sprite.Sprite):
         Dibuja al objeto sobre la superficie dada.
         '''
         screen.blit(self.image, (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y()))
-        pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
+        #pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
         
     def get_rect(self):
         '''
