@@ -17,6 +17,8 @@
 		<image code="selected_box2" name="menu/selected_box2.png" alpha="True"/>
 		<image code="row_right" name="menu/row_right.png" alpha="True"/>
 		<image code="row_left" name="menu/row_left.png" alpha="True"/>
+		<image code="normal_check_box" name="menu/normal_check_box.png" alpha="True"/>
+		<image code="selected_check_box" name="menu/selected_check_box.png" alpha="True"/>
 		<!--ELEMENTOS DE MENÚ(FONDO, LOGOS, ICONOS, IMAGENES)-->
 		<image code="background_menu" name="menu/background_menu.png" alpha="True"/>
 		<image code="logo_menu" name="menu/logo_menu.png" alpha="True"/>
@@ -26,6 +28,7 @@
 		<image code="icon_screen" name="menu/icon_screen.png" alpha="True"/>
 		<image code="icon_sound" name="menu/icon_sound.png" alpha="True"/>
 		<image code="logo_player" name="menu/logo_player.png" alpha="True"/>
+		<image code="check" name="menu/check.png" alpha="True"/>
 		<!--SLIDER-->
 		<image code="slider_bar" name="menu/slider_bar.png" alpha="True"/>
 		<image code="slider_controler" name="menu/slider_controler.png" alpha="True"/>

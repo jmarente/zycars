@@ -7,7 +7,9 @@ import resource
 import keyboard
 import button
 import intro
+import optionmenu
 import xml.dom.minidom
+import os
 
 from pygame.locals import *
 
@@ -19,6 +21,8 @@ class Game:
         '''
         #brief Constructor. Carga e inicializa la configuración principal y las variables principales de la clase
         '''
+        os.environ["SDL_VIDEO_CENTERED"] = "1"
+
         #Cargamos el archivo de configuración
         parser = xml.dom.minidom.parse(data.get_path_xml('configuration.xml'))
         
@@ -52,7 +56,8 @@ class Game:
         
         #Estado actual del juego
         self.__actual_state = intro.Intro(self, 'intro.xml')  
-                        
+        #self.__actual_state = optionmenu.OptionMenu(self, 'menu/optionmenu.xml')
+              
     def run(self):
         '''
         @brief Función que contiene el bucle principal del juego. Actualiza y dibuja el estado actual.

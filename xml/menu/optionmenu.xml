@@ -18,21 +18,25 @@
         <layer name="Sonido" font_code="cheesebu" size="30">
             <texts>
                 <text value="Efectos de sonido" x="70" y="325"/>
-                <text value="Música" x="70" y="375"/>
+                <text value="Música" x="70" y="385"/>
+                <text value="Silenciar todo" x="70" y="445"/>
             </texts>
             <sliders>
                 <slider xml_file="menu/slider.xml" x="350" y="340"/>
-                <slider xml_file="menu/slider.xml" x="350" y="390"/>
+                <slider xml_file="menu/slider.xml" x="350" y="400"/>
             </sliders>
+            <checkboxes>
+                <checkbox xml_file="menu/checkbox.xml" font="cheesebu" show_text='false' text="silenciar" image_code="check" image_x="0" image_y="0" center="True" x="370" y="460"/>
+            </checkboxes>
         </layer>
         <layer name="Pantalla" font_code="cheesebu" size="30">
             <texts>
                 <text value="Resolución:" x="70" y="325"/>
                 <text value="Pantalla completa" x="100" y="380"/>
             </texts>
-            <buttons>
-                <button/>
-            </buttons>
+            <checkboxes>
+                <checkbox xml_file="menu/checkbox.xml" font="cheesebu" show_text='false' text="silenciar" image_code="check" image_x="0" image_y="0" center="True" x="400" y="390"/>
+            </checkboxes>
         </layer>
         <layer name="Controles" font_code="cheesebu" size="30">
             <texts>

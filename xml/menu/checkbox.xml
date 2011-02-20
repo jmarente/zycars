@@ -1,0 +1,5 @@
+<option text_position="bottom" on_button="false">
+    <selected selected_image="selected_check_box" x="0" y="19" w="350" h="48"/>
+    <normal normal_image="normal_check_box" x="14" y="15" w="288" h="41"/>
+    <normal_text r="189" g="9" b="38" x="0" y="25" size="17" angle="12"/>
+</option>

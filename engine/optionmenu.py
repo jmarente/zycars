@@ -9,6 +9,7 @@ import slider
 import mainmenu
 import xml.dom.minidom
 import pygame
+import checkbox
 
 class OptionMenu(basicmenu.BasicMenu):
     '''
@@ -82,6 +83,21 @@ class OptionMenu(basicmenu.BasicMenu):
                 
                 #Lo introducimos en la lista de sliders
                 self.elements_layers[name_layer].append(new_slider)
+            
+            for check_box in element.getElementsByTagName('checkbox'):
+                
+                xml_file = str(check_box.getAttribute('xml_file'))
+                font_code = str(check_box.getAttribute('font'))
+                show_text = False
+                text = check_box.getAttribute('text')
+                image_code = str(check_box.getAttribute('image_code'))
+                image_x = int(check_box.getAttribute('image_x'))
+                image_y = int(check_box.getAttribute('image_y'))
+                x = int(check_box.getAttribute('x'))
+                y = int(check_box.getAttribute('y'))
+                
+                new_checkbox = checkbox.CheckBox(xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
+                self.elements_layers[name_layer].append(new_checkbox)
         
         #La capa inicial será la de sonido
         self.actual_layer = "Sonido"
