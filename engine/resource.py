@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 '''
-Carga y cachea todos los recursos multimedia necesarios.
+@brief Carga y cachea todos los recursos multimedia necesarios.
 Se pretende seguir una especie de patrón Singleton, pero usando un módulo en lugar de una clase, ya que
-un módulo es accesible desde todod el sistema y tendra una única instancia.
+un módulo es accesible desde todo el sistema y tendra una única instancia.
 Cuando queremos recursos de algún tipo simplente accedemos mediante su clave.
 '''
 
@@ -10,7 +10,8 @@ import data
 import pygame
 import xml.dom.minidom
 
-__initialize = [False]
+#Distintas variables globales
+__initialize = False
 __sprites = {}
 __sprites_info = {}
 __images = {}
@@ -22,9 +23,8 @@ __fonts_info = {}
 
 def __initialize_module():
     '''
-	Función privada del módulo.
-	Es la encargada de parsear un fichero xml que contendrá todos los recursos necesarios 
-	en el sistema.
+	@brief Función privada del módulo.Es la encargada de inicializar el módulo 
+    parseando un fichero xml que contendrá todos los recursos necesarios en el sistema.
 	'''
     parser = xml.dom.minidom.parse(data.get_path_xml('resources.xml'))
     
@@ -54,19 +54,25 @@ def __initialize_module():
 
 def __check_initialize():
     '''
-	Función privada del módulo encargada de comprobar si el modulo ya se ha inicializado.
+	@brief Función privada del módulo encargada de comprobar si el modulo ya se ha inicializado.
 	Si no es asi se procede a inicializarlo.
 	'''
-    if not __initialize[0]:
+    global __initialize
+    
+    if not __initialize:
         print "Módulo resource aún no inicializado, inizializando..."
         __initialize_module()
-        __initialize[0] = True
+        __initialize = True
 
 def get_image(image_code):
     '''
-	Devuelve la imagen asociada al código de imagen dado.
+	@brief Función que devuelve la imagen asociada al código de imagen dado.
+    
+    @param image_code Código de la imagen a cargar.
+    @return Referencia a la imagen cargada.
 	'''
     __check_initialize()
+    #si la imagen no estaba cargada la cargamos
     if __images.has_key(image_code):
         print "Imagen " + image_code + " ya cargada."
     else:
@@ -77,9 +83,14 @@ def get_image(image_code):
         
 def get_sprite(sprite_code):
     '''
-	Devuelve el sprite asociada al código de sprite dado.
+	@brief función que devuelve el sprite asociada al código de sprite dado.
+    
+    @param sprite_code Código del sprite a cargar.
+    @return Referencia al sprite cargado.
 	'''
     __check_initialize()
+    
+    #Si no estaba cargado, lo cargamos
     if __sprites.has_key(sprite_code):
         print "Sprite " + sprite_code + " ya cargado"
     else:
@@ -91,7 +102,10 @@ def get_sprite(sprite_code):
     
 def get_sound(sound_code):
     '''
-	Devuelve el sonido asociado al código del sonido dado.
+	@brief Función que devuelve el sonido asociado al código del sonido dado.
+    
+    @param sound_code Código del sonido a cargar.
+    @return Referencia al sonido cargado.
 	'''
     __check_initialize()
     if __sounds.has_key(sound_code):
@@ -104,7 +118,11 @@ def get_sound(sound_code):
     
 def get_font(font_code, size):
     '''
-	Devuelve la fuente asociado con el codigo de fuente y tamaño dado.
+	@brief Función que devuelve la fuente asociado con el codigo de fuente y tamaño dado.
+    
+    @param font_code Código de la fuente.
+    @param size Tamaño de la fuente.
+    @return Referencia a la fuente cargada
 	'''
     __check_initialize()
     if __fonts.has_key((font_code, size)):
