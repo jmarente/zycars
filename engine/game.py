@@ -7,8 +7,7 @@ import resource
 import keyboard
 import mouse
 import button
-import intro
-import optionmenu
+import circuitmenu
 import xml.dom.minidom
 import os
 
@@ -56,8 +55,7 @@ class Game:
         self.clock = pygame.time.Clock()
         
         #Estado actual del juego
-        self.__actual_state = intro.Intro(self, 'intro.xml')  
-        #self.__actual_state = optionmenu.OptionMenu(self, 'menu/optionmenu.xml')
+        self.__actual_state = circuitmenu.CircuitMenu(self, 'menu/circuitmenu.xml')  
               
     def run(self):
         '''
