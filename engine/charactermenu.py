@@ -311,13 +311,7 @@ class CharacterMenu(basicmenu.BasicMenu):
         if self.actual_option:
             #Modificamos el cursor
             self.cursor.over()
-            #Si pulsamos el ratón
-            if pygame.mouse.get_pressed()[0]:
-                #Tratamos la opción
-                self.treat_option()
-                self.new_pressed = False
-            else:
-                self.new_pressed = True
+
         #Si no, el cursor sigue normal
         else:
             self.cursor.normal()
@@ -353,23 +347,23 @@ class CharacterMenu(basicmenu.BasicMenu):
         #Dibujamos el cursor sobre todo
         self.cursor.draw(screen)
     
-    def treat_option(self):
+    def treat_option(self, option):
         '''
         @brief Método que se llama cuando se pulsa algun boton
         '''
         #Si pulsamos el botón de aceptar
-        if self.actual_option == "Aceptar":
+        if option == "Aceptar":
             #Guardamos el coche seleccionado
             print "Aceptar, Elegido:" + self.cars[self.group_option.actual_selected()]['path_xml']
             
         #Si pulsamos cancelar
-        elif self.actual_option == "Cancelar":
+        elif option == "Cancelar":
             #Volveriamos al menú anterior
             print "Cancelar"
             self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
 
         #Si pulsamos la felcha hacia la izquierda
-        elif self.actual_option == "Izquierda":
+        elif option == "Izquierda":
             #Y no estaba el ratón pulsado anteriormente
             if self.new_pressed:
                 print "Izquierda"
@@ -383,7 +377,7 @@ class CharacterMenu(basicmenu.BasicMenu):
                 self.car_features.update_values(speed, aceleration, rotation)
         
         #Si pulsamos la felcha hacia la derecha
-        elif self.actual_option == "Derecha":
+        elif option == "Derecha":
             #Y no estaba el ratón pulsado anteriormente
             if self.new_pressed:
                 print "Derecha" 

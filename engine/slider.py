@@ -5,6 +5,7 @@ import xml.dom.minidom
 
 import data
 import resource
+import mouse
 
 class Slider:
     '''
@@ -63,7 +64,7 @@ class Slider:
         '''
         #Si estamos pulsando el ratón y esta sobre el controlador, la linea o 
         #ya estaba el raton pulsado anteriormente
-        if (pygame.mouse.get_pressed()[0] and \
+        if (mouse.newpressed(mouse.LEFT) and \
             (self.controler_rect.collidepoint(pygame.mouse.get_pos()) \
             or self.bar_rect.collidepoint(pygame.mouse.get_pos()))) \
             or self.still_pressed:

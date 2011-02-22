@@ -152,17 +152,17 @@ class BasicMenu(state.State):
             
             #Según el tipo de boton obtendremos un boton u otro
             if type_button == 'normal':
-                aux_button = button.Button(xml_file, text, x, y, font_code, show_text, True)
+                aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text, True)
             elif type_button == 'image_button':
                 image_code = str(element.getAttribute('image'))
                 image_x = int(element.getAttribute('image_x'))
                 image_y = int(element.getAttribute('image_y'))
-                aux_button = imagebutton.ImageButton(xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
+                aux_button = imagebutton.ImageButton(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
             
             #Lo añadimos a la lista de botones
             self.buttons.append(aux_button)
             
-    def treat_option(self):
+    def treat_option(self, option):
         '''
         @brief Método que tratará el comportamiento del menu según las distintas opciones seleciconadas
         Se debe implementar en los descendientes de BasicMenu

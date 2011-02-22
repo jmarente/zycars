@@ -60,30 +60,29 @@ class MainMenu(basicmenu.BasicMenu):
         #Si es asi cambiamos la imagen del cursor
         if self.actual_option:
             self.cursor.over()
-            if pygame.mouse.get_pressed()[0]:
-                self.treat_option()
+
         else:
             self.cursor.normal()
         
         #Actualizamos el cursor
         self.cursor.update()
             
-    def treat_option(self):
+    def treat_option(self, option):
         '''
         @brief Método que controla la opción elegida y que hacer según el caso.
         '''
-        if self.actual_option == u"Carrera Rápida":
+        if option == u"Carrera Rápida":
             print "Elegido: Carrera Rapida"
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
-        elif self.actual_option == "Campeonato":
+        elif option == "Campeonato":
             print "Elegido: Campeonato"
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
-        elif self.actual_option == "Contrarreloj":
+        elif option == "Contrarreloj":
             print "Ha elegido: Contrarreloj"
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
-        elif self.actual_option == "Opciones":
+        elif option == "Opciones":
             print "Ha elegido: Opciones"
             self.game.change_state(optionmenu.OptionMenu(self.game, 'menu/optionmenu.xml'))
-        elif self.actual_option == "Salir":
+        elif option == "Salir":
             print "Ha elegido: Salir"
             keyboard.set_quit(True)

@@ -5,6 +5,7 @@ from pygame.color import *
 import data
 import resource
 import keyboard
+import mouse
 import button
 import intro
 import optionmenu
@@ -70,6 +71,7 @@ class Game:
             
             #Actualizamos el teclado
             keyboard.update()
+            mouse.update()
             
             #Ponemos la pantalla a negro completamente
             self.screen.fill(THECOLORS['black'])

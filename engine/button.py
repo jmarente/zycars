@@ -3,6 +3,7 @@ import pygame
 import resource
 import data
 import xml.dom.minidom
+import mouse
 
 def strTobool(string):
     return string.lower() in ['yes', 'true', 't', '1']
@@ -11,17 +12,18 @@ class Button:
     '''
     @brief Clase que modela el comportamiento de un botón
     '''
-    def __init__(self, xml_file, text, centerx, centery, font_code, show_text = True, center = True):
+    def __init__(self, menu, xml_file, text, centerx, centery, font_code, show_text = True, center = True):
         '''
         @brief Constructor.
         
+        @param menu Referencia al Menú que pertenece
         @param xml_file ruta del archivo xml donde se encuentra la configuración básica del botón
         @param text Texto que aparecera sobre el botón
         @param centerx Posición del centro x del boton 
         @param centery Posición del centro y del boton 
         '''
         self.text = text
-        
+        self.menu = menu
         parser = xml.dom.minidom.parse(data.get_path_xml(xml_file))
         
         self.centerx = centerx
@@ -190,6 +192,8 @@ class Button:
             self.selected = True
             self.rect_draw = self.selected_image.get_rect()
             self.actual_mask = self.selected_mask
+            if mouse.newpressed(mouse.LEFT):
+                self.menu.treat_option(self.text)
         
         #Si no, pues lo contrario
         else:

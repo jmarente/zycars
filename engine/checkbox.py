@@ -2,13 +2,14 @@
 
 import button
 import imagebutton
+import mouse
 import pygame
 
 class CheckBox(imagebutton.ImageButton):
     '''
     @brief Clase que simula el comportamiento de un Check box
     '''
-    def __init__(self, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text = True, center = True):
+    def __init__(self, menu, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text = True, center = True):
         '''
         @brief Constructor
         
@@ -22,7 +23,7 @@ class CheckBox(imagebutton.ImageButton):
         @param image_y Posición y de la imagen respecto al botón
         @param show_text Indica si se debe mostrar el texto o no
         '''
-        imagebutton.ImageButton.__init__(self, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text, center)
+        imagebutton.ImageButton.__init__(self, menu, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text, center)
         
         self.checked = False
     
@@ -65,7 +66,7 @@ class CheckBox(imagebutton.ImageButton):
         '''
         button.Button.update(self)
 
-        if self.selected and pygame.mouse.get_pressed()[0]:
+        if self.selected and mouse.newpressed(mouse.LEFT):
             self.control_checked()
     
     def control_checked(self):

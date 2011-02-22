@@ -96,7 +96,7 @@ class OptionMenu(basicmenu.BasicMenu):
                 x = int(check_box.getAttribute('x'))
                 y = int(check_box.getAttribute('y'))
                 
-                new_checkbox = checkbox.CheckBox(xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
+                new_checkbox = checkbox.CheckBox(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
                 self.elements_layers[name_layer].append(new_checkbox)
         
         #La capa inicial será la de sonido
@@ -121,10 +121,6 @@ class OptionMenu(basicmenu.BasicMenu):
             
             #Cambiamos el cursor
             self.cursor.over()
-            
-            #Si se ha pulsado el raton, tratamos la opción actual
-            if pygame.mouse.get_pressed()[0]:
-                self.treat_option()
                 
         #Si no, lo dejamos normal
         else:
@@ -158,23 +154,23 @@ class OptionMenu(basicmenu.BasicMenu):
         #Dibujamos el cursor
         self.cursor.draw(screen)
         
-    def treat_option(self):
+    def treat_option(self, option):
         '''
         @brief Función encargada de tratar la opción actual del menú seleccionada
         '''
-        if self.actual_option == "Aceptar":
+        if option == "Aceptar":
             print "Aceptar"
             self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
             
-        elif self.actual_option == "Cancelar":
+        elif option == "Cancelar":
             print "Cancelar"
             self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
 
-        elif self.actual_option == "Sonido":
+        elif option == "Sonido":
             self.actual_layer = "Sonido"
             
-        elif self.actual_option == "Pantalla":
+        elif option == "Pantalla":
             self.actual_layer = "Pantalla"
             
-        elif self.actual_option == "Controles":
+        elif option == "Controles":
             self.actual_layer = "Controles"
