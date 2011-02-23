@@ -1,5 +1,5 @@
 <mainmenu background="background_menu" cursor="cursor.xml">
-    <title text="Carrera Rápida" font="cheesebu" size="35" r="0" g="0" b="0" x="150" y="50"/>
+    <title text="Cronometrada" font="cheesebu" size="35" r="0" g="0" b="0" x="150" y="50"/>
     <images>
         <image image_code="separator_line" x="0" y="270" scale="1"></image>
         <image image_code="logo_menu" x="550" y="7" scale="0.38"></image>
@@ -14,7 +14,8 @@
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Aceptar" center="True" x="550" y="550"></option>
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="700" y="550"></option>
     </options>
-    <circuit_position x="225" y="375"/>
+    <circuit_position x="180" y="375"/>
+    <times_position x="600" y="350"/>
     <layers>
         <layer name="Copa Chancla" font_code="cheesebu" size="30">
             <buttons>

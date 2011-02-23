@@ -8,6 +8,102 @@ import button
 import imagebutton
 import xml.dom.minidom
 
+class Times:
+    '''
+    @brief Clase encargada de mostrar los tiempos del circuito selecionado actualmente
+    '''
+    def __init__(self, x, y, path_xml):
+        '''
+        @brief Constructor
+        
+        @param x Posición en el eje x
+        @param y Posición en el eje y
+        @param path_xml Ruta del archivo xml con los tiempos de cada circuito
+        '''
+        parse = xml.dom.minidom.parse(data.get_path_xml(path_xml))
+        
+        #Mapa que contendrá los tiempos de cada circuito
+        self.circuits = {}
+        
+        #Fuente para los textos
+        self.font = resource.get_font('cheesebu', 30)
+        
+        #Superfice con el texto de Mejor Carrera y posición
+        self.best_text = self.font.render('Mejor Carrera', True, (194, 26, 26))
+        self.best_text_position = (x, y)
+        
+        #Superficie con el texto de Vuelta Rapida y donde se almacenará la posición
+        self.fasttest_text = self.font.render(u'Vuelta Rápida', True, (194, 26, 26))
+        self.fasttest_text_position = None
+        
+        #Superficie que contendrá los tiempos de los circuitos
+        self.best_race = None        
+        self.fasttest_lap = None
+        
+        #Posiciones de cada uno de los tiempos
+        self.best_race_position = None
+        self.fasttest_lap_position = None
+
+        #Recorremos los circuitos y obtener los tiempos de estos
+        for circuit in parse.getElementsByTagName('circuit'):
+            
+            #Nombre del circuito para añadir al mapa
+            name = circuit.getAttribute('name')
+            self.circuits[name] = {}
+            self.circuits[name]['fasttestlap'] = None
+            self.circuits[name]['bestrace'] = None
+            
+            #Obtenemos el tiempo de la mejor carrera
+            bestrace = circuit.getElementsByTagName('bestrace')[0]
+            minutes = bestrace.getAttribute('minutes')
+            seconds = bestrace.getAttribute('seconds')
+            hseconds = bestrace.getAttribute('hseconds')
+            self.circuits[name]['bestrace'] = (minutes, seconds, hseconds)
+            
+            #Obtenemos el tiempo de la mejor vuelta
+            fasttestlap = circuit.getElementsByTagName('fasttestlap')[0]
+            minutes = fasttestlap.getAttribute('minutes')
+            seconds = fasttestlap.getAttribute('seconds')
+            hseconds = fasttestlap.getAttribute('hseconds')
+            self.circuits[name]['fasttestlap'] = (minutes, seconds, hseconds)
+                
+    def update(self, circuit_name):
+        '''
+        @brief Método que actualiza el estado de Times, segun el circuito que se le pase
+        
+        @param circuit_name Nombre del circuito para obtener los tiempos
+        '''
+        #Si tenemos tiempos del circuito que se pasa
+        if self.circuits.has_key(circuit_name):
+            #Renderizamos sus valores
+            self.best_race = self.font.render(self.circuits[circuit_name]['bestrace'][0] \
+                                                + ':' + self.circuits[circuit_name]['bestrace'][1] \
+                                                + ':' + self.circuits[circuit_name]['bestrace'][2], True, (0,0,0))
+            self.fasttest_lap = self.font.render(self.circuits[circuit_name]['fasttestlap'][0] \
+                                                + ':' + self.circuits[circuit_name]['fasttestlap'][1] \
+                                                + ':' + self.circuits[circuit_name]['fasttestlap'][2], True, (0,0,0))
+        #Si el circuito que se pasa no esta en el mapa, motramos que no están disponible sus tiempos
+        else:
+            self.best_race = self.font.render('No Disponible', True, (0,0,0))
+            self.fasttest_lap = self.font.render('No Disponible', True, (0,0,0))
+        
+        #Asignamos las posiciones para cada una de las superficie y queden todas alineadas
+        self.best_race_position = (self.best_text_position[0], self.best_text.get_height() + self.best_text_position[1])
+        self.fasttest_text_position = (self.best_text_position[0], self.best_race.get_height() + self.best_race_position[1])
+        self.fasttest_lap_position = (self.best_text_position[0], self.fasttest_text.get_height() + self.fasttest_text_position[1])
+        
+    def draw(self, screen):
+        '''
+        @brief Dibuja los tiempos en pantalla
+        
+        @param screen Superficie destino
+        '''
+        #Dibujamos cada una de las superficies con sus posiciones obtenidas
+        screen.blit(self.best_text, self.best_text_position)
+        screen.blit(self.best_race, self.best_race_position)
+        screen.blit(self.fasttest_text, self.fasttest_text_position)
+        screen.blit(self.fasttest_lap, self.fasttest_lap_position)
+
 class CircuitMenu(basicmenu.BasicMenu):
     '''
     @brief Clase encargada de representar el menú de selección de circuito, se usará
@@ -49,7 +145,7 @@ class CircuitMenu(basicmenu.BasicMenu):
         
         self.font = resource.get_font('cheesebu', 30)
         
-        #Chivatos auxiliares
+        #Booleanos auxiliares
         first = True
         new_layer = True
         first_layer = True
@@ -63,6 +159,13 @@ class CircuitMenu(basicmenu.BasicMenu):
         x = int(image_pos.getAttribute('x'))
         y = int(image_pos.getAttribute('y'))
         self.circuit_position = (x, y)
+        
+        #Obtenemos la posición del marcador de los tiempos
+        time_pos = parse.getElementsByTagName('times_position')[0]
+        x = int(time_pos.getAttribute('x'))
+        y = int(time_pos.getAttribute('y'))
+        #Creamos el marcador de los tiempos
+        self.times = Times(x, y, 'times.xml')
         
         #Recorremos las capas a mostrar, de los distintos campeonatos
         for element in parse.getElementsByTagName('layer'):
@@ -147,6 +250,9 @@ class CircuitMenu(basicmenu.BasicMenu):
                     self.rect_name.y = self.y_name
                     self.rect_name.centerx = self.centerx_name
                     
+                    #Nos quedamos en un principio con los tiempos del primer circuito
+                    self.times.update(text)
+                    
                     #Indicamos que el siguiente no será el primero
                     first = False
                 
@@ -210,6 +316,10 @@ class CircuitMenu(basicmenu.BasicMenu):
         #Dibujamos la imagen del circuito de la imagen actual
         screen.blit(self.images_circuits[self.actual_layer][self.actual_circuit], self.circuit_position)
         screen.blit(self.actual_name, self.rect_name)
+        
+        #Dibujamos los tiempos del circuito actual
+        self.times.draw(screen)
+        
         #Por ultimo dibujamos el cursor 
         self.cursor.draw(screen)
         
@@ -238,11 +348,15 @@ class CircuitMenu(basicmenu.BasicMenu):
                 #Cambiamos la imagen del circuito actual, a el primero de la capa
                 self.actual_circuit = self.first_circuit[option]
                 
+                #Actualizamos los tiempos del primer circuito del camponato al que pasamos
+                self.times.update(self.actual_circuit)
+                
                 #Renderizamos el nombre del nuevo circuito y asignamos posición
                 self.actual_name = self.font.render(self.first_circuit[option], True, (255, 255, 255))
                 self.rect_name = self.actual_name.get_rect()
                 self.rect_name.y = self.y_name
                 self.rect_name.centerx = self.centerx_name
+                
             #Situamos la nueva capa
             self.actual_layer = option
             
@@ -253,6 +367,9 @@ class CircuitMenu(basicmenu.BasicMenu):
             if self.actual_circuit != option:
                 #Indicamos el nuevo circuito
                 self.actual_circuit = option
+                
+                #Actualizamos los tiempos el circuito actual
+                self.times.update(option)
                 
                 #Renderizamos el nombre del nuevo circuito y asignamos posición
                 self.actual_name = self.font.render(option, True, (255, 255, 255))
