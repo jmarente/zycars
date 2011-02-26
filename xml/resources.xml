@@ -19,10 +19,15 @@
 		<image code="row_left" name="menu/row_left.png" alpha="True"/>
 		<image code="normal_check_box" name="menu/normal_check_box.png" alpha="True"/>
 		<image code="selected_check_box" name="menu/selected_check_box.png" alpha="True"/>
+		<image code="normal_circuit" name="menu/normal_circuit.png" alpha="True"/>
+		<image code="selected_circuit" name="menu/selected_circuit.png" alpha="True"/>
+		<image code="normal_box3" name="menu/normal_box3.png" alpha="True"/>
+		<image code="selected_box3" name="menu/selected_box3.png" alpha="True"/>
 		<!--ELEMENTOS DE MENÚ(FONDO, LOGOS, ICONOS, IMAGENES)-->
 		<image code="background_menu" name="menu/background_menu.png" alpha="True"/>
 		<image code="logo_menu" name="menu/logo_menu.png" alpha="True"/>
 		<image code="logo_option" name="menu/logo_option.png" alpha="True"/>
+		<image code="logo_timer" name="menu/logo_timer.png" alpha="True"/>
 		<image code="separator_line" name="menu/separator_line.png" alpha="True"/>
 		<image code="icon_controls" name="menu/icon_controls.png" alpha="True"/>
 		<image code="icon_screen" name="menu/icon_screen.png" alpha="True"/>
@@ -38,6 +43,16 @@
 		<!--COCHES MENU-->
 		<image code="character2" name="character/character2.png" alpha="True"/>
 		<image code="character1" name="character/character1.png" alpha="True"/>
+		<!---->
+		<image code="logo_beach" name="menu/logo_beach.png" alpha="True"/>
+		<image code="logo_kitchen" name="menu/logo_kitchen.png" alpha="True"/>
+		<image code="logo_garden" name="menu/logo_garden.png" alpha="True"/>
+		<image code="logo_beach1" name="menu/logo_beach1.png" alpha="True"/>
+		<image code="logo_beach2" name="menu/logo_beach2.png" alpha="True"/>
+		<!--CIRCUITOS-->
+		<image code="circuit1" name="circuit/circuit1.png" alpha="True"/>
+		<image code="circuit2" name="circuit/circuit2.png" alpha="True"/>
+		<image code="nodisponible" name="circuit/nodisponible.png" alpha="True"/>
 	</images>
     <sprites>
     </sprites>

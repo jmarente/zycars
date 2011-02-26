@@ -8,6 +8,7 @@ import mainmenu
 import xml.dom.minidom
 import pygame
 import math
+import circuitmenu
 from collections import deque
 
 class CarFeatures:
@@ -355,7 +356,8 @@ class CharacterMenu(basicmenu.BasicMenu):
         if option == "Aceptar":
             #Guardamos el coche seleccionado
             print "Aceptar, Elegido:" + self.cars[self.group_option.actual_selected()]['path_xml']
-            
+            self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/cronomenu.xml'))
+
         #Si pulsamos cancelar
         elif option == "Cancelar":
             #Volveriamos al menú anterior
@@ -376,7 +378,7 @@ class CharacterMenu(basicmenu.BasicMenu):
                 rotation = self.cars[self.group_option.actual_selected()]['rotation']
                 self.car_features.update_values(speed, aceleration, rotation)
         
-        #Si pulsamos la felcha hacia la derecha
+        #Si pulsamos la flecha hacia la derecha
         elif option == "Derecha":
             #Y no estaba el ratón pulsado anteriormente
             if self.new_pressed:

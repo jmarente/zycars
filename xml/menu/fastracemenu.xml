@@ -1,0 +1,53 @@
+<mainmenu background="background_menu" cursor="cursor.xml">
+    <title text="Carrera Rápida" font="cheesebu" size="35" r="0" g="0" b="0" x="100" y="50"/>
+    <images>
+        <image image_code="separator_line" x="0" y="270" scale="1"></image>
+        <image image_code="logo_menu" x="550" y="7" scale="0.38"></image>
+        <!--image image_code="logo_timer" x="30" y="15" scale="1"></image-->
+    </images>
+    <!--line image_code="separator_line" x="0" y="240"/>
+    <logo image_code="logo_menu" x="130" y="5"/-->
+    <options>
+        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Chancla" image="logo_beach" image_x="6" image_y="7" center="True" x="200" y="175"></option>
+        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Arbusto" image="logo_garden" image_x="6" image_y="7" center="True" x="400" y="175"></option>
+        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Rodillo" image="logo_kitchen" image_x="6" image_y="6" center="True" x="595" y="175"></option>
+        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Aceptar" center="True" x="550" y="550"></option>
+        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="700" y="550"></option>
+    </options>
+    <circuit_position x="220" y="400"/>
+    <layers>
+        <layer name="Copa Chancla" font_code="cheesebu" size="30">
+            <buttons>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuit/circuit1.xml' font="cheesebu" text="circuit1" image_circuit="circuit1" image="logo_beach1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuit/circuit2.xml' font="cheesebu" text="circuit2" image_circuit="circuit2" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="410" show_text='False'></button>
+                <!--button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="475" show_text='True'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="540" show_text='True'></button-->
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="475"></button>
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="540"></button>
+            </buttons>
+            <elements>
+                <element name='circuit1'></element>
+            </elements>
+        </layer>
+        <layer name="Copa Arbusto" font_code="cheesebu" size="30">
+            <buttons>
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="345" ></button>
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="410" ></button>
+                <!--button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="475" show_text='True'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="540" show_text='True'></button-->
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="475"></button>
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="540"></button>
+            </buttons>
+        </layer>
+        <layer name="Copa Rodillo" font_code="cheesebu" size="30">
+            <buttons>
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="345" ></button>
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="410" ></button>
+                <!--button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="475" show_text='True'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="540" show_text='True'></button-->
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="475"></button>
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="540"></button>
+            </buttons>
+        </layer>
+    </layers>
+</mainmenu>
