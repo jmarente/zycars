@@ -9,6 +9,8 @@ import imagebutton
 import charactermenu
 import xml.dom.minidom
 
+from config import *
+
 class Times:
     '''
     @brief Clase encargada de mostrar los tiempos del circuito selecionado actualmente
@@ -104,6 +106,12 @@ class Times:
         screen.blit(self.best_race, self.best_race_position)
         screen.blit(self.fasttest_text, self.fasttest_text_position)
         screen.blit(self.fasttest_lap, self.fasttest_lap_position)
+    
+    def get_best_time(self, circuit_name):
+        pass
+    
+    def get_fattest_lap(self, circuit_name):
+        pass
 
 class CircuitMenu(basicmenu.BasicMenu):
     '''
@@ -161,12 +169,15 @@ class CircuitMenu(basicmenu.BasicMenu):
         y = int(image_pos.getAttribute('y'))
         self.circuit_position = (x, y)
         
-        #Obtenemos la posición del marcador de los tiempos
-        time_pos = parse.getElementsByTagName('times_position')[0]
-        x = int(time_pos.getAttribute('x'))
-        y = int(time_pos.getAttribute('y'))
-        #Creamos el marcador de los tiempos
-        self.times = Times(x, y, 'times.xml')
+        self.times = None
+        
+        if Config().get_mode() == TIMED:
+            #Obtenemos la posición del marcador de los tiempos
+            time_pos = parse.getElementsByTagName('times_position')[0]
+            x = int(time_pos.getAttribute('x'))
+            y = int(time_pos.getAttribute('y'))
+            #Creamos el marcador de los tiempos
+            self.times = Times(x, y, 'times.xml')
         
         #Recorremos las capas a mostrar, de los distintos campeonatos
         for element in parse.getElementsByTagName('layer'):
@@ -251,8 +262,9 @@ class CircuitMenu(basicmenu.BasicMenu):
                     self.rect_name.y = self.y_name
                     self.rect_name.centerx = self.centerx_name
                     
-                    #Nos quedamos en un principio con los tiempos del primer circuito
-                    self.times.update(text)
+                    if self.times:
+                        #Nos quedamos en un principio con los tiempos del primer circuito
+                        self.times.update(text)
                     
                     #Indicamos que el siguiente no será el primero
                     first = False
@@ -318,8 +330,9 @@ class CircuitMenu(basicmenu.BasicMenu):
         screen.blit(self.images_circuits[self.actual_layer][self.actual_circuit], self.circuit_position)
         screen.blit(self.actual_name, self.rect_name)
         
-        #Dibujamos los tiempos del circuito actual
-        self.times.draw(screen)
+        if self.times:
+            #Dibujamos los tiempos del circuito actual
+            self.times.draw(screen)
         
         #Por ultimo dibujamos el cursor 
         self.cursor.draw(screen)
@@ -335,6 +348,7 @@ class CircuitMenu(basicmenu.BasicMenu):
             print "Aceptar"
             #Si hemo pulsado aceptar y el circuito está disponible.
             if self.actual_circuit != 'No Disponible':
+                Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
                 print 'Ha elegido ', self.circuit_files[self.actual_layer][self.actual_circuit]
         
         #Si pulsamos cancelar, volvemos al menú anterior
@@ -350,8 +364,9 @@ class CircuitMenu(basicmenu.BasicMenu):
                 #Cambiamos la imagen del circuito actual, a el primero de la capa
                 self.actual_circuit = self.first_circuit[option]
                 
-                #Actualizamos los tiempos del primer circuito del camponato al que pasamos
-                self.times.update(self.actual_circuit)
+                if self.times:
+                    #Actualizamos los tiempos del primer circuito del camponato al que pasamos
+                    self.times.update(self.actual_circuit)
                 
                 #Renderizamos el nombre del nuevo circuito y asignamos posición
                 self.actual_name = self.font.render(self.first_circuit[option], True, (255, 255, 255))
@@ -362,7 +377,7 @@ class CircuitMenu(basicmenu.BasicMenu):
             #Situamos la nueva capa
             self.actual_layer = option
             
-        #Si no se a cumplido ninguna anterio, es que  hemos pulsado sobre un botom de circuito
+        #Si no se a cumplido ninguna anterior, es que  hemos pulsado sobre un botom de circuito
         else:
             print option
             #Si la opción es distinta que la ya seleccionada
@@ -370,8 +385,9 @@ class CircuitMenu(basicmenu.BasicMenu):
                 #Indicamos el nuevo circuito
                 self.actual_circuit = option
                 
-                #Actualizamos los tiempos el circuito actual
-                self.times.update(option)
+                if self.times:
+                    #Actualizamos los tiempos el circuito actual
+                    self.times.update(option)
                 
                 #Renderizamos el nombre del nuevo circuito y asignamos posición
                 self.actual_name = self.font.render(option, True, (255, 255, 255))

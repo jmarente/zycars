@@ -4,8 +4,11 @@ import state
 import data
 import resource
 import mainmenu
+import keyboard
 import pygame
 import xml.dom.minidom
+
+from pygame.locals import *
 
 class Intro(state.State):
     '''
@@ -60,10 +63,9 @@ class Intro(state.State):
         #Si vamos de negro a transparente
         if self.to_opaque:
             
-            #Si pulsamos alguna tecla cancelamos al intro
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    self.quit = True
+            #Si pulsamos alguna de las teclas cancelamos al intro
+            if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_SPACE) or keyboard.pressed(K_RETURN):
+                self.quit = True
             
             #Vamos aumentado el alpha segun la velocidad indicada
             self.actual_alpha += self.speed
@@ -76,10 +78,9 @@ class Intro(state.State):
         #Si vamos de transparente a negro
         else:
             
-            #si pulsamos alguna tecla cancelamos la intro
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    self.quit = True
+            #si pulsamos alguna de las teclas cancelamos la intro
+            if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_SPACE) or keyboard.pressed(K_RETURN):
+                self.quit = True
             
             #Vamos disminuyendo el canal alpha de la superficie
             self.actual_alpha -= self.speed

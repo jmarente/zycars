@@ -13,6 +13,8 @@ import charactermenu
 import xml.dom.minidom
 import unicodedata
 
+from config import *
+
 class MainMenu(basicmenu.BasicMenu):
     '''
     @brief Clase que modela el comportamiento del menú principal del juego
@@ -60,7 +62,6 @@ class MainMenu(basicmenu.BasicMenu):
         #Si es asi cambiamos la imagen del cursor
         if self.actual_option:
             self.cursor.over()
-
         else:
             self.cursor.normal()
         
@@ -73,16 +74,23 @@ class MainMenu(basicmenu.BasicMenu):
         '''
         if option == u"Carrera Rápida":
             print "Elegido: Carrera Rapida"
+            Config().set_mode(FASTRACE)
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
+            
         elif option == "Campeonato":
             print "Elegido: Campeonato"
-            self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
+            Config().set_mode(CHAMPIONSHIP)
+            #self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
+            
         elif option == "Contrarreloj":
             print "Ha elegido: Contrarreloj"
+            Config().set_mode(TIMED)
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
+            
         elif option == "Opciones":
             print "Ha elegido: Opciones"
             self.game.change_state(optionmenu.OptionMenu(self.game, 'menu/optionmenu.xml'))
+            
         elif option == "Salir":
             print "Ha elegido: Salir"
             keyboard.set_quit(True)

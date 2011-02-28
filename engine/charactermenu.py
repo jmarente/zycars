@@ -9,6 +9,8 @@ import xml.dom.minidom
 import pygame
 import math
 import circuitmenu
+
+from config import *
 from collections import deque
 
 class CarFeatures:
@@ -356,7 +358,11 @@ class CharacterMenu(basicmenu.BasicMenu):
         if option == "Aceptar":
             #Guardamos el coche seleccionado
             print "Aceptar, Elegido:" + self.cars[self.group_option.actual_selected()]['path_xml']
-            self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/cronomenu.xml'))
+            Config().set_player(self.cars[self.group_option.actual_selected()]['path_xml'])
+            if Config().get_mode() == TIMED:
+                self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/cronomenu.xml'))
+            elif Config().get_mode() == FASTRACE:
+                self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/fastracemenu.xml'))
 
         #Si pulsamos cancelar
         elif option == "Cancelar":
