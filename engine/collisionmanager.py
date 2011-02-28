@@ -259,7 +259,7 @@ class CollisionManager:
                 #sprite.actual_speed *= -1
                 
         #Si hemos obtenido colisión y es de tipo lag
-        elif result and result['type'] == circuit.LAG:
+        elif result and (result['type'] == circuit.LAG or result['type'] == circuit.HOLE):
             
             #Si el coche va mas rapido que la mitad de su velocidad maxima
             if(abs(sprite.actual_speed) > (abs(sprite.get_max_speed()) / 2)):
@@ -269,6 +269,9 @@ class CollisionManager:
                     sprite.actual_speed = abs(sprite.get_max_speed()) / 2
                 else:
                     sprite.actual_speed = -1 * (abs(sprite.get_max_speed()) / 2)
+        
+        '''elif result and result['type'] == circuit.HOLE and sprite.get_state() != gameobject.FALL and sprite.old_state != gameobject.FALL:
+            sprite.set_state(gameobject.FALL)'''
                 
     def __collision_ver(self, sprite, circ, direction):
 
@@ -283,6 +286,18 @@ class CollisionManager:
         i = tile_y0
         
         while i <= tile_y1:
+            '''type0 = circ.get_tile(0, tilecoordx, i).type
+            type1 = circ.get_tile(1, tilecoordx, i).type
+            if  (type1 != circuit.PASSABLE) or \
+            (type0 != circuit.PASSABLE):
+                tilecoordx *= circ.get_tile_width()
+                
+                result = {}
+                result['type'] = type0 if type0 != circuit.PASSABLE else type1
+                result['rect'] = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
+                circ.get_tile_width(), circ.get_tile_height()))
+                
+                return result'''
             if (circ.get_tile(1, tilecoordx, i).type == circuit.NOPASSABLE) or \
             (circ.get_tile(0, tilecoordx, i).type == circuit.NOPASSABLE):
                 tilecoordx *= circ.get_tile_width()
@@ -296,9 +311,21 @@ class CollisionManager:
             
             elif (circ.get_tile(1, tilecoordx, i).type == circuit.LAG) or \
             (circ.get_tile(0, tilecoordx, i).type == circuit.LAG):
+                tilecoordx *= circ.get_tile_width()
                 
                 result = {}
                 result['type'] = circuit.LAG
+                result['rect'] = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
+                circ.get_tile_width(), circ.get_tile_height()))
+                
+                return result
+
+            elif (circ.get_tile(1, tilecoordx, i).type == circuit.HOLE) or \
+            (circ.get_tile(0, tilecoordx, i).type == circuit.HOLE):
+                tilecoordx *= circ.get_tile_width()
+
+                result = {}
+                result['type'] = circuit.HOLE
                 result['rect'] = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
                 circ.get_tile_width(), circ.get_tile_height()))
                 
@@ -321,21 +348,46 @@ class CollisionManager:
         i = tile_x0
         
         while i <= tile_x1:
+            '''type0 = circ.get_tile(0, i, tilecoordy).type
+            type1 = circ.get_tile(1, i, tilecoordy).type
+            if (type1 != circuit.PASSABLE) or \
+             (type0 != circuit.PASSABLE):
+                tilecoordy *= circ.get_tile_height()
+                
+                result = {}
+                result['type'] = type0 if type0 != circuit.PASSABLE else type1
+                result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
+                circ.get_tile_width(), circ.get_tile_height()))
+                
+                return result'''
             if (circ.get_tile(1, i, tilecoordy).type == circuit.NOPASSABLE) or \
             (circ.get_tile(0, i, tilecoordy).type == circuit.NOPASSABLE):
                 tilecoordy *= circ.get_tile_height()
                 
                 result = {}
                 result['type'] = circuit.NOPASSABLE
-                resutl['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
+                result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
                 circ.get_tile_width(), circ.get_tile_height()))
                 
-                return rect
+                return result
+                
             elif (circ.get_tile(1, i, tilecoordy).type == circuit.LAG) or \
             (circ.get_tile(0, i, tilecoordy).type == circuit.LAG):
+                tilecoordy *= circ.get_tile_height()
                 
                 result = {}
                 result['type'] = circuit.LAG
+                result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
+                circ.get_tile_width(), circ.get_tile_height()))
+                
+                return result
+
+            elif (circ.get_tile(1, i, tilecoordy).type == circuit.HOLE) or \
+            (circ.get_tile(0, i, tilecoordy).type == circuit.HOLE):
+                tilecoordy *= circ.get_tile_height()
+
+                result = {}
+                result['type'] = circuit.HOLE
                 result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
                 circ.get_tile_width(), circ.get_tile_height()))
                 

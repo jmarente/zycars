@@ -19,7 +19,6 @@ class Animation:
         self.__frames.append(-1)
         self.__actual_frame = 0
         self.__counter_delay = 0
-        print self.__frames
         
     def restart(self):
         '''

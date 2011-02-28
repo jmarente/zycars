@@ -22,7 +22,7 @@ class GameControl(state.State):
     @brief Clase encargada de controlar los aspectos básicos de una carrera, desde
     las colisiones hasta el control de las vueltas
     '''
-    def __init__(self, game, path):
+    def __init__(self, game, path, laps = 3):
         '''
         @brief Constructor
         
@@ -55,7 +55,7 @@ class GameControl(state.State):
         self.start = None
         
         #Vueltas al circuito
-        self.max_laps = 3
+        self.max_laps = laps
         self.actual_laps = 0
         
         #Contador de vueltas
@@ -67,8 +67,8 @@ class GameControl(state.State):
         #Cronómetros de carrera
         self.actual_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 10, "Actual:")
         self.best_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 80, "Mejor:")
-        #self.total_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 150, "Total:")
         self.best_time.set_minutes(10)
+        self.total_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 150, "Total:")
                 
         #Circuito actual que vamos a jugar.
         self.circuit = circuit.Circuit(self, path)
@@ -80,7 +80,7 @@ class GameControl(state.State):
         self.pause = pausemenu.PauseMenu(self.game, self, 'menu/pausemenu.xml')
         
         #Cuenta atras
-        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.025, (221, 113, 5), 0)
+        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 3)
         
         #Indicamos el estado
         self.actual_state = 'race'
@@ -103,6 +103,7 @@ class GameControl(state.State):
             if self.count_down.complete():
                 self.actual_state = 'race'
                 self.actual_time.start()
+                self.total_time.start()
 
         #Si estamos en pause, actualizamos el menú de pause
         elif self.actual_state == 'pause':
@@ -113,6 +114,7 @@ class GameControl(state.State):
                         
             #Actualizamos el tiempo actual
             self.actual_time.update()
+            self.total_time.update()
             
             #Actualizamos al coche del jugador.
             self.player.update()
@@ -140,7 +142,9 @@ class GameControl(state.State):
             self.checkpoints.update(self.player)
 
             #Si pulsamos el espacio o escape, cambiamos al estado pause
-            if keyboard.pressed(K_SPACE) or keyboard.pressed(K_ESCAPE):
+            if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_p) \
+                or not pygame.key.get_focused():
+                    
                 self.actual_state = 'pause'
                 self.actual_time.pause()
                 self.player.set_state(gameobject.NOACTION)
@@ -178,6 +182,7 @@ class GameControl(state.State):
         #Mostramos los dos cronómetros
         self.actual_time.draw(screen)
         self.best_time.draw(screen)
+        self.total_time.draw(screen)
         
         #Mostramos el marcador de vueltas
         screen.blit(self.laps_counter, (self.laps_counter_rect))
@@ -379,7 +384,8 @@ class GameControl(state.State):
         
         #Indicamos la posicion
         self.laps_counter_rect = self.laps_counter.get_rect()
-        self.laps_counter_rect.centerx = pygame.display.get_surface().get_width() / 2
+        #self.laps_counter_rect.centerx = pygame.display.get_surface().get_width() / 2
+        self.laps_counter_rect.x = 50
         self.laps_counter_rect.y = 10
     
     def on_screen(self, element):

@@ -68,9 +68,10 @@ def get_image(image_code):
 	'''
     __check_initialize()
     if __images.has_key(image_code):
-        print "Imagen " + image_code + " ya cargada."
+        pass
+        #print "Imagen " + image_code + " ya cargada."
     else:
-        print "Imagen " + str(image_code) + " no estaba cargada aún, cargando..."
+        #print "Imagen " + str(image_code) + " no estaba cargada aún, cargando..."
         __images[image_code] = data.load_image(__images_info[image_code][0], __images_info[image_code][1])
         
     return __images[image_code]
@@ -81,9 +82,10 @@ def get_sprite(sprite_code):
 	'''
     __check_initialize()
     if __sprites.has_key(sprite_code):
-        print "Sprite " + sprite_code + " ya cargado"
+        pass
+        #print "Sprite " + sprite_code + " ya cargado"
     else:
-        print "Sprite " + sprite_code + " no estaba cargado aún, cargando..."
+        #print "Sprite " + sprite_code + " no estaba cargado aún, cargando..."
         __sprites[sprite_code] = data.load_sprite(__sprites_info[sprite_code][0], __sprites_info[sprite_code][1], \
                                                 __sprites_info[sprite_code][2], __sprites_info[sprite_code][3])
         
@@ -95,9 +97,10 @@ def get_sound(sound_code):
 	'''
     __check_initialize()
     if __sounds.has_key(sound_code):
-        print "Sonido " + sound_code + " ya cargado"
+        pass
+        #print "Sonido " + sound_code + " ya cargado"
     else:
-        print "Sonido " +  sound_code + " no cargado, cargado..."
+        #print "Sonido " +  sound_code + " no cargado, cargado..."
         __sounds[sound_code] = data.load_sound(__sounds_info[sound_code])
         
     return __sounds[sound_code]
@@ -108,9 +111,10 @@ def get_font(font_code, size):
 	'''
     __check_initialize()
     if __fonts.has_key((font_code, size)):
-        print "Fuente " + font_code + " con tamaño " + str(size) + " ya cargada"
+        pass
+        #print "Fuente " + font_code + " con tamaño " + str(size) + " ya cargada"
     else:
-        print "Fuente " + font_code + " con tamaño " + str(size) +  " no estaba cargada aún, cargando..."
+        #print "Fuente " + font_code + " con tamaño " + str(size) +  " no estaba cargada aún, cargando..."
         __fonts[(font_code, size)] = data.load_font(__fonts_info[font_code], size)
         
     return __fonts[(font_code, size)]

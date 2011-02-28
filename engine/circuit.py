@@ -11,7 +11,7 @@ import pygame
 import math
 
 #Distintos tipos de tiles
-PASSABLE, NOPASSABLE, LAG = range(3)
+PASSABLE, NOPASSABLE, LAG, HOLE = range(4)
 
 class Tile:
     '''
@@ -94,6 +94,7 @@ class Circuit:
         print "Tileset_height: " + str(tileset_height) + ' Tileset_width: ' + str(tileset_width)
         
         self.tileset = data.load_sprite(image_name, tileset_height, tileset_width)
+        collision_map_prueba = data.load_sprite(collision_map_name, tileset_height, tileset_width)#, tileset_height, tileset_width)
         collision_map = data.load_image(collision_map_name)#, tileset_height, tileset_width)
 
         #Suponiendo que 4 sera el numero de capas que tendrá el mapa
@@ -137,16 +138,22 @@ class Circuit:
                     p_x = (((frame - 1) % tileset_width) % tileset_width) * self.tile_height;
                     p_y = ((frame - 1) / tileset_width) * self.tile_width
                     
-                    if pxarray[p_x][p_y] == pxarray_tile_types[0]:
+                    #if pxarray[p_x][p_y] == pxarray_tile_types[0]:
+                    if collision_map_prueba[frame - 1].get_at((0,0)) == (255, 0, 0):
                         self.map[num_layer][num_row][num_column].type = PASSABLE
                         #print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " es pasable."
                         
-                    elif pxarray[p_x][p_y] == pxarray_tile_types[1]:
+                    #elif pxarray[p_x][p_y] == pxarray_tile_types[1]:
+                    elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 255, 0):
                         self.map[num_layer][num_row][num_column].type = NOPASSABLE
                         #print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " NO es pasable."
                         
-                    elif pxarray[p_x][p_y] == pxarray_tile_types[2]:
+                    #elif pxarray[p_x][p_y] == pxarray_tile_types[2]:
+                    elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 0, 255):
                         self.map[num_layer][num_row][num_column].type = LAG
+                    
+                    elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 0, 0):
+                        self.map[num_layer][num_row][num_column].type = HOLE
                         
                     else:
                         self.map[num_layer][num_row][num_column].type = PASSABLE
@@ -161,7 +168,7 @@ class Circuit:
         #self.y = self.height * self.tile_height - pygame.display.get_surface().get_height()
         #y = alto_ * tile_alto_ - juego_->univ()->pantalla_alto();
         
-        print str(num_layer)
+        #print str(num_layer)
         self.load_elements()            
         
     def draw(self, screen, layer):

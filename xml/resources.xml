@@ -18,6 +18,7 @@
         <sprite code="prueba" name="coche_prueba.png" rows="3" columns="1" alpha="True"/>
         <sprite code="red" name="red.png" rows="1" columns="1" alpha="True"/>
         <sprite code="yellow" name="yellow.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="purple" name="purple.png" rows="1" columns="1" alpha="True"/>
         <sprite code="item_box" name="item_box.png" rows="1" columns="1" alpha="True"/>
         <sprite code="prueba3" name="prueba.png" rows="1" columns="1" alpha="True"/>
     </sprites>

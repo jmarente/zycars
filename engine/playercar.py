@@ -42,8 +42,14 @@ class PlayerCar(BasicCar):
                     REVERSE: self.__reverse_state, 
                     DAMAGED: self.__damaged_state, 
                     ERASE: self.__erase_state, 
-                    YAW: self.__yaw_state
+                    YAW: self.__yaw_state,
+                    FALL: self.__fall_state
                     }
+        
+        self.falling = False
+        self.min_scale = 0.2
+        self.count_scale = 0.01
+        self.actual_scale = 1
                     
     def update(self):
         '''
@@ -55,14 +61,15 @@ class PlayerCar(BasicCar):
             
         self.states[self.state]()
         
-        self.update_position()
-        self.update_image()
-        self.update_direction()
+        if self.state != FALL:
+            self.update_position()
+            self.update_image()
+            self.update_direction()
         
-        if self.actual_angle < 0:
+        '''if self.actual_angle < 0:
             self.actual_angle += 360
         if self.actual_angle > 360:
-            self.actual_angle -= 360
+            self.actual_angle -= 360'''
         
         
     def __normal_state(self):
@@ -132,6 +139,21 @@ class PlayerCar(BasicCar):
         self.control_rotation()
         
         self.trigonometry()
+    
+    def __fall_state(self):
+        if not self.falling:
+            self.image = self.original_sprite[self.animations[self.state].get_frame()]
+            self.falling = True
+        
+        self.image = pygame.transform.rotozoom(self.image, -5, self.actual_scale)
+        self.actual_scale -= self.count_scale
+        
+        if self.actual_scale < self.min_scale:
+            self.actual_speed *= -1
+            self.state = NORMAL
+            self.old_state = FALL
+            self.falling = False
+            self.actual_scale = 1
     
     def __forward_state(self):
         pass

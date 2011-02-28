@@ -7,7 +7,7 @@ import resource
 import xml.dom.minidom
 
 #Distinos estado que pueden tener los objetos del juego.
-NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION = range(9)
+NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION, FALL = range(10)
 
 class GameObject(pygame.sprite.Sprite):
     '''
@@ -60,6 +60,8 @@ class GameObject(pygame.sprite.Sprite):
                 self.animations[ERASE] = animation.Animation(animation_frames, animation_delay)
             elif animation_name == 'yaw':
                 self.animations[YAW] = animation.Animation(animation_frames, animation_delay)
+            elif animation_name == 'fall':
+                self.animations[FALL] = animation.Animation(animation_frames, animation_delay)
                 
             self.image = self.original_sprite[self.animations[NORMAL].get_frame()]
             self.rect = self.image.get_rect()
