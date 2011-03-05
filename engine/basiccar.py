@@ -10,16 +10,22 @@ from math import *
 
 class BasicCar(gameobject.GameObject):
     '''
-    Clase "virtual pura" que abstrae el comportamiento y las características 
+    @brief Clase "virtual pura" que abstrae el comportamiento y las características 
     básicas de los vehiculos en el juego
     '''
     def __init__(self, game_control, xml_file, x, y, angle = 0):
         '''
-        Obtiene como parametro la referencia a GameControl al que pertenece
-        el objeto.
-        Define las principales variables.
+        @brief Constructor.
+        
+        @param game_control Referencia a Gamecontrol
+        @param xml_file Archivo xml con la configuración del objeto
+        @param x Posición en el eje x
+        @param y Posición en el eje y
+        @param angle Ángulo del objeto, por defecto será 0.
         '''
         gameobject.GameObject.__init__(self, game_control)
+        
+        #Distintos atributos del objeto
         self.max_speed = None
         self.actual_speed = 0
         self.min_speed = None
@@ -30,27 +36,33 @@ class BasicCar(gameobject.GameObject):
         self.desaceleration = None
         self.break_force = None
         
+        #Parseamos la información básica
         parser = xml.dom.minidom.parse(data.get_path_xml(xml_file))
         self.parser_car_info(parser)
         self.parser_basic_info(parser)
         
+        #Definimos la posición del objeto
         self.x = self.old_x = x
         self.y = self.old_y = y
         
+        #Si el angulo es 0, no hacemos nada
         if angle == 0:
             self.dx = 0
             self.dy = 0
+        #Si es 0 actualizamos el angulo del coche
         else:
             self.actual_angle = angle
             self.dx = cos(angle) * self.actual_speed
             self.dy = sin(angle) * self.actual_speed
-            
+        
+        #Actualizamos la posicion del coche según su angulo
         self.update_position()
+        #Actualizamos la rotación de la imagen del coche
         self.update_image()
         
     def parser_car_info(self, parse):
         '''
-        Parsea la información básica de los vehículo.
+        @brief Método que parsea la información básica de los coches.
         '''
         parent_node = parse.firstChild
         self.max_speed = float(parent_node.getAttribute('max_speed'))
@@ -61,29 +73,34 @@ class BasicCar(gameobject.GameObject):
         
     def update(self):
         '''
-        Método que debe ser implementado por sus descendientes
+        @brief Método que debe ser implementado por sus descendientes
         '''
         raise NotImplemented("La funcion update de GameObject debe ser implementada por sus descendientes")
         
     def update_image(self):
         '''
-        Actualiza la imagen, seleccionando la imagen actual correspondiente
-        al conjutno de animaciones del estado en el q se encuentra el vehículo.
-        Rotamos la imagen al angulo actual.
-        Actualizamo tanto rect como mask
+        @bnief Actualiza la imagen, según el estado actual de la animación y el angulo del coche
         '''
+        #Rotamos la imagen actual de la animación
         self.image = pygame.transform.rotate(self.original_sprite[self.animations[self.state].get_frame()], -self.actual_angle)
+        
+        #Actualizamos tanto el alto como el ancho 
         self.rect.w = self.image.get_width()
         self.rect.h = self.image.get_height()
+        
+        #Obtenemos la nueva mascara de pixeles
         self.mask = pygame.mask.from_surface(self.image)
         
     def move(self, delta):
         '''
-        Movemos el vehículo en el sentido dado (+1 hacia delante, -1 hacia atras).
-        También se encarga de no sobre pasar los limites de velocidad del coche.
+        @brief Movemos el vehículo en el sentido dado 
+        
+        @param delta Entero +1 hacia delante, -1 hacia atras
         '''
+        #Actualizamos la velocidad actual
         self.actual_speed += self.aceleration * delta
         
+        #Controlamos los limites de velocidad del coche
         if self.actual_speed > self.max_speed:
             self.actual_speed = self.max_speed
         elif self.actual_speed < -self.min_speed:
@@ -91,7 +108,7 @@ class BasicCar(gameobject.GameObject):
 
     def update_position(self):
         '''
-        Actualiza la posición del coche.
+        @brief Actualiza la posición del coche.
         '''
         self.rect.x = int(self.x) - self.rect.w / 2
         self.rect.y = int(self.y) - self.rect.h / 2
@@ -100,7 +117,7 @@ class BasicCar(gameobject.GameObject):
 
     def trigonometry(self):
         '''
-        Control de rotación.
+        @brief Aplica la rotación al coche segun el angulo de este
         '''
         angle = radians(self.actual_angle)
         self.dx = cos(angle) * self.actual_speed
@@ -108,48 +125,64 @@ class BasicCar(gameobject.GameObject):
         
     def get_speed(self):
         '''
-        Devuelve la velocidad actual del vehículo.
+        @brief Método consultor.
+        
+        @return La velocidad actual del vehículo.
         '''
         return self.actual_speed
         
     def set_speed(self, new_speed):
         '''
-        Recibe la nueva velocidad actual para el vehículo.
+        @brief Método que modifica la velocidad actual.
+        
+        @param new_speed Nueva velocidad actual para el vehículo.
         '''
         self.actual_speed = new_speed
         
     def get_max_speed(self):
         '''
-        Devuelve la velocidad máxima del vehículo.
+        @brief Métodod consultor
+        
+        @return Velocidad máxima del vehículo.
         '''
         return self.max_speed
         
     def set_max_speed(self, new_max_speed):
         '''
-        Recibe la nueva velocidad máxima del vehículo.
+        @brief Método que modifica la velocidad maxima del vehiculo
+        
+        @param new_max_speed Nueva velocidad máxima del vehículo.
         '''
-        self.max_speed = new_max_speed
+        self.max_speed = abs(new_max_speed)
         
     def get_min_speed(self):
         '''
-        Devuelve la velocidad mínima(marcha atrás) del vehículo.
+        @brief Método consultor
+        
+        @return Velocidad mínima(marcha atrás) del vehículo.
         '''
         return self.min_speed
         
     def set_min_speed(self, new_min_speed):
         '''
-        Recibe la nueva velocidad mínima del vehículo.
+        @brief Metodo encargado de modificar la velocidad minima del vehiculo
+        
+        @param new_min_speed Nueva velocidad mínima del vehículo.
         '''
-        self.min_speed = new_min_speed
+        self.min_speed = abs(new_min_speed)
         
     def get_angle(self):
         '''
-        Obtiene el ángulo actual del vehículo.
+        @brief Métodod Consultor
+        
+        @return Ángulo actual del vehículo.
         '''
         return self.actual_angle
         
     def set_angle(self, new_angle):
         '''
-        Recibe el nuevo ángulo para el vehículo
+        @brief Método encargado de modificar el angulo del objeto.
+        
+        @param new_angle Nuevo ángulo para el vehículo
         '''
         self.actual_angle = new_angle

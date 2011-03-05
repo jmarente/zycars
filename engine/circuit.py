@@ -15,45 +15,54 @@ PASSABLE, NOPASSABLE, LAG, HOLE = range(4)
 
 class Tile:
     '''
-    Clase que guarda la informacion de un tile del escenario
+    @brief Clase que guarda la informacion básica de un tile del escenario
     '''
     def __init__(self, frame = 0, type = PASSABLE):
+        '''
+        @brief Constructor
+        
+        @param frame Número del frame del tile
+        @param type Indica de que tipo es el tile
+        '''
         self.type = type
         self.frame = frame
 
 class Circuit:
     '''
-    Clase que maneja los circuitos del juego
+    @brief Clase encargada de cargar los circuitos
     '''
     def __init__(self, game_control, xml_path):
         '''
-        Game_control objeto GameControl con el que se asocia.
-        Xml_path ruta del archivo del circuito en cuestión.
+        @brief Constructor
         
-        Parseamos el archivo xml y cargamos las distintas propiedades
-        de los tiles, así como la posicion de estos, su capa y el tipo.
+        @param game_control Referencia a GameControl.
+        @param xml_path Ruta del archivo del circuito.
         '''
         self.game_control = game_control
         
         parser = xml.dom.minidom.parse(data.get_path_xml(xml_path, False))
         
-        #Parseamos los distintos componentes necesarias para el circuito.
+        #Parseamos los distintos componentes necesarios para el circuito.
         for element in parser.getElementsByTagName('map'):
             self.width = int(element.getAttribute('width'))
             self.height = int(element.getAttribute('height'))
             self.tile_width = int(element.getAttribute('tilewidth'))
             self.tile_height = int(element.getAttribute('tileheight'))
         
-        print "Width: " + str(self.width) + " Height: " + str(self.height) \
-        + " tile_width: " + str(self.tile_width) + ' tile_height: ' + str(self.tile_height)
-            
+        
+        #print "Width: " + str(self.width) + " Height: " + str(self.height) \
+        #+ " tile_width: " + str(self.tile_width) + ' tile_height: ' + str(self.tile_height)
+         
+        #Obtenemos el nombre de la imagen con el tileset del circuito
         image_name = None
         for element in parser.getElementsByTagName('image'):
             image_name = str(element.getAttribute('source'))
-            
+        
+        #Variables auxiliares
         tileset_width = 1
         tileset_height = 1
         collision_map_name = None
+        
         self.circuit_width = 0
         self.elements_map = {}
         self.car_angle = 0
@@ -88,12 +97,13 @@ class Circuit:
             elif name == 'item_box':
                 frame = int(element.getAttribute('value'))
                 self.elements_map[frame] = name
-
-
                 
-        print "Tileset_height: " + str(tileset_height) + ' Tileset_width: ' + str(tileset_width)
+        #print "Tileset_height: " + str(tileset_height) + ' Tileset_width: ' + str(tileset_width)
         
+        #Cargamos el tileset del circuito
         self.tileset = data.load_sprite(image_name, tileset_height, tileset_width)
+        
+        #Cargamos el mampa de colisiones para el circuito
         collision_map_prueba = data.load_sprite(collision_map_name, tileset_height, tileset_width)#, tileset_height, tileset_width)
         collision_map = data.load_image(collision_map_name)#, tileset_height, tileset_width)
 
@@ -123,22 +133,33 @@ class Circuit:
         num_column = 0
         n = 0
         frame = None
+        
+        #Recorremos cada una de las capas 
         for layer in parser.getElementsByTagName('layer'):
             for tile in layer.getElementsByTagName('tile'):
                 
+                #Obtenemos el numero de la fila y de la columna del tile
                 num_row = int(n / self.width)
                 num_column = (n % self.width) % self.width
+                
+                #Obtenemos el frame referente al tileset
                 frame = int(tile.getAttribute('gid'))
                 
+                #Asignamos el frame
                 self.map[num_layer][num_row][num_column].frame = frame
                 
+                #Si el frame es 0 quiere decir que es un tile vacio, por lo que
+                #Lo pondemos como pasabel
                 if frame == 0:
                     self.map[num_layer][num_row][num_column].type = PASSABLE
                 else:
-                    p_x = (((frame - 1) % tileset_width) % tileset_width) * self.tile_height;
-                    p_y = ((frame - 1) / tileset_width) * self.tile_width
+                    #p_x = (((frame - 1) % tileset_width) % tileset_width) * self.tile_height;
+                    #p_y = ((frame - 1) / tileset_width) * self.tile_width
                     
                     #if pxarray[p_x][p_y] == pxarray_tile_types[0]:
+                    
+                    #Comprobamos el color del tile correspondiente en el mapa de colisiones
+                    #Segun el color de este indicará que el tile es de un tipo u otro
                     if collision_map_prueba[frame - 1].get_at((0,0)) == (255, 0, 0):
                         self.map[num_layer][num_row][num_column].type = PASSABLE
                         #print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " es pasable."
@@ -154,7 +175,8 @@ class Circuit:
                     
                     elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 0, 0):
                         self.map[num_layer][num_row][num_column].type = HOLE
-                        
+                    
+                    #Si no es ninguno de los anteriores lo seleccionamos como pasable
                     else:
                         self.map[num_layer][num_row][num_column].type = PASSABLE
                         
@@ -169,17 +191,19 @@ class Circuit:
         #y = alto_ * tile_alto_ - juego_->univ()->pantalla_alto();
         
         #print str(num_layer)
+        #Cargamos los distintos elementos indicados en el mapa
         self.load_elements()            
         
     def draw(self, screen, layer):
         '''
-        Screen superficie destino.
-        Layer capa del mapa a dibujar.
+        @brief Método encargado de dibujar el circuito
         
-        Dibuja la capa indicada sobre la superficie.
-        '''                
+        @param Screen superficie destino.
+        @param Layer capa del mapa a dibujar.
+        '''       
+        #Comprobamos que la capa es correcta         
         if layer < 0 or layer > 3:
-            print "Error: nÃºmero de capa incorrecto" 
+            print "Error: número de capa incorrecto" 
             sys.exit(1)
             
         screen_w = screen.get_width()
@@ -217,6 +241,7 @@ class Circuit:
         suma = 0
         suma_x = 0
         
+        #Por precaución siempre dibujaremos un tile de más para evitar bandas negras
         if self.y >= self.height * self.tile_height - pygame.display.get_surface().get_height() - self.tile_height or self.y == 0:
             suma = 0
         else:
@@ -227,10 +252,15 @@ class Circuit:
         else:
             suma_x = 1
         
+        #Una vez echo todos los cambios obtenemos dibujamos cada uno de los tiles
         for row in range(num_blocks_y + suma):
             for column in range(num_blocks_x + suma_x):
+                
+                #Obtenemos el frame del tile
                 frame = self.map[layer][row + ly][column + lx].frame - 1
+                #Si el tile existe y no es uno vacio
                 if frame > -1:
+                    #Lo dibujamos en su posición
                     pos_x = column * self.tile_width - margin_x
                     pos_y = row * self.tile_width - margin_y
                     screen.blit(self.tileset[frame], (pos_x, pos_y))
@@ -239,8 +269,10 @@ class Circuit:
         
     def move(self, x, y):
         '''
-        x nueva coordenada en el eje x en píxeles.
-        y nueva coordenada en el eje y en píxeles.
+        @brief Método encargado de asignar una nueva posición x e y el circuito
+        
+        @param x Nueva coordenada en el eje x en píxeles.
+        @param y Nueva coordenada en el eje y en píxeles.
         '''
         self.x = x
         
@@ -251,17 +283,23 @@ class Circuit:
          
     def load_elements(self):
         '''
-        Función encargada de cargar los objetos del juego.
+        @brief Función encargada de cargar los objetos del juego indicados en el mapa.
         '''
         cp = None
+        #Recorremos cada uno de los tiles de la ultima capa donde se indican los objetos
         for i in range(0, self.height):
             for j in range(0, self.width):
+                #Obtenemos el frame del tile
                 frame = self.map[3][i][j].frame
                 
+                #Si ese tile indica un objeto
                 if self.elements_map.has_key(frame):
+                    
+                    #Obtenemos su posición
                      x = j * self.tile_height
                      y = i * self.tile_width
-                                          
+                    
+                    #Según el tipo que sea el tile añadiremos al juego el objeto
                      if self.elements_map[frame] == 'checkpointH':
                         #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, self.tile_height)
                         cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
@@ -290,13 +328,13 @@ class Circuit:
         
     def get_tile(self, layer, x, y):
         '''
-        x Coordenada del eje x del tile a consultar.
-        y Coordenada del eje y del tile a consultar.
+        @brief Método que devuelve un tile dada una posición
         
-        Devuelve el Tile() de esa posición.
+        @param x Coordenada del eje x del tile a consultar.
+        @param y Coordenada del eje y del tile a consultar.
         '''
-        #Si el tile que se pide no esta en la pantalla, ni el tileset, 
-        #suponemos que este es pasable.
+        #Si el tile que se pide no esta en la pantalla, ni en el tileset, 
+        #Pasamos un tile vacio
         if x < 0 or x > self.width or y < 0 or y > self.height:
             print "WARNING: tile fuera de rango"
             tile = Tile()
@@ -308,45 +346,72 @@ class Circuit:
         
     def get_tile_height(self):
         '''
-        Devuelve el alto de un tile en píxeles
+        @brief Método consultor
+        
+        @return El alto de un tile en píxeles
         '''
         return self.tile_height 
         
     def get_tile_width(self):
         '''
-        Devuelve el ancho de un tile en píxeles
+        @brief Método consultor
+        
+        @return El ancho de un tile en píxeles
         '''
         return self.tile_width 
         
     def get_width(self):
         '''
-        Devuelve el ancho del circuito en tiles
+        @brief Método consultor.
+        
+        @brief El ancho del circuito en tiles
         '''
         return self.width 
         
     def get_height(self):
         '''
-        Devuelve el alto de circuito en tiles
+        @brief Método consultor.
+        
+        @brief El alto de circuito en tiles
         '''
         return self.height
         
     def get_x(self):
         '''
-        Coordenada actual en x del circuito en píxeles
+        @brief Método consultor
+        
+        @return Coordenada actual en x del circuito en píxeles
         '''
         return self.x
         
     def get_y(self):
         '''
-        Coordenada actual en y del circuito en píxeles 
+        @brief Método consultor.
+        
+        @return Coordenada actual en y del circuito en píxeles 
         '''
         return self.y
     
     def get_real_width(self):
+        '''
+        @brief Método consultor.
+        
+        @return El ancho de un circuito en pixeles
+        '''
         return self.width * self.tile_width
     
     def get_real_height(self):
+        '''
+        @brief Método consultor
+        
+        @return Alto del circuito en pixeles
+        '''
         return self.height * self.tile_height
     
     def get_circuit_width(self):
+        '''
+        @brief Método consultor
+        
+        @return Ancho máximo de la "carretera" del circuito
+        '''
         return self.circuit_width
