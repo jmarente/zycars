@@ -164,17 +164,17 @@ class GameControl(state.State):
         
         #Dibujamos linea de meta
         self.start.draw(screen)
-        
-        #Dibujamos al jugador
-        self.player.draw(screen)
+            
+        #Dibujamos los Puntos de control en pantalla
+        self.checkpoints.draw(screen)
 
         #Dibujamos todas las cajas de items
         for box in self.items_box:
             if self.on_screen(box):
                 box.draw(screen)
-            
-        #Dibujamos los Puntos de control en pantalla
-        self.checkpoints.draw(screen)
+        
+        #Dibujamos al jugador
+        self.player.draw(screen)
         
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
@@ -212,6 +212,7 @@ class GameControl(state.State):
                 self.collision_manager.actor_rectanglecollision(self.player, box) \
                 and self.collision_manager.actor_perfectcollision(self.player, box):
                 box.set_state(gameobject.EXPLOSION)
+                self.player.collected_item()
         
     def scroll_control(self):
         '''

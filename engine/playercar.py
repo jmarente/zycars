@@ -7,11 +7,94 @@ import data
 import math
 import pygame
 import xml.dom.minidom
+import random
 
 from basiccar import *
 from gameobject import *
 from pygame.locals import *
 from math import *
+
+class Hud:
+    '''
+    @brief Clase que representa la casilla del item actual del jugador
+    '''
+    def __init__(self, player, path_xml):
+        '''
+        @brief Constructor.
+        
+        @param player Referencia al jugador.
+        @param path_xml Ruta del archivo xml donde se encuentra toda las características
+        '''
+        self.player = player
+        parse = xml.dom.minidom.parse(data.get_path_xml(path_xml))
+        
+        #Obtenemos la imagen de fondo
+        image = parse.getElementsByTagName('image')[0]
+        image_code = image.getAttribute('image_code')
+        self.image = resource.get_image(image_code)
+        
+        #Posicion de la imagen de fondo
+        x = int(image.getAttribute('x'))
+        y = int(image.getAttribute('y'))
+        self.position_image = (x, y)
+        
+        #Posición para los items
+        items = parse.getElementsByTagName('items')[0]
+        x = int(items.getAttribute('x'))
+        y = int(items.getAttribute('y'))
+        self.item_position = (self.position_image[0] + x, self.position_image[1] + y)
+        
+        #Mapa para los items
+        self.items = {}
+        
+        #Recorremos cada uno de los items
+        for element in parse.getElementsByTagName('item'):
+            code = element.getAttribute('code')
+            
+            self.items[code] = {}
+            self.items[code]['image'] = None
+            self.items[code]['xml'] = None
+            
+            #Nos quedamos con su imagen de muestra
+            image_code = element.getAttribute('image_code')
+            self.items[code]['image'] = resource.get_image(image_code)
+            
+            #Y con su archivo xml de configuración
+            path_xml = element.getAttribute('path_xml')
+            self.items[code]['xml'] = path_xml
+        
+        #En un principio no tenemos ningun item
+        self.actual_item = None
+                
+    def draw(self, screen):
+        '''
+        @brief Método encargado de dibujar en pantalla el hud
+        
+        @param screen Superficie destino
+        '''
+        screen.blit(self.image, self.position_image)
+        
+        #Si hay algun item actualmente lo mostramos
+        if self.actual_item:
+            screen.blit(self.items[self.actual_item]['image'], self.item_position)
+            
+    def released_item(self):
+        '''
+        @brief Método llamado cuando se a lanzado un item
+        '''
+        #Si tenemos algun item, lo lanzamos
+        if self.actual_item:
+            self.actual_item = None
+            self.player.released_item()
+        
+    def collected_item(self):
+        '''
+        @brief Método llamado cuando recogemos algun item
+        '''
+        #Si no tenemos actualmente un item
+        if not self.actual_item:
+            #Obtenemos uno aleatorio de la lista
+            self.actual_item = self.items.keys()[random.randint(0, len(self.items.keys()) - 1)]
 
 class PlayerCar(BasicCar):
     '''
@@ -50,6 +133,14 @@ class PlayerCar(BasicCar):
         self.min_scale = 0.2
         self.count_scale = 0.01
         self.actual_scale = 1
+        
+        #HUD del coche
+        self.hud = Hud(self, 'hud.xml')
+    
+    def draw(self, screen):
+        BasicCar.draw(self, screen)
+        #Mostramos el hud
+        self.hud.draw(screen)
                     
     def update(self):
         '''
@@ -60,6 +151,9 @@ class PlayerCar(BasicCar):
             self.animations[self.state].restart()
             
         self.states[self.state]()
+        
+        if keyboard.pressed(K_SPACE):
+            self.hud.released_item()
         
         if self.state != FALL:
             self.update_position()
@@ -187,6 +281,12 @@ class PlayerCar(BasicCar):
             self.DOWN = K_s
             self.RIGHT = K_d
             self.LEFT = K_a
+    
+    def collected_item(self):
+        self.hud.collected_item()
+    
+    def released_item(self):
+        pass
     
     def __update(self):
         '''

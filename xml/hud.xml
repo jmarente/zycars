@@ -1,0 +1,7 @@
+<hud>
+    <image image_code='hud' x='350' y='10'/>
+    <items x='10' y='10'>
+        <item code='missile' image_code='missile_show' path_xml='missile.xml'/>
+        <item code='oil' image_code='oil_show' path_xml='oil.xml'/>
+    </items>
+</hud>
