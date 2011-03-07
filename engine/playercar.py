@@ -98,18 +98,18 @@ class Hud:
 
 class PlayerCar(BasicCar):
     '''
-    Clase que modela el comportamiento y las características del vehículo del jugador
+    @brief Clase que modela el comportamiento y las características del vehículo del jugador
     '''
     def __init__(self, game_control, xml_file, x, y, angle = 0, player = 1):
         '''
-        Recibe la referencia a game control que pertenece el objeto.
-        Archivo xml con la configuración del vehículo(animaciones, características...).
-        Posición x.
-        Posición y.
-        Ángulo del coche, teniendo en cuenta que el angulo 0 es mirando hacia la 
-        derecha, se aumenta el sentido de las agujas del reloj.
-        Player, si su valor es 1 se asignarán los controles de las flechas,
-        si el valor es 2, w,a,s,d.
+        @brief Consturtor
+        
+        @param game_control Referencia a GameControl.
+        @param xml_file Ruta de archivo xml con ls características del coche.
+        @param x Posición en el eje x
+        @param y Posición en el eje y
+        @param angle Angulo del coche, por defecto 0
+        @param player Indica el jugador para los controles
         '''
         basiccar.BasicCar.__init__(self, game_control, xml_file, x, y, angle)
         
@@ -138,24 +138,35 @@ class PlayerCar(BasicCar):
         self.hud = Hud(self, 'hud.xml')
     
     def draw(self, screen):
+        '''
+        @brief Método encargado de dibujar el coche en pantalla
+        
+        @param screen Superficie destino
+        '''
         BasicCar.draw(self, screen)
         #Mostramos el hud
         self.hud.draw(screen)
                     
     def update(self):
         '''
-        Actualiza lógicamente al personaje.
+        @brief Método encargado de actualizar lógicamente el coche.
         '''
+        #Si hemos cambiado de estado
         if self.state != self.previous_state:
             self.previous_state = self.state
+            #Reiniciamos el estado
             self.animations[self.state].restart()
-            
+        
+        #Llamamos a la función encargada de actualizar segun el estado
         self.states[self.state]()
         
+        #Si pulsamos espacio, lanzamos el item que tengamos actualmente
         if keyboard.pressed(K_SPACE):
             self.hud.released_item()
         
+        #Si el coche no se encuentra cayendo
         if self.state != FALL:
+            #Actualizmaos posicion. imagen y dirección
             self.update_position()
             self.update_image()
             self.update_direction()
@@ -165,11 +176,11 @@ class PlayerCar(BasicCar):
         if self.actual_angle > 360:
             self.actual_angle -= 360'''
         
-        
     def __normal_state(self):
         '''
-        Control del estado normal, el coche esta detenido.
+        @brief Método que actualiza al coche en su estado normal
         '''
+        #Según la tecla pulsada cambiamos de estado o no
         if keyboard.pressed(self.UP):
             self.old_state = NORMAL
             self.state = RUN
@@ -179,25 +190,30 @@ class PlayerCar(BasicCar):
             
     def __run_state(self):
         '''
-        Control del estado, el coche va hacia el frente.
+        @brief Método que actualiza al coche en su estado run(en marcha)
         '''
         self.move(+1)
         
+        #Según la tecla pulsada cambiamos de estado o no
         if keyboard.release(self.UP):
             self.old_state = RUN
             self.state = NOACTION
         if keyboard.pressed(self.DOWN):
             self.old_state = RUN
             self.state = REVERSE
-            
+        
+        #Controlamos la rotación del coche
         self.control_rotation()
         
+        #Y la trigonometria del mismo
         self.trigonometry()
             
     def __noaction_state(self):
         '''
-        Control del estado, no se pulsa ningún boton de dirección.
+        @brief Método que actualiza al coche en su estado 
+        noaction(En marcha sin pulsar ningun boton de direccion)
         '''
+        #Según la tecla pulsada cambiamos de estado o no
         if keyboard.pressed(self.UP):
             self.old_state = NOACTION
             self.state = RUN
@@ -205,6 +221,7 @@ class PlayerCar(BasicCar):
             self.old_state = NOACTION
             self.state = REVERSE
         
+        #Controlamos la desaceleración del mismo
         if self.actual_speed > self.desaceleration:
             self.actual_speed -= self.desaceleration
         elif self.actual_speed < -self.desaceleration:
@@ -213,16 +230,19 @@ class PlayerCar(BasicCar):
             self.actual_speed = 0
             self.state = NORMAL
                     
+        #Controlamos la rotación del coche
         self.control_rotation()
-            
+        
+        #Y la trigonometria del mismo
         self.trigonometry()
             
     def __reverse_state(self):
         '''
-        Control del estado, marcha atrás.
+        @brief Método que actualiza al coche en su estado de marcha atras 
         '''
         self.move(-1)
         
+        #Controlamos la desaceleración del mismo
         if keyboard.release(self.DOWN):
             self.old_state = REVERSE
             self.state = NOACTION
@@ -230,11 +250,16 @@ class PlayerCar(BasicCar):
             self.old_state = REVERSE
             self.state = RUN
         
+        #Controlamos la rotación del coche
         self.control_rotation()
         
+        #Y la trigonometria del mismo
         self.trigonometry()
     
     def __fall_state(self):
+        '''
+        @brief Método que actualiza al coche en su estado cayendo por algun hoyo
+        '''
         if not self.falling:
             self.image = self.original_sprite[self.animations[self.state].get_frame()]
             self.falling = True
@@ -260,7 +285,7 @@ class PlayerCar(BasicCar):
     
     def control_rotation(self):
         '''
-        Control del cambio de dirección.
+        @brief Método que actualiza la rotación del coche
         '''
         if keyboard.pressed(self.LEFT):
             self.actual_angle -= self.rotation_angle * self.actual_speed
@@ -269,7 +294,7 @@ class PlayerCar(BasicCar):
         
     def __assing_controls(self, player):
         '''
-        Asignamos los controles segun el jugador que sea.
+        @brief Método que asigna los controles segun el tipo de jugador.
         '''
         if player == 1:
             self.UP = K_UP
@@ -283,6 +308,9 @@ class PlayerCar(BasicCar):
             self.LEFT = K_a
     
     def collected_item(self):
+        '''
+        @brief Método llamado cuando recogemos algún item.
+        '''
         self.hud.collected_item()
     
     def released_item(self):
