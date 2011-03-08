@@ -210,7 +210,7 @@ class GameControl(state.State):
         for box in self.items_box:
             if self.on_screen(box) and box.get_state() != gameobject.EXPLOSION and \
                 self.collision_manager.actor_rectanglecollision(self.player, box) \
-                and self.collision_manager.actor_perfectcollision(self.player, box):
+                and self.collision_manager.actor_pixelperfectcollision(self.player, box):
                 box.set_state(gameobject.EXPLOSION)
                 self.player.collected_item()
         

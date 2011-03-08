@@ -25,15 +25,6 @@ class BasicCar(gameobject.GameObject):
         '''
         gameobject.GameObject.__init__(self, game_control)
         
-        #Distintos atributos del objeto
-        self.max_speed = None
-        self.actual_speed = 0
-        self.min_speed = None
-        #self.__angle_rotation = None
-        self.actual_angle = 0
-        self.rotation_angle = None
-        self.aceleration = None
-        self.desaceleration = None
         self.break_force = None
         
         #Parseamos la información básica
@@ -76,52 +67,6 @@ class BasicCar(gameobject.GameObject):
         @brief Método que debe ser implementado por sus descendientes
         '''
         raise NotImplemented("La funcion update de GameObject debe ser implementada por sus descendientes")
-        
-    def update_image(self):
-        '''
-        @bnief Actualiza la imagen, según el estado actual de la animación y el angulo del coche
-        '''
-        #Rotamos la imagen actual de la animación
-        self.image = pygame.transform.rotate(self.original_sprite[self.animations[self.state].get_frame()], -self.actual_angle)
-        
-        #Actualizamos tanto el alto como el ancho 
-        self.rect.w = self.image.get_width()
-        self.rect.h = self.image.get_height()
-        
-        #Obtenemos la nueva mascara de pixeles
-        self.mask = pygame.mask.from_surface(self.image)
-        
-    def move(self, delta):
-        '''
-        @brief Movemos el vehículo en el sentido dado 
-        
-        @param delta Entero +1 hacia delante, -1 hacia atras
-        '''
-        #Actualizamos la velocidad actual
-        self.actual_speed += self.aceleration * delta
-        
-        #Controlamos los limites de velocidad del coche
-        if self.actual_speed > self.max_speed:
-            self.actual_speed = self.max_speed
-        elif self.actual_speed < -self.min_speed:
-            self.actual_speed = -self.min_speed
-
-    def update_position(self):
-        '''
-        @brief Actualiza la posición del coche.
-        '''
-        self.rect.x = int(self.x) - self.rect.w / 2
-        self.rect.y = int(self.y) - self.rect.h / 2
-        self.x += self.dx
-        self.y += self.dy
-
-    def trigonometry(self):
-        '''
-        @brief Aplica la rotación al coche segun el angulo de este
-        '''
-        angle = radians(self.actual_angle)
-        self.dx = cos(angle) * self.actual_speed
-        self.dy = sin(angle) * self.actual_speed
         
     def get_speed(self):
         '''
@@ -170,19 +115,3 @@ class BasicCar(gameobject.GameObject):
         @param new_min_speed Nueva velocidad mínima del vehículo.
         '''
         self.min_speed = abs(new_min_speed)
-        
-    def get_angle(self):
-        '''
-        @brief Métodod Consultor
-        
-        @return Ángulo actual del vehículo.
-        '''
-        return self.actual_angle
-        
-    def set_angle(self, new_angle):
-        '''
-        @brief Método encargado de modificar el angulo del objeto.
-        
-        @param new_angle Nuevo ángulo para el vehículo
-        '''
-        self.actual_angle = new_angle

@@ -3,8 +3,12 @@
 import pygame
 import animation
 import resource
+import pixelperfect
 #import gamecontrol
 import xml.dom.minidom
+import math
+
+from math import *
 
 #Distinos estado que pueden tener los objetos del juego.
 NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION, FALL = range(10)
@@ -25,7 +29,18 @@ class GameObject(pygame.sprite.Sprite):
         self.image = None
         self.rect = None
         self.mask = None
+        self.hitmask = None
         self.original_sprite = None
+        self.actual_angle = 0
+        self.rotation_angle = None
+
+        #Distintos atributos del objeto
+        self.max_speed = None
+        self.actual_speed = 0
+        self.min_speed = None
+        #self.__angle_rotation = None
+        self.aceleration = None
+        self.desaceleration = None
         
         #Estado inicial es el normal
         self.state = self.previous_state = self.old_state = NORMAL
@@ -118,6 +133,53 @@ class GameObject(pygame.sprite.Sprite):
         '''
         screen.blit(self.image, (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y()))
         #pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
+
+    def move(self, delta):
+        '''
+        @brief Movemos el objeto en el sentido dado 
+        
+        @param delta Entero +1 hacia delante, -1 hacia atras
+        '''
+        #Actualizamos la velocidad actual
+        self.actual_speed += self.aceleration * delta
+        
+        #Controlamos los limites de velocidad del coche
+        if self.actual_speed > self.max_speed:
+            self.actual_speed = self.max_speed
+        elif self.actual_speed < -self.min_speed:
+            self.actual_speed = -self.min_speed
+
+    def update_position(self):
+        '''
+        @brief Actualiza la posición del objeto.
+        '''
+        self.rect.x = int(self.x) - self.rect.w / 2
+        self.rect.y = int(self.y) - self.rect.h / 2
+        self.x += self.dx
+        self.y += self.dy
+
+    def trigonometry(self):
+        '''
+        @brief Aplica la rotación del objeto segun el angulo de este
+        '''
+        angle = radians(self.actual_angle)
+        self.dx = cos(angle) * self.actual_speed
+        self.dy = sin(angle) * self.actual_speed
+
+    def update_image(self):
+        '''
+        @bnief Actualiza la imagen, según el estado actual de la animación y el angulo del objeto
+        '''
+        #Rotamos la imagen actual de la animación
+        self.image = pygame.transform.rotate(self.original_sprite[self.animations[self.state].get_frame()], -self.actual_angle)
+        
+        #Actualizamos tanto el alto como el ancho 
+        self.rect.w = self.image.get_width()
+        self.rect.h = self.image.get_height()
+        
+        #Obtenemos la nueva mascara de pixeles
+        self.mask = pygame.mask.from_surface(self.image)
+        self.hitmask = pixelperfect.get_alpha_hitmask(self.image, self.rect)
         
     def get_rect(self):
         '''
@@ -222,4 +284,21 @@ class GameObject(pygame.sprite.Sprite):
         @return Estado anterior al actual
         '''
         return self.old_state
+
+        
+    def get_angle(self):
+        '''
+        @brief Métodod Consultor
+        
+        @return Ángulo actual del objetos.
+        '''
+        return self.actual_angle
+        
+    def set_angle(self, new_angle):
+        '''
+        @brief Método encargado de modificar el angulo del objeto.
+        
+        @param new_angle Nuevo ángulo para el objetos
+        '''
+        self.actual_angle = new_angle
     

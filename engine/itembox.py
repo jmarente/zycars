@@ -46,6 +46,8 @@ class ItemBox(gameobject.GameObject):
         self.states = {NORMAL: self.__normal_state,
                     EXPLOSION: self.__explosion_state
                     }
+                    
+        self.update_image()
         
     def draw(self, screen):
         '''

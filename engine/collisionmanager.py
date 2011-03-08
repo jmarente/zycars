@@ -4,6 +4,7 @@ import pygame
 import circuit
 import basiccar
 import gameobject
+import pixelperfect
 
 from log import Log
 
@@ -27,7 +28,20 @@ class CollisionManager:
         
         @return True si existe colisión, False en caso contrario
         '''
-        return pygame.sprite.collide_mask(sprite1, sprite2)
+        return self.actor_rectanglecollision(sprite1, sprite2) \
+                and pygame.sprite.collide_mask(sprite1, sprite2)
+
+    def actor_pixelperfectcollision(self, sprite1, sprite2):
+        '''
+        @brief Comprueba la colision pixel por pixel enter dos sprites.
+        
+        @param sprite1 Sprite a comprobar
+        @param sprite2 Sprite a comprobar
+        
+        @return True si existe colisión, False en caso contrario
+        '''
+        return self.actor_rectanglecollision(sprite1, sprite2) \
+                and pixelperfect.check_collision(sprite1, sprite2)
         
     def actor_rectanglecollision(self, sprite1, sprite2):
         '''
