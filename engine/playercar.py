@@ -4,6 +4,7 @@ import basiccar
 import gameobject
 import keyboard
 import data
+import item
 import math
 import pygame
 import xml.dom.minidom
@@ -84,9 +85,9 @@ class Hud:
         '''
         #Si tenemos algun item, lo lanzamos
         if self.actual_item:
+            self.player.released_item(self.actual_item, self.items[self.actual_item]['xml'])
             self.actual_item = None
-            self.player.released_item()
-        
+            
     def collected_item(self):
         '''
         @brief Método llamado cuando recogemos algun item
@@ -313,8 +314,10 @@ class PlayerCar(BasicCar):
         '''
         self.hud.collected_item()
     
-    def released_item(self):
-        pass
+    def released_item(self, item_type, path_xml):
+        if item_type == 'missile':
+            missile = item.Missile(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            self.game_control.add_bullet(missile)
     
     def __update(self):
         '''

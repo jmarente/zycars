@@ -14,7 +14,6 @@
 	<image code="goal" name="goal.png" alpha="True"/>
 	<image code="particle" name="particle.png" alpha="True"/>
 	<image code="hud" name="hud.png" alpha="True"/>
-	<image code="missile" name="items/missile.png" alpha="True"/>
 	<image code="missile_show" name="items/missile_show.png" alpha="True"/>	
 	<image code="oil" name="items/oil.png" alpha="True"/>
 	<image code="oil_show" name="items/oil_show.png" alpha="True"/>
@@ -26,6 +25,7 @@
         <sprite code="purple" name="purple.png" rows="1" columns="1" alpha="True"/>
         <sprite code="item_box" name="item_box.png" rows="1" columns="1" alpha="True"/>
         <sprite code="prueba3" name="prueba.png" rows="1" columns="1" alpha="True"/>
+		<sprite code="missile" name="items/missile.png" rows="1" columns="1" alpha="True"/>
     </sprites>
     <fonts>
 	<font code="cheesebu" name="cheesebu.ttf" size="20"/>

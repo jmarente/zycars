@@ -40,7 +40,7 @@ class GameControl(state.State):
         
         #Grupo de sprites que contendrá las cajas de items. 
         #self.items_box = pygame.sprite.Group()
-        self.items_box = []
+        self.items_box = pygame.sprite.Group()
         
         #Checkpoints que posee el circuito
         self.checkpoints = checkpoint.CheckPoints(self)
@@ -95,7 +95,6 @@ class GameControl(state.State):
         '''
         @brief Método encargado de actualizar todos los componentes del circuito
         '''
-        
         #Si estamos en la cuenta atrás actualizamos la cuenta atrás
         if self.actual_state == 'countdown':
             self.count_down.update()
@@ -173,6 +172,10 @@ class GameControl(state.State):
             if self.on_screen(box):
                 box.draw(screen)
         
+        for bullet in self.bullets:
+            if self.on_screen(bullet):
+                bullet.draw(screen)
+        
         #Dibujamos al jugador
         self.player.draw(screen)
         
@@ -213,6 +216,10 @@ class GameControl(state.State):
                 and self.collision_manager.actor_pixelperfectcollision(self.player, box):
                 box.set_state(gameobject.EXPLOSION)
                 self.player.collected_item()
+        
+        for bullet in self.bullets:
+            if self.collision_manager.item_level_collision(bullet, self.circuit):
+                bullet.set_state(gameobject.EXPLOSION)
         
     def scroll_control(self):
         '''
@@ -281,7 +288,7 @@ class GameControl(state.State):
         
         @param item_box Caja a añadir
         '''
-        self.items_box.append(item_box)
+        self.items_box.add(item_box)
         
     def add_player(self, player):
         '''

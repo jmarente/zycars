@@ -35,12 +35,12 @@ class GameObject(pygame.sprite.Sprite):
         self.rotation_angle = None
 
         #Distintos atributos del objeto
-        self.max_speed = None
+        self.max_speed = 0
         self.actual_speed = 0
-        self.min_speed = None
+        self.min_speed = 0
         #self.__angle_rotation = None
-        self.aceleration = None
-        self.desaceleration = None
+        self.aceleration = 0
+        self.desaceleration = 0
         
         #Estado inicial es el normal
         self.state = self.previous_state = self.old_state = NORMAL

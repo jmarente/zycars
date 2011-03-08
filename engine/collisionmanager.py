@@ -286,6 +286,28 @@ class CollisionManager:
         
         '''elif result and result['type'] == circuit.HOLE and sprite.get_state() != gameobject.FALL and sprite.old_state != gameobject.FALL:
             sprite.set_state(gameobject.FALL)'''
+    
+    def item_level_collision(self, item, circ):
+        result = None
+
+        #Colisiones verticales, con el eje x
+        if item.go_left():
+            result = self.__collision_ver(item, circ, "left")
+            
+        elif not result and item.go_right():
+            result = self.__collision_ver(item, circ, "right")
+            
+        #Colision horizontales, con el eje y
+        elif not result and item.go_up():
+            result = self.__collision_hor(item, circ, "up")
+            
+        elif not result and item.go_down():
+            result = self.__collision_hor(item, circ, "down")
+        
+        if result and result['type'] == circuit.NOPASSABLE:
+            return True
+        
+        return False
                 
     def __collision_ver(self, sprite, circ, direction):
 
