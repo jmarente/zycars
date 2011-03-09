@@ -9,6 +9,7 @@ import math
 import pygame
 import xml.dom.minidom
 import random
+import time
 
 from basiccar import *
 from gameobject import *
@@ -172,10 +173,10 @@ class PlayerCar(BasicCar):
             self.update_image()
             self.update_direction()
         
-        '''if self.actual_angle < 0:
+        if self.actual_angle < 0:
             self.actual_angle += 360
         if self.actual_angle > 360:
-            self.actual_angle -= 360'''
+            self.actual_angle -= 360
         
     def __normal_state(self):
         '''
@@ -274,13 +275,27 @@ class PlayerCar(BasicCar):
             self.old_state = FALL
             self.falling = False
             self.actual_scale = 1
-    
+
+    def __damaged_state(self):
+        
+        if not self.start:
+            self.start = time.time()
+            
+        actual = time.time() - self.start
+        
+        self.actual_angle += self.rotation_angle * (self.max_speed * 3)
+        
+        if actual >= 1:
+            self.state = NOACTION
+            self.start = None
+            self.old_angle = None
+        
     def __forward_state(self):
         pass
-    def __damaged_state(self):
-        pass
+        
     def __erase_state(self):
         pass
+        
     def __yaw_state(self):
         pass
     
@@ -289,9 +304,9 @@ class PlayerCar(BasicCar):
         @brief Método que actualiza la rotación del coche
         '''
         if keyboard.pressed(self.LEFT):
-            self.actual_angle -= self.rotation_angle * self.actual_speed
+            self.actual_angle -= self.rotation_angle * self.max_speed
         elif keyboard.pressed(self.RIGHT):
-            self.actual_angle += self.rotation_angle * self.actual_speed
+            self.actual_angle += self.rotation_angle * self.max_speed
         
     def __assing_controls(self, player):
         '''
@@ -318,7 +333,10 @@ class PlayerCar(BasicCar):
         if item_type == 'missile':
             missile = item.Missile(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_bullet(missile)
-    
+        if item_type == 'oil':
+            oil = item.Oil(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            self.game_control.add_oil(oil)
+            
     def __update(self):
         '''
         Movimiento básico sin actualización de estado.

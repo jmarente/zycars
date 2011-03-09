@@ -36,6 +36,8 @@ class BasicCar(gameobject.GameObject):
         self.x = self.old_x = x
         self.y = self.old_y = y
         
+        self.start = None
+        
         #Si el angulo es 0, no hacemos nada
         if angle == 0:
             self.dx = 0

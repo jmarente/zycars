@@ -216,31 +216,53 @@ class CollisionManager:
                     collision_top = True
             
             #Según la colisión corregiremos de una forma u otra el rectangulo del sprite   
-            if sprite.dx < 0:         
+            if sprite.get_state() == gameobject.DAMAGED:
                 if collision_right:
                     #sprite.rect.x = tile_rect.x + tile_rect.w
                     sprite.x = tile_rect.x + tile_rect.w + (sprite.rect.w / 2)
                     sprite.actual_speed *= -1
-                    collision = True
-            else:
-                if collision_left:
+
+                elif collision_left:
                     #sprite.rect.x = tile_rect.x - sprite.rect.w
                     sprite.x = tile_rect.x - (sprite.rect.w / 2)
                     sprite.actual_speed *= -1
-                    collision = True
-                    
-            if sprite.dy < 0:
+
                 if collision_bottom:
                     sprite.y = tile_rect.y + tile_rect.w + (sprite.rect.h / 2)
                     sprite.actual_speed *= -1
                     #sprite.rect.y = tile_rect.y + tile_rect.h
-                    collision = True
-            else:
-                if collision_top:
+
+                elif collision_top:
                     sprite.y = tile_rect.y - (sprite.rect.h / 2)
                     sprite.actual_speed *= -1
                     #sprite.rect.y = tile_rect.y - sprite.rect.h
-                    collision = True
+
+            else:
+                if sprite.dx < 0:         
+                    if collision_right:
+                        #sprite.rect.x = tile_rect.x + tile_rect.w
+                        sprite.x = tile_rect.x + tile_rect.w + (sprite.rect.w / 2)
+                        sprite.actual_speed *= -1
+                        collision = True
+                else:
+                    if collision_left:
+                        #sprite.rect.x = tile_rect.x - sprite.rect.w
+                        sprite.x = tile_rect.x - (sprite.rect.w / 2)
+                        sprite.actual_speed *= -1
+                        collision = True
+                        
+                if sprite.dy < 0:
+                    if collision_bottom:
+                        sprite.y = tile_rect.y + tile_rect.w + (sprite.rect.h / 2)
+                        sprite.actual_speed *= -1
+                        #sprite.rect.y = tile_rect.y + tile_rect.h
+                        collision = True
+                else:
+                    if collision_top:
+                        sprite.y = tile_rect.y - (sprite.rect.h / 2)
+                        sprite.actual_speed *= -1
+                        #sprite.rect.y = tile_rect.y - sprite.rect.h
+                        collision = True
             
             #Vemos en que estado esta el coche para aplicar una fuerza en una dirección u otra
             '''if collision:

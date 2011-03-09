@@ -3,6 +3,7 @@
 import gameobject
 import particle
 import data
+import collisionmanager
 
 from gameobject import *
 
@@ -90,7 +91,7 @@ class Missile(Item):
 
     def update(self):
         '''
-        @brief Método que actualiza lógicamente la caja de item
+        @brief Método que actualiza lógicamente el misil
         '''
         #Controlamos el cambio de estado para reiniciar la animación
         if self.state != self.previous_state:
@@ -160,3 +161,55 @@ class Missile(Item):
             self.particles = None
             self.state = ERASE
             self.kill()
+        
+class Oil(Item):
+    '''
+    @brief Clase que representa una mancha de aceite
+    '''
+    def __init__(self, game_control, owner, path_xml, x, y, angle):
+        '''
+        @brief Constructor.
+        
+        @param game_control Referencia a GameControl
+        @param owner GameObject que lanza el item.
+        @param path_xml Archivo xml con las características del item
+        @param x Posición en el eje x
+        @param y Posición en el eje y
+        @param angle Ángulo del item
+        '''
+        Item.__init__(self, game_control, owner, path_xml, x, y, angle)
+        
+        #Funciones para cada estado
+        self.states = {
+            NORMAL: self.__normal_state, 
+            RUN: self.__run_state, 
+            }
+            
+    def update(self):
+        '''
+        @brief Método que actualiza lógicamente la macha de aceite
+        '''
+        #Controlamos el cambio de estado para reiniciar la animación
+        if self.state != self.previous_state:
+            self.previous_state = self.state
+            if self.state != EXPLOSION:
+                self.animations[self.state].restart()
+        
+        #Llamamos a la función del estado actual para actualizar
+        self.states[self.state]()        
+            
+    def __normal_state(self):
+        '''
+        @brief Método privado que actualia la caja cuando esta en estado normal
+        '''
+        #Si el coche que soltó la mancha de aceite ya la a dejao atras cambiamos su estado,
+        #Para que ya pueda colisionar con él
+        if not collisionmanager.CollisionManager().actor_rectanglecollision(self, self.owner):
+            self.state = RUN
+            
+    def __run_state(self):
+        '''
+        @brief Método privado que actualia la caja cuando esta en estado de avance
+        '''
+        pass
+

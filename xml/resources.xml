@@ -26,6 +26,7 @@
         <sprite code="item_box" name="item_box.png" rows="1" columns="1" alpha="True"/>
         <sprite code="prueba3" name="prueba.png" rows="1" columns="1" alpha="True"/>
 		<sprite code="missile" name="items/missile.png" rows="1" columns="1" alpha="True"/>
+		<sprite code="oil" name="items/oil.png" rows="1" columns="1" alpha="True"/>
     </sprites>
     <fonts>
 	<font code="cheesebu" name="cheesebu.ttf" size="20"/>

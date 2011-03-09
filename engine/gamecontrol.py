@@ -47,6 +47,9 @@ class GameControl(state.State):
         
         #Grupo de sprite que contendrá las balas.
         self.bullets = pygame.sprite.Group()
+        
+        #Grupo de sprite que contendrás las manchas de aceite
+        self.oils = pygame.sprite.Group()
                 
         #Gestor de colisiones
         self.collision_manager = collisionmanager.CollisionManager()
@@ -130,6 +133,10 @@ class GameControl(state.State):
             #Actualizamos las balas.
             for bullet in self.bullets:
                 bullet.update()
+
+            #Actualizamos las balas.
+            for oil in self.oils:
+                oil.update()
                     
             #Controlamos el scroll de la pantalla
             self.scroll_control()
@@ -166,7 +173,11 @@ class GameControl(state.State):
             
         #Dibujamos los Puntos de control en pantalla
         self.checkpoints.draw(screen)
-
+        
+        for oil in self.oils:
+            if self.on_screen(oil):
+                oil.draw(screen)
+            
         #Dibujamos todas las cajas de items
         for box in self.items_box:
             if self.on_screen(box):
@@ -175,7 +186,7 @@ class GameControl(state.State):
         for bullet in self.bullets:
             if self.on_screen(bullet):
                 bullet.draw(screen)
-        
+            
         #Dibujamos al jugador
         self.player.draw(screen)
         
@@ -212,14 +223,18 @@ class GameControl(state.State):
         #Colisiones con las cajas de items
         for box in self.items_box:
             if self.on_screen(box) and box.get_state() != gameobject.EXPLOSION and \
-                self.collision_manager.actor_rectanglecollision(self.player, box) \
-                and self.collision_manager.actor_pixelperfectcollision(self.player, box):
+                self.collision_manager.actor_pixelperfectcollision(self.player, box):
                 box.set_state(gameobject.EXPLOSION)
                 self.player.collected_item()
         
         for bullet in self.bullets:
             if self.collision_manager.item_level_collision(bullet, self.circuit):
                 bullet.set_state(gameobject.EXPLOSION)
+        
+        for oil in self.oils:
+            if self.on_screen(oil) and oil.get_state() != gameobject.NORMAL \
+                and self.collision_manager.actor_pixelperfectcollision(oil, self.player):
+                self.player.set_state(gameobject.DAMAGED)
         
     def scroll_control(self):
         '''
@@ -273,6 +288,9 @@ class GameControl(state.State):
         @param bullet Bala a añadir
         '''
         self.bullets.add(bullet)
+    
+    def add_oil(self, oil):
+        self.oils.add(oil)
         
     def add_ia_car(self, ia_car):
         '''
