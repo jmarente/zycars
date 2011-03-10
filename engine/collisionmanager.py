@@ -5,6 +5,7 @@ import circuit
 import basiccar
 import gameobject
 import pixelperfect
+import item
 
 from log import Log
 
@@ -111,19 +112,19 @@ class CollisionManager:
             #Vemos por que lados se produce la colisión
             if (sprite_rect.left - tile_rect.left) > 0:
                 edge["right"] = True
-                Log().debug("Collision por la derecha")
+                #Log().debug("Collision por la derecha")
 
             if (sprite_rect.left - tile_rect.left) < 0:
                 edge["left"] = True
-                Log().debug("Collision por la izquierda")
+                #Log().debug("Collision por la izquierda")
 
             if (sprite_rect.top - tile_rect.top) > 0:
                 edge["bottom"] = True
-                Log().debug("Collision por abajo")
+                #Log().debug("Collision por abajo")
 
             if (sprite_rect.top - tile_rect.top) < 0:
                 edge["top"] = True
-                Log().debug("Collision por arriba")
+                #Log().debug("Collision por arriba")
                 
         return edge
         
@@ -165,134 +166,52 @@ class CollisionManager:
             tile_rect = result['rect']
             #Vemos por que lados colisiona
             edge = self.actor_tile_edgecollision(sprite, tile_rect)
-                        
-            collision = collision_top = collision_bottom = \
-            collision_left = collision_right = False
-            
-            #Comprobamos que lado debemos corregir, viendo que parte del sprite
-            #Esta mas superpuesto con el tile
-            if edge['left'] and edge['bottom']:
-                left_car = tile_rect.left - sprite.rect.left
-                bottom_car = sprite.rect.bottom - tile_rect.bottom
-                
-                if left_car > bottom_car:
-                    Log().info('Corregiriamos colision por la izquierda')
-                    collision_left = True
-                elif left_car < bottom_car:
-                    Log().info('Corregiriamos colision por abajo')
-                    collision_bottom = True
-                    
-            elif edge['left'] and edge['top']:
-                left_car = tile_rect.left - sprite.rect.left
-                top_car = tile_rect.top - sprite.rect.top
-                
-                if left_car > top_car:
-                    Log().info('Corregiriamos colision por la izquierda')
-                    collision_left = True
-                elif left_car < top_car:
-                    Log().info('Corregiriamos colision por arriba')
-                    collision_top = True
-                                    
-            elif edge['right'] and edge['bottom']:
-                right_car = sprite.rect.right - tile_rect.right
-                bottom_car = sprite.rect.bottom - tile_rect.bottom
-                
-                if right_car > bottom_car:
-                    Log().info('Corregiriamos colision por la derecha')
-                    collision_right = True
-                elif right_car < bottom_car:
-                    Log().info('Corregiriamos colision por abajo')
-                    collision_bottom = True
-                
-            elif edge['right'] and edge['top']:
-                right_car = sprite.rect.right - tile_rect.right
-                top_car = tile_rect.top - sprite.rect.top
-                
-                if right_car > top_car:
-                    Log().info('Corregiriamos colision por la derecha')
-                    collision_right = True
-                elif right_car < top_car:
-                    Log().info('Corregiriamos colision por arriba')
-                    collision_top = True
-            
+    
+            collision = self.side_collision(sprite, tile_rect, edge)
             #Según la colisión corregiremos de una forma u otra el rectangulo del sprite   
             if sprite.get_state() == gameobject.DAMAGED:
-                if collision_right:
+                if collision['right']:
                     #sprite.rect.x = tile_rect.x + tile_rect.w
                     sprite.x = tile_rect.x + tile_rect.w + (sprite.rect.w / 2)
                     sprite.actual_speed *= -1
 
-                elif collision_left:
+                elif collision['left']:
                     #sprite.rect.x = tile_rect.x - sprite.rect.w
                     sprite.x = tile_rect.x - (sprite.rect.w / 2)
                     sprite.actual_speed *= -1
 
-                if collision_bottom:
+                if collision['bottom']:
                     sprite.y = tile_rect.y + tile_rect.w + (sprite.rect.h / 2)
                     sprite.actual_speed *= -1
                     #sprite.rect.y = tile_rect.y + tile_rect.h
 
-                elif collision_top:
+                elif collision['top']:
                     sprite.y = tile_rect.y - (sprite.rect.h / 2)
                     sprite.actual_speed *= -1
                     #sprite.rect.y = tile_rect.y - sprite.rect.h
 
             else:
                 if sprite.dx < 0:         
-                    if collision_right:
+                    if collision['right']:
                         #sprite.rect.x = tile_rect.x + tile_rect.w
                         sprite.x = tile_rect.x + tile_rect.w + (sprite.rect.w / 2)
                         sprite.actual_speed *= -1
-                        collision = True
                 else:
-                    if collision_left:
+                    if collision['left']:
                         #sprite.rect.x = tile_rect.x - sprite.rect.w
                         sprite.x = tile_rect.x - (sprite.rect.w / 2)
                         sprite.actual_speed *= -1
-                        collision = True
                         
                 if sprite.dy < 0:
-                    if collision_bottom:
+                    if collision['bottom']:
                         sprite.y = tile_rect.y + tile_rect.w + (sprite.rect.h / 2)
                         sprite.actual_speed *= -1
                         #sprite.rect.y = tile_rect.y + tile_rect.h
-                        collision = True
                 else:
-                    if collision_top:
+                    if collision['top']:
                         sprite.y = tile_rect.y - (sprite.rect.h / 2)
                         sprite.actual_speed *= -1
                         #sprite.rect.y = tile_rect.y - sprite.rect.h
-                        collision = True
-            
-            #Vemos en que estado esta el coche para aplicar una fuerza en una dirección u otra
-            '''if collision:
-                #print Log().critical(sprite.get_state())
-                #print Log().critical(sprite.get_old_state())
-                
-                if (sprite.get_state() == gameobject.REVERSE or \
-                    (sprite.get_state() == gameobject.NOACTION and sprite.get_old_state() == gameobject.REVERSE))\
-                    and sprite.actual_speed < 0:
-                    Log().debug("1")
-                    sprite.actual_speed = sprite.get_max_speed()
-                    
-                elif (sprite.get_state() == gameobject.RUN or \
-                    (sprite.get_state() == gameobject.NOACTION and sprite.get_old_state() == gameobject.RUN))\
-                    and sprite.actual_speed > 0:
-                    sprite.actual_speed = -sprite.get_max_speed()
-                    Log().debug("2")'''
-                    
-                #elif sprite.get_state() != gameobject.REVERSE and sprite.get_state() != gameobject.RUN and sprite.actual_speed > 0:
-                #    sprite.actual_speed = -sprite.get_max_speed()
-                #    Log().debug("2")
-                #elif sprite.get_state() != gameobject.REVERSE and sprite.get_state() != gameobject.RUN and sprite.actual_speed < 0:
-                #    sprite.actual_speed = sprite.get_max_speed()
-                #    Log().debug("3")
-                #elif (sprite.get_old_state() == gameobject.RUN or sprite.get_state() == gameobject.RUN) and sprite.actual_speed < 0:
-                #    sprite.actual_speed = sprite.get_max_speed()
-                #elif (sprite.get_old_state() == gameobject.REVERSE or sprite.get_state() == gameobject.REVERSE) and sprite.actual_speed > 0:
-                #    sprite.actual_speed = -sprite.get_max_speed()
-
-                #sprite.actual_speed *= -1
                 
         #Si hemos obtenido colisión y es de tipo lag
         elif result and (result['type'] == circuit.LAG or result['type'] == circuit.HOLE):
@@ -309,26 +228,78 @@ class CollisionManager:
         '''elif result and result['type'] == circuit.HOLE and sprite.get_state() != gameobject.FALL and sprite.old_state != gameobject.FALL:
             sprite.set_state(gameobject.FALL)'''
     
-    def item_level_collision(self, item, circ):
+    def item_level_collision(self, it, circ):
+        '''
+        @brief Función encargada de gestionar la colisión de los items con el escenario
+        
+        @param it Item a comprobar
+        @param circ Circuito en el que se encuentra el item
+        '''
         result = None
 
         #Colisiones verticales, con el eje x
-        if item.go_left():
-            result = self.__collision_ver(item, circ, "left")
+        if it.go_left():
+            result = self.__collision_ver(it, circ, "left")
             
-        elif not result and item.go_right():
-            result = self.__collision_ver(item, circ, "right")
+        elif not result and it.go_right():
+            result = self.__collision_ver(it, circ, "right")
             
         #Colision horizontales, con el eje y
-        elif not result and item.go_up():
-            result = self.__collision_hor(item, circ, "up")
+        elif not result and it.go_up():
+            result = self.__collision_hor(it, circ, "up")
             
-        elif not result and item.go_down():
-            result = self.__collision_hor(item, circ, "down")
+        elif not result and it.go_down():
+            result = self.__collision_hor(it, circ, "down")
         
-        if result and result['type'] == circuit.NOPASSABLE:
+        #Si existe algun tipo de colision, el tile no es transpasable
+        #Y el item es de tipo misil devolvemos true
+        if result and result['type'] == circuit.NOPASSABLE and it.type == item.MISSILE:
+            return True
+
+        #Si existe algun tipo de colision, el tile no es transpasable
+        #Y el item es de tipo bola, gestionamos el rebote
+        elif result and result['type'] == circuit.NOPASSABLE and it.type == item.BALL:
+            
+            tile_rect = result['rect']
+            
+            #Obtenemos los lados por los que habria que corregir el rebote
+            edge = self.actor_tile_edgecollision(it, tile_rect)
+            collision = self.side_collision(it, tile_rect, edge)
+            
+            #En función de la dirección, y el lado de la colision
+            #La bola rebotará hacia un lado u otro
+            if it.dx > 0:
+                if collision['left']:
+                    it.x = tile_rect.x - (it.rect.w / 2)
+                    if it.go_down():
+                        it.actual_angle += 90
+                    elif it.go_up():
+                        it.actual_angle -= 90
+            else:
+                if collision['right']:
+                    it.x = tile_rect.x + tile_rect.w + (it.rect.w / 2)
+                    if it.go_down():
+                        it.actual_angle -= 90
+                    elif it.go_up():
+                        it.actual_angle += 90
+            if it.dy > 0:
+                if collision['top']:
+                    it.y = tile_rect.y - (it.rect.h / 2)
+                    if it.go_left():
+                        it.actual_angle += 90
+                    elif it.go_right():
+                        it.actual_angle -= 90
+            else:
+                if collision['bottom']:
+                    it.y = tile_rect.y + tile_rect.w + (it.rect.h / 2)
+                    if it.go_left():
+                        it.actual_angle -= 90
+                    elif it.go_right():
+                        it.actual_angle += 90
+            
             return True
         
+        #Si no se cumple nada de lo anterior devolvemos false
         return False
                 
     def __collision_ver(self, sprite, circ, direction):
@@ -344,18 +315,6 @@ class CollisionManager:
         i = tile_y0
         
         while i <= tile_y1:
-            '''type0 = circ.get_tile(0, tilecoordx, i).type
-            type1 = circ.get_tile(1, tilecoordx, i).type
-            if  (type1 != circuit.PASSABLE) or \
-            (type0 != circuit.PASSABLE):
-                tilecoordx *= circ.get_tile_width()
-                
-                result = {}
-                result['type'] = type0 if type0 != circuit.PASSABLE else type1
-                result['rect'] = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
-                circ.get_tile_width(), circ.get_tile_height()))
-                
-                return result'''
             if (circ.get_tile(1, tilecoordx, i).type == circuit.NOPASSABLE) or \
             (circ.get_tile(0, tilecoordx, i).type == circuit.NOPASSABLE):
                 tilecoordx *= circ.get_tile_width()
@@ -406,18 +365,6 @@ class CollisionManager:
         i = tile_x0
         
         while i <= tile_x1:
-            '''type0 = circ.get_tile(0, i, tilecoordy).type
-            type1 = circ.get_tile(1, i, tilecoordy).type
-            if (type1 != circuit.PASSABLE) or \
-             (type0 != circuit.PASSABLE):
-                tilecoordy *= circ.get_tile_height()
-                
-                result = {}
-                result['type'] = type0 if type0 != circuit.PASSABLE else type1
-                result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
-                circ.get_tile_width(), circ.get_tile_height()))
-                
-                return result'''
             if (circ.get_tile(1, i, tilecoordy).type == circuit.NOPASSABLE) or \
             (circ.get_tile(0, i, tilecoordy).type == circuit.NOPASSABLE):
                 tilecoordy *= circ.get_tile_height()
@@ -454,3 +401,62 @@ class CollisionManager:
             i += 1
             
         return False
+    
+    def side_collision(self, sprite, tile_rect, edge):
+        '''
+        @brief Función que determina por que lado del tile se deberia corregir 
+        la posición del sprite
+        
+        @param sprite Objeto del juego
+        @param tile_rect Rectangulo que representa el tile
+        @param edge Lista con los filos por los que colisiona el sprite con el tile
+        '''
+        collision = {'left': False, 'right': False, 'top': False, 'bottom': False}
+        
+        #Comprobamos que lado debemos corregir, viendo que parte del sprite
+        #Esta mas superpuesto con el tile
+        if edge['left'] and edge['bottom']:
+            left_car = tile_rect.left - sprite.rect.left
+            bottom_car = sprite.rect.bottom - tile_rect.bottom
+            
+            if left_car > bottom_car:
+                Log().info('Corregiriamos colision por la izquierda')
+                collision['left'] = True
+            elif left_car < bottom_car:
+                Log().info('Corregiriamos colision por abajo')
+                collision['bottom'] = True
+                
+        elif edge['left'] and edge['top']:
+            left_car = tile_rect.left - sprite.rect.left
+            top_car = tile_rect.top - sprite.rect.top
+            
+            if left_car > top_car:
+                Log().info('Corregiriamos colision por la izquierda')
+                collision['left'] = True
+            elif left_car < top_car:
+                Log().info('Corregiriamos colision por arriba')
+                collision['top'] = True
+                                
+        elif edge['right'] and edge['bottom']:
+            right_car = sprite.rect.right - tile_rect.right
+            bottom_car = sprite.rect.bottom - tile_rect.bottom
+            
+            if right_car > bottom_car:
+                Log().info('Corregiriamos colision por la derecha')
+                collision['right'] = True
+            elif right_car < bottom_car:
+                Log().info('Corregiriamos colision por abajo')
+                collision['bottom']  = True
+            
+        elif edge['right'] and edge['top']:
+            right_car = sprite.rect.right - tile_rect.right
+            top_car = tile_rect.top - sprite.rect.top
+            
+            if right_car > top_car:
+                Log().info('Corregiriamos colision por la derecha')
+                collision['right'] = True
+            elif right_car < top_car:
+                Log().info('Corregiriamos colision por arriba')
+                collision['top'] = True
+        
+        return collision

@@ -1,4 +1,4 @@
-<missile sprite_code="missile" particle_code='fire_particle' max_speed="10" aceleration="1">
+<missile sprite_code="ball" particle_code='ball_particle' max_speed="10" aceleration="1">
 <!--NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW-->
     <animations>
         <animation name="normal" frames="0" delay="1"/>

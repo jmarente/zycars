@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-import engine
-
-from engine.game import *
+from engine import game
 
 def main():
-    g = Game()
-    g.run()
+    '''
+    @brief Función main
+    '''
+    Game = game.Game()
+    Game.run()
     
 if __name__ == "__main__":
     main()

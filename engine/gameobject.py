@@ -180,6 +180,12 @@ class GameObject(pygame.sprite.Sprite):
         #Obtenemos la nueva mascara de pixeles
         self.mask = pygame.mask.from_surface(self.image)
         self.hitmask = pixelperfect.get_alpha_hitmask(self.image, self.rect)
+    
+    def update_angle(self):
+        if self.actual_angle < 0:
+            self.actual_angle += 360
+        if self.actual_angle > 360:
+            self.actual_angle -= 360
         
     def get_rect(self):
         '''

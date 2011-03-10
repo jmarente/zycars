@@ -139,16 +139,6 @@ class PlayerCar(BasicCar):
         #HUD del coche
         self.hud = Hud(self, 'hud.xml')
     
-    def draw(self, screen):
-        '''
-        @brief Método encargado de dibujar el coche en pantalla
-        
-        @param screen Superficie destino
-        '''
-        BasicCar.draw(self, screen)
-        #Mostramos el hud
-        self.hud.draw(screen)
-                    
     def update(self):
         '''
         @brief Método encargado de actualizar lógicamente el coche.
@@ -173,10 +163,7 @@ class PlayerCar(BasicCar):
             self.update_image()
             self.update_direction()
         
-        if self.actual_angle < 0:
-            self.actual_angle += 360
-        if self.actual_angle > 360:
-            self.actual_angle -= 360
+        self.update_angle()
         
     def __normal_state(self):
         '''
@@ -283,12 +270,13 @@ class PlayerCar(BasicCar):
             
         actual = time.time() - self.start
         
-        self.actual_angle += self.rotation_angle * (self.max_speed * 3)
+        self.actual_angle += self.rotation_angle * (self.max_speed * 2)
         
-        if actual >= 1:
+        if actual >= 0.5:
             self.state = NOACTION
             self.start = None
             self.old_angle = None
+            self.actual_speed = self.max_speed / 2
         
     def __forward_state(self):
         pass
@@ -333,9 +321,15 @@ class PlayerCar(BasicCar):
         if item_type == 'missile':
             missile = item.Missile(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_bullet(missile)
-        if item_type == 'oil':
+        elif item_type == 'oil':
             oil = item.Oil(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_oil(oil)
+        elif item_type == 'ball':
+            ball = item.Ball(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            self.game_control.add_ball(ball)
+    
+    def draw_hud(self, screen):
+        self.hud.draw(screen)
             
     def __update(self):
         '''

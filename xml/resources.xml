@@ -13,10 +13,12 @@
 	<image code="rejilla" name="rejilla.png" alpha="True"/>
 	<image code="goal" name="goal.png" alpha="True"/>
 	<image code="particle" name="particle.png" alpha="True"/>
+	<image code="ball_particle" name="ball_particle.png" alpha="True"/>
+	<image code="fire_particle" name="fire_particle.png" alpha="True"/>
 	<image code="hud" name="hud.png" alpha="True"/>
 	<image code="missile_show" name="items/missile_show.png" alpha="True"/>	
-	<image code="oil" name="items/oil.png" alpha="True"/>
 	<image code="oil_show" name="items/oil_show.png" alpha="True"/>
+	<image code="ball_show" name="items/ball_show.png" alpha="True"/>
     </images>
     <sprites>
         <sprite code="prueba" name="coche_prueba.png" rows="3" columns="1" alpha="True"/>
@@ -24,9 +26,10 @@
         <sprite code="yellow" name="yellow.png" rows="1" columns="1" alpha="True"/>
         <sprite code="purple" name="purple.png" rows="1" columns="1" alpha="True"/>
         <sprite code="item_box" name="item_box.png" rows="1" columns="1" alpha="True"/>
-        <sprite code="prueba3" name="prueba.png" rows="1" columns="1" alpha="True"/>
-		<sprite code="missile" name="items/missile.png" rows="1" columns="1" alpha="True"/>
-		<sprite code="oil" name="items/oil.png" rows="1" columns="1" alpha="True"/>
+	<sprite code="prueba3" name="prueba.png" rows="1" columns="1" alpha="True"/>
+	<sprite code="missile" name="items/missile.png" rows="1" columns="1" alpha="True"/>
+	<sprite code="oil" name="items/oil.png" rows="1" columns="1" alpha="True"/>
+	<sprite code="ball" name="items/ball.png" rows="1" columns="1" alpha="True"/>
     </sprites>
     <fonts>
 	<font code="cheesebu" name="cheesebu.ttf" size="20"/>

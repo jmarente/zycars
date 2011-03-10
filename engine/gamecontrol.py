@@ -50,6 +50,9 @@ class GameControl(state.State):
         
         #Grupo de sprite que contendrás las manchas de aceite
         self.oils = pygame.sprite.Group()
+        
+        #Grupo para las pelotas
+        self.balls = pygame.sprite.Group()
                 
         #Gestor de colisiones
         self.collision_manager = collisionmanager.CollisionManager()
@@ -129,6 +132,9 @@ class GameControl(state.State):
             for box in self.items_box:
                 if self.on_screen(box):
                     box.update()
+            
+            for ball in self.balls:
+                ball.update()
                         
             #Actualizamos las balas.
             for bullet in self.bullets:
@@ -174,6 +180,7 @@ class GameControl(state.State):
         #Dibujamos los Puntos de control en pantalla
         self.checkpoints.draw(screen)
         
+        #Dibujamos todas las manchas de aceite
         for oil in self.oils:
             if self.on_screen(oil):
                 oil.draw(screen)
@@ -182,13 +189,20 @@ class GameControl(state.State):
         for box in self.items_box:
             if self.on_screen(box):
                 box.draw(screen)
-        
-        for bullet in self.bullets:
-            if self.on_screen(bullet):
-                bullet.draw(screen)
             
         #Dibujamos al jugador
         self.player.draw(screen)
+
+        for bullet in self.bullets:
+            #if bullet.get_state() != gameobject.NORMAL and self.on_screen(bullet):
+            if self.on_screen(bullet):
+                bullet.draw(screen)
+
+        for ball in self.balls:
+            if self.on_screen(ball):
+                ball.draw(screen)
+        
+        self.player.draw_hud(screen)
         
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
@@ -227,10 +241,29 @@ class GameControl(state.State):
                 box.set_state(gameobject.EXPLOSION)
                 self.player.collected_item()
         
+        #Colisiones de los misiles
         for bullet in self.bullets:
             if self.collision_manager.item_level_collision(bullet, self.circuit):
                 bullet.set_state(gameobject.EXPLOSION)
+            if bullet.get_state() == gameobject.RUN and \
+                self.collision_manager.actor_pixelperfectcollision(self.player, bullet):
+                bullet.set_state(gameobject.EXPLOSION)
+                self.player.set_state(gameobject.DAMAGED)
+            '''for ball in self.balls:
+                if self.collision_manager.actor_pixelperfectcollision(ball, bullet):
+                    bullet.set_state(gameobject.EXPLOSION)
+                    ball.set_state(gameobject.EXPLOSION)'''
         
+        #Colisiones de las bolas
+        for ball in self.balls:
+            if self.collision_manager.item_level_collision(ball, self.circuit):
+                pass
+            if ball.get_state() == gameobject.RUN and \
+                self.collision_manager.actor_pixelperfectcollision(self.player, ball):
+                ball.set_state(gameobject.EXPLOSION)
+                self.player.set_state(gameobject.DAMAGED)
+        
+        #Colisiones con las manchas de aceite
         for oil in self.oils:
             if self.on_screen(oil) and oil.get_state() != gameobject.NORMAL \
                 and self.collision_manager.actor_pixelperfectcollision(oil, self.player):
@@ -291,6 +324,9 @@ class GameControl(state.State):
     
     def add_oil(self, oil):
         self.oils.add(oil)
+    
+    def add_ball(self, ball):
+        self.balls.add(ball)
         
     def add_ia_car(self, ia_car):
         '''

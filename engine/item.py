@@ -52,6 +52,7 @@ class Item(gameobject.GameObject):
         self.update_position()
         #Actualizamos la rotación de la imagen del coche
         self.update_image()
+        self.type = None
 
 class Missile(Item):
     '''
@@ -70,6 +71,8 @@ class Missile(Item):
         '''
         Item.__init__(self, game_control, owner, path_xml, x, y, angle)
         
+        self.type = MISSILE
+        
         parser = xml.dom.minidom.parse(data.get_path_xml(path_xml))
 
         root = parser.firstChild
@@ -77,6 +80,7 @@ class Missile(Item):
         #Inicializamos atributos
         self.aceleration = float(root.getAttribute('aceleration'))
         self.max_speed = float(root.getAttribute('max_speed'))
+        self.particle_code = root.getAttribute('particle_code')
         
         #Funciones para cada estado
         self.states = {
@@ -87,7 +91,7 @@ class Missile(Item):
             }
         
         #Creamos el sistema de particulas, para cuando colisionemos con la caja
-        self.particles = None 
+        self.particles = None
 
     def update(self):
         '''
@@ -106,9 +110,9 @@ class Missile(Item):
         if self.state != EXPLOSION:
             #Actualizmaos posicion. imagen y dirección
             self.update_position()
-            self.update_image()
             self.update_direction()
-            
+            self.update_angle()
+
     def draw(self, screen):
         '''
         @brief Método que dibuja el elemento en pantalla
@@ -132,13 +136,20 @@ class Missile(Item):
         
         #Y la trigonometria del mismo
         self.trigonometry()
+        
+        #Si el coche que soltó la mancha de aceite ya la a dejao atras cambiamos su estado,
+        #Para que ya pueda colisionar con él
+        if not collisionmanager.CollisionManager().actor_rectanglecollision(self, self.owner):
+            self.state = RUN
             
     def __run_state(self):
         '''
         @brief Método privado que actualia la caja cuando esta en estado de avance
         '''
-        pass 
-    
+        self.move(+1)
+        
+        #Y la trigonometria del mismo
+        self.trigonometry()    
     def __erase_state(self):
         '''
         @brief Método privado que actualia la caja cuando esta en estado de borrado
@@ -150,7 +161,7 @@ class Missile(Item):
         @brief Método privado que actualia la caja cuando esta en estado de explosión
         '''
         if not self.particles:
-            self.particles = particle.SystemParticle(self.game_control, self.rect.centerx, self.rect.centery, ['particle'], 25, 1, 5, 100, 0.5)
+            self.particles = particle.SystemParticle(self.game_control, self.rect.centerx, self.rect.centery, [self.particle_code,], 25, 1, 5, 100, 0.5)
 
         #Actualizamos el sistema de particulas
         self.particles.update()
@@ -178,6 +189,8 @@ class Oil(Item):
         @param angle Ángulo del item
         '''
         Item.__init__(self, game_control, owner, path_xml, x, y, angle)
+        
+        self.type = OIL
         
         #Funciones para cada estado
         self.states = {
@@ -213,3 +226,23 @@ class Oil(Item):
         '''
         pass
 
+class Ball(Missile):
+    '''
+    @brief Clase que representa la bola, hereda de la clase misil, ya que tendrá
+    las mismas características, solo cambia en la colisión con los tiles
+    '''
+    def __init__(self, game_control, owner, path_xml, x, y, angle):
+        '''
+        @brief Constructor.
+        
+        @param game_control Referencia a GameControl
+        @param owner GameObject que lanza el item.
+        @param path_xml Archivo xml con las características del item
+        @param x Posición en el eje x
+        @param y Posición en el eje y
+        @param angle Ángulo del item
+        '''
+        Missile.__init__(self, game_control, owner, path_xml, x, y, angle)
+
+        #Indicamos que es de tipo bola
+        self.type = BALL
