@@ -289,7 +289,7 @@ class GameObject(pygame.sprite.Sprite):
         
         @return Estado anterior al actual
         '''
-        return self.old_state
+        return self.previous_state
 
         
     def get_angle(self):

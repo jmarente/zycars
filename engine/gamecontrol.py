@@ -262,10 +262,12 @@ class GameControl(state.State):
                 self.collision_manager.actor_pixelperfectcollision(self.player, ball):
                 ball.set_state(gameobject.EXPLOSION)
                 self.player.set_state(gameobject.DAMAGED)
+            self.collision_manager.control_limits(ball, self.circuit)
         
         #Colisiones con las manchas de aceite
         for oil in self.oils:
             if self.on_screen(oil) and oil.get_state() != gameobject.NORMAL \
+                and self.player.get_old_state() != gameobject.DAMAGED \
                 and self.collision_manager.actor_pixelperfectcollision(oil, self.player):
                 self.player.set_state(gameobject.DAMAGED)
         

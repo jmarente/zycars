@@ -67,6 +67,8 @@ class Hud:
         
         #En un principio no tenemos ningun item
         self.actual_item = None
+        
+        self.temp_angle = None
                 
     def draw(self, screen):
         '''
@@ -153,15 +155,15 @@ class PlayerCar(BasicCar):
         self.states[self.state]()
         
         #Si pulsamos espacio, lanzamos el item que tengamos actualmente
-        if keyboard.pressed(K_SPACE):
+        if keyboard.newpressed(K_SPACE):
             self.hud.released_item()
         
         #Si el coche no se encuentra cayendo
         if self.state != FALL:
             #Actualizmaos posicion. imagen y dirección
             self.update_position()
-            self.update_image()
             self.update_direction()
+            self.update_image()
         
         self.update_angle()
         
@@ -267,15 +269,20 @@ class PlayerCar(BasicCar):
         
         if not self.start:
             self.start = time.time()
+            #self.temp_angle = self.actual_angle
+            self.actual_speed = self.actual_speed / 2
             
         actual = time.time() - self.start
         
+        #self.temp_angle += self.rotation_angle * (self.max_speed * 2)
         self.actual_angle += self.rotation_angle * (self.max_speed * 2)
         
         if actual >= 0.5:
             self.state = NOACTION
             self.start = None
             self.old_angle = None
+            #self.actual_angle = self.temp_angle
+            self.temp_angle = None
             self.actual_speed = self.max_speed / 2
         
     def __forward_state(self):
@@ -318,6 +325,7 @@ class PlayerCar(BasicCar):
         self.hud.collected_item()
     
     def released_item(self, item_type, path_xml):
+
         if item_type == 'missile':
             missile = item.Missile(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_bullet(missile)
