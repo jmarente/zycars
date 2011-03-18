@@ -8,6 +8,7 @@ import gameobject
 import basiccar
 import circuit
 import checkpoint
+import checkpoint2
 import resource
 import countdown
 import pausemenu
@@ -353,14 +354,17 @@ class GameControl(state.State):
         @param player Jugador
         '''
         self.player = player
-        
-    def add_checkpoint(self, checkpoint):
+
+    def add_checkpoint(self, checkpoint, position):
         '''
         @brief Método que añade un nuevo punto de control al circuito
         
         @param checkpoint Nuevo punto de control a añadir
         '''
-        self.checkpoints.add_checkpoint(checkpoint)
+        self.checkpoints.add_checkpoint(checkpoint, position)
+    
+    def order_checkpoints(self):
+        self.checkpoints.order_checkpoints()
 
     def set_goal(self, goal):
         '''

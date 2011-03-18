@@ -64,19 +64,26 @@ class CheckPoints:
         self.game_control = game_control
         
         #Lista con los puntos de control son pasar
-        self.unchecked = []
+        self.unchecked = deque()
+        
+        self.actual_checkpoint = None
         
         #Lista con los puntos de control ya pasados
-        self.checked = []
+        self.checked = deque()
         
         #Punto de meta
         self.goal = None
+        
+        #Todos los Checkpoints
+        self.all_checkpoints = {}
         
         #Numero de vueltas
         self.laps = 0
         
         #¿Comenzamos?
         self.start = False
+        
+        self.wrong_direction = False
         
     def draw(self, screen):
         '''
@@ -88,6 +95,10 @@ class CheckPoints:
         for cp in self.unchecked:
             cp.draw(screen, (0, 0, 0))
         
+        #Mostramos el punto de control actual
+        if self.actual_checkpoint:
+            self.actual_checkpoint.draw(screen, (0, 0, 255))
+            
         #Mostramos la meta de color rojo
         self.goal.draw(screen, (255, 0, 0))
             
@@ -105,35 +116,51 @@ class CheckPoints:
             self.start = True
         
         #Si hemos pasado al menos una vez por la meta una vez tomada la salida
-        elif self.start:
+        elif self.start and not self.wrong_direction:
             
-            #Lista auxiliar
-            aux_list = []
-            
-            #Comprobamos cada uno de los puntos
-            for cp in self.unchecked:
-                #Si el coche collisiona con él
-                if cp.collision_sprite(sprite):
-                    #Lo añadimos a la lista de comprobados
-                    self.checked.append(cp)
-                    Log().debug("Punto de control")
-                #Si no, a la lista auxiliar
+            #Si colisionamos con el sprite actual
+            if self.actual_checkpoint and self.actual_checkpoint.collision_sprite(sprite):
+                
+                #Lo introducimos en la lista de comprobados
+                self.checked.append(self.actual_checkpoint)
+                
+                #Si aun quedan puntos por pasar
+                if len(self.unchecked) > 0:
+                    
+                    #Obtenemos el siguiente y lo ponemos como actual
+                    self.actual_checkpoint = self.unchecked.popleft()
+                
+                #Si no quedan, ponemos el actual a nulo
                 else:
-                    aux_list.append(cp)
-            
-            #Asignamos la lista auxiliar a la lista de puntos no pasados
-            self.unchecked = aux_list
+                    self.actual_checkpoint = None
             
             #Si hemos pasado todos los puntos, no estamos colisionando con ninguno y pasamos por la meta
-            if len(self.unchecked) == 0 and self.__none_collision(sprite) and self.goal.collision_sprite(sprite):
+            if len(self.unchecked) == 0 and self.goal.collision_sprite(sprite):
+                
                 #Aumentamos en uno el número de vueltas dadas
                 self.laps += 1
                 Log().info("Nº de vueltas:" + str(self.laps))
-                self.game_control.lap_complete()
                 
+                #Informamos a GameControl de que se ha completado una vuelta
+                self.game_control.lap_complete()
+            
                 #Todos los puntos de control pasan a estar sin chequear
                 self.unchecked = self.checked
-                self.checked = []
+                #La lista de punto chequeados la vaciamos
+                self.checked = deque()
+                
+                #Obtenemos el siguiente punto actual
+                self.actual_checkpoint = self.unchecked.popleft()
+            
+            #Controlamos que el coche no de marcha atras en la meta
+            if len(self.unchecked) > 0 and self.goal.collision_sprite(sprite):
+                #Indicamos que va en mala dirección
+                self.wrong_direction = True
+                
+        #Si vamos en mala direccion y pasamos por la meta
+        elif self.wrong_direction and self.goal.collision_sprite(sprite):
+            #Indicamos que la dirección es correcta
+            self.wrong_direction = False
         
     def total_chekpoints(self):
         '''
@@ -143,13 +170,25 @@ class CheckPoints:
         '''
         return len(self.checked) + len(self.unchecked)
 
-    def add_checkpoint(self, cp):
+    def add_checkpoint(self, cp, position):
         '''
         @brief Método que añade un nuevo CheckPoint a la lista
         
         @param cp Nuevo Checkpoint a insertar
         '''
-        self.unchecked.append(cp)
+        self.all_checkpoints[position] = cp
+    
+    def order_checkpoints(self):
+        '''
+        @brief Método encargado de ordenar todos los checkpoints, introduciendolos
+        en una cola para su posterior gestión
+        '''
+        for key in self.all_checkpoints.keys():
+            #Introducimos en la cola segun la posición
+            self.unchecked.append(self.all_checkpoints[key])
+        
+        #Obtenemos el primer de los checkpoints a controlar
+        self.actual_checkpoint = self.unchecked.popleft()
         
     def set_goal(self, goal):
         '''
@@ -158,11 +197,3 @@ class CheckPoints:
         @param goal Meta 
         '''
         self.goal = goal
-    
-    def __none_collision(self, sprite):
-        
-        for cp in self.checked:
-            if cp.collision_sprite(sprite):
-                return False
-        
-        return True

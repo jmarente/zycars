@@ -2324,9 +2324,9 @@
    <tile gid="109"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="75"/>
-   <tile gid="76"/>
-   <tile gid="77"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="22"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -2364,9 +2364,9 @@
    <tile gid="109"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="95"/>
-   <tile gid="96"/>
-   <tile gid="97"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="22"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -6431,4 +6431,33 @@
    <tile gid="0"/>
   </data>
  </layer>
+ <objectgroup name="checkpoints" width="40" height="40">
+  <object name="1" type="Horizontal" x="945" y="855" width="45" height="45"/>
+  <object name="6" type="Vertical" x="900" y="270" width="45" height="45"/>
+  <object name="10" type="Vertical" x="540" y="270" width="45" height="45"/>
+  <object name="7" type="Vertical" x="810" y="270" width="45" height="45"/>
+  <object name="8" type="Vertical" x="720" y="270" width="45" height="45"/>
+  <object name="9" type="Vertical" x="630" y="270" width="45" height="45"/>
+  <object name="5" type="Horizontal" x="945" y="495" width="45" height="45"/>
+  <object name="4" type="Horizontal" x="945" y="585" width="45" height="45"/>
+  <object name="2" type="Horizontal" x="945" y="765" width="45" height="45"/>
+  <object name="3" type="Horizontal" x="945" y="675" width="45" height="45"/>
+  <object name="11" type="Vertical" x="450" y="270" width="45" height="45"/>
+  <object name="12" type="Vertical" x="360" y="270" width="45" height="45"/>
+  <object name="13" type="Horizontal" x="135" y="495" width="45" height="45"/>
+  <object name="14" type="Horizontal" x="135" y="585" width="45" height="45"/>
+  <object name="15" type="Horizontal" x="135" y="675" width="45" height="45"/>
+  <object name="16" type="Horizontal" x="135" y="765" width="45" height="45"/>
+  <object name="17" type="Horizontal" x="135" y="855" width="45" height="45"/>
+  <object name="18" type="Horizontal" x="135" y="945" width="45" height="45"/>
+  <object name="19" type="Vertical" x="360" y="990" width="45" height="45"/>
+  <object name="20" type="Vertical" x="450" y="990" width="45" height="45"/>
+  <object name="21" type="Vertical" x="540" y="990" width="45" height="45"/>
+  <object name="22" type="Vertical" x="630" y="990" width="45" height="45"/>
+  <object name="23" type="Vertical" x="720" y="990" width="45" height="45"/>
+  <object name="24" type="Vertical" x="810" y="990" width="45" height="45"/>
+  <object name="25" type="Vertical" x="900" y="990" width="45" height="45"/>
+  <object name="26" type="Horizontal" x="945" y="945" width="45" height="45"/>
+  <object name="0" type="GoalH" x="945" y="900" width="45" height="45"/>
+ </objectgroup>
 </map>

@@ -43,6 +43,7 @@ class Game:
         pygame.display.set_icon(self.icon)
         
         self.clock = pygame.time.Clock()
+        self.font = resource.get_font('cheesebu', 30)
         keyboard.update()
         
         ######PRUEBA MODULO GAME CONTROL##########
@@ -66,6 +67,12 @@ class Game:
             
             self.__actual_state.update()
             self.__actual_state.draw(self.screen)
+            
+            fps = self.clock.get_fps()
+            
+            render_fps = self.font.render(str(round(fps, 2)), True, (0,0,0))
+
+            self.screen.blit(render_fps, (730, 565))
             
             pygame.display.flip()
         

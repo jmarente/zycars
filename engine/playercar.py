@@ -134,8 +134,8 @@ class PlayerCar(BasicCar):
                     }
         
         self.falling = False
-        self.min_scale = 0.2
-        self.count_scale = 0.01
+        self.min_scale = 0.3
+        self.count_scale = 0.02
         self.actual_scale = 1
         
         #HUD del coche
@@ -256,34 +256,40 @@ class PlayerCar(BasicCar):
             self.falling = True
         
         self.image = pygame.transform.rotozoom(self.image, -5, self.actual_scale)
+        
+        #Actualizamos tanto el alto como el ancho 
+        self.rect.w = self.image.get_width()
+        self.rect.h = self.image.get_height()
+        
         self.actual_scale -= self.count_scale
         
         if self.actual_scale < self.min_scale:
-            self.actual_speed *= -1
-            self.state = NORMAL
+            self.actual_speed = 0
+            self.state = NOACTION
             self.old_state = FALL
             self.falling = False
             self.actual_scale = 1
+            self.x += 90
 
     def __damaged_state(self):
         
         if not self.start:
             self.start = time.time()
             #self.temp_angle = self.actual_angle
-            self.actual_speed = self.actual_speed / 2
+            #self.actual_speed = self.actual_speed / 2
             
         actual = time.time() - self.start
         
         #self.temp_angle += self.rotation_angle * (self.max_speed * 2)
         self.actual_angle += self.rotation_angle * (self.max_speed * 2)
         
-        if actual >= 0.5:
+        if actual >= 1:
             self.state = NOACTION
             self.start = None
-            self.old_angle = None
-            #self.actual_angle = self.temp_angle
-            self.temp_angle = None
             self.actual_speed = self.max_speed / 2
+            #self.old_angle = None
+            #self.actual_angle = self.temp_angle
+            #self.temp_angle = None
         
     def __forward_state(self):
         pass

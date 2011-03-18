@@ -80,18 +80,8 @@ class Circuit:
                 collision_map_name = str(element.getAttribute('value'))
             elif name == 'ancho_pista':
                 self.circuit_width = int(element.getAttribute('value'))
-            elif name == 'checkpointH':
-                frame = int(element.getAttribute('value'))
-                self.elements_map[frame] = name
-            elif name == 'checkpointV':
                 frame = int(element.getAttribute('value'))
                 self.elements_map[frame] = name            
-            elif name == 'goalV':
-                frame = int(element.getAttribute('value'))
-                self.elements_map[frame] = name
-            elif name == 'goalH':
-                frame = int(element.getAttribute('value'))
-                self.elements_map[frame] = name
             elif name == 'grado_coche':
                 self.car_angle = int(element.getAttribute('value'))
             elif name == 'item_box':
@@ -189,6 +179,49 @@ class Circuit:
         self.y = 1
         #self.y = self.height * self.tile_height - pygame.display.get_surface().get_height()
         #y = alto_ * tile_alto_ - juego_->univ()->pantalla_alto();
+        
+        #Parseamos los objetos que se introducirán en el mapa
+        for element in parser.getElementsByTagName('objectgroup'):
+            
+            #Comprobamos si estamos enla capa de los checkpoints
+            if element.getAttribute('name') == 'checkpoints':
+                
+                #Parseamos cada uno de los checkpoints
+                for cp in element.getElementsByTagName('object'):
+                    
+                    #Obtenemos las caracteristicas
+                    position = int(cp.getAttribute('name'))
+                    type = str(cp.getAttribute('type'))
+                    x = int(cp.getAttribute('x'))
+                    y = int(cp.getAttribute('y'))
+                    
+                    new_checkpoint = None
+                    
+                    #Segun el tipo añadiremos un chekpoint 
+                    if type == 'Horizontal' or type == 'Vertical':
+                        if type == 'Horizontal':
+                            new_checkpoint = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
+                        elif type == 'Vertical':
+                            new_checkpoint = checkpoint.CheckPoint(self.game_control, x, y, 2, self.tile_height * self.circuit_width)
+                        
+                        #Añadimos un nuevo checkpoint
+                        self.game_control.add_checkpoint(new_checkpoint, position)
+                    
+                    #O la meta
+                    else:
+                        if type == 'GoalH':
+                            new_checkpoint = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
+                            self.game_control.set_start(self, x, y, 'goal', 'horizontal', self.car_angle)
+
+                        elif type == 'GoalV':
+                            new_checkpoint = checkpoint.CheckPoint(self.game_control, x, y, 2, self.tile_height * self.circuit_width)
+                            self.game_control.set_start(self, x, y, 'goal', 'vertical', self.car_angle)
+                            
+                        #Añadimos la meta    
+                        self.game_control.set_goal(new_checkpoint)
+                        
+            #Tras obtener todos los checpoints, los ordernamos para su gestión
+            self.game_control.order_checkpoints()
         
         #print str(num_layer)
         #Cargamos los distintos elementos indicados en el mapa
@@ -296,35 +329,13 @@ class Circuit:
                 if self.elements_map.has_key(frame):
                     
                     #Obtenemos su posición
-                     x = j * self.tile_height
-                     y = i * self.tile_width
+                    x = j * self.tile_height
+                    y = i * self.tile_width
                     
                     #Según el tipo que sea el tile añadiremos al juego el objeto
-                     if self.elements_map[frame] == 'checkpointH':
-                        #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, self.tile_height)
-                        cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
-                        self.game_control.add_checkpoint(cp)
-                    
-                     elif self.elements_map[frame] == 'checkpointV':
-                        #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
-                        cp = checkpoint.CheckPoint(self.game_control, x, y, 2, self.tile_height * self.circuit_width)
-                        self.game_control.add_checkpoint(cp)
-                        
-                     elif self.elements_map[frame] == 'goalV':
-                        #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
-                        cp = checkpoint.CheckPoint(self.game_control, x, y, 2, self.tile_height * self.circuit_width)
-                        self.game_control.set_goal(cp)
-                        self.game_control.set_start(self, x, y, 'goal', 'vertical', self.car_angle)
-
-                     elif self.elements_map[frame] == 'goalH':
-                        #cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width, self.tile_height * self.circuit_width)
-                        cp = checkpoint.CheckPoint(self.game_control, x, y, self.tile_width * self.circuit_width, 2)
-                        self.game_control.set_goal(cp)
-                        self.game_control.set_start(self, x, y, 'goal', 'horizontal', self.car_angle)
-                    
-                     elif self.elements_map[frame] == 'item_box':
-                         item_box = itembox.ItemBox(self.game_control, 'elements/itembox.xml', x, y)
-                         self.game_control.add_item_box(item_box)
+                    if self.elements_map[frame] == 'item_box':
+                        item_box = itembox.ItemBox(self.game_control, 'elements/itembox.xml', x, y)
+                        self.game_control.add_item_box(item_box)
         
     def get_tile(self, layer, x, y):
         '''
