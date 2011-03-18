@@ -152,15 +152,15 @@ class CheckPoints:
                 #Obtenemos el siguiente punto actual
                 self.actual_checkpoint = self.unchecked.popleft()
             
-            #Controlamos que el coche no de marcha atras en la meta
-            if len(self.unchecked) > 0 and self.goal.collision_sprite(sprite):
+            '''#Controlamos que el coche no de marcha atras en la meta
+            if not self.wrong_direction and len(self.unchecked) > 0 and self.goal.collision_sprite(sprite):
                 #Indicamos que va en mala dirección
-                self.wrong_direction = True
+                self.wrong_direction = True'''
                 
-        #Si vamos en mala direccion y pasamos por la meta
+        '''#Si vamos en mala direccion y pasamos por la meta
         elif self.wrong_direction and self.goal.collision_sprite(sprite):
             #Indicamos que la dirección es correcta
-            self.wrong_direction = False
+            self.wrong_direction = False'''
         
     def total_chekpoints(self):
         '''

@@ -8,7 +8,6 @@ import gameobject
 import basiccar
 import circuit
 import checkpoint
-import checkpoint2
 import resource
 import countdown
 import pausemenu
