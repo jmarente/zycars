@@ -219,13 +219,27 @@ class Circuit:
                             
                         #Añadimos la meta    
                         self.game_control.set_goal(new_checkpoint)
-                        
-            #Tras obtener todos los checpoints, los ordernamos para su gestión
-            self.game_control.order_checkpoints()
+                
+                #Tras obtener todos los checpoints, los ordernamos para su gestión
+                self.game_control.order_checkpoints()
+
+            if element.getAttribute('name') == 'objetos':
+                
+                for ob in element.getElementsByTagName('object'):
+                    
+                    #Obtenemos las caracteristicas
+                    name = str(ob.getAttribute('name'))
+                    type = str(ob.getAttribute('type'))
+                    x = int(ob.getAttribute('x'))
+                    y = int(ob.getAttribute('y'))    
+                    
+                    if name == 'Item_box':
+                        item_box = itembox.ItemBox(self.game_control, 'elements/itembox.xml', x, y)
+                        self.game_control.add_item_box(item_box)
         
         #print str(num_layer)
         #Cargamos los distintos elementos indicados en el mapa
-        self.load_elements()            
+        #self.load_elements()            
         
     def draw(self, screen, layer):
         '''
@@ -291,12 +305,16 @@ class Circuit:
                 
                 #Obtenemos el frame del tile
                 frame = self.map[layer][row + ly][column + lx].frame - 1
+                type = self.map[layer][row + ly][column + lx].type
                 #Si el tile existe y no es uno vacio
                 if frame > -1:
                     #Lo dibujamos en su posición
                     pos_x = column * self.tile_width - margin_x
                     pos_y = row * self.tile_width - margin_y
                     screen.blit(self.tileset[frame], (pos_x, pos_y))
+                    if type == NOPASSABLE:
+                        pygame.draw.rect(screen, (0, 0, 0), (pos_x, pos_y, 45, 45), 1)
+
             #print row
             #print num_blocks_y
         
@@ -313,29 +331,6 @@ class Circuit:
             self.y = 1
         else:
             self.y = y
-         
-    def load_elements(self):
-        '''
-        @brief Función encargada de cargar los objetos del juego indicados en el mapa.
-        '''
-        cp = None
-        #Recorremos cada uno de los tiles de la ultima capa donde se indican los objetos
-        for i in range(0, self.height):
-            for j in range(0, self.width):
-                #Obtenemos el frame del tile
-                frame = self.map[3][i][j].frame
-                
-                #Si ese tile indica un objeto
-                if self.elements_map.has_key(frame):
-                    
-                    #Obtenemos su posición
-                    x = j * self.tile_height
-                    y = i * self.tile_width
-                    
-                    #Según el tipo que sea el tile añadiremos al juego el objeto
-                    if self.elements_map[frame] == 'item_box':
-                        item_box = itembox.ItemBox(self.game_control, 'elements/itembox.xml', x, y)
-                        self.game_control.add_item_box(item_box)
         
     def get_tile(self, layer, x, y):
         '''

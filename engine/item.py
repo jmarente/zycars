@@ -92,6 +92,7 @@ class Missile(Item):
         
         #Creamos el sistema de particulas, para cuando colisionemos con la caja
         self.particles = None
+        self.actual_speed = 0.1
 
     def update(self):
         '''
@@ -132,7 +133,7 @@ class Missile(Item):
         '''
         @brief Método privado que actualia la caja cuando esta en estado normal
         '''
-        self.move(+1)
+        self.move(cmp(self.actual_speed, 0))
         
         #Y la trigonometria del mismo
         self.trigonometry()
@@ -146,7 +147,7 @@ class Missile(Item):
         '''
         @brief Método privado que actualia la caja cuando esta en estado de avance
         '''
-        self.move(+1)
+        self.move(cmp(self.actual_speed, 0))
         
         #Y la trigonometria del mismo
         self.trigonometry()    

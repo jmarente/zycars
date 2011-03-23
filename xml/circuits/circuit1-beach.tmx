@@ -2,13 +2,8 @@
 <map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="45" tileheight="45">
  <properties>
   <property name="ancho_pista" value="5"/>
-  <property name="checkpointH" value="321"/>
-  <property name="checkpointV" value="322"/>
   <property name="collision_map" value="collisionmapbeach.png"/>
-  <property name="goalH" value="324"/>
-  <property name="goalV" value="323"/>
   <property name="grado_coche" value="270"/>
-  <property name="item_box" value="325"/>
   <property name="tileset_alto" value="22"/>
   <property name="tileset_ancho" value="20"/>
  </properties>
@@ -5119,7 +5114,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="325"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5199,7 +5193,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="325"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5491,9 +5484,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="325"/>
    <tile gid="0"/>
-   <tile gid="325"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5593,9 +5584,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="325"/>
    <tile gid="0"/>
-   <tile gid="325"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5763,7 +5752,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="325"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5843,7 +5831,14 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="325"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -6431,7 +6426,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup name="checkpoints" width="40" height="40">
+ <objectgroup name="checkpoints" width="40" height="40" visible="0">
   <object name="1" type="Horizontal" x="945" y="855" width="45" height="45"/>
   <object name="6" type="Vertical" x="900" y="270" width="45" height="45"/>
   <object name="10" type="Vertical" x="540" y="270" width="45" height="45"/>
@@ -6459,5 +6454,15 @@
   <object name="25" type="Vertical" x="900" y="990" width="45" height="45"/>
   <object name="26" type="Horizontal" x="945" y="945" width="45" height="45"/>
   <object name="0" type="GoalH" x="945" y="900" width="45" height="45"/>
+ </objectgroup>
+ <objectgroup name="objetos" width="40" height="40" visible="0">
+  <object name="Item_box" type="Item_box" x="450" y="405" width="45" height="45"/>
+  <object name="Item_box" type="Item_box" x="990" y="720" width="45" height="45"/>
+  <object name="Item_box" type="Item_box" x="1080" y="720" width="45" height="45"/>
+  <object name="Item_box" type="Item_box" x="630" y="1125" width="45" height="45"/>
+  <object name="Item_box" type="Item_box" x="630" y="1035" width="45" height="45"/>
+  <object name="Item_box" type="Item_box" x="180" y="855" width="45" height="45"/>
+  <object name="Item_box" type="Item_box" x="270" y="855" width="45" height="45"/>
+  <object name="Item_box" type="Item_box" x="450" y="315" width="45" height="45"/>
  </objectgroup>
 </map>

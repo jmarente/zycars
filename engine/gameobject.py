@@ -148,6 +148,9 @@ class GameObject(pygame.sprite.Sprite):
             self.actual_speed = self.max_speed
         elif self.actual_speed < -self.min_speed:
             self.actual_speed = -self.min_speed
+        
+        if delta == 0:
+            self.actual_speed = 0
 
     def update_position(self):
         '''

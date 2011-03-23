@@ -283,33 +283,33 @@ class CollisionManager:
                 if collision['left']:
                     it.x = tile_rect.x - (it.rect.w / 2)
                     if it.go_down():
-                        it.actual_angle += 90
+                        it.actual_angle += 70
                     elif it.go_up():
-                        it.actual_angle -= 90
+                        it.actual_angle -= 70
                     col = True
             else:
                 if collision['right'] and not col:
                     it.x = tile_rect.x + tile_rect.w + (it.rect.w / 2)
                     if it.go_down():
-                        it.actual_angle -= 90
+                        it.actual_angle -= 70
                     elif it.go_up():
-                        it.actual_angle += 90
+                        it.actual_angle += 70
                     col = True
             if it.dy > 0:
                 if collision['top'] and not col:
                     it.y = tile_rect.y - (it.rect.h / 2)
                     if it.go_left():
-                        it.actual_angle += 90
+                        it.actual_angle += 70
                     elif it.go_right():
-                        it.actual_angle -= 90
+                        it.actual_angle -= 70
                     col = True
             else:
                 if collision['bottom'] and not col:
                     it.y = tile_rect.y + tile_rect.w + (it.rect.h / 2)
                     if it.go_left():
-                        it.actual_angle -= 90
+                        it.actual_angle -= 70
                     elif it.go_right():
-                        it.actual_angle += 90
+                        it.actual_angle += 70
                     col = True
                     
             return True
@@ -441,7 +441,7 @@ class CollisionManager:
                 #Log().info('Corregiriamos colision por abajo')
                 collision['bottom'] = True
                 
-        elif edge['left'] and edge['top']:
+        if edge['left'] and edge['top']:
             left_car = tile_rect.left - sprite.rect.left
             top_car = tile_rect.top - sprite.rect.top
             
@@ -452,7 +452,7 @@ class CollisionManager:
                 #Log().info('Corregiriamos colision por arriba')
                 collision['top'] = True
                                 
-        elif edge['right'] and edge['bottom']:
+        if edge['right'] and edge['bottom']:
             right_car = sprite.rect.right - tile_rect.right
             bottom_car = sprite.rect.bottom - tile_rect.bottom
             
@@ -463,7 +463,7 @@ class CollisionManager:
                 #Log().info('Corregiriamos colision por abajo')
                 collision['bottom']  = True
             
-        elif edge['right'] and edge['top']:
+        if edge['right'] and edge['top']:
             right_car = sprite.rect.right - tile_rect.right
             top_car = tile_rect.top - sprite.rect.top
             
@@ -532,3 +532,14 @@ class CollisionManager:
             or sprite.rect.x + sprite.rect.w > circ.get_real_width() - circ.get_tile_width():
             sprite.kill()
             Log().critical('Item fuera de limites, con angulo ' + str(sprite.actual_angle))
+            if sprite.go_left():
+                Log().critical('Hacia la izquierda')
+            if sprite.go_right():
+                Log().critical('Hacia la derecha')
+            if sprite.go_up():
+                Log().critical('Hacia arriba')
+            if sprite.go_down():
+                Log().critical('Hacia abajo')
+            Log().critical('Dx: ' + str(sprite.dx))
+            Log().critical('Dy: ' + str(sprite.dy))
+                
