@@ -249,10 +249,10 @@ class GameControl(state.State):
                 self.collision_manager.actor_pixelperfectcollision(self.player, bullet):
                 bullet.set_state(gameobject.EXPLOSION)
                 self.player.set_state(gameobject.DAMAGED)
-            '''for ball in self.balls:
+            for ball in self.balls:
                 if self.collision_manager.actor_pixelperfectcollision(ball, bullet):
                     bullet.set_state(gameobject.EXPLOSION)
-                    ball.set_state(gameobject.EXPLOSION)'''
+                    ball.set_state(gameobject.EXPLOSION)
         
         #Colisiones de las bolas
         for ball in self.balls:

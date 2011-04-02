@@ -313,7 +313,8 @@ class Circuit:
                     pos_y = row * self.tile_width - margin_y
                     screen.blit(self.tileset[frame], (pos_x, pos_y))
                     if type == NOPASSABLE:
-                        pygame.draw.rect(screen, (0, 0, 0), (pos_x, pos_y, 45, 45), 1)
+                        pass
+                        #pygame.draw.rect(screen, (0, 0, 0), (pos_x, pos_y, 45, 45), 1)
 
             #print row
             #print num_blocks_y

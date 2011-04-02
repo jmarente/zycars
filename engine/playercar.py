@@ -286,7 +286,7 @@ class PlayerCar(BasicCar):
         if actual >= 1:
             self.state = NOACTION
             self.start = None
-            self.actual_speed = self.max_speed / 2
+            self.actual_speed -= 0.5
             #self.old_angle = None
             #self.actual_angle = self.temp_angle
             #self.temp_angle = None

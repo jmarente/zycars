@@ -169,61 +169,37 @@ class CollisionManager:
     
             collision = self.side_collision(sprite, tile_rect, edge)
             #Según la colisión corregiremos de una forma u otra el rectangulo del sprite   
+            col = False
+            
             if sprite.get_state() == gameobject.DAMAGED:
-                col = False
+                sprite.set_state(gameobject.NOACTION)
+                sprite.start = None
+                
+            if sprite.dx < 0:         
                 if collision['right']:
                     #sprite.rect.x = tile_rect.x + tile_rect.w
                     sprite.x = tile_rect.x + tile_rect.w + (sprite.rect.w / 2)
-                    sprite.actual_angle *= -1
+                    sprite.actual_speed *= -1
                     col = True
-
-                elif collision['left'] and not col:
+            else:
+                if collision['left'] and not col:
                     #sprite.rect.x = tile_rect.x - sprite.rect.w
                     sprite.x = tile_rect.x - (sprite.rect.w / 2)
                     sprite.actual_speed *= -1
                     col = True
-
+                    
+            if sprite.dy < 0:
                 if collision['bottom'] and not col:
                     sprite.y = tile_rect.y + tile_rect.w + (sprite.rect.h / 2)
                     sprite.actual_speed *= -1
-                    #sprite.rect.y = tile_rect.y + tile_rect.h
                     col = True
-
-                elif collision['top'] and not col:
+                    #sprite.rect.y = tile_rect.y + tile_rect.h
+            else:
+                if collision['top'] and not col:
                     sprite.y = tile_rect.y - (sprite.rect.h / 2)
                     sprite.actual_speed *= -1
                     col = True
                     #sprite.rect.y = tile_rect.y - sprite.rect.h
-                
-                sprite.set_state(gameobject.NOACTION)
-
-            else:
-                col = False
-                if sprite.dx < 0:         
-                    if collision['right']:
-                        #sprite.rect.x = tile_rect.x + tile_rect.w
-                        sprite.x = tile_rect.x + tile_rect.w + (sprite.rect.w / 2)
-                        sprite.actual_speed *= -1
-                        col = True
-                else:
-                    if collision['left'] and not col:
-                        #sprite.rect.x = tile_rect.x - sprite.rect.w
-                        sprite.x = tile_rect.x - (sprite.rect.w / 2)
-                        sprite.actual_speed *= -1
-                        col = True
-                        
-                if sprite.dy < 0:
-                    if collision['bottom'] and not col:
-                        sprite.y = tile_rect.y + tile_rect.w + (sprite.rect.h / 2)
-                        sprite.actual_speed *= -1
-                        col = True
-                        #sprite.rect.y = tile_rect.y + tile_rect.h
-                else:
-                    if collision['top'] and not col:
-                        sprite.y = tile_rect.y - (sprite.rect.h / 2)
-                        sprite.actual_speed *= -1
-                        col = True
-                        #sprite.rect.y = tile_rect.y - sprite.rect.h
                 
         #Si hemos obtenido colisión y es de tipo lag
         elif result and (result['type'] == circuit.LAG or result['type'] == circuit.HOLE):
