@@ -1,4 +1,4 @@
-<car sprite_code="purple" max_speed="6" min_speed="3" aceleration="0.5" desaceleration="0.2" rotation_angle="0.35">
+<car sprite_code="purple" max_speed="5.5" min_speed="3" aceleration="0.1" desaceleration="0.2" rotation_angle="0.35">
 <!--NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW-->
     <animations>
         <animation name="normal" frames="0" delay="1"/>

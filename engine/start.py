@@ -10,6 +10,7 @@ Implementa la clase Start
 import resource
 import pygame
 import playercar
+import ia
 
 class Start:
     '''
@@ -91,6 +92,10 @@ class Start:
             elif car_angle == 270:
                 self.game_control.add_player(playercar.PlayerCar(self.game_control, 
                 'cars/coche_prueba_yellow.xml', self.x + self.circuit.get_tile_width() * 2, 
+                self.y + self.circuit.get_tile_height() * 2, 270))
+                
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                'cars/coche_prueba_purple.xml', self.x + self.circuit.get_tile_width() * 3, 
                 self.y + self.circuit.get_tile_height() * 2, 270))
             
     def draw(self, screen):

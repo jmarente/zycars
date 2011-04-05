@@ -89,10 +89,17 @@ class GameControl(state.State):
         self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 0)
         
         #Indicamos el estado
-        self.actual_state = 'race'
+        self.actual_state = ''
         
         #Actualizamos el estado en carrera para posicionar bien la pantalla
-        self.update()
+        #self.update()
+        
+        self.player.update()
+        
+        for ia_car in self.ia_cars:
+            ia_car.update(self.player.rect.x, self.player.rect.y)
+            
+        self.scroll_control()
         
         #Pasamos al estado de cuenta atras
         self.actual_state = 'countdown'
@@ -126,7 +133,7 @@ class GameControl(state.State):
             
             #Actualizamos la IA.
             for ia_car in self.ia_cars:
-                ia_car.update()
+                ia_car.update(self.player.rect.x, self.player.rect.y)
             
             #Actualizamos las cajas de items
             for box in self.items_box:
@@ -201,6 +208,9 @@ class GameControl(state.State):
         for ball in self.balls:
             if self.on_screen(ball):
                 ball.draw(screen)
+        
+        for ia_car in self.ia_cars:
+            ia_car.draw(screen)
         
         self.player.draw_hud(screen)
         
@@ -336,7 +346,7 @@ class GameControl(state.State):
         
         @param ia_car Nuevo coche
         '''
-        self.ia_car.add(ia_car)
+        self.ia_cars.add(ia_car)
         
     def add_item_box(self, item_box):
         '''
@@ -418,6 +428,9 @@ class GameControl(state.State):
             self.actual_time.start()
             
         self.actual_state = new_state
+    
+    def get_state(self):
+        return self.actual_state
     
     def lap_complete(self):
         '''
