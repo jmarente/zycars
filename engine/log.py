@@ -50,6 +50,7 @@ class Log:
         self.logger.debug('Constructor de Log')
         
     def debug(self, text):
+        #self.logger.debug((chr(27) + '[1;31m') + text)
         self.logger.debug(text)
     
     def info(self, text):

@@ -1,5 +1,0 @@
-<option text_position="bottom" on_button="false">
-    <selected selected_image="selected_circuit" x="0" y="19" w="350" h="48"/>
-    <normal normal_image="normal_circuit" x="14" y="15" w="288" h="41"/>
-    <normal_text r="189" g="9" b="38" x="5" y="50" size="15" angle="20"/>
-</option>
