@@ -4,9 +4,11 @@ import gameobject
 import basiccar
 import math
 import astar
+import time
 
 from basiccar import BasicCar
 from gameobject import *
+from collections import deque
 
 class IA(BasicCar):
     def __init__(self, game_control, xml_file, x, y, angle = 0):
@@ -25,8 +27,14 @@ class IA(BasicCar):
         self.actual_scale = 1
         self.target_angle = self.target_x = self.target_x = 0
         self.astar = astar.Astar()
-        self.targets = None
+        self.left_targets = deque()
+        self.actual_target = None
+        self.passed_targets = deque()
         self.no_run = False
+        self.astar = astar.Astar()
+        self.actual_point = None
+        self.passed_points = deque()
+        self.left_points = deque()
     
     def estimate_angle(self):
         x = self.target_x - self.rect.x
@@ -76,6 +84,17 @@ class IA(BasicCar):
             self.state = RUN
     
     def __run_state(self):
+        
+        if len(self.left_points) == 0 and not self.actual_point:
+            print "No ai puntos, calcular"
+            tiempo = time.time()
+            self.left_points = self.astar.get_road(self.game_control.current_tile(self.rect), self.game_control.current_tile(self.actual_target))
+            
+            print "Ha tardado: ", time.time() - tiempo
+            print "RESULTADO: "
+            for point in self.left_points:
+                print point
+            
         self.estimate_angle()
         
         if not self.no_run:
@@ -90,3 +109,10 @@ class IA(BasicCar):
             angle -= 360
         
         return angle
+    
+    def set_points(self, points):
+        
+        for key in points.keys():
+            self.left_targets.append(points[key])
+        
+        self.actual_target = self.left_targets.popleft()

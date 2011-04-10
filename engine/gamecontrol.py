@@ -91,8 +91,8 @@ class GameControl(state.State):
         #Cuenta atras
         self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 0)
         
-        #Indicamos el estado
-        self.actual_state = ''
+        #Pasamos al estado de cuenta atras
+        self.actual_state = 'countdown'
         
         #Actualizamos el estado en carrera para posicionar bien la pantalla
         #self.update()
@@ -101,11 +101,10 @@ class GameControl(state.State):
         
         for ia_car in self.ia_cars:
             ia_car.update(self.player.rect.x, self.player.rect.y)
+            ia_car.set_points(self.ia_checks)
             
         self.scroll_control()
         
-        #Pasamos al estado de cuenta atras
-        self.actual_state = 'countdown'
         
     def update(self):
         '''
@@ -496,15 +495,15 @@ class GameControl(state.State):
         
         return False
 
-    def current_tile(self, sprite):
+    def current_tile(self, rect):
         '''
         @brief Calcula el tile actual que se encuentra el sprite.
         
         @param sprite Sprite del que deseamos averiguar en que tile se encuentra
         '''
         
-        x = math.floor(sprite.rect.x / self.circuit.get_tile_width())
-        y = math.floor(sprite.rect.y / self.circuit.get_tile_height())
+        x = int(math.floor(rect.x / self.circuit.get_tile_width()))
+        y = int(math.floor(rect.y / self.circuit.get_tile_height()))
         
         return (x, y)
         

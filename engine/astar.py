@@ -19,6 +19,16 @@ class Nodo:
             self.g = self.father.g + 1
 
         self.f = self.h + self.g
+    
+    def __str__(self):
+        result = ""
+        result += "Fila: " + str(self.row)
+        result += " Columna: " + str(self.column)
+        result += " h: " + str(self.h)
+        result += " g: " + str(self.g)
+        result += " f: " + str(self.f)
+        #return str((self.row, self.column))
+        return result
 
 class Astar:
     def __init__(self):
@@ -36,43 +46,45 @@ class Astar:
         
         self.current = self.home
         self.open += self.get_neighbors(self.home)
-        self.close.append(self.home)
+        self.close.append(self.current)
         
-        while not self.in_target():
+        print "Inicio: ", self.home
+        print "Objetivo: ", self.target
+        while not self.is_target():
             
             self.current = self.best_open()
             self.close.append(self.current)
             
-            if not self.in_target():
+            if not self.is_target():
                 neighbors = self.get_neighbors(self.current)
                 
-                neighbors = self.check_neighbors(neighbors)
+                self.check_neighbors(neighbors)
                 #neighbors = self.check_neighbors(neighbors, self.close)
                 
-                self.open += neighbors
+                #self.open += neighbors
         
         return self.complete_road(self.current)
     
     def get_neighbors(self, nodo):
         neighbors = []
         
-        if map[nodo.row + 1][nodo.column] == cicuit.PASSABLE:
-            neighbors.append(Nodo(nodo.row + 1, nodo.column, self.target, nodo))
+        if map[nodo.row + 1][nodo.column] == circuit.PASSABLE:
+            neighbors.append(Nodo(nodo.row + 1, nodo.column, (self.target.row, self.target.column), nodo))
 
-        if map[nodo.row - 1][nodo.column] == cicuit.PASSABLE:
-            neighbors.append(Nodo(nodo.row - 1, nodo.column, self.target, nodo))
+        if map[nodo.row - 1][nodo.column] == circuit.PASSABLE:
+            neighbors.append(Nodo(nodo.row - 1, nodo.column, (self.target.row, self.target.column), nodo))
             
         if map[nodo.row][nodo.column + 1] == circuit.PASSABLE:
-            neighbors.append(Nodo(nodo.row, nodo.column + 1, self.target, nodo))
+            neighbors.append(Nodo(nodo.row, nodo.column + 1, (self.target.row, self.target.column), nodo))
         
         if map[nodo.row][nodo.column - 1] == circuit.PASSABLE:
-            neighbors.append(Nodo(nodo.row, nodo.column - 1, self.target, nodo))
+            neighbors.append(Nodo(nodo.row, nodo.column - 1, (self.target.row, self.target.column), nodo))
 
         if map[nodo.row + 1][nodo.column + 1] == circuit.PASSABLE:
-            neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, self.target, nodo))
+            neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
 
         if map[nodo.row - 1][nodo.column - 1] == circuit.PASSABLE:
-            neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, self.target, nodo))
+            neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
         
         return neighbors
     
@@ -84,45 +96,41 @@ class Astar:
                 actual = self.open[i]
                 n = i
         
-        del self.open[i]
+        del self.open[n]
         return actual
     
+    def in_list(self, node, myList):
+        for element in myList:
+            if node.row == element.row and node.column == element.column:
+                return True
+        return False
+    
     def check_neighbors(self, neighbors):
-        
-        result = []
-        
-        for nei in neighbors:
-            for element in self.close:
-                if nei.row == element.row and nei.column == element.column:
-                    continue
-                else:
-                    resulto.append(nei)
-        
-        neighbors = result
-        result = []
-        
-        for nei in neighbors:
-            for element in self.open:
-                if nei.row == element.row and nei.column == element.column:
-                    if nei.g < element.g:
-                        result.append(nei)
-                else:
-                    result.append(nei)
-        
-        return result
+        for i in range(len(neighbors)):
+			if self.in_list(neighbors[i], self.close):
+				continue
+			elif not self.in_list(neighbors[i], self.open):
+				self.open.append(neighbors[i])
+			else:
+				if self.current.g + 1 < neighbors[i].g:
+					for j in range(len(self.open)):
+						if neighbors[i].row == self.open[j].row and neighbors[i].column == self.open[j].column :
+							del self.open[j]
+							self.open.append(neighbors[i])
+							break
 
     
     def complete_road(self, node):
         aux = node
         path = deque()
         
-        while actual:
+        while aux.father:
             path.appendleft(aux)
             aux = aux.father
         
         return path
             
-    def in_target(self):
+    def is_target(self):
         if self.current.row == self.target.row and self.current.column == self.target.column:
             return True
         return False

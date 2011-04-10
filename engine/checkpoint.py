@@ -106,7 +106,7 @@ class CheckPoints:
         '''
         @brief Método encargado de actualizar los distintos CheckPoints
         
-        @param sprite Sprite con el que comporbaremos el estado de los CheckPoints
+        @param sprite Sprite con el que comprobaremos el estado de los CheckPoints
         '''
         
         #Si aun no hemos pasado por la meta ni una sola vez y pasamos,
