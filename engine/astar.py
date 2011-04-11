@@ -5,6 +5,7 @@
 @author José Jesús Marente Florín
 @date Abril 2011
 '''
+
 import circuit
 
 from collections import deque

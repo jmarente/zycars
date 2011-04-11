@@ -100,8 +100,8 @@ class GameControl(state.State):
         self.player.update()
         
         for ia_car in self.ia_cars:
-            ia_car.update(self.player.rect.x, self.player.rect.y)
-            ia_car.set_points(self.ia_checks)
+            ia_car.update()
+            ia_car.set_targets(self.ia_checks)
             
         self.scroll_control()
         
@@ -135,7 +135,7 @@ class GameControl(state.State):
             
             #Actualizamos la IA.
             for ia_car in self.ia_cars:
-                ia_car.update(self.player.rect.x, self.player.rect.y)
+                ia_car.update()
             
             #Actualizamos las cajas de items
             for box in self.items_box:
