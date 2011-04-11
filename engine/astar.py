@@ -92,6 +92,8 @@ class Astar:
         #Creamos los nodos inicial y destino
         self.home = Nodo(home[0], home[1], target)
         self.target = Nodo(target[0], target[1], target)
+        self.open = []
+        self.close = []
         
         self.current = self.home
         
@@ -136,23 +138,29 @@ class Astar:
         neighbors = []
         
         #Obtenemos los nodos adyacentes si son atravesables
-        if map[nodo.row + 1][nodo.column] == circuit.PASSABLE:
+        if nodo.row + 1 < len(map) and map[nodo.row + 1][nodo.column] == circuit.PASSABLE:
             neighbors.append(Nodo(nodo.row + 1, nodo.column, (self.target.row, self.target.column), nodo))
 
-        if map[nodo.row - 1][nodo.column] == circuit.PASSABLE:
+        if nodo.row - 1 >= 0 and map[nodo.row - 1][nodo.column] == circuit.PASSABLE:
             neighbors.append(Nodo(nodo.row - 1, nodo.column, (self.target.row, self.target.column), nodo))
             
-        if map[nodo.row][nodo.column + 1] == circuit.PASSABLE:
+        if nodo.column + 1 < len(map[nodo.row]) and map[nodo.row][nodo.column + 1] == circuit.PASSABLE:
             neighbors.append(Nodo(nodo.row, nodo.column + 1, (self.target.row, self.target.column), nodo))
         
-        if map[nodo.row][nodo.column - 1] == circuit.PASSABLE:
+        if nodo.column - 1 >= 0 and map[nodo.row][nodo.column - 1] == circuit.PASSABLE:
             neighbors.append(Nodo(nodo.row, nodo.column - 1, (self.target.row, self.target.column), nodo))
 
-        if map[nodo.row + 1][nodo.column + 1] == circuit.PASSABLE:
+        if nodo.row + 1 < len(map) and nodo.column + 1 < len(map[nodo.row + 1]) and map[nodo.row + 1][nodo.column + 1] == circuit.PASSABLE:
             neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
 
-        if map[nodo.row - 1][nodo.column - 1] == circuit.PASSABLE:
-            neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
+        if nodo.row - 1 >= 0 and nodo.column - 1 >= 0 and map[nodo.row - 1][nodo.column - 1] == circuit.PASSABLE:
+            neighbors.append(Nodo(nodo.row - 1, nodo.column - 1, (self.target.row, self.target.column), nodo))
+
+        if nodo.row + 1 < len(map) and nodo.column - 1 >= 0 and map[nodo.row + 1][nodo.column - 1] == circuit.PASSABLE:
+            neighbors.append(Nodo(nodo.row + 1, nodo.column - 1, (self.target.row, self.target.column), nodo))
+
+        if nodo.row - 1 >= 0 and nodo.column + 1 < len(map[nodo.row - 1]) and map[nodo.row - 1][nodo.column + 1] == circuit.PASSABLE:
+            neighbors.append(Nodo(nodo.row - 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
         
         return neighbors
     
@@ -250,8 +258,14 @@ class Astar:
             
         return False
         
-def distance(a, b):
+def distance2(a, b):
     '''
     @brief Calcula la distancia en linea recta de dos elemento
     '''
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
+def distance(a, b):
+    '''
+    @brief Calcula la distancia en linea recta de dos elemento
+    '''
+    return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5

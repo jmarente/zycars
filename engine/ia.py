@@ -5,10 +5,20 @@ import basiccar
 import math
 import astar
 import time
+import pygame
 
 from basiccar import BasicCar
 from gameobject import *
 from collections import deque
+
+class Point:
+    def __init__(self, x, y, width, height):
+        self.rect = pygame.Rect((x * width, y * height, width, height))
+        self.centerx = self.rect.centerx
+        self.centery = self.rect.centery
+    
+    def __str__(self):
+        return str(self.rect)
 
 class IA(BasicCar):
     def __init__(self, game_control, xml_file, x, y, angle = 0):
@@ -30,36 +40,44 @@ class IA(BasicCar):
         self.left_targets = deque()
         self.actual_target = None
         self.passed_targets = deque()
-        self.no_run = False
         self.astar = astar.Astar()
         self.actual_point = None
         self.passed_points = deque()
         self.left_points = deque()
     
     def estimate_angle(self):
-        x = self.target_x - self.rect.x
-        y = self.target_y - self.rect.y
         
-        if abs(x + y) > 45:
-            self.no_run = False
-            angle = self.update_angle2(math.degrees(math.atan2(y, x)))
-            #print "Angulo: ", angle
-            self.target_angle = angle
+        x = self.actual_point.centerx - self.rect.x
+        y = self.actual_point.centery - self.rect.y
         
-            '''if self.target_angle < self.actual_angle:
-                self.actual_angle -= self.rotation_angle * self.max_speed
-            elif self.target_angle > self.actual_angle:
-                self.actual_angle += self.rotation_angle * self.max_speed'''
+        angle = self.update_angle2(math.degrees(math.atan2(y, x)))
+        #print "Angulo: ", angle
+        self.target_angle = angle
+    
+        '''if self.target_angle < self.actual_angle:
+            self.actual_angle -= self.rotation_angle * self.max_speed
+        elif self.target_angle > self.actual_angle:
+            self.actual_angle += self.rotation_angle * self.max_speed'''
+    
+        self.actual_angle = self.target_angle
         
-            self.actual_angle = self.target_angle
+        if self.rect.colliderect(self.actual_point.rect):
+            if len(self.left_points) > 0:
+                self.actual_point = self.left_points.popleft()
+            else:
+                self.actual_point = None
+    
+    def draw(self, screen):
+        BasicCar.draw(self, screen)
         
-        else:
-            self.no_run = True
+        for point in self.left_points:
+            pygame.draw.rect(screen, (0, 0, 0), (point.rect.x - self.game_control.circuit_x(), point.rect.y - self.game_control.circuit_y(), point.rect.w, point.rect.h), 1)
+
     
     def update(self, element_x, element_y):
         
-        self.target_x = element_x
-        self.target_y = element_y
+        #self.target_x = element_x
+        #self.target_y = element_y
         
         #Si hemos cambiado de estado
         if self.state != self.previous_state:
@@ -86,19 +104,31 @@ class IA(BasicCar):
     def __run_state(self):
         
         if len(self.left_points) == 0 and not self.actual_point:
-            print "No ai puntos, calcular"
-            tiempo = time.time()
-            self.left_points = self.astar.get_road(self.game_control.current_tile(self.rect), self.game_control.current_tile(self.actual_target))
+            print "No hay puntos objetivos, calculando"
             
-            print "Ha tardado: ", time.time() - tiempo
+            print "ACTUAL: ", self.rect
+            print "OBJETIVO: ", self.actual_target
+            self.passed_points = deque()
+            
+            self.left_points = self.decode_road(self.astar.get_road(self.game_control.current_tile(self.rect), self.game_control.current_tile(self.actual_target)))
+            
+            self.actual_point = self.left_points.popleft()
+            
+            self.passed_targets.append(self.actual_target)
+            
+            if len(self.left_targets) == 0:
+                self.left_targets = self.passed_targets
+                self.passed_targets = deque()
+            
+            self.actual_target = self.left_targets.popleft()
+            
             print "RESULTADO: "
             for point in self.left_points:
                 print point
             
         self.estimate_angle()
         
-        if not self.no_run:
-            self.move(+1)
+        self.move(+1)
             
         self.trigonometry()
     
@@ -116,3 +146,17 @@ class IA(BasicCar):
             self.left_targets.append(points[key])
         
         self.actual_target = self.left_targets.popleft()
+    
+    def decode_road(self, road):
+        
+        result = deque()
+        
+        tile_width = self.game_control.circuit.get_tile_width()
+        tile_height = self.game_control.circuit.get_tile_height()
+        
+        for point in road:
+            result.append(Point(point.row, point.column, tile_width, tile_height))
+        
+        return result
+            
+            
