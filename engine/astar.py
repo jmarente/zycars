@@ -12,6 +12,7 @@ from collections import deque
 
 #Variable global del modulo donde se almacenara el mapa de guia 
 map = None
+values = {}
 
 class Nodo:
     '''
@@ -37,9 +38,10 @@ class Nodo:
         if not father:
             self.g = 0
         
-        #Si no, sera la g de nuestro padre mas 1
+        #Si no, sera la g de nuestro padre mas el coste de ir al tile
+        #Que dependerá según el tipo del mismo
         else:
-            self.g = self.father.g + 1
+            self.g = self.father.g + values[map[row][column]]
 
         #El valor de f será la suma de g y h
         self.f = self.h + self.g
@@ -139,28 +141,28 @@ class Astar:
         neighbors = []
         
         #Obtenemos los nodos adyacentes si son atravesables
-        if nodo.row + 1 < len(map) and map[nodo.row + 1][nodo.column] == circuit.PASSABLE:
+        if nodo.row + 1 < len(map) and map[nodo.row + 1][nodo.column] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row + 1, nodo.column, (self.target.row, self.target.column), nodo))
 
-        if nodo.row - 1 >= 0 and map[nodo.row - 1][nodo.column] == circuit.PASSABLE:
+        if nodo.row - 1 >= 0 and map[nodo.row - 1][nodo.column] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row - 1, nodo.column, (self.target.row, self.target.column), nodo))
             
-        if nodo.column + 1 < len(map[nodo.row]) and map[nodo.row][nodo.column + 1] == circuit.PASSABLE:
+        if nodo.column + 1 < len(map[nodo.row]) and map[nodo.row][nodo.column + 1] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row, nodo.column + 1, (self.target.row, self.target.column), nodo))
         
-        if nodo.column - 1 >= 0 and map[nodo.row][nodo.column - 1] == circuit.PASSABLE:
+        if nodo.column - 1 >= 0 and map[nodo.row][nodo.column - 1] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row, nodo.column - 1, (self.target.row, self.target.column), nodo))
 
-        if nodo.row + 1 < len(map) and nodo.column + 1 < len(map[nodo.row + 1]) and map[nodo.row + 1][nodo.column + 1] == circuit.PASSABLE:
+        if nodo.row + 1 < len(map) and nodo.column + 1 < len(map[nodo.row + 1]) and map[nodo.row + 1][nodo.column + 1] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
 
-        if nodo.row - 1 >= 0 and nodo.column - 1 >= 0 and map[nodo.row - 1][nodo.column - 1] == circuit.PASSABLE:
+        if nodo.row - 1 >= 0 and nodo.column - 1 >= 0 and map[nodo.row - 1][nodo.column - 1] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row - 1, nodo.column - 1, (self.target.row, self.target.column), nodo))
 
-        if nodo.row + 1 < len(map) and nodo.column - 1 >= 0 and map[nodo.row + 1][nodo.column - 1] == circuit.PASSABLE:
+        if nodo.row + 1 < len(map) and nodo.column - 1 >= 0 and map[nodo.row + 1][nodo.column - 1] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row + 1, nodo.column - 1, (self.target.row, self.target.column), nodo))
 
-        if nodo.row - 1 >= 0 and nodo.column + 1 < len(map[nodo.row - 1]) and map[nodo.row - 1][nodo.column + 1] == circuit.PASSABLE:
+        if nodo.row - 1 >= 0 and nodo.column + 1 < len(map[nodo.row - 1]) and map[nodo.row - 1][nodo.column + 1] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row - 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
         
         return neighbors
@@ -246,6 +248,8 @@ class Astar:
             #Vamos añadiendo en la cola
             path.appendleft(aux)
             aux = aux.father
+        
+        path.popleft()
         
         return path
             

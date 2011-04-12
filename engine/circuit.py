@@ -128,6 +128,11 @@ class Circuit:
         n = 0
         frame = None
         
+        astar.values[PASSABLE] = 2
+        astar.values[LAG] = 50
+        astar.values[HOLE] = 100
+        #astar.values[NOPASSABLE] = 10000
+        
         #Recorremos cada una de las capas 
         for layer in parser.getElementsByTagName('layer'):
             for tile in layer.getElementsByTagName('tile'):
@@ -147,10 +152,6 @@ class Circuit:
                 if frame == 0:
                     self.map[num_layer][num_row][num_column].type = PASSABLE
                 else:
-                    #p_x = (((frame - 1) % tileset_width) % tileset_width) * self.tile_height;
-                    #p_y = ((frame - 1) / tileset_width) * self.tile_width
-                    
-                    #if pxarray[p_x][p_y] == pxarray_tile_types[0]:
                     
                     #Comprobamos el color del tile correspondiente en el mapa de colisiones
                     #Segun el color de este indicará que el tile es de un tipo u otro
@@ -161,16 +162,19 @@ class Circuit:
                     #elif pxarray[p_x][p_y] == pxarray_tile_types[1]:
                     elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 255, 0):
                         self.map[num_layer][num_row][num_column].type = NOPASSABLE
-                        astar.map[num_row][num_column] = NOPASSABLE
+                        astar.map[num_column][num_row] = NOPASSABLE
                         #print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " NO es pasable."
                         
                     #elif pxarray[p_x][p_y] == pxarray_tile_types[2]:
                     elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 0, 255):
                         self.map[num_layer][num_row][num_column].type = LAG
+                        astar.map[num_column][num_row] = LAG
+
                     
                     elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 0, 0):
                         self.map[num_layer][num_row][num_column].type = HOLE
-                    
+                        astar.map[num_column][num_row] = LAG
+
                     #Si no es ninguno de los anteriores lo seleccionamos como pasable
                     else:
                         self.map[num_layer][num_row][num_column].type = PASSABLE
@@ -182,6 +186,7 @@ class Circuit:
     
         self.x = 0
         self.y = 1
+
         #self.y = self.height * self.tile_height - pygame.display.get_surface().get_height()
         #y = alto_ * tile_alto_ - juego_->univ()->pantalla_alto();
         
