@@ -2222,8 +2222,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="21"/>
+   <tile gid="21"/>
    <tile gid="107"/>
    <tile gid="0"/>
    <tile gid="27"/>
@@ -2262,7 +2262,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="22"/>
+   <tile gid="21"/>
    <tile gid="22"/>
    <tile gid="107"/>
    <tile gid="0"/>
@@ -2302,8 +2302,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="21"/>
+   <tile gid="21"/>
    <tile gid="107"/>
    <tile gid="69"/>
    <tile gid="0"/>

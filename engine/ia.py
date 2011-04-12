@@ -81,7 +81,7 @@ class IA(BasicCar):
         #Instancia del algoritmo A* del vehiculo
         self.astar = astar.Astar()
     
-    def estimate_angle(self):
+    def control_path(self):
         '''
         @brief Calcula el angulo necesario para llegar a un punto intermedio
         '''
@@ -95,7 +95,33 @@ class IA(BasicCar):
     
         #Angulo actual del coche
         #TO-DO:Rotar el coche suavemente hasta el punto objetivo
-        self.actual_angle = self.target_angle
+        if self.target_angle < self.actual_angle:
+            left = self.actual_angle - self.target_angle
+            right = 360 - self.actual_angle + self.target_angle
+        else:
+            left = self.actual_angle + 360 - self.target_angle
+            right = self.target_angle - self.actual_angle
+            
+        if abs(left) < abs(right) and abs(left) > 5:
+            self.actual_angle -= self.rotation_angle * self.max_speed
+        elif abs(right) > 5:
+            self.actual_angle += self.rotation_angle * self.max_speed
+        
+        '''g = lambda pos, obj: min(obj-pos, obj-360-pos, key = abs)
+        angle = g(self.actual_angle,self.target_angle)
+        angle1 = self.target_angle - self.actual_angle
+        angle2 = self.target_angle - 360 - self.actual_angle
+        print "Angle: ", angle
+        print "Angle1: ", angle1
+        print "Angle2: ", angle2
+        
+        if angle < -5:
+            self.actual_angle -= self.rotation_angle * self.actual_speed
+        elif angle > 5:
+            self.actual_angle += self.rotation_angle * self.actual_speed'''
+
+
+        #self.actual_angle = self.target_angle
         
         #Si el coche colisiona con el rectangulo en el que esta el punto
         #Actualizamos la lista de puntos
@@ -187,7 +213,7 @@ class IA(BasicCar):
                 print point
         
         #Estimamos el angulo para el punto actual
-        self.estimate_angle()
+        self.control_path()
         
         #Movemos el coche
         self.move(+1)
