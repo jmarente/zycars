@@ -68,6 +68,8 @@ class CheckPoints:
         
         self.actual_checkpoint = None
         
+        self.total_checked = 0
+        
         #Lista con los puntos de control ya pasados
         self.checked = deque()
         
@@ -102,7 +104,7 @@ class CheckPoints:
         #Mostramos la meta de color rojo
         self.goal.draw(screen, (255, 0, 0))
             
-    def update(self, sprite):
+    def update(self, sprite, player = False):
         '''
         @brief Método encargado de actualizar los distintos CheckPoints
         
@@ -120,6 +122,8 @@ class CheckPoints:
             
             #Si colisionamos con el sprite actual
             if self.actual_checkpoint and self.actual_checkpoint.collision_sprite(sprite):
+                
+                self.total_checked += 1
                 
                 #Lo introducimos en la lista de comprobados
                 self.checked.append(self.actual_checkpoint)
@@ -142,7 +146,8 @@ class CheckPoints:
                 Log().info("Nº de vueltas:" + str(self.laps))
                 
                 #Informamos a GameControl de que se ha completado una vuelta
-                self.game_control.lap_complete()
+                if player:
+                    self.game_control.lap_complete()
             
                 #Todos los puntos de control pasan a estar sin chequear
                 self.unchecked = self.checked
@@ -197,3 +202,13 @@ class CheckPoints:
         @param goal Meta 
         '''
         self.goal = goal
+    
+    def get_laps(self):
+        return self.laps
+    
+    def get_checked(self):
+        return len(self.checked)
+    
+    def get_total_checked(self):
+        return self.total_checked
+        

@@ -153,7 +153,7 @@ class Astar:
         if nodo.column - 1 >= 0 and map[nodo.row][nodo.column - 1] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row, nodo.column - 1, (self.target.row, self.target.column), nodo))
 
-        if nodo.row + 1 < len(map) and nodo.column + 1 < len(map[nodo.row + 1]) and map[nodo.row + 1][nodo.column + 1] != circuit.NOPASSABLE:
+        '''if nodo.row + 1 < len(map) and nodo.column + 1 < len(map[nodo.row + 1]) and map[nodo.row + 1][nodo.column + 1] != circuit.NOPASSABLE:
             neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
 
         if nodo.row - 1 >= 0 and nodo.column - 1 >= 0 and map[nodo.row - 1][nodo.column - 1] != circuit.NOPASSABLE:
@@ -163,7 +163,7 @@ class Astar:
             neighbors.append(Nodo(nodo.row + 1, nodo.column - 1, (self.target.row, self.target.column), nodo))
 
         if nodo.row - 1 >= 0 and nodo.column + 1 < len(map[nodo.row - 1]) and map[nodo.row - 1][nodo.column + 1] != circuit.NOPASSABLE:
-            neighbors.append(Nodo(nodo.row - 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
+            neighbors.append(Nodo(nodo.row - 1, nodo.column + 1, (self.target.row, self.target.column), nodo))'''
         
         return neighbors
     
@@ -209,28 +209,28 @@ class Astar:
         for i in range(len(neighbors)):
             
             #Si esta en la lista de cerramos continuamos
-			if self.in_list(neighbors[i], self.close):
-				continue
+            if self.in_list(neighbors[i], self.close):
+                continue
             
             #Si no esta en la lista de abiertos lo insertamos en esta
-			elif not self.in_list(neighbors[i], self.open):
-				self.open.append(neighbors[i])
+            elif not self.in_list(neighbors[i], self.open):
+                self.open.append(neighbors[i])
             
             #Si esta en la lista de abiertos    
-			else:
+            else:
                 #Comprobamos el valor de g, si es mejor que el de nodo actual
-				if self.current.g + 1 < neighbors[i].g:
+                if self.current.g < neighbors[i].g:
                     
                     #Localizamos el nodo en la lista de abiertos
-					for j in range(len(self.open)):
-						if neighbors[i].row == self.open[j].row and neighbors[i].column == self.open[j].column :
-                            
+                    for j in range(len(self.open)):
+                        if neighbors[i].row == self.open[j].row and neighbors[i].column == self.open[j].column :
+                            #if neighbors[i].g < self.open[j].g:
                             #Eliminamos el anterior
-							del self.open[j]
+                            del self.open[j]
                             
                             #Introducimos el nuevo
-							self.open.append(neighbors[i])
-							break
+                            self.open.append(neighbors[i])
+                            break
 
     
     def complete_road(self, node):

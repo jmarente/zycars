@@ -15,6 +15,7 @@ import keyboard
 import start
 import timer
 import math
+import copy
 
 from pygame.locals import *
 
@@ -37,7 +38,8 @@ class GameControl(state.State):
         #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 500, 400, 0)
 
         #Grupo de sprites que contentrá los coches de la IA.
-        self.ia_cars = pygame.sprite.Group()
+        self.ia_cars = []
+        self.ia_checkpoints = [checkpoint.CheckPoints(self),]
         
         #Grupo de sprites que contendrá las cajas de items. 
         #self.items_box = pygame.sprite.Group()
@@ -99,10 +101,14 @@ class GameControl(state.State):
         
         self.player.update()
         
-        for ia_car in self.ia_cars:
-            ia_car.update()
-            ia_car.set_targets(self.ia_checks)
-            
+        aux_ia_cars = []
+        
+        for i in range(len(self.ia_cars)):
+            self.ia_cars[i].update()
+            self.ia_cars[i].set_targets(self.ia_checks)
+            aux_ia_cars.append((self.ia_cars[i], self.ia_checkpoints[i]))
+        
+        self.ia_cars = aux_ia_cars
         self.scroll_control()
         
         
@@ -135,7 +141,10 @@ class GameControl(state.State):
             
             #Actualizamos la IA.
             for ia_car in self.ia_cars:
-                ia_car.update()
+                #Actualizamos el coche de la IA
+                ia_car[0].update()
+                #Actualizamos los puntos de control para la IA dada
+                ia_car[1].update(ia_car[0])
             
             #Actualizamos las cajas de items
             for box in self.items_box:
@@ -160,7 +169,7 @@ class GameControl(state.State):
             self.check_collisions()
             
             #Controlamos todos los puntos de control    
-            self.checkpoints.update(self.player)
+            self.checkpoints.update(self.player, True)
 
             #Si pulsamos el espacio o escape, cambiamos al estado pause
             if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_p) \
@@ -212,7 +221,7 @@ class GameControl(state.State):
                 ball.draw(screen)
         
         for ia_car in self.ia_cars:
-            ia_car.draw(screen)
+            ia_car[0].draw(screen)
         
         self.player.draw_hud(screen)
         
@@ -348,7 +357,7 @@ class GameControl(state.State):
         
         @param ia_car Nuevo coche
         '''
-        self.ia_cars.add(ia_car)
+        self.ia_cars.append(ia_car)
         
     def add_item_box(self, item_box):
         '''
@@ -373,9 +382,13 @@ class GameControl(state.State):
         @param checkpoint Nuevo punto de control a añadir
         '''
         self.checkpoints.add_checkpoint(checkpoint, position)
+        for ia_check in self.ia_checkpoints:
+            ia_check.add_checkpoint(checkpoint, position)
     
     def order_checkpoints(self):
         self.checkpoints.order_checkpoints()
+        for ia_check in self.ia_checkpoints:
+            ia_check.order_checkpoints()
 
     def set_goal(self, goal):
         '''
@@ -384,6 +397,8 @@ class GameControl(state.State):
         @param goal Meta a asignar
         '''
         self.checkpoints.set_goal(goal)
+        for ia_check in self.ia_checkpoints:
+            ia_check.set_goal(goal)
     
     def set_start(self, circuit, x, y, image_code, orientation, car_angle):
         '''
