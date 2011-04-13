@@ -203,13 +203,16 @@ class GameControl(state.State):
             if self.on_screen(oil):
                 oil.draw(screen)
             
+        #Dibujamos al jugador
+        self.player.draw(screen)
+
+        for ia_car in self.ia_cars:
+            ia_car[0].draw(screen)
+
         #Dibujamos todas las cajas de items
         for box in self.items_box:
             if self.on_screen(box):
                 box.draw(screen)
-            
-        #Dibujamos al jugador
-        self.player.draw(screen)
 
         for bullet in self.bullets:
             #if bullet.get_state() != gameobject.NORMAL and self.on_screen(bullet):
@@ -219,9 +222,6 @@ class GameControl(state.State):
         for ball in self.balls:
             if self.on_screen(ball):
                 ball.draw(screen)
-        
-        for ia_car in self.ia_cars:
-            ia_car[0].draw(screen)
         
         self.player.draw_hud(screen)
         
@@ -255,25 +255,38 @@ class GameControl(state.State):
         #Colisiones jugador-escenario
         self.collision_manager.level_collision(self.player, self.circuit)
         
+        for ia_car in self.ia_cars:
+            self.collision_manager.level_collision(ia_car[0], self.circuit)
+        
         #Colisiones con las cajas de items
         for box in self.items_box:
             if self.on_screen(box) and box.get_state() != gameobject.EXPLOSION and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, box):
                 box.set_state(gameobject.EXPLOSION)
                 self.player.collected_item()
+            else:
+                for ia_car in self.ia_cars:
+                    if self.collision_manager.actor_pixelperfectcollision(ia_car[0], box):
+                        if self.on_screen(box):
+                            box.set_state(gameobject.EXPLOSION)
         
         #Colisiones de los misiles
         for bullet in self.bullets:
             if self.collision_manager.item_level_collision(bullet, self.circuit):
                 bullet.set_state(gameobject.EXPLOSION)
-            if bullet.get_state() == gameobject.RUN and \
+            elif bullet.get_state() == gameobject.RUN and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, bullet):
                 bullet.set_state(gameobject.EXPLOSION)
                 self.player.set_state(gameobject.DAMAGED)
-            for ball in self.balls:
-                if self.collision_manager.actor_pixelperfectcollision(ball, bullet):
-                    bullet.set_state(gameobject.EXPLOSION)
-                    ball.set_state(gameobject.EXPLOSION)
+            else:
+                for ball in self.balls:
+                    if self.collision_manager.actor_pixelperfectcollision(ball, bullet):
+                        bullet.set_state(gameobject.EXPLOSION)
+                        ball.set_state(gameobject.EXPLOSION)
+                if bullet.get_state() == gameobject.RUN:
+                    for ia_car in self.ia_cars:
+                        if self.collision_manager.actor_pixelperfectcollision(ia_car[0], bullet):
+                            bullet.set_state(gameobject.EXPLOSION)
         
         #Colisiones de las bolas
         for ball in self.balls:
@@ -283,6 +296,11 @@ class GameControl(state.State):
                 self.collision_manager.actor_pixelperfectcollision(self.player, ball):
                 ball.set_state(gameobject.EXPLOSION)
                 self.player.set_state(gameobject.DAMAGED)
+            elif ball.get_state() == gameobject.RUN:
+                for ia_car in self.ia_cars:
+                    if self.collision_manager.actor_pixelperfectcollision(ia_car[0], ball):
+                            ball.set_state(gameobject.EXPLOSION)
+                            
             self.collision_manager.control_limits(ball, self.circuit)
         
         #Colisiones con las manchas de aceite
@@ -291,6 +309,9 @@ class GameControl(state.State):
                 and self.player.get_old_state() != gameobject.DAMAGED \
                 and self.collision_manager.actor_pixelperfectcollision(oil, self.player):
                 self.player.set_state(gameobject.DAMAGED)
+            for ia_car in self.ia_cars:
+                if self.collision_manager.actor_pixelperfectcollision(ia_car[0], oil):
+                    pass
         
     def scroll_control(self):
         '''

@@ -61,7 +61,8 @@ class IA(BasicCar):
         #Según el estado llamaremos a una función u otra.
         self.states = {
                     NORMAL: self.__normal_state,
-                    RUN: self.__run_state
+                    RUN: self.__run_state,
+                    DAMAGED : self.__damaged_state
                     }
                                     
         self.falling = False
@@ -188,17 +189,10 @@ class IA(BasicCar):
             print "ACTUAL: ", self.rect
             print "OBJETIVO: ", self.actual_target
             
-            #Vaciamos la lista de puntos pasados
-            self.passed_points = deque()
-            
-            #Obtenemos la lista de puntos por los que tenemos que pasr
-            self.left_points = self.decode_road(self.astar.get_road(self.game_control.current_tile(self.rect), self.game_control.current_tile(self.actual_target)))
-            
-            #El primero de ellos será el objetivo
-            self.actual_point = self.left_points.popleft()
-            
-            #introducimos el objetivo en la lista de pasados
-            self.passed_targets.append(self.actual_target)
+            #Si ya hemos pasado un objetivo
+            if self.actual_target:
+                #introducimos el objetivo en la lista de pasados
+                self.passed_targets.append(self.actual_target)
             
             #Si ya no quedan objetivos por los que pasar
             if len(self.left_targets) == 0:
@@ -207,6 +201,15 @@ class IA(BasicCar):
             
             #Obtenemos el primero actualmente en la lista de objetivos
             self.actual_target = self.left_targets.popleft()
+            
+            #Vaciamos la lista de puntos pasados
+            self.passed_points = deque()
+            
+            #Obtenemos la lista de puntos por los que tenemos que pasr
+            self.left_points = self.decode_road(self.astar.get_road(self.game_control.current_tile(self.rect), self.game_control.current_tile(self.actual_target)))
+            
+            #El primero de ellos será el objetivo
+            self.actual_point = self.left_points.popleft()
             
             print "RESULTADO: "
             for point in self.left_points:
@@ -221,6 +224,23 @@ class IA(BasicCar):
         #Aplicamos la trigonometria
         self.trigonometry()
     
+    def __damaged_state(self):
+        
+        if not self.start:
+            self.start = time.time()
+            #self.temp_angle = self.actual_angle
+            #self.actual_speed = self.actual_speed / 2
+            
+        actual = time.time() - self.start
+        
+        #self.temp_angle += self.rotation_angle * (self.max_speed * 2)
+        self.actual_angle += self.rotation_angle * (self.max_speed * 2)
+        
+        if actual >= 1:
+            self.state = NOACTION
+            self.start = None
+            self.actual_speed -= 0.5  
+            
     def update_angle2(self, angle):
         '''
         @brief Actualiza un angulo para que esté en el intervalo 0-360
@@ -243,7 +263,7 @@ class IA(BasicCar):
         for key in points.keys():
             self.left_targets.append(points[key])
         
-        self.actual_target = self.left_targets.popleft()
+        #self.actual_target = self.left_targets.popleft()
     
     def decode_road(self, road):
         '''
