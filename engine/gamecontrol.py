@@ -283,10 +283,11 @@ class GameControl(state.State):
                     if self.collision_manager.actor_pixelperfectcollision(ball, bullet):
                         bullet.set_state(gameobject.EXPLOSION)
                         ball.set_state(gameobject.EXPLOSION)
-                if bullet.get_state() == gameobject.RUN:
+                if bullet.get_state() != gameobject.EXPLOSION:
                     for ia_car in self.ia_cars:
                         if self.collision_manager.actor_pixelperfectcollision(ia_car[0], bullet):
                             bullet.set_state(gameobject.EXPLOSION)
+                            ia_car[0].set_state(gameobject.DAMAGED)
         
         #Colisiones de las bolas
         for ball in self.balls:
@@ -296,10 +297,11 @@ class GameControl(state.State):
                 self.collision_manager.actor_pixelperfectcollision(self.player, ball):
                 ball.set_state(gameobject.EXPLOSION)
                 self.player.set_state(gameobject.DAMAGED)
-            elif ball.get_state() == gameobject.RUN:
+            elif ball.get_state() != gameobject.EXPLOSION:
                 for ia_car in self.ia_cars:
                     if self.collision_manager.actor_pixelperfectcollision(ia_car[0], ball):
-                            ball.set_state(gameobject.EXPLOSION)
+                        ball.set_state(gameobject.EXPLOSION)
+                        ia_car[0].set_state(gameobject.DAMAGED)
                             
             self.collision_manager.control_limits(ball, self.circuit)
         
@@ -311,7 +313,8 @@ class GameControl(state.State):
                 self.player.set_state(gameobject.DAMAGED)
             for ia_car in self.ia_cars:
                 if self.collision_manager.actor_pixelperfectcollision(ia_car[0], oil):
-                    pass
+                    ia_car[0].set_state(gameobject.DAMAGED)
+
         
     def scroll_control(self):
         '''

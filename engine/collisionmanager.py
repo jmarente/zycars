@@ -316,8 +316,13 @@ class CollisionManager:
                 circ.get_tile_width(), circ.get_tile_height()))
                 
                 return result
+                
+            i += 1
             
-            elif (circ.get_tile(1, tilecoordx, i).type == circuit.LAG) or \
+        i = tile_y0
+        
+        while i <=tile_y1:
+            if (circ.get_tile(1, tilecoordx, i).type == circuit.LAG) or \
             (circ.get_tile(0, tilecoordx, i).type == circuit.LAG):
                 tilecoordx *= circ.get_tile_width()
                 
@@ -338,7 +343,6 @@ class CollisionManager:
                 circ.get_tile_width(), circ.get_tile_height()))
                 
                 return result
-                
             i += 1
         
         return False
@@ -366,7 +370,7 @@ class CollisionManager:
                 circ.get_tile_width(), circ.get_tile_height()))
                 
                 return result
-                
+
             elif (circ.get_tile(1, i, tilecoordy).type == circuit.LAG) or \
             (circ.get_tile(0, i, tilecoordy).type == circuit.LAG):
                 tilecoordy *= circ.get_tile_height()
@@ -390,7 +394,7 @@ class CollisionManager:
                 return result
                 
             i += 1
-            
+                        
         return False
     
     def side_collision(self, sprite, tile_rect, edge):

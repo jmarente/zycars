@@ -104,9 +104,9 @@ class IA(BasicCar):
             right = self.target_angle - self.actual_angle
             
         if abs(left) < abs(right) and abs(self.target_angle - self.actual_angle) > 5:
-            self.actual_angle -= self.rotation_angle * self.actual_speed
+            self.actual_angle -= self.rotation_angle * self.max_speed
         elif abs(self.target_angle - self.actual_angle) > 5:
-            self.actual_angle += self.rotation_angle * self.actual_speed
+            self.actual_angle += self.rotation_angle * self.max_speed
         
         '''g = lambda pos, obj: min(obj-pos, obj-360-pos, key = abs)
         angle = g(self.actual_angle,self.target_angle)
@@ -228,6 +228,8 @@ class IA(BasicCar):
         
         if not self.start:
             self.start = time.time()
+            self.left_points = deque()
+            self.actual_point = None
             #self.temp_angle = self.actual_angle
             #self.actual_speed = self.actual_speed / 2
             
@@ -237,7 +239,7 @@ class IA(BasicCar):
         self.actual_angle += self.rotation_angle * (self.max_speed * 2)
         
         if actual >= 1:
-            self.state = NOACTION
+            self.state = RUN
             self.start = None
             self.actual_speed -= 0.5  
             
