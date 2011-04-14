@@ -14,6 +14,7 @@ import pausemenu
 import keyboard
 import start
 import timer
+import astar
 import math
 import copy
 
@@ -371,6 +372,23 @@ class GameControl(state.State):
     
     def add_oil(self, oil):
         self.oils.add(oil)
+        
+        x = int(math.floor(oil.rect.x / self.circuit.get_tile_width()))
+        y = int(math.floor(oil.rect.y / self.circuit.get_tile_height()))
+        x2 = int(math.floor((oil.rect.x + oil.rect.w) / self.circuit.get_tile_width()))
+        y2 = int(math.floor((oil.rect.y + oil.rect.h) / self.circuit.get_tile_height()))
+
+        if astar.values[astar.map[x][y]] < astar.values[astar.OIL]:
+            astar.map[x][y] = astar.OIL        
+        
+        if astar.values[astar.map[x2][y]] < astar.values[astar.OIL]:
+            astar.map[x2][y] = astar.OIL
+
+        if astar.values[astar.map[x][y2]] < astar.values[astar.OIL]:
+            astar.map[x][y2] = astar.OIL
+        
+        if astar.values[astar.map[x][y]] < astar.values[astar.OIL]:
+            astar.map[x2][y2] = astar.OIL
     
     def add_ball(self, ball):
         self.balls.add(ball)

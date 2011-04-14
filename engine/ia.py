@@ -61,6 +61,7 @@ class IA(BasicCar):
         #Según el estado llamaremos a una función u otra.
         self.states = {
                     NORMAL: self.__normal_state,
+                    NOACTION: self.__normal_state,
                     RUN: self.__run_state,
                     DAMAGED : self.__damaged_state
                     }

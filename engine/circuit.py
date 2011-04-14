@@ -111,9 +111,8 @@ class Circuit:
                 astar.map[m] = range(self.width)
                 for o in range(self.width):
                     self.map[n][m][o] = Tile()
-                    astar.map[m][o] = PASSABLE
-
-                    
+                    astar.map[m][o] = astar.PASSABLE
+    
         #Cargamos la imagen con los distinto tipos de tiles
         tile_types = data.load_image('tile_types.png')
         
@@ -127,11 +126,6 @@ class Circuit:
         num_column = 0
         n = 0
         frame = None
-        
-        astar.values[PASSABLE] = 2
-        astar.values[LAG] = 50
-        astar.values[HOLE] = 100
-        #astar.values[NOPASSABLE] = 10000
         
         #Recorremos cada una de las capas 
         for layer in parser.getElementsByTagName('layer'):
@@ -162,18 +156,18 @@ class Circuit:
                     #elif pxarray[p_x][p_y] == pxarray_tile_types[1]:
                     elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 255, 0):
                         self.map[num_layer][num_row][num_column].type = NOPASSABLE
-                        astar.map[num_column][num_row] = NOPASSABLE
+                        astar.map[num_column][num_row] = astar.NOPASSABLE
                         #print "El tile: " + str(self.map[num_layer][num_row][num_column].frame - 1) + " NO es pasable."
                         
                     #elif pxarray[p_x][p_y] == pxarray_tile_types[2]:
                     elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 0, 255):
                         self.map[num_layer][num_row][num_column].type = LAG
-                        astar.map[num_column][num_row] = LAG
+                        astar.map[num_column][num_row] = astar.LAG
 
                     
                     elif collision_map_prueba[frame - 1].get_at((0,0)) == (0, 0, 0):
                         self.map[num_layer][num_row][num_column].type = HOLE
-                        astar.map[num_column][num_row] = LAG
+                        astar.map[num_column][num_row] = astar.LAG
 
                     #Si no es ninguno de los anteriores lo seleccionamos como pasable
                     else:
