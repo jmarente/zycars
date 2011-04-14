@@ -88,46 +88,34 @@ class IA(BasicCar):
         @brief Calcula el angulo necesario para llegar a un punto intermedio
         '''
         
-        #Calculamos la posición hasta el le punto actual que queremos llegar
-        x = self.actual_point.centerx - self.rect.centerx
-        y = self.actual_point.centery - self.rect.centery
-        
-        #Actualizamos el angulo obtenido para que esté en el rando 0-360
-        self.target_angle = self.update_angle2(math.degrees(math.atan2(y, x)))
-    
-        #Angulo actual del coche
-        #TO-DO:Rotar el coche suavemente hasta el punto objetivo
-        if self.target_angle < self.actual_angle:
-            left = self.actual_angle - self.target_angle
-            right = 360 - self.actual_angle + self.target_angle
-        else:
-            left = self.actual_angle + 360 - self.target_angle
-            right = self.target_angle - self.actual_angle
+        if self.actual_point:
+            #Calculamos la posición hasta el le punto actual que queremos llegar
+            x = self.actual_point.centerx - self.rect.centerx
+            y = self.actual_point.centery - self.rect.centery
             
-        if abs(left) < abs(right) and abs(self.target_angle - self.actual_angle) > 5:
-            self.actual_angle -= self.rotation_angle * self.max_speed
-        elif abs(self.target_angle - self.actual_angle) > 5:
-            self.actual_angle += self.rotation_angle * self.max_speed
+            #Actualizamos el angulo obtenido para que esté en el rando 0-360
+            self.target_angle = self.update_angle2(math.degrees(math.atan2(y, x)))
         
-        '''g = lambda pos, obj: min(obj-pos, obj-360-pos, key = abs)
-        angle = g(self.actual_angle,self.target_angle)
-        angle1 = self.target_angle - self.actual_angle
-        angle2 = self.target_angle - 360 - self.actual_angle
-        print "Angle: ", angle
-        print "Angle1: ", angle1
-        print "Angle2: ", angle2
+            #Angulo actual del coche
+            #TO-DO:Rotar el coche suavemente hasta el punto objetivo
+            if self.target_angle < self.actual_angle:
+                left = self.actual_angle - self.target_angle
+                right = 360 - self.actual_angle + self.target_angle
+            else:
+                left = self.actual_angle + 360 - self.target_angle
+                right = self.target_angle - self.actual_angle
+                
+            if abs(left) < abs(right) and abs(self.target_angle - self.actual_angle) > 5:
+                self.actual_angle -= self.rotation_angle * self.max_speed
+            elif abs(self.target_angle - self.actual_angle) > 5:
+                self.actual_angle += self.rotation_angle * self.max_speed
         
-        if angle < -5:
-            self.actual_angle -= self.rotation_angle * self.actual_speed
-        elif angle > 5:
-            self.actual_angle += self.rotation_angle * self.actual_speed'''
+        self.control_points()
 
-
-        #self.actual_angle = self.target_angle
-        
+    def control_points(self):
         #Si el coche colisiona con el rectangulo en el que esta el punto
         #Actualizamos la lista de puntos
-        if self.rect.colliderect(self.actual_point.rect):
+        if self.actual_point and self.rect.colliderect(self.actual_point.rect):
             
             #si aún quedán puntos por pasar, obtenemos el siguiente de la lista
             if len(self.left_points) > 0:
@@ -210,7 +198,8 @@ class IA(BasicCar):
             self.left_points = self.decode_road(self.astar.get_road(self.game_control.current_tile(self.rect), self.game_control.current_tile(self.actual_target)))
             
             #El primero de ellos será el objetivo
-            self.actual_point = self.left_points.popleft()
+            if len(self.left_points) > 0:
+                self.actual_point = self.left_points.popleft()
             
             print "RESULTADO: "
             for point in self.left_points:
@@ -229,8 +218,6 @@ class IA(BasicCar):
         
         if not self.start:
             self.start = time.time()
-            self.left_points = deque()
-            self.actual_point = None
             #self.temp_angle = self.actual_angle
             #self.actual_speed = self.actual_speed / 2
             
@@ -239,10 +226,22 @@ class IA(BasicCar):
         #self.temp_angle += self.rotation_angle * (self.max_speed * 2)
         self.actual_angle += self.rotation_angle * (self.max_speed * 2)
         
+        self.control_points()
+        
         if actual >= 1:
             self.state = RUN
             self.start = None
-            self.actual_speed -= 0.5  
+            self.actual_speed -= 0.5
+            self.left_points = deque()
+            self.actual_point = None
+            
+            if len(self.passed_targets) > 0:
+                self.left_targets.appendleft(self.actual_target)
+                self.actual_target = self.passed_targets.pop()
+            else:
+                self.left_targets.appendleft(self.actual_target)
+                self.actual_target = None
+
             
     def update_angle2(self, angle):
         '''
