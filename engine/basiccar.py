@@ -2,6 +2,7 @@
 
 import pygame
 import gameobject
+import resource
 import data
 import xml.dom.minidom
 import math
@@ -26,7 +27,8 @@ class BasicCar(gameobject.GameObject):
         gameobject.GameObject.__init__(self, game_control)
         
         self.break_force = None
-        
+        self.avatar = None
+
         #Parseamos la información básica
         parser = xml.dom.minidom.parse(data.get_path_xml(xml_file))
         self.parser_car_info(parser)
@@ -58,6 +60,7 @@ class BasicCar(gameobject.GameObject):
         @brief Método que parsea la información básica de los coches.
         '''
         parent_node = parse.firstChild
+        self.avatar = resource.get_image(parent_node.getAttribute('avatar'))
         self.max_speed = float(parent_node.getAttribute('max_speed'))
         self.min_speed = float(parent_node.getAttribute('min_speed'))
         self.rotation_angle = float(parent_node.getAttribute('rotation_angle'))
@@ -117,3 +120,6 @@ class BasicCar(gameobject.GameObject):
         @param new_min_speed Nueva velocidad mínima del vehículo.
         '''
         self.min_speed = abs(new_min_speed)
+    
+    def get_avatar(self):
+        return self.avatar

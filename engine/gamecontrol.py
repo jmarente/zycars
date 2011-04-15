@@ -20,6 +20,32 @@ import copy
 
 from pygame.locals import *
 
+class PositionBoard():
+    def __init__(self, x, y, image_name1, image_name2):
+        self.image1 = resource.get_image(image_name1)
+        self.image2 = resource.get_image(image_name2)
+        self.distance = 20
+        self.x = x
+        self.y = y
+        self.list_position = []
+        
+    def update(self, player, ia_cars):
+        aux_positions = []
+        aux_positions.append((player[1].get_total_checked(), player[0].get_avatar())) 
+        
+        for ia_car in ia_cars:
+            aux_positions.append((ia_car[1].get_total_checked(), ia_car[0].get_avatar()))
+                
+        self.list_position = sorted(aux_positions, reverse = True)
+        
+    def draw(self, screen):
+        screen.blit(self.image1, (self.x, self.y)) 
+        screen.blit(self.list_position[0][1], (self.x, self.y - 5))
+        screen.blit(self.image2, (self.x, self.y + self.image2.get_height() + self.distance)) 
+        screen.blit(self.list_position[1][1], (self.x, self.y + self.image2.get_height() + self.distance - 5))
+        #screen.blit(self.image1, (self.x, self.y + (self.image1.get_height() * 2) + self.distance * 2)) 
+        #screen.blit(self.image2, (self.x, self.y + self.image2.get_height() * 3 + self.distance * 3)) 
+
 class GameControl(state.State):
     '''
     @brief Clase encargada de controlar los aspectos básicos de una carrera, desde
@@ -71,7 +97,7 @@ class GameControl(state.State):
         self.actual_laps = 0
         
         #Contador de vueltas
-        self.font = resource.get_font('cheesebu', 30)
+        self.font = resource.get_font('cheesebu', 35)
         self.laps_counter = None
         self.laps_counter_rect = None
         self.update_laps_counter()
@@ -94,6 +120,8 @@ class GameControl(state.State):
         #Cuenta atras
         self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 0)
         
+        self.position_board = PositionBoard(20, 10, 'image_position1', 'image_position2')
+        
         #Pasamos al estado de cuenta atras
         self.actual_state = 'countdown'
         
@@ -110,6 +138,7 @@ class GameControl(state.State):
             aux_ia_cars.append((self.ia_cars[i], self.ia_checkpoints[i]))
         
         self.ia_cars = aux_ia_cars
+        self.position_board.update((self.player, self.checkpoints), self.ia_cars)
         self.scroll_control()
         
         
@@ -172,6 +201,8 @@ class GameControl(state.State):
             #Controlamos todos los puntos de control    
             self.checkpoints.update(self.player, True)
 
+            self.position_board.update((self.player, self.checkpoints), self.ia_cars)
+            
             #Si pulsamos el espacio o escape, cambiamos al estado pause
             if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_p) \
                 or not pygame.key.get_focused():
@@ -236,6 +267,8 @@ class GameControl(state.State):
         
         #Mostramos el marcador de vueltas
         screen.blit(self.laps_counter, (self.laps_counter_rect))
+        
+        self.position_board.draw(screen)
 
         #Si estamos en el estado de cuenta atras, mostramos la cuenta atrás
         if self.actual_state == 'countdown':
@@ -524,7 +557,7 @@ class GameControl(state.State):
         #Indicamos la posicion
         self.laps_counter_rect = self.laps_counter.get_rect()
         #self.laps_counter_rect.centerx = pygame.display.get_surface().get_width() / 2
-        self.laps_counter_rect.x = 50
+        self.laps_counter_rect.x = 140
         self.laps_counter_rect.y = 10
     
     def on_screen(self, element):

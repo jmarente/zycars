@@ -19,6 +19,10 @@
 	<image code="missile_show" name="items/missile_show.png" alpha="True"/>	
 	<image code="oil_show" name="items/oil_show.png" alpha="True"/>
 	<image code="ball_show" name="items/ball_show.png" alpha="True"/>
+	<image code="image_position1" name="image_position1.png" alpha="True"/>
+	<image code="image_position2" name="image_position2.png" alpha="True"/>
+	<image code="avatar1" name="character/avatar1.png" alpha="True"/>
+	<image code="avatar2" name="character/avatar2.png" alpha="True"/>
     </images>
     <sprites>
         <sprite code="prueba" name="coche_prueba.png" rows="3" columns="1" alpha="True"/>
