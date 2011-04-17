@@ -21,30 +21,77 @@ import copy
 from pygame.locals import *
 
 class PositionBoard():
+    '''
+    @brief Encargada de controlar las posiciones de los jugadores.
+    '''
     def __init__(self, x, y, image_name1, image_name2):
+        '''
+        @brief Contrustor.
+        
+        @param x Posición x
+        @param y Posición y
+        @parama image_name1 Nombre de la primera imagen
+        @parama image_name2 Nombre de la segunda imagen
+        '''
+        #Cargamos las imagenes
         self.image1 = resource.get_image(image_name1)
         self.image2 = resource.get_image(image_name2)
+        
+        #Distancia entre imagen e imagen
         self.distance = 20
         self.x = x
         self.y = y
+        
+        #Lista con las posiciones
         self.list_position = []
         
     def update(self, player, ia_cars):
-        aux_positions = []
-        aux_positions.append((player[1].get_total_checked(), player[0].get_avatar())) 
+        '''
+        @brief Actualiza las posiciones de los jugadores
         
+        @param player Tupla de dos elementos con la referencia al jugador principal y sus checkpoints
+        @param ia_cars Lista de tuplas con la ia y sus checkpoints
+        '''
+        #Lista auxiliar
+        aux_positions = []
+        
+        #Introducimos los elementos
+        aux_positions.append((player[1].get_total_checked(), player[0].get_avatar(), True)) 
         for ia_car in ia_cars:
-            aux_positions.append((ia_car[1].get_total_checked(), ia_car[0].get_avatar()))
-                
+            aux_positions.append((ia_car[1].get_total_checked(), ia_car[0].get_avatar(), False))
+        
+        #Ordenamos la lista al reves
         self.list_position = sorted(aux_positions, reverse = True)
         
     def draw(self, screen):
-        screen.blit(self.image1, (self.x, self.y)) 
-        screen.blit(self.list_position[0][1], (self.x, self.y - 5))
-        screen.blit(self.image2, (self.x, self.y + self.image2.get_height() + self.distance)) 
-        screen.blit(self.list_position[1][1], (self.x, self.y + self.image2.get_height() + self.distance - 5))
-        #screen.blit(self.image1, (self.x, self.y + (self.image1.get_height() * 2) + self.distance * 2)) 
-        #screen.blit(self.image2, (self.x, self.y + self.image2.get_height() * 3 + self.distance * 3)) 
+        '''
+        @brief Dibuja el marcador con las posiciones
+        
+        @param screen Superficie destino
+        '''
+        #Obtenemos el número total de jugadores a mostrar
+        total = 4 if len(self.list_position) >= 4 else len(self.list_position)
+        
+        #Recorremos los cuatro primeros coches
+        for i in range(total):
+            #Dibujamos una image un otra según la iteración en la que estemos
+            #Junto con su separación
+            if (i + 1) % 2:
+                screen.blit(self.image2, (self.x, self.y + self.image2.get_height() * i + self.distance * i))
+            else:
+                screen.blit(self.image1, (self.x, self.y + self.image1.get_height() * i + self.distance * i))
+            
+            #Dibujamos el avatar del jugador sobre la imagen de fondo
+            screen.blit(self.list_position[i][1], (self.x, self.y + self.image2.get_height() * i + self.distance * i - 5))
+    
+    def get_player_position(self):
+        
+        #Devolvemos la posición del jugador
+        for i in range(len(self.list_position)):
+            if self.list_position[i][2]:
+                return i + 1
+        
+        return 1
 
 class GameControl(state.State):
     '''
@@ -66,6 +113,8 @@ class GameControl(state.State):
 
         #Grupo de sprites que contentrá los coches de la IA.
         self.ia_cars = []
+        
+        #Checkpoints para la ia
         self.ia_checkpoints = [checkpoint.CheckPoints(self),]
         
         #Grupo de sprites que contendrá las cajas de items. 
@@ -75,6 +124,7 @@ class GameControl(state.State):
         #Checkpoints que posee el circuito
         self.checkpoints = checkpoint.CheckPoints(self)
         
+        #Puntos objetivos por los que tienen que pasar la IA
         self.ia_checks = {}
         
         #Grupo de sprite que contendrá las balas.
@@ -95,11 +145,16 @@ class GameControl(state.State):
         #Vueltas al circuito
         self.max_laps = laps
         self.actual_laps = 0
-        
-        #Contador de vueltas
+                
+        #Fuentes que usaremos
         self.font = resource.get_font('cheesebu', 35)
+        self.font2 = resource.get_font('cheesebu', 70)
+        
+        #Contador de vuelta
         self.laps_counter = None
         self.laps_counter_rect = None
+        
+        #Actualizamos el contador
         self.update_laps_counter()
         
         #Cronómetros de carrera
@@ -120,25 +175,34 @@ class GameControl(state.State):
         #Cuenta atras
         self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 0)
         
+        #Marcador de las posiciones de los jugadores
         self.position_board = PositionBoard(20, 10, 'image_position1', 'image_position2')
         
         #Pasamos al estado de cuenta atras
         self.actual_state = 'countdown'
         
-        #Actualizamos el estado en carrera para posicionar bien la pantalla
-        #self.update()
+        self.position = {1: 'st', 2: 'nd', 3: 'rt', 4: 'th'}
+        self.player_position = 1
         
+        #Actualizamos al jugador y la IA para posicionar bien la pantalla
         self.player.update()
         
         aux_ia_cars = []
         
+        #Actualizamos a la IA una primera vez y le situamos los puntos objetivos
         for i in range(len(self.ia_cars)):
             self.ia_cars[i].update()
             self.ia_cars[i].set_targets(self.ia_checks)
+            
+            #Asociamos checkpoints con la IA
             aux_ia_cars.append((self.ia_cars[i], self.ia_checkpoints[i]))
         
         self.ia_cars = aux_ia_cars
+        
+        #Actualizamos por primera vez el marcador de posiciones
         self.position_board.update((self.player, self.checkpoints), self.ia_cars)
+        
+        #Posicionamos la pantalla
         self.scroll_control()
         
         
@@ -201,6 +265,7 @@ class GameControl(state.State):
             #Controlamos todos los puntos de control    
             self.checkpoints.update(self.player, True)
 
+            #Obtenemos la posicion del jugador actualizando el marcador
             self.position_board.update((self.player, self.checkpoints), self.ia_cars)
             
             #Si pulsamos el espacio o escape, cambiamos al estado pause
@@ -268,7 +333,17 @@ class GameControl(state.State):
         #Mostramos el marcador de vueltas
         screen.blit(self.laps_counter, (self.laps_counter_rect))
         
+        #Mostramos el marcador de posiciones
         self.position_board.draw(screen)
+        
+        #Actualizamos la posicion del jugador
+        self.player_position = self.position_board.get_player_position()
+        position = self.position[self.player_position]
+        position_surface = self.font2.render(str(self.player_position), True, (0,0,0))
+        ordinal_surface = self.font.render(position, True, (0,0,0))
+        
+        screen.blit(position_surface, (15, 540))
+        screen.blit(ordinal_surface, (15 + position_surface.get_width(), 540))
 
         #Si estamos en el estado de cuenta atras, mostramos la cuenta atrás
         if self.actual_state == 'countdown':
@@ -596,27 +671,3 @@ class GameControl(state.State):
         y = int(math.floor(rect.y / self.circuit.get_tile_height()))
         
         return (x, y)
-        
-    def horizontal_speed(self):
-        '''Sin uso'''
-        angle = self.player.get_angle()
-        cien = 90.0
-        
-        if angle > 0 and angle <= 90:
-            new_angle = 1 - (angle / cien)
-            return (self.player.get_speed() * new_angle)
-        elif angle > 90 and angle <= 180:
-            angle -= 90
-            return (self.player.get_speed() * (angle / cien))
-        elif angle > 180 and angle <= 270:
-            angle -= 180
-            new_angle = 1 - (angle / cien)
-            return (self.player.get_speed() * new_angle)
-        elif angle > 270 and angle <= 360:
-            angle -=270
-            return (self.player.get_speed() * (angle / cien))
-        elif angle == 360 or angle == 0:
-            return self.player.get_speed()
-    
-        
-
