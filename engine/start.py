@@ -97,6 +97,8 @@ class Start:
                 self.game_control.add_ia_car(ia.IA(self.game_control, 
                 'cars/coche_prueba_purple.xml', self.x + self.circuit.get_tile_width() * 3, 
                 self.y + self.circuit.get_tile_height() * 2, 270))
+                
+                
             
     def draw(self, screen):
         '''

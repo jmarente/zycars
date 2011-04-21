@@ -366,6 +366,11 @@ class GameControl(state.State):
         
         for ia_car in self.ia_cars:
             self.collision_manager.level_collision(ia_car[0], self.circuit)
+            self.collision_manager.actor_actor_collision(self.player, ia_car[0])
+            for ia_car2 in self.ia_cars:
+                if ia_car[0] != ia_car2[0]:
+                    self.collision_manager.actor_actor_collision(ia_car[0], ia_car2[0])
+
         
         #Colisiones con las cajas de items
         for box in self.items_box:

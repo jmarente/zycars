@@ -292,7 +292,68 @@ class CollisionManager:
         
         #Si no se cumple nada de lo anterior devolvemos false
         return False
-                
+
+    def actor_actor_collision(self, sprite1, sprite2):
+        
+        if self.actor_rectanglecollision(sprite1, sprite2):#self.actor_perfectcollision(sprite1, sprite2):
+            
+            if sprite1.get_state() == gameobject.DAMAGED:
+                sprite1.set_state(gameobject.NOACTION)
+            
+            if sprite2.get_state() == gameobject.DAMAGED:
+                sprite2.set_state(gameobject.NOACTION)
+                       
+            edge = self.actor_edgecollision(sprite1, sprite2)
+            collision = self.side_collision(sprite1, sprite2.rect, edge)
+            
+            if collision['right']:
+                if sprite1.dx < 0 and sprite2.dx > 0:         
+                    #sprite.rect.x = tile_rect.x + tile_rect.w
+                    sprite1.x = sprite2.rect.x + sprite2.rect.w + (sprite1.rect.w / 2)
+                    sprite1.actual_speed *= -1
+                    sprite2.actual_speed *= -1
+                elif sprite2.dx > 0 and sprite1.dx >= 0:
+                    sprite2.x = sprite1.rect.x - sprite2.rect.w
+                    sprite2.actual_speed *= -1
+                else:
+                    sprite1.x = sprite2.rect.x + sprite2.rect.w + (sprite1.rect.w / 2)
+                    sprite1.actual_speed *= -1
+                    
+            elif collision['left']:
+                if sprite1.dx > 0 and sprite2.dx < 0:
+                    #sprite.rect.x = tile_rect.x - sprite.rect.w
+                    sprite1.x = sprite2.rect.x - (sprite1.rect.w / 2)
+                    sprite1.actual_speed *= -1
+                    sprite2.actual_speed *= -1
+                elif sprite2.dx < 0 and sprite1.dx <= 0:
+                    sprite2.x = sprite1.rect.x + sprite1.rect.w + (sprite2.rect.w / 2)
+                    sprite2.actual_speed *= -1
+                else:
+                    sprite1.x = sprite2.rect.x - (sprite1.rect.w / 2)
+                    sprite1.actual_speed *= -1
+            elif collision['bottom']:
+                if sprite1.dy < 0 and sprite2.dy > 0:
+                    sprite1.y = sprite2.rect.y + sprite2.rect.h + (sprite1.rect.h / 2)
+                    sprite1.actual_speed *= -1
+                    sprite2.actual_speed *= -1
+                elif sprite1.dy >= 0 and sprite2.dy > 0:
+                    sprite2.y = sprite1.rect.y - (sprite2.rect.h / 2)
+                    sprite2.actual_speed *= -1
+                else:
+                    sprite1.y = sprite2.rect.y + sprite2.rect.h + (sprite1.rect.h / 2)
+                    sprite1.actual_speed *= -1
+            elif collision['top']:
+                if sprite1.dy > 0 and sprite2.dy < 0:
+                    sprite1.y = sprite2.rect.y - (sprite1.rect.h / 2)
+                    sprite1.actual_speed *= -1
+                    sprite2.actual_speed *= -1
+                elif sprite1.dy <= 0 and sprite2.dy < 0:
+                    sprite2.y = sprite1.rect.y + sprite1.rect.h + (sprite2.rect.h / 2)
+                    sprite2.actual_speed *= -1
+                else:
+                    sprite1.y = sprite2.rect.y - (sprite1.rect.h / 2)
+                    sprite1.actual_speed *= -1
+
     def __collision_ver(self, sprite, circ, direction):
 
         tile_y0 = sprite.rect.y / circ.get_tile_height()
@@ -512,15 +573,3 @@ class CollisionManager:
             or sprite.rect.x + sprite.rect.w > circ.get_real_width() - circ.get_tile_width():
             sprite.kill()
             Log().critical('Item fuera de limites, con angulo ' + str(sprite.actual_angle))
-            if sprite.go_left():
-                Log().critical('Hacia la izquierda')
-            if sprite.go_right():
-                Log().critical('Hacia la derecha')
-            if sprite.go_up():
-                Log().critical('Hacia arriba')
-            if sprite.go_down():
-                Log().critical('Hacia abajo')
-            Log().critical('Dx: ' + str(sprite.dx))
-            Log().critical('Dy: ' + str(sprite.dy))
-        
-                

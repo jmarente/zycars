@@ -49,7 +49,7 @@ class GameObject(pygame.sprite.Sprite):
         self.animations = {}
         
         #Posiciones del coche
-        self.dx = self.dy = self.x = self.y = self.old_x = self.old_y = None
+        self.dx = self.dy = self.x = self.y = self.old_x = self.old_y = self.previous_x = self.previous_y = None
         
         #Dirección hacia la que va el objeto
         self.right_direction = self.left_direction = self.up_direction = self.down_direction = False
@@ -94,6 +94,8 @@ class GameObject(pygame.sprite.Sprite):
         self.image = self.original_sprite[self.animations[NORMAL].get_frame()]
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
+        self.hitmask = pixelperfect.get_alpha_hitmask(self.image, self.rect)
+
                 
     def update(self):
         '''
@@ -132,7 +134,7 @@ class GameObject(pygame.sprite.Sprite):
         @param screen Superficie destino
         '''
         screen.blit(self.image, (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y()))
-        #pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
+        pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
 
     def move(self, delta):
         '''
@@ -156,6 +158,8 @@ class GameObject(pygame.sprite.Sprite):
         '''
         @brief Actualiza la posición del objeto.
         '''
+        self.previous_x = self.x
+        self.previous_y = self.y
         self.rect.x = int(self.x) - self.rect.w / 2
         self.rect.y = int(self.y) - self.rect.h / 2
         self.x += self.dx

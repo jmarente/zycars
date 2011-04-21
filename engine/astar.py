@@ -16,8 +16,8 @@ map = None
 values = {}
 
 values[PASSABLE] = 1
-values[LAG] = 5
-values[OIL] = 50
+values[LAG] = 3
+values[OIL] = 10
 values[HOLE] = 200
 
 class Nodo:
