@@ -85,7 +85,11 @@ class PositionBoard():
             screen.blit(self.list_position[i][1], (self.x, self.y + self.image2.get_height() * i + self.distance * i - 5))
     
     def get_player_position(self):
+        '''
+        @brief Devuelve la posición del jugador principal del juego.
         
+        @return Posición del jugador.
+        '''
         #Devolvemos la posición del jugador
         for i in range(len(self.list_position)):
             if self.list_position[i][2]:
@@ -181,7 +185,7 @@ class GameControl(state.State):
         #Pasamos al estado de cuenta atras
         self.actual_state = 'countdown'
         
-        self.position = {1: 'st', 2: 'nd', 3: 'rt', 4: 'th'}
+        self.position = {1: 'st', 2: 'nd', 3: 'rd', 4: 'th'}
         self.player_position = 1
         
         #Actualizamos al jugador y la IA para posicionar bien la pantalla
@@ -303,6 +307,7 @@ class GameControl(state.State):
         #Dibujamos al jugador
         self.player.draw(screen)
 
+        #Dibujamos los coches controlados por la IA
         for ia_car in self.ia_cars:
             ia_car[0].draw(screen)
 
@@ -310,20 +315,23 @@ class GameControl(state.State):
         for box in self.items_box:
             if self.on_screen(box):
                 box.draw(screen)
-
+        
+        #Dibujamoslos misiles
         for bullet in self.bullets:
             #if bullet.get_state() != gameobject.NORMAL and self.on_screen(bullet):
             if self.on_screen(bullet):
                 bullet.draw(screen)
 
+        #Dibujamos las bolas
         for ball in self.balls:
             if self.on_screen(ball):
                 ball.draw(screen)
         
-        self.player.draw_hud(screen)
-        
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
+
+        #Mostramos el hud del jugador con el item actual que posee
+        self.player.draw_hud(screen)
         
         #Mostramos los dos cronómetros
         self.actual_time.draw(screen)
@@ -342,6 +350,7 @@ class GameControl(state.State):
         position_surface = self.font2.render(str(self.player_position), True, (0,0,0))
         ordinal_surface = self.font.render(position, True, (0,0,0))
         
+        #Mostramos la posición del jugador
         screen.blit(position_surface, (15, 540))
         screen.blit(ordinal_surface, (15 + position_surface.get_width(), 540))
 
@@ -358,15 +367,20 @@ class GameControl(state.State):
         
     def check_collisions(self):
         '''
-        @brief Método encargada de gestionar las distintas colisiones, de los 
+        @brief Encargado de gestionar las distintas colisiones, de los 
         elemento del juego, entre ellos y el escenario
         '''
         #Colisiones jugador-escenario
         self.collision_manager.level_collision(self.player, self.circuit)
         
+        #Colisiones de la IA
         for ia_car in self.ia_cars:
+            #Con el nivel
             self.collision_manager.level_collision(ia_car[0], self.circuit)
+            #Con el jugador
             self.collision_manager.actor_actor_collision(self.player, ia_car[0])
+            
+            #Con los otros coches de la IA
             for ia_car2 in self.ia_cars:
                 if ia_car[0] != ia_car2[0]:
                     self.collision_manager.actor_actor_collision(ia_car[0], ia_car2[0])
@@ -374,13 +388,21 @@ class GameControl(state.State):
         
         #Colisiones con las cajas de items
         for box in self.items_box:
+            
+            #Si está en la pantalla, no esta explotando y colisiona con el jugador
             if self.on_screen(box) and box.get_state() != gameobject.EXPLOSION and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, box):
+                
+                #Cambiamos su estado al de explosion
                 box.set_state(gameobject.EXPLOSION)
+                #Indicamos que el jugador a recogido un itwm
                 self.player.collected_item()
+                
+            #Si no, lo comprobamos para cada uno de lso coches de la IA
             else:
                 for ia_car in self.ia_cars:
-                    if self.collision_manager.actor_pixelperfectcollision(ia_car[0], box):
+                    if box.get_state() != gameobject.EXPLOSION and \
+                        self.collision_manager.actor_pixelperfectcollision(ia_car[0], box):
                         if self.on_screen(box):
                             box.set_state(gameobject.EXPLOSION)
         
@@ -484,13 +506,21 @@ class GameControl(state.State):
         self.bullets.add(bullet)
     
     def add_oil(self, oil):
+        '''
+        @brief Añade una nueva mancha de aceite en el juego y actualiza el mapa de costes
+        '''
+        #Añadimos la nueva mancha
         self.oils.add(oil)
         
+        #Obtenemos las coordenadas de los cuatro puntos del rectangulo que representa la mancha
         x = int(math.floor(oil.rect.x / self.circuit.get_tile_width()))
         y = int(math.floor(oil.rect.y / self.circuit.get_tile_height()))
         x2 = int(math.floor((oil.rect.x + oil.rect.w) / self.circuit.get_tile_width()))
         y2 = int(math.floor((oil.rect.y + oil.rect.h) / self.circuit.get_tile_height()))
 
+        #Comprobamos para cada uno de las coordenada su valor en el mapa,
+        #Si alguno de ellos es menor que que el valor de la macha
+        #Actualizamos el mapa de costes
         if astar.values[astar.map[x][y]] < astar.values[astar.OIL]:
             astar.map[x][y] = astar.OIL        
         
@@ -504,6 +534,11 @@ class GameControl(state.State):
             astar.map[x2][y2] = astar.OIL
     
     def add_ball(self, ball):
+        '''
+        @brief Añade una nueva bola al juego
+        
+        @param ball Bola a añadir en el juego
+        '''
         self.balls.add(ball)
         
     def add_ia_car(self, ia_car):
