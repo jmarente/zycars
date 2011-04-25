@@ -5,6 +5,7 @@ import state
 import collisionmanager
 import playercar
 import gameobject
+import gameanimation
 import basiccar
 import circuit
 import checkpoint
@@ -139,6 +140,12 @@ class GameControl(state.State):
         
         #Grupo para las pelotas
         self.balls = pygame.sprite.Group()
+        
+        #Animaciones que estarán en el juego
+        self.static_animations = []
+        
+        #self.static_animations.append(gameanimation.GameAnimation(self, 'animations/dragonfly1.xml', 0, 0))
+        #self.static_animations.append(gameanimation.GameAnimation(self, 'animations/dragonfly2.xml', 500, 800))
                 
         #Gestor de colisiones
         self.collision_manager = collisionmanager.CollisionManager()
@@ -217,6 +224,8 @@ class GameControl(state.State):
         #Si estamos en la cuenta atrás actualizamos la cuenta atrás
         if self.actual_state == 'countdown':
             self.count_down.update()
+            for animation in self.static_animations:
+                animation.update()
             #Si se ha completado cambiamos el estado del juego
             if self.count_down.complete():
                 self.actual_state = 'race'
@@ -272,6 +281,9 @@ class GameControl(state.State):
             #Obtenemos la posicion del jugador actualizando el marcador
             self.position_board.update((self.player, self.checkpoints), self.ia_cars)
             
+            for animation in self.static_animations:
+                animation.update()
+            
             #Si pulsamos el espacio o escape, cambiamos al estado pause
             if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_p) \
                 or not pygame.key.get_focused():
@@ -326,6 +338,9 @@ class GameControl(state.State):
         for ball in self.balls:
             if self.on_screen(ball):
                 ball.draw(screen)
+                
+        for animation in self.static_animations:
+            animation.draw(screen)
         
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)
@@ -574,6 +589,15 @@ class GameControl(state.State):
         self.checkpoints.add_checkpoint(checkpoint, position)
         for ia_check in self.ia_checkpoints:
             ia_check.add_checkpoint(checkpoint, position)
+    
+    def add_animation(self, animation):
+        '''
+        @brief Añade una nueva animación al juego
+        
+        @param animation Animación a añadir
+        '''
+        
+        self.static_animations.append(animation)
     
     def order_checkpoints(self):
         self.checkpoints.order_checkpoints()
