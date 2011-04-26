@@ -55,7 +55,7 @@ def __load_basic_image(image_name):
     Función encargada de cargar una imagen básica sin tener en cuenta canal alpha o
     o si es un sprite o no.
     '''
-    if check_extension(image_name, ".png"):
+    if check_extension(image_name, ".png") or check_extension(image_name, ".gif"):
         image_path = os.path.join(MULTIMEDIA_DIR, "image", image_name)
     else:
         image_path = os.path.join(MULTIMEDIA_DIR, "image", image_name + ".png")

@@ -251,8 +251,8 @@ class Circuit:
                         self.game_control.ia_checks[position] = rect
                     if type == 'animation':
                         path_xml = "animations/" + name
-                        if name != 'dragonfly2':
-                            self.game_control.add_animation(gameanimation.GameAnimation(self.game_control, path_xml, x, y))
+                        #if name != 'dragonfly2':
+                        self.game_control.add_animation(gameanimation.GameAnimation(self.game_control, path_xml, x, y))
         
         #print str(num_layer)
         #Cargamos los distintos elementos indicados en el mapa

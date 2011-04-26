@@ -1,5 +1,85 @@
 # -*- encoding: utf-8 -*-
 
+import resource
+
+class ImageGrid:
+    '''
+    @brief Representa una rejilla de imagenes
+    '''
+    def __init__(self, image_code, rows, columns):
+        '''
+        @brief Constructor.
+        
+        @param image_code Código de la imagen
+        @param rows Número de filas de la imagen
+        @para columns Número de columnas de la imagen
+        '''
+        self.rows = rows
+        self.columns = columns
+        
+        #Cargamos la imagen
+        self.image = resource.get_image(image_code)
+        
+        #Obtenemos el ancho y alto de una sola imagen de la rejilla
+        self.height = self.image.get_height() / self.rows
+        self.width = self.image.get_width() / self.columns
+        
+    def draw(self, screen, frame, x, y):
+        '''
+        @brief Dibuja un fragmento de la imagen sobre la superficie dada
+        
+        @param screen Superficie destino
+        @param frame Fragmento de la imagen a mostrar
+        @param x Coordenada x
+        @param y Coordenada y
+        '''
+        subsurface = self.get_frame(frame)
+        
+        screen.blit(subsurface, (x, y))
+        
+    def get_frame(self, frame):
+        '''
+        @brief Devuelve un solo fragmento de la rejilla de imagenes, si el frame
+        de la imagen no existe, devuelve el ultimo frame
+        
+        @param frame Número de frame de la imagen
+        @return Subsuperficie con el fragmento de la imagen deseado
+        '''
+        subsurface = None
+        
+        #Obtenemos las coordenadas del fragmento
+        x = ((frame % self.columns) * self.width)
+        y = ((frame / self.columns) * self.height)
+        
+        #obtenemos el fragmento deseado
+        subsurface = self.image.subsurface((x, y, self.width, self.height))
+        
+        return subsurface
+        
+    def get_frames(self):
+        '''
+        @brief Consulta número de frames de la imagen
+        
+        @return Devuelve el número de frames de la imagen
+        '''
+        return self.rows * self.columns
+        
+    def get_rows(self):
+        '''
+        @brief Consultra el número de filas
+        
+        @return Número de filas
+        '''
+        return self.rows
+        
+    def get_columns(self):
+        '''
+        @brief Consultra el número de columnas
+        
+        @return Número de columnas
+        '''
+        return self.columns
+
 class Animation:
     '''
     @brief Clase encargada de gestionar las animaciones de una imagen.

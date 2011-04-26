@@ -34,8 +34,8 @@
 	<sprite code="missile" name="items/missile.png" rows="1" columns="1" alpha="True"/>
 	<sprite code="oil" name="items/oil.png" rows="1" columns="1" alpha="True"/>
 	<sprite code="ball" name="items/ball.png" rows="1" columns="1" alpha="True"/>
-		<sprite code="dragonfly1" name="animations/dragonfly1.png" rows="7" columns="8" alpha="True"/>
-		<sprite code="dragonfly2" name="animations/dragonfly2.png" rows="10" columns="11" alpha="True"/>
+		<sprite code="dragonfly1" name="animations/dragonfly1.gif" rows="7" columns="8" alpha="True"/>
+		<sprite code="dragonfly2" name="animations/dragonfly2.gif" rows="10" columns="11" alpha="True"/>
     </sprites>
     <fonts>
 	<font code="cheesebu" name="cheesebu.ttf" size="20"/>
