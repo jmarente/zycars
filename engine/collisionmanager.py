@@ -313,15 +313,17 @@ class CollisionManager:
         '''
         
         #Si hay colisión entre los rectangulos de los sprites
-        if self.actor_rectanglecollision(sprite1, sprite2):#self.actor_perfectcollision(sprite1, sprite2):
-            
+        #if self.actor_rectanglecollision(sprite1, sprite2):#self.actor_perfectcollision(sprite1, sprite2):
+        if self.actor_pixelperfectcollision(sprite1, sprite2):
             
             #Si alguno de ellos esta en estado de daño, le cambiamos el estado
             #a sin accion
             if sprite1.get_state() == gameobject.DAMAGED:
                 sprite1.set_state(gameobject.NOACTION)
+                sprite1.start = None
             if sprite2.get_state() == gameobject.DAMAGED:
                 sprite2.set_state(gameobject.NOACTION)
+                sprite2.start = None
             
             #Obtenemos el lado de la colisión
             edge = self.actor_edgecollision(sprite1, sprite2)

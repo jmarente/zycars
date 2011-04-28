@@ -143,10 +143,7 @@ class GameControl(state.State):
         
         #Animaciones que estarán en el juego
         self.static_animations = []
-        
-        #self.static_animations.append(gameanimation.GameAnimation(self, 'animations/dragonfly1.xml', 0, 0))
-        #self.static_animations.append(gameanimation.GameAnimation(self, 'animations/dragonfly2.xml', 500, 800))
-                
+                       
         #Gestor de colisiones
         self.collision_manager = collisionmanager.CollisionManager()
                 
@@ -340,7 +337,8 @@ class GameControl(state.State):
                 ball.draw(screen)
                 
         for animation in self.static_animations:
-            animation.draw(screen)
+            if self.on_screen(animation):
+                animation.draw(screen)
         
         #Dibujamos la ultima capa del circuito
         self.circuit.draw(screen, 2)

@@ -62,7 +62,7 @@ class GameObject(pygame.sprite.Sprite):
         '''
         parent_node = parse.firstChild
         sprite_name = str(parent_node.getAttribute('sprite_code'))
-        self.original_sprite = resource.get_sprite(sprite_name)
+        self.original_sprite = resource.get_new_sprite(sprite_name)
         
         #Cargamos las distintas animaciones del objeto
         for element in parse.getElementsByTagName('animation'):
@@ -91,7 +91,7 @@ class GameObject(pygame.sprite.Sprite):
                 self.animations[FALL] = animation.Animation(animation_frames, animation_delay)
         
         #Inicializamos la imagen, el rectangulo y la mascara de pixeles
-        self.image = self.original_sprite[self.animations[NORMAL].get_frame()]
+        self.image = self.original_sprite.get_frame(self.animations[NORMAL].get_frame())
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
         self.hitmask = pixelperfect.get_alpha_hitmask(self.image, self.rect)
@@ -178,7 +178,7 @@ class GameObject(pygame.sprite.Sprite):
         @bnief Actualiza la imagen, según el estado actual de la animación y el angulo del objeto
         '''
         #Rotamos la imagen actual de la animación
-        self.image = pygame.transform.rotate(self.original_sprite[self.animations[self.state].get_frame()], -self.actual_angle)
+        self.image = pygame.transform.rotate(self.original_sprite.get_frame(self.animations[self.state].get_frame()), -self.actual_angle)
         
         #Actualizamos tanto el alto como el ancho 
         self.rect.w = self.image.get_width()
