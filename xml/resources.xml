@@ -8,7 +8,9 @@
 		<image code="normal_button1" name="menu/normal_button1.png" alpha="True"/>
 		<image code="normal_button2" name="menu/normal_button2.png" alpha="True"/>
 		<image code="normal_generic" name="menu/normal_generic.png" alpha="True"/>
+		<image code="normal_generic2" name="menu/normal_generic2.png" alpha="True"/>
 		<image code="selected_generic" name="menu/selected_generic.png" alpha="True"/>
+		<image code="selected_generic2" name="menu/selected_generic2.png" alpha="True"/>
 		<image code="selected_button1" name="menu/selected_button1.png" alpha="True"/>
 		<image code="selected_button2" name="menu/selected_button2.png" alpha="True"/>
 		<image code="normal_box" name="menu/normal_box.png" alpha="True"/>
@@ -25,6 +27,7 @@
 		<image code="selected_box3" name="menu/selected_box3.png" alpha="True"/>
 		<!--ELEMENTOS DE MENÚ(FONDO, LOGOS, ICONOS, IMAGENES)-->
 		<image code="background_menu" name="menu/background_menu.png" alpha="True"/>
+		<image code="background_pause" name="menu/background_pause.png" alpha="True"/>
 		<image code="logo_menu" name="menu/logo_menu.png" alpha="True"/>
 		<image code="logo_option" name="menu/logo_option.png" alpha="True"/>
 		<image code="logo_timer" name="menu/logo_timer.png" alpha="True"/>
@@ -53,8 +56,32 @@
 		<image code="circuit1" name="circuit/circuit1.png" alpha="True"/>
 		<image code="circuit2" name="circuit/circuit2.png" alpha="True"/>
 		<image code="nodisponible" name="circuit/nodisponible.png" alpha="True"/>
+		<!--JUEGO-->
+		<image code="goal" name="goal.png" alpha="True"/>
+		<image code="particle" name="particle.png" alpha="True"/>
+		<image code="ball_particle" name="ball_particle.png" alpha="True"/>
+		<image code="fire_particle" name="fire_particle.png" alpha="True"/>
+		<image code="hud" name="hud.png" alpha="True"/>
+		<image code="missile_show" name="items/missile_show.png" alpha="True"/>	
+		<image code="oil_show" name="items/oil_show.png" alpha="True"/>
+		<image code="ball_show" name="items/ball_show.png" alpha="True"/>
+		<image code="image_position1" name="image_position1.png" alpha="True"/>
+		<image code="image_position2" name="image_position2.png" alpha="True"/>
+		<image code="avatar1" name="character/avatar1.png" alpha="True"/>
+		<image code="avatar2" name="character/avatar2.png" alpha="True"/>
 	</images>
     <sprites>
+		<!--COCHES-->
+        <sprite code="yellow" name="yellow.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="purple" name="purple.png" rows="1" columns="1" alpha="True"/>
+        <!--ITEMS-->
+        <sprite code="item_box" name="item_box.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="missile" name="items/missile.png" rows="1" columns="1" alpha="True"/>
+		<sprite code="oil" name="items/oil.png" rows="1" columns="1" alpha="True"/>
+		<sprite code="ball" name="items/ball.png" rows="1" columns="1" alpha="True"/>
+		<!--ANIMACIONES-->
+		<sprite code="dragonfly1" name="animations/dragonfly1.gif" rows="7" columns="8" alpha="True"/>
+		<sprite code="dragonfly2" name="animations/dragonfly2.gif" rows="10" columns="11" alpha="True"/>
     </sprites>
 	<fonts>
 		<font code="cheesebu" name="cheesebu.ttf" size="20"/>

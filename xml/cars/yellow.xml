@@ -1,0 +1,14 @@
+<car sprite_code="yellow" max_speed="6" min_speed="3" aceleration="0.5" desaceleration="0.08" rotation_angle="0.35" avatar="avatar1">
+<!--NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW-->
+    <animations>
+        <animation name="normal" frames="0" delay="1"/>
+        <animation name="noaction" frames="0" delay="1"/>
+        <animation name="foward" frames="0" delay="1"/>
+        <animation name="run" frames="0" delay="1"/>
+        <animation name="reverse" frames="0" delay="1"/>
+        <animation name="damaged" frames="0" delay="1"/>
+        <animation name="erase" frames="0" delay="1"/>
+        <animation name="yaw" frames="0" delay="1"/>
+        <animation name="fall" frames="0" delay="1"/>
+    </animations>
+</car>

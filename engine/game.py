@@ -54,6 +54,8 @@ class Game:
         
         #Creamos el reloj
         self.clock = pygame.time.Clock()
+        self.font = resource.get_font('cheesebu', 30)
+        
         
         #Estado actual del juego
         self.__actual_state = intro.Intro(self, 'intro.xml')  
@@ -79,6 +81,12 @@ class Game:
             #Actualizamos y dibujamos el estado actual
             self.__actual_state.update()
             self.__actual_state.draw(self.screen)
+            
+            fps = self.clock.get_fps()
+            
+            render_fps = self.font.render(str(round(fps, 2)), True, (0,0,0))
+
+            self.screen.blit(render_fps, (730, 565))
             
             #Actualizamos la pantalla
             pygame.display.flip()

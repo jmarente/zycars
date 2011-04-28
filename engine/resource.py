@@ -7,12 +7,16 @@ Cuando queremos recursos de algún tipo simplente accedemos mediante su clave.
 '''
 
 import data
+import animation
 import pygame
 import xml.dom.minidom
+
+from log import Log
 
 #Distintas variables globales
 __initialize = False
 __sprites = {}
+__new_sprites = {}
 __sprites_info = {}
 __images = {}
 __images_info = {}
@@ -41,6 +45,11 @@ def __initialize_module():
         columns = int(element.getAttribute("columns"))
         alpha = bool(element.getAttribute("alpha"))
         __sprites_info[code] = (name, rows, columns, alpha)
+        
+        if __images_info.has_key(code):
+            Log().error('Ya se ha cargado información para el código: ' + code)
+        else:
+            __images_info[code] = (name, alpha)
     
     for element in parser.getElementsByTagName("sound"):
         code = element.getAttribute("code")
@@ -101,6 +110,18 @@ def get_sprite(sprite_code):
                                                 __sprites_info[sprite_code][2], __sprites_info[sprite_code][3])
         
     return __sprites[sprite_code]
+    
+def get_new_sprite(sprite_code):
+    
+    __check_initialize()
+    if __new_sprites.has_key(sprite_code):
+        pass
+        #print "New Sprite " + sprite_code + " ya cargado"
+    else:
+        #print "New Sprite " + sprite_code + " no estaba cargado aún, cargando..."
+        __new_sprites[sprite_code] = animation.ImageGrid(sprite_code, __sprites_info[sprite_code][1], \
+                                                __sprites_info[sprite_code][2])
+    return __new_sprites[sprite_code]
     
 def get_sound(sound_code):
     '''

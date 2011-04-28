@@ -350,7 +350,7 @@ class CircuitMenu(basicmenu.BasicMenu):
             if self.actual_circuit != 'No Disponible':
                 Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
                 print 'Ha elegido ', self.circuit_files[self.actual_layer][self.actual_circuit]
-        
+                Config().start_game(self.game)
         #Si pulsamos cancelar, volvemos al menú anterior
         elif option == 'Cancelar':
             print "Cancelar"

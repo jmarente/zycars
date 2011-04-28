@@ -84,7 +84,7 @@ def __load_basic_image(image_name):
     @return Devuelve una imagen cargada
     '''
     #Si la imagen tiene la extensión que debería
-    if check_extension(image_name, ".png"):
+    if check_extension(image_name, ".png") or check_extension(image_name, ".gif"):
         #Obtenemos su ruta
         image_path = os.path.join(MULTIMEDIA_DIR, "image", image_name)
     #Sino
@@ -216,20 +216,24 @@ def get_path_music(music_name):
         
     return music_path
     
-def get_path_xml(xml_name):
+def get_path_xml(xml_name, xml = True):
     '''
     @brief Función encargada de cargar y devolver la ruta de un archivo xml.
     
     @param nombre del archivo xml
+    @param xml Indica si es un xml o tmx
     @return La ruta del acrhivo xml
     '''
     #Comprobamos extensión
-    if check_extension(xml_name, ".xml"):
-        #obtenemos ruta
-        xml_path = os.path.join(XML_DIR, xml_name)
-        
+    if xml:
+        if check_extension(xml_name, ".xml"):
+            xml_path = os.path.join(XML_DIR, xml_name)
+        else:
+            xml_path = os.path.join(XML_DIR, xml_name + ".xml")
     else:
-        #añadiemos extensión
-        xml_path = os.path.join(XML_DIR, xml_name + ".xml")
+        if check_extension(xml_name, ".tmx"):
+            xml_path = os.path.join(XML_DIR, xml_name)
+        else:
+            xml_path = os.path.join(XML_DIR, xml_name + ".tmx")
         
     return xml_path

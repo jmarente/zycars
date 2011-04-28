@@ -19,7 +19,7 @@
     <layers>
         <layer name="Copa Chancla" font_code="cheesebu" size="30">
             <buttons>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuit/circuit1.xml' font="cheesebu" text="circuit1" image_circuit="circuit1" image="logo_beach1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-beach.tmx' font="cheesebu" text="circuit1" image_circuit="circuit1" image="logo_beach1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
                 <!--button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuit/circuit2.xml' font="cheesebu" text="circuit2" image_circuit="circuit2" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="410" show_text='False'></button-->
                 <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="410"></button>
                 <!--button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="475" show_text='True'></button>

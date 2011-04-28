@@ -1,6 +1,7 @@
 #-*- encoding: utf-8 -*-
 
 import modes
+import gamecontrol
 
 from log import Log
 from log import Singleton
@@ -55,10 +56,10 @@ class Config:
     def get_championship(self):
         return self.championship
     
-    def start_game(self):
+    def start_game(self, game):
         if self.mode == CHAMPIONSHIP:
-            pass
+            print "lalalala"
         elif self.mode == TIMED:
             pass
         elif self.mode == FASTRACE:
-            pass
+            game.change_state(modes.FastRace(game, self.get_circuit()))
