@@ -161,17 +161,29 @@ class GroupOption:
         if self.actual_left:
             #Mostramos fondo e imagen
             screen.blit(self.normal_image, (self.option1_x, self.y))
-            screen.blit(self.actual_left['image'], (self.option1_x, self.image_y))
+            rect = self.actual_left['image'].get_rect()
+            rect.centerx = self.option1_x + self.normal_image.get_width() / 2
+            rect.y = self.image_y
+            #screen.blit(self.actual_left['image'], (self.option1_x, self.image_y))
+            screen.blit(self.actual_left['image'], rect)
         
         #Mostramos la opcion actual en el centro
         screen.blit(self.selected_image, (self.option2_x, self.y))
-        screen.blit(self.actual_option['image'], (self.option2_x, self.image_y))
+        rect = self.actual_option['image'].get_rect()
+        rect.centerx = self.option2_x + self.selected_image.get_width() / 2
+        rect.y = self.image_y
+        #screen.blit(self.actual_option['image'], (self.option2_x, self.image_y))
+        screen.blit(self.actual_option['image'], rect)
         
         #Si hay alguna opción a la derecha
         if self.actual_right:
             #Mostramos fondo e imagen
             screen.blit(self.normal_image, (self.option3_x, self.y))
-            screen.blit(self.actual_right['image'], (self.option3_x, self.image_y))
+            rect = self.actual_right['image'].get_rect()
+            rect.centerx = self.option3_x + self.normal_image.get_width() / 2
+            rect.y = self.image_y
+            #screen.blit(self.actual_right['image'], (self.option3_x, self.image_y))
+            screen.blit(self.actual_right['image'], rect)
         
     def actual_selected(self):
         '''

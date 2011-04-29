@@ -40,12 +40,22 @@
 		<!--SLIDER-->
 		<image code="slider_bar" name="menu/slider_bar.png" alpha="True"/>
 		<image code="slider_controler" name="menu/slider_controler.png" alpha="True"/>
-		<!--PERSONAJES-->
+		<!--Coches de los PERSONAJES-->
 		<image code="car1" name="character/car1.png" alpha="True"/>
 		<image code="car2" name="character/car2.png" alpha="True"/>
-		<!--COCHES MENU-->
+		<image code="car3" name="character/car3.png" alpha="True"/>
+		<image code="car4" name="character/car4.png" alpha="True"/>
+		<image code="car5" name="character/car5.png" alpha="True"/>
+		<image code="car6" name="character/car6.png" alpha="True"/>
+		<image code="car7" name="character/car7.png" alpha="True"/>
+		<!--PERSONAJES-->
 		<image code="character2" name="character/character2.png" alpha="True"/>
 		<image code="character1" name="character/character1.png" alpha="True"/>
+		<image code="character3" name="character/character3.png" alpha="True"/>
+		<image code="character4" name="character/character4.png" alpha="True"/>
+		<image code="character5" name="character/character5.png" alpha="True"/>
+		<image code="character6" name="character/character6.png" alpha="True"/>
+		<image code="character7" name="character/character7.png" alpha="True"/>
 		<!---->
 		<image code="logo_beach" name="menu/logo_beach.png" alpha="True"/>
 		<image code="logo_kitchen" name="menu/logo_kitchen.png" alpha="True"/>
