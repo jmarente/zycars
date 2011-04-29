@@ -36,16 +36,15 @@ class Hud:
         self.image = resource.get_image(image_code)
         
         #Posicion de la imagen de fondo
-        x = int(image.getAttribute('x'))
-        y = int(image.getAttribute('y'))
-        self.position_image = (x, y)
+        self.centerx = int(image.getAttribute('centerx'))
+        self.centery = int(image.getAttribute('centery'))
+        self.position_image = self.image.get_rect()
+        self.position_image.centerx = self.centerx
+        self.position_image.centery = self.centery
         
         #Posición para los items
-        items = parse.getElementsByTagName('items')[0]
-        x = int(items.getAttribute('x'))
-        y = int(items.getAttribute('y'))
-        self.item_position = (self.position_image[0] + x, self.position_image[1] + y)
-        
+        items = parse.getElementsByTagName('items')
+                
         #Mapa para los items
         self.items = {}
         
@@ -76,11 +75,20 @@ class Hud:
         
         @param screen Superficie destino
         '''
-        screen.blit(self.image, self.position_image)
-        
+                
         #Si hay algun item actualmente lo mostramos
         if self.actual_item:
-            screen.blit(self.items[self.actual_item]['image'], self.item_position)
+            self.position_image = self.items[self.actual_item]['image'].get_rect()
+            self.position_image.centerx = self.centerx
+            self.position_image.centery = self.centery
+            screen.blit(self.items[self.actual_item]['image'], self.position_image)
+            
+        else:
+            self.position_image = self.image.get_rect()
+            self.position_image.centerx = self.centerx
+            self.position_image.centery = self.centery
+            screen.blit(self.image, self.position_image)
+
             
     def released_item(self):
         '''
@@ -341,6 +349,8 @@ class PlayerCar(BasicCar):
         elif item_type == 'ball':
             ball = item.Ball(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_ball(ball)
+        else:
+            pass
     
     def draw_hud(self, screen):
         self.hud.draw(screen)

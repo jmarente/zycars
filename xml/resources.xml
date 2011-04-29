@@ -65,6 +65,9 @@
 		<image code="missile_show" name="items/missile_show.png" alpha="True"/>	
 		<image code="oil_show" name="items/oil_show.png" alpha="True"/>
 		<image code="ball_show" name="items/ball_show.png" alpha="True"/>
+		<image code="3missile_show" name="items/3missile_show.png" alpha="True"/>
+		<image code="turbo_show" name="items/turbo_show.png" alpha="True"/>
+		<image code="gum_show" name="items/gum_show.png" alpha="True"/>
 		<image code="image_position1" name="image_position1.png" alpha="True"/>
 		<image code="image_position2" name="image_position2.png" alpha="True"/>
 		<image code="avatar1" name="character/avatar1.png" alpha="True"/>
