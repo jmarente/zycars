@@ -4,8 +4,8 @@
         <item code='missile' image_code='missile_show' path_xml='items/missile.xml'/>
         <item code='oil' image_code='oil_show' path_xml='items/oil.xml'/>
         <item code='ball' image_code='ball_show' path_xml='items/ball.xml'/>
-        <item code='3missile' image_code='3missile_show' path_xml='items/ball.xml'/>
-        <item code='gum' image_code='gum_show' path_xml='items/ball.xml'/>
-        <item code='turbo' image_code='turbo_show' path_xml='items/ball.xml'/>
+        <item code='3missile' image_code='3missile_show' path_xml='items/missile.xml'/>
+        <item code='gum' image_code='gum_show' path_xml='items/gum.xml'/>
+        <item code='turbo' image_code='turbo_show' path_xml=''/>
     </items>
 </hud>

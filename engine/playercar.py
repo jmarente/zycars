@@ -346,6 +346,9 @@ class PlayerCar(BasicCar):
         elif item_type == 'oil':
             oil = item.Oil(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_oil(oil)
+        elif item_type == 'gum':
+            gum = item.Oil(self.game_control, self, path_xml, self.x, self.y, self.actual_angle, True)
+            self.game_control.add_gum(gum)
         elif item_type == 'ball':
             ball = item.Ball(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_ball(ball)

@@ -142,6 +142,9 @@ class GameControl(state.State):
         #Grupo para las pelotas
         self.balls = pygame.sprite.Group()
         
+        #Grupo para las pelotas
+        self.gums = pygame.sprite.Group()
+        
         #Animaciones que estarán en el juego
         self.static_animations = []
                        
@@ -263,6 +266,9 @@ class GameControl(state.State):
             #Actualizamos las balas.
             for oil in self.oils:
                 oil.update()
+            
+            for gum in self.gums:
+                gum.update()
                     
             #Controlamos el scroll de la pantalla
             self.scroll_control()
@@ -310,6 +316,10 @@ class GameControl(state.State):
         for oil in self.oils:
             if self.on_screen(oil):
                 oil.draw(screen)
+        
+        for gum in self.gums:
+            if self.on_screen(gum):
+                gum.draw(screen)
             
         #Dibujamos al jugador
         self.player.draw(screen)
@@ -462,6 +472,26 @@ class GameControl(state.State):
                 if self.collision_manager.actor_pixelperfectcollision(ia_car[0], oil):
                     ia_car[0].set_state(gameobject.DAMAGED)
 
+        #Colisiones con las manchas de aceite
+        for gum in self.gums:
+            if self.on_screen(gum) and gum.get_state() != gameobject.NORMAL \
+                and self.player.get_old_state() != gameobject.DAMAGED \
+                and self.collision_manager.actor_pixelperfectcollision(gum, self.player):
+                    
+                    if abs(self.player.actual_speed) >= abs(self.player.max_speed / 8):
+                        if self.player.actual_speed > 0:
+                            self.player.actual_speed = abs(self.player.max_speed / 8)
+                        else:
+                            self.player.actual_speed = -1 * abs(self.player.max_speed / 8)
+                            
+            for ia_car in self.ia_cars:
+                if self.collision_manager.actor_pixelperfectcollision(ia_car[0], gum):
+                    
+                    if abs(ia_car[0].actual_speed) >= abs(ia_car[0].max_speed / 8):
+                        if ia_car[0].actual_speed > 0:
+                            ia_car[0].actual_speed = abs(ia_car[0].max_speed / 8)
+                        else:
+                            ia_car[0].actual_speed = -1 * abs(ia_car[0].max_speed / 8)
         
     def scroll_control(self):
         '''
@@ -519,31 +549,27 @@ class GameControl(state.State):
     def add_oil(self, oil):
         '''
         @brief Añade una nueva mancha de aceite en el juego y actualiza el mapa de costes
+        
+        @param oil Mancha a añadir
         '''
         #Añadimos la nueva mancha
         self.oils.add(oil)
         
-        #Obtenemos las coordenadas de los cuatro puntos del rectangulo que representa la mancha
-        x = int(math.floor(oil.rect.x / self.circuit.get_tile_width()))
-        y = int(math.floor(oil.rect.y / self.circuit.get_tile_height()))
-        x2 = int(math.floor((oil.rect.x + oil.rect.w) / self.circuit.get_tile_width()))
-        y2 = int(math.floor((oil.rect.y + oil.rect.h) / self.circuit.get_tile_height()))
-
-        #Comprobamos para cada uno de las coordenada su valor en el mapa,
-        #Si alguno de ellos es menor que que el valor de la macha
-        #Actualizamos el mapa de costes
-        if astar.values[astar.map[x][y]] < astar.values[astar.OIL]:
-            astar.map[x][y] = astar.OIL        
-        
-        if astar.values[astar.map[x2][y]] < astar.values[astar.OIL]:
-            astar.map[x2][y] = astar.OIL
-
-        if astar.values[astar.map[x][y2]] < astar.values[astar.OIL]:
-            astar.map[x][y2] = astar.OIL
-        
-        if astar.values[astar.map[x][y]] < astar.values[astar.OIL]:
-            astar.map[x2][y2] = astar.OIL
+        #Actualizamos el mapa del A*
+        self.update_astar_map(oil, astar.OIL)
     
+    def add_gum(self, gum):
+        '''
+        @brief Añade un chicle en el juego y actualiza el mapa de costes
+        
+        @param gum Chicle a añadir
+        '''
+        #Añadimos el chicle
+        self.gums.add(gum)
+        
+        #Actualizamos el mapa del A*
+        self.update_astar_map(gum, astar.GUM)
+
     def add_ball(self, ball):
         '''
         @brief Añade una nueva bola al juego
@@ -592,8 +618,36 @@ class GameControl(state.State):
         
         @param animation Animación a añadir
         '''
-        
         self.static_animations.append(animation)
+    
+    def update_astar_map(self, sprite, type):
+        '''
+        @brief Actualiza el mapa de pesos del A*
+        
+        @brief sprite Sprite con el que actualizaremos el mapa.
+        @brief type Tipo del sprite.
+        '''
+        
+        #Obtenemos las coordenadas de los cuatro puntos del rectangulo que representa el sprite
+        x = int(math.floor(sprite.rect.x / self.circuit.get_tile_width()))
+        y = int(math.floor(sprite.rect.y / self.circuit.get_tile_height()))
+        x2 = int(math.floor((sprite.rect.x + sprite.rect.w) / self.circuit.get_tile_width()))
+        y2 = int(math.floor((sprite.rect.y + sprite.rect.h) / self.circuit.get_tile_height()))
+
+        #Comprobamos para cada uno de las coordenada su valor en el mapa,
+        #Si alguno de ellos es menor que que el valor del tipo de sprite
+        #Actualizamos el mapa de costes
+        if astar.values[astar.map[x][y]] < astar.values[type]:
+            astar.map[x][y] = astar.OIL        
+        
+        if astar.values[astar.map[x2][y]] < astar.values[type]:
+            astar.map[x2][y] = astar.OIL
+
+        if astar.values[astar.map[x][y2]] < astar.values[type]:
+            astar.map[x][y2] = astar.OIL
+        
+        if astar.values[astar.map[x][y]] < astar.values[type]:
+            astar.map[x2][y2] = astar.OIL
     
     def order_checkpoints(self):
         self.checkpoints.order_checkpoints()

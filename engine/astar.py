@@ -10,13 +10,14 @@ import circuit
 
 from collections import deque
 
-PASSABLE, NOPASSABLE, LAG, HOLE, OIL = range(5)
+PASSABLE, NOPASSABLE, LAG, HOLE, OIL, GUM = range(6)
 #Variable global del modulo donde se almacenara el mapa de guia 
 map = None
 values = {}
 
 values[PASSABLE] = 1
 values[LAG] = 3
+values[GUM] = 6
 values[OIL] = 10
 values[HOLE] = 200
 

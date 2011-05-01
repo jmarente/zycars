@@ -176,9 +176,9 @@ class Missile(Item):
         
 class Oil(Item):
     '''
-    @brief Clase que representa una mancha de aceite
+    @brief Clase que representa una mancha de aceite, tambié servirá para representar un chicle
     '''
-    def __init__(self, game_control, owner, path_xml, x, y, angle):
+    def __init__(self, game_control, owner, path_xml, x, y, angle, gum = False):
         '''
         @brief Constructor.
         
@@ -188,10 +188,14 @@ class Oil(Item):
         @param x Posición en el eje x
         @param y Posición en el eje y
         @param angle Ángulo del item
+        @param 
         '''
         Item.__init__(self, game_control, owner, path_xml, x, y, angle)
         
-        self.type = OIL
+        if gum:
+            self.type = GUM
+        else:
+            self.type = OIL
         
         #Funciones para cada estado
         self.states = {

@@ -72,6 +72,7 @@
 		<image code="ball_particle" name="ball_particle.png" alpha="True"/>
 		<image code="fire_particle" name="fire_particle.png" alpha="True"/>
 		<image code="hud" name="hud.png" alpha="True"/>
+		<!--Imagen para mortar los items -->
 		<image code="missile_show" name="items/missile_show.png" alpha="True"/>	
 		<image code="oil_show" name="items/oil_show.png" alpha="True"/>
 		<image code="ball_show" name="items/ball_show.png" alpha="True"/>
@@ -91,6 +92,7 @@
         <sprite code="item_box" name="item_box.png" rows="1" columns="1" alpha="True"/>
         <sprite code="missile" name="items/missile.png" rows="1" columns="1" alpha="True"/>
 		<sprite code="oil" name="items/oil.png" rows="1" columns="1" alpha="True"/>
+		<sprite code="gum" name="items/gum.png" rows="1" columns="1" alpha="True"/>
 		<sprite code="ball" name="items/ball.png" rows="1" columns="1" alpha="True"/>
 		<!--ANIMACIONES-->
 		<sprite code="dragonfly1" name="animations/dragonfly1.gif" rows="7" columns="8" alpha="True"/>
