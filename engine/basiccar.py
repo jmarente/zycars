@@ -39,6 +39,8 @@ class BasicCar(gameobject.GameObject):
         self.y = self.old_y = y
         
         self.start = None
+        self.turbo_state = None
+        self.old_max_speed = self.max_speed
         
         #Si el angulo es 0, no hacemos nada
         if angle == 0:

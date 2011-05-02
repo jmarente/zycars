@@ -11,7 +11,7 @@ import math
 from math import *
 
 #Distinos estado que pueden tener los objetos del juego.
-NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION, FALL = range(10)
+NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION, FALL, TURBO = range(11)
 
 class GameObject(pygame.sprite.Sprite):
     '''
@@ -89,7 +89,9 @@ class GameObject(pygame.sprite.Sprite):
                 self.animations[YAW] = animation.Animation(animation_frames, animation_delay)
             elif animation_name == 'fall':
                 self.animations[FALL] = animation.Animation(animation_frames, animation_delay)
-        
+            elif animation_name == 'turbo':
+                self.animations[TURBO] = animation.Animation(animation_frames, animation_delay)
+                
         #Inicializamos la imagen, el rectangulo y la mascara de pixeles
         self.image = self.original_sprite.get_frame(self.animations[NORMAL].get_frame())
         self.rect = self.image.get_rect()

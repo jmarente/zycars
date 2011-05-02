@@ -166,7 +166,8 @@ class PlayerCar(BasicCar):
                     DAMAGED: self.__damaged_state, 
                     ERASE: self.__erase_state, 
                     YAW: self.__yaw_state,
-                    FALL: self.__fall_state
+                    FALL: self.__fall_state,
+                    TURBO: self.__turbo_state
                     }
         
         self.falling = False
@@ -234,6 +235,37 @@ class PlayerCar(BasicCar):
         
         #Y la trigonometria del mismo
         self.trigonometry()
+    
+    def __turbo_state(self):
+        '''
+        @brief Coche en turbo
+        '''
+        #Si es la primera llamada
+        if not self.turbo_state:
+            #Obtenemos el tiempo de inicio
+            self.turbo_state = time.time()
+            #Aumentamos la velocidad
+            self.max_speed *= 2
+        
+        #Calculamos el tiempo transcurrido
+        elapsed = time.time() - self.turbo_state
+        
+        #Si a pasado mas de un segundo, volvemos al estado normal
+        if elapsed > 1:
+            self.state = NOACTION
+            self.turbo_state = None
+            #self.max_speed = self.old_max_speed
+            self.max_speed = self.max_speed / 2
+        
+        #Movemos el coche
+        self.move(+1)
+            
+        #Controlamos la rotación del coche
+        self.control_rotation()
+        
+        #Y la trigonometria del mismo
+        self.trigonometry()
+
             
     def __noaction_state(self):
         '''
@@ -380,8 +412,8 @@ class PlayerCar(BasicCar):
         elif item_type == 'ball':
             ball = item.Ball(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_ball(ball)
-        else:
-            pass
+        elif item_type == 'turbo':
+            self.state = TURBO
     
     def draw_hud(self, screen):
         self.hud.draw(screen)
