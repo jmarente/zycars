@@ -35,6 +35,12 @@ class Hud:
         image_code = image.getAttribute('image_code')
         self.image = resource.get_image(image_code)
         
+        #Controla los misiles restantes
+        self.missile = 0
+        
+        #Fuente para mostrar los misiles restantes
+        self.font = resource.get_font('cheesebu', 40)
+        
         #Posicion de la imagen de fondo
         self.centerx = int(image.getAttribute('centerx'))
         self.centery = int(image.getAttribute('centery'))
@@ -78,15 +84,27 @@ class Hud:
                 
         #Si hay algun item actualmente lo mostramos
         if self.actual_item:
+            #Obtenemos posicion
             self.position_image = self.items[self.actual_item]['image'].get_rect()
             self.position_image.centerx = self.centerx
             self.position_image.centery = self.centery
+            
+            #Mostramos
             screen.blit(self.items[self.actual_item]['image'], self.position_image)
             
+            #Si el item es del tipo de 3 misiles, mostramos los misiles restantes
+            if self.actual_item == "3missile":
+                surface = self.font.render(str(self.missile), True, (0,0,0))
+                screen.blit(surface, self.position_image)
+        
+        #Si no, mostramos el casillero vacio
         else:
+            #Obtenemos la posicion
             self.position_image = self.image.get_rect()
             self.position_image.centerx = self.centerx
             self.position_image.centery = self.centery
+            
+            #Pintamos
             screen.blit(self.image, self.position_image)
 
             
@@ -97,7 +115,15 @@ class Hud:
         #Si tenemos algun item, lo lanzamos
         if self.actual_item:
             self.player.released_item(self.actual_item, self.items[self.actual_item]['xml'])
-            self.actual_item = None
+            
+            #Si es del tipo 3 misiles, restamos los misiles restantes
+            if self.actual_item == "3missile":
+                self.missile -= 1
+                
+            #Si no tenemos mas misiles o el item es disinto de 3 misiles
+            #Indicamos que no nos quedan misiles
+            if self.missile == 0 or self.actual_item != "3missile":
+                self.actual_item = None
             
     def collected_item(self):
         '''
@@ -107,6 +133,8 @@ class Hud:
         if not self.actual_item:
             #Obtenemos uno aleatorio de la lista
             self.actual_item = self.items.keys()[random.randint(0, len(self.items.keys()) - 1)]
+            if self.actual_item == '3missile':
+                self.missile = 3
 
 class PlayerCar(BasicCar):
     '''
@@ -340,7 +368,7 @@ class PlayerCar(BasicCar):
     
     def released_item(self, item_type, path_xml):
 
-        if item_type == 'missile':
+        if item_type == 'missile' or item_type == '3missile':
             missile = item.Missile(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_bullet(missile)
         elif item_type == 'oil':
