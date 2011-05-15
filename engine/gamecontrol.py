@@ -157,6 +157,7 @@ class GameControl(state.State):
                 
         #Linea de salida
         self.start = None
+        self.complete = False
         
         #Vueltas al circuito
         self.max_laps = laps
@@ -169,6 +170,13 @@ class GameControl(state.State):
         #Contador de vuelta
         self.laps_counter = None
         self.laps_counter_rect = None
+        
+        #Obtenemos una superficie negra del mismo tamaño que la pantalla
+        self.fade_surface = pygame.Surface((pygame.display.get_surface().get_width(), pygame.display.get_surface().get_height()))
+        self.fadein = True
+        self.fadeout = False
+        self.fade_speed = 5
+        self.actual_alpha = 255
         
         #Actualizamos el contador
         self.update_laps_counter()
@@ -192,7 +200,7 @@ class GameControl(state.State):
         self.position_board = PositionBoard(20, 10, 'image_position1', 'image_position2')
         
         #Pasamos al estado de cuenta atras
-        self.actual_state = 'countdown'
+        self.actual_state = None
         
         self.position = {1: 'st', 2: 'nd', 3: 'rd', 4: 'th'}
         self.player_position = 1
@@ -222,79 +230,100 @@ class GameControl(state.State):
         '''
         @brief Método encargado de actualizar todos los componentes del circuito
         '''
-        #Si estamos en la cuenta atrás actualizamos la cuenta atrás
-        if self.actual_state == 'countdown':
-            self.count_down.update()
-            for animation in self.static_animations:
-                animation.update()
-            #Si se ha completado cambiamos el estado del juego
-            if self.count_down.complete():
-                self.actual_state = 'race'
-                self.actual_time.start()
-                self.total_time.start()
-
-        #Si estamos en pause, actualizamos el menú de pause
-        elif self.actual_state == 'pause':
-            self.pause.update()
         
-        #Si estamos el estado en carrera, actualizamos todos los estado de carrera
-        elif self.actual_state == 'race':
-                        
-            #Actualizamos el tiempo actual
-            self.actual_time.update()
-            self.total_time.update()
+        if self.fadein:
+            self.actual_alpha -= self.fade_speed
+            self.fade_surface.set_alpha(self.actual_alpha)
             
-            #Actualizamos al coche del jugador.
-            self.player.update()
-            
-            #Actualizamos la IA.
-            for ia_car in self.ia_cars:
-                #Actualizamos el coche de la IA
-                ia_car[0].update()
-                #Actualizamos los puntos de control para la IA dada
-                ia_car[1].update(ia_car[0])
-            
-            #Actualizamos las cajas de items
-            for box in self.items_box:
-                if self.on_screen(box):
-                    box.update()
-            
-            for ball in self.balls:
-                ball.update()
-                        
-            #Actualizamos las balas.
-            for bullet in self.bullets:
-                bullet.update()
+            if self.actual_alpha <= 0:
+                self.fadein = False
+                self.actual_state = 'countdown'
+                
+        else:
+            #Si estamos en la cuenta atrás actualizamos la cuenta atrás
+            if self.actual_state == 'countdown':
+                self.count_down.update()
+                for animation in self.static_animations:
+                    animation.update()
+                #Si se ha completado cambiamos el estado del juego
+                if self.count_down.complete():
+                    self.actual_state = 'race'
+                    self.actual_time.start()
+                    self.total_time.start()
 
-            #Actualizamos las balas.
-            for oil in self.oils:
-                oil.update()
+            #Si estamos en pause, actualizamos el menú de pause
+            elif self.actual_state == 'pause':
+                self.pause.update()
             
-            for gum in self.gums:
-                gum.update()
-                    
-            #Controlamos el scroll de la pantalla
-            self.scroll_control()
-            
-            #Controlamos posibles colisiones
-            self.check_collisions()
-            
-            #Controlamos todos los puntos de control    
-            self.checkpoints.update(self.player, True)
+            #Si estamos el estado en carrera, actualizamos todos los estado de carrera
+            elif self.actual_state == 'race':
+                            
+                #Actualizamos el tiempo actual
+                self.actual_time.update()
+                self.total_time.update()
+                
+                #Actualizamos al coche del jugador.
+                self.player.update()
+                
+                #Actualizamos la IA.
+                for ia_car in self.ia_cars:
+                    #Actualizamos el coche de la IA
+                    ia_car[0].update()
+                    if not self.complete:
+                        #Actualizamos los puntos de control para la IA dada
+                        ia_car[1].update(ia_car[0])
+                
+                #Actualizamos las cajas de items
+                for box in self.items_box:
+                    if self.on_screen(box):
+                        box.update()
+                
+                for ball in self.balls:
+                    ball.update()
+                            
+                #Actualizamos las balas.
+                for bullet in self.bullets:
+                    bullet.update()
 
-            #Obtenemos la posicion del jugador actualizando el marcador
-            self.position_board.update((self.player, self.checkpoints), self.ia_cars)
+                #Actualizamos las balas.
+                for oil in self.oils:
+                    oil.update()
+                
+                for gum in self.gums:
+                    gum.update()
+                        
+                #Controlamos el scroll de la pantalla
+                self.scroll_control()
+                
+                #Controlamos posibles colisiones
+                self.check_collisions()
+                
+                if not self.complete:
+                    #Controlamos todos los puntos de control    
+                    self.checkpoints.update(self.player, True)
+
+                    #Obtenemos la posicion del jugador actualizando el marcador
+                    self.position_board.update((self.player, self.checkpoints), self.ia_cars)
+                
+                #Si pulsamos el espacio o escape, cambiamos al estado pause
+                if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_p) \
+                    or not pygame.key.get_focused():
+                        
+                    self.actual_state = 'pause'
+                    self.actual_time.pause()
+                    self.player.set_state(gameobject.NOACTION)
             
-            for animation in self.static_animations:
-                animation.update()
+            if self.fadeout:
+                self.actual_alpha += self.fade_speed
+                self.fade_surface.set_alpha(self.actual_alpha)
             
-            #Si pulsamos el espacio o escape, cambiamos al estado pause
-            if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_p) \
-                or not pygame.key.get_focused():
-                    
-                self.actual_state = 'pause'
-                self.actual_time.pause()
-                self.player.set_state(gameobject.NOACTION)
+                if self.actual_alpha >= 255:
+                    self.fadeout = False
+                    self.game_mode.completed_race(self.position_board.get_all_players_position())
+
+
+        for animation in self.static_animations:
+            animation.update()
             
     def draw(self, screen):
         '''
@@ -385,6 +414,9 @@ class GameControl(state.State):
         #Si estamos en el estado de pause, mostramos el menú de pause
         elif self.actual_state == 'pause':
             self.pause.draw(screen)
+        
+        if self.fadein or self.fadeout:
+            screen.blit(self.fade_surface, (0, 0))
             
         #Dibujamos rejilla de referencia
         #screen.blit(self.grid, (0, 0))
@@ -735,7 +767,8 @@ class GameControl(state.State):
         
         if self.actual_laps >= self.max_laps:
             print "Carrera Completada"
-            self.game_mode.completed_race(self.position_board.get_all_players_position())
+            self.fadeout = True
+            self.complete = True
     
     def update_laps_counter(self):
         '''
