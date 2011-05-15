@@ -19,6 +19,13 @@ class Config:
         self.level_debug = 0
         self.championship = None
         self.circuit = None
+        self.laps = None
+    
+    def set_laps(self, laps):
+        self.laps = laps
+    
+    def get_laps(self):
+        return self.laps
         
     def get_mode(self):
         return self.mode

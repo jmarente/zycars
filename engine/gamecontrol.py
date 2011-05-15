@@ -58,9 +58,9 @@ class PositionBoard():
         aux_positions = []
         
         #Introducimos los elementos
-        aux_positions.append((player[1].get_total_checked(), player[0].get_avatar(), True)) 
+        aux_positions.append((player[1].get_total_checked(), player[0], True)) 
         for ia_car in ia_cars:
-            aux_positions.append((ia_car[1].get_total_checked(), ia_car[0].get_avatar(), False))
+            aux_positions.append((ia_car[1].get_total_checked(), ia_car[0], False))
         
         #Ordenamos la lista al reves
         self.list_position = sorted(aux_positions, reverse = True)
@@ -84,7 +84,7 @@ class PositionBoard():
                 screen.blit(self.image1, (self.x, self.y + self.image1.get_height() * i + self.distance * i))
             
             #Dibujamos el avatar del jugador sobre la imagen de fondo
-            screen.blit(self.list_position[i][1], (self.x, self.y + self.image2.get_height() * i + self.distance * i - 5))
+            screen.blit(self.list_position[i][1].get_avatar(), (self.x, self.y + self.image2.get_height() * i + self.distance * i - 5))
     
     def get_player_position(self):
         '''
@@ -98,13 +98,16 @@ class PositionBoard():
                 return i + 1
         
         return 1
+    
+    def get_all_players_position(self):
+        return self.list_position
 
 class GameControl(state.State):
     '''
     @brief Clase encargada de controlar los aspectos básicos de una carrera, desde
     las colisiones hasta el control de las vueltas
     '''
-    def __init__(self, game, path, laps = 3):
+    def __init__(self, game, game_mode, path, laps = 3):
         '''
         @brief Constructor
         
@@ -113,6 +116,7 @@ class GameControl(state.State):
         '''
         state.State.__init__(self, game)
         
+        self.game_mode = game_mode
         #Coche del jugador.
         #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 0, 0, 0)
         #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 500, 400, 0)
@@ -213,7 +217,6 @@ class GameControl(state.State):
         
         #Posicionamos la pantalla
         self.scroll_control()
-        
         
     def update(self):
         '''
@@ -638,16 +641,16 @@ class GameControl(state.State):
         #Si alguno de ellos es menor que que el valor del tipo de sprite
         #Actualizamos el mapa de costes
         if astar.values[astar.map[x][y]] < astar.values[type]:
-            astar.map[x][y] = astar.OIL        
+            astar.map[x][y] = type       
         
         if astar.values[astar.map[x2][y]] < astar.values[type]:
-            astar.map[x2][y] = astar.OIL
+            astar.map[x2][y] = type
 
         if astar.values[astar.map[x][y2]] < astar.values[type]:
-            astar.map[x][y2] = astar.OIL
+            astar.map[x][y2] = type
         
         if astar.values[astar.map[x][y]] < astar.values[type]:
-            astar.map[x2][y2] = astar.OIL
+            astar.map[x2][y2] = type
     
     def order_checkpoints(self):
         self.checkpoints.order_checkpoints()
@@ -730,8 +733,9 @@ class GameControl(state.State):
         self.actual_time.stop()
         self.actual_time.start()
         
-        if self.actual_laps == self.max_laps:
-            print "Terminado carrera"
+        if self.actual_laps >= self.max_laps:
+            print "Carrera Completada"
+            self.game_mode.completed_race(self.position_board.get_all_players_position())
     
     def update_laps_counter(self):
         '''

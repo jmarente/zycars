@@ -28,6 +28,7 @@ class BasicCar(gameobject.GameObject):
         
         self.break_force = None
         self.avatar = None
+        self.name_character = ""
 
         #Parseamos la información básica
         parser = xml.dom.minidom.parse(data.get_path_xml(xml_file))
@@ -62,6 +63,7 @@ class BasicCar(gameobject.GameObject):
         @brief Método que parsea la información básica de los coches.
         '''
         parent_node = parse.firstChild
+        self.name_character = parent_node.getAttribute('name_character')
         self.avatar = resource.get_image(parent_node.getAttribute('avatar'))
         self.max_speed = float(parent_node.getAttribute('max_speed'))
         self.min_speed = float(parent_node.getAttribute('min_speed'))
@@ -125,3 +127,6 @@ class BasicCar(gameobject.GameObject):
     
     def get_avatar(self):
         return self.avatar
+    
+    def get_name(self):
+        return self.name_character

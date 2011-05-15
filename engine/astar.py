@@ -20,6 +20,7 @@ values[LAG] = 3
 values[GUM] = 6
 values[OIL] = 10
 values[HOLE] = 200
+values[NOPASSABLE] = 10000
 
 class Nodo:
     '''
