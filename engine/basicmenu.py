@@ -82,7 +82,7 @@ class BasicMenu(state.State):
             #Obtenemos tamaño y fuente
             font_code = str(element.getAttribute('font'))
             font_size = int(element.getAttribute('size'))
-            font = resource.get_font(font_code, font_size)
+            self.font = resource.get_font(font_code, font_size)
             text = element.getAttribute('text')
             
             #Colores
@@ -92,7 +92,7 @@ class BasicMenu(state.State):
             color = (r, g, b)
             
             #Renderizamos
-            self.title = font.render(text, True, color)
+            self.title = self.font.render(text, True, color)
             
             #Obtenemos la posición
             self.title_rect = self.title.get_rect()

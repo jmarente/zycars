@@ -69,4 +69,4 @@ class Config:
         elif self.mode == TIMED:
             pass
         elif self.mode == FASTRACE:
-            game.change_state(modes.FastRace(game, self.get_circuit()))
+            game.change_state(modes.FastRace(game, self.get_circuit(), self.laps))

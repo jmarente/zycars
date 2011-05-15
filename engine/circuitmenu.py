@@ -171,6 +171,13 @@ class CircuitMenu(basicmenu.BasicMenu):
         
         self.times = None
         
+        self.text_laps = self.font.render('Vueltas', True, (189, 9 ,38))
+        self.laps = 1
+        laps = parse.getElementsByTagName('laps')[0]
+        
+        self.text_laps_position = (int(laps.getAttribute('text_x')), int(laps.getAttribute('text_y')))
+        self.laps_position = (int(laps.getAttribute('num_x')), int(laps.getAttribute('num_y')))
+        
         if Config().get_mode() == TIMED:
             #Obtenemos la posición del marcador de los tiempos
             time_pos = parse.getElementsByTagName('times_position')[0]
@@ -334,6 +341,9 @@ class CircuitMenu(basicmenu.BasicMenu):
             #Dibujamos los tiempos del circuito actual
             self.times.draw(screen)
         
+        screen.blit(self.text_laps, self.text_laps_position)
+        laps = self.font.render(str(self.laps), True, (0, 0, 0))
+        screen.blit(laps, self.laps_position)
         #Por ultimo dibujamos el cursor 
         self.cursor.draw(screen)
         
@@ -348,9 +358,11 @@ class CircuitMenu(basicmenu.BasicMenu):
             print "Aceptar"
             #Si hemo pulsado aceptar y el circuito está disponible.
             if self.actual_circuit != 'No Disponible':
+                Config().set_laps(self.laps)
                 Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
                 print 'Ha elegido ', self.circuit_files[self.actual_layer][self.actual_circuit]
                 Config().start_game(self.game)
+                
         #Si pulsamos cancelar, volvemos al menú anterior
         elif option == 'Cancelar':
             print "Cancelar"
@@ -376,6 +388,13 @@ class CircuitMenu(basicmenu.BasicMenu):
                 
             #Situamos la nueva capa
             self.actual_layer = option
+        
+        elif option == 'Izquierda':
+            if self.laps > 1:
+                self.laps -= 1
+        
+        elif option == 'Derecha':
+            self.laps += 1
             
         #Si no se a cumplido ninguna anterior, es que  hemos pulsado sobre un botom de circuito
         else:

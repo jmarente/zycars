@@ -19,6 +19,8 @@
 		<image code="selected_box2" name="menu/selected_box2.png" alpha="True"/>
 		<image code="row_right" name="menu/row_right.png" alpha="True"/>
 		<image code="row_left" name="menu/row_left.png" alpha="True"/>
+		<image code="tiny_row_right" name="menu/tiny_row_right.png" alpha="True"/>
+		<image code="tiny_row_left" name="menu/tiny_row_left.png" alpha="True"/>
 		<image code="normal_check_box" name="menu/normal_check_box.png" alpha="True"/>
 		<image code="selected_check_box" name="menu/selected_check_box.png" alpha="True"/>
 		<image code="normal_circuit" name="menu/normal_circuit.png" alpha="True"/>

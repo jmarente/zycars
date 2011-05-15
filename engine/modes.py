@@ -20,7 +20,7 @@ class Mode(state.State):
         pass
 
 class Timed(Mode):
-    def __init__(self, game, circuit_path):
+    def __init__(self, game, circuit_path, laps):
         self.game = game
         print "Tipo de game en FastRace: ", type(game)
         self.game_control = gamecontrol.GameControl(self.game, self, path_circuit)
@@ -34,10 +34,11 @@ class Timed(Mode):
         pass
         
 class FastRace(Mode):
-    def __init__(self, game, path_circuit):
+    def __init__(self, game, path_circuit, laps):
         self.game = game
         self.path_circuit = path_circuit
-        self.game_control = gamecontrol.GameControl(self.game, self, path_circuit, 1)  
+        self.laps = laps
+        self.game_control = gamecontrol.GameControl(self.game, self, path_circuit, laps)  
         self.classification = classificationmenu.ClassificationMenu(self, 'menu/classificationmenu.xml')     
         self.state = GAME
         
@@ -60,7 +61,7 @@ class FastRace(Mode):
         self.state = CLASSIFICATION
         
     def reboot_race(self):
-        self.game_control = gamecontrol.GameControl(self.game, self, self.path_circuit, 1)  
+        self.game_control = gamecontrol.GameControl(self.game, self, self.path_circuit, self.laps)  
         self.state = GAME
     
     def go_on(self):

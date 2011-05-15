@@ -13,9 +13,12 @@
         <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Rodillo" image="logo_kitchen" image_x="6" image_y="6" center="True" x="595" y="175"></option>
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Aceptar" center="True" x="550" y="550"></option>
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="700" y="550"></option>
+        <option type="normal" xml_file="menu/tinyrowleftbutton.xml" font="cheesebu" text="Izquierda" show_text='false' center="True" x="640" y="370"></option>
+        <option type="normal" xml_file="menu/tinyrowrightbutton.xml" font="cheesebu" text="Derecha" show_text='false' center="True" x="720" y="370"></option>
     </options>
     <circuit_position x="180" y="375"/>
-    <times_position x="600" y="350"/>
+    <times_position x="600" y="400"/>
+    <laps text_x = '635' text_y = '320' num_x = '675' num_y = '355'/>
     <layers>
         <layer name="Copa Chancla" font_code="cheesebu" size="30">
             <buttons>
