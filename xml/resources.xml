@@ -85,6 +85,13 @@
 		<image code="image_position2" name="image_position2.png" alpha="True"/>
 		<image code="avatar1" name="character/avatar1.png" alpha="True"/>
 		<image code="avatar2" name="character/avatar2.png" alpha="True"/>
+		<!--Imagen de los controles-->
+		<image code="rows" name="menu/rows.png" alpha="True"/>
+		<image code="letters" name="menu/letters.png" alpha="True"/>
+		<image code="p" name="menu/p.png" alpha="True"/>
+		<image code="esc" name="menu/esc.png" alpha="True"/>
+		<image code="enter" name="menu/enter.png" alpha="True"/>
+		<image code="space" name="menu/space.png" alpha="True"/>
 	</images>
     <sprites>
 		<!--COCHES-->

@@ -35,6 +35,8 @@ class OptionMenu(basicmenu.BasicMenu):
         #Declaramos distintos atributos de la clase
         self.text_layers = {}
         self.elements_layers = {}
+        self.buttons_layers = {}
+        self.images_layers = {}
         self.actual_layer = None
         
         #Recorremos las distintas capas que tendrá el menú
@@ -44,7 +46,9 @@ class OptionMenu(basicmenu.BasicMenu):
             name_layer = str(element.getAttribute('name'))
             self.text_layers[name_layer] = []
             self.elements_layers[name_layer] = []
-            
+            self.buttons_layers[name_layer] = []
+            self.images_layers[name_layer] = {}
+
             #Fuente que se usará y tamaño de esta
             font_code = str(element.getAttribute('font_code'))
             size = int(element.getAttribute('size'))
@@ -98,9 +102,46 @@ class OptionMenu(basicmenu.BasicMenu):
                 
                 new_checkbox = checkbox.CheckBox(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
                 self.elements_layers[name_layer].append(new_checkbox)
+            
+            for button_layer in element.getElementsByTagName('button'):
+                
+                #Ruta del archivo xml con la configuración
+                xml_file = str(button_layer.getAttribute('xml_file'))
+                
+                #Fuente y texto que apareceran en el boton
+                font_code = str(button_layer.getAttribute('font'))
+                text = button_layer.getAttribute('text')
+                
+                
+                x = int(button_layer.getAttribute('x'))
+                y = int(button_layer.getAttribute('y'))
+                show_text = True
+                
+                #Miramos si se indica si se debe mostrar o no el texto en el botón
+                if button_layer.hasAttribute('show_text'):
+                    show_text = button_layer.getAttribute('show_text')
+                    show_text = button.strTobool(show_text)
+                
+                aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text, True)
+                    
+                #Lo añadimos a la lista de botones
+                self.buttons_layers[name_layer].append(aux_button)   
+                
+            
+            for image in element.getElementsByTagName('image_layer'):
+                
+                image_code = image.getAttribute('image_code')
+                x = int(image.getAttribute('x'))
+                y = int(image.getAttribute('y'))
+                
+                print image_code
+                self.images_layers[name_layer][image_code] = (resource.get_image(image_code), x, y)
         
         #La capa inicial será la de sonido
         self.actual_layer = "Sonido"
+        self.direction = 'rows'
+        self.pause = 'p'
+        self.item = 'enter'
                             
     def update(self):
         '''
@@ -116,6 +157,13 @@ class OptionMenu(basicmenu.BasicMenu):
                 #Obtenemos su opción
                 self.actual_option = button.get_option()
         
+        for button in self.buttons_layers[self.actual_layer]:
+            button.update()
+            #So el cursor está sobre alguno de los botones
+            if button.get_selected():
+                #Obtenemos su opción
+                self.actual_option = button.get_option()
+                
         #Si hay alguna opción
         if self.actual_option:
             
@@ -151,6 +199,14 @@ class OptionMenu(basicmenu.BasicMenu):
         for element in self.elements_layers[self.actual_layer]:
             element.draw(screen)
         
+        for button_layer in self.buttons_layers[self.actual_layer]:
+            button_layer.draw(screen)
+
+        if self.actual_layer == 'Controles':
+            screen.blit(self.images_layers[self.actual_layer][self.direction][0], (self.images_layers[self.actual_layer][self.direction][1], self.images_layers[self.actual_layer][self.direction][2]))
+            screen.blit(self.images_layers[self.actual_layer][self.pause][0], (self.images_layers[self.actual_layer][self.pause][1], self.images_layers[self.actual_layer][self.pause][2]))
+            screen.blit(self.images_layers[self.actual_layer][self.item][0], (self.images_layers[self.actual_layer][self.item][1], self.images_layers[self.actual_layer][self.item][2]))
+            
         #Dibujamos el cursor
         self.cursor.draw(screen)
         
@@ -174,3 +230,24 @@ class OptionMenu(basicmenu.BasicMenu):
             
         elif option == "Controles":
             self.actual_layer = "Controles"
+        
+        elif option == "DerechaDireccion":
+            print "DerechaDireccion"
+            if self.direction == 'letters':
+                self.direction = 'rows' 
+            else:
+                self.direction = 'letters'
+
+        elif option == "DerechaItem":
+            print "DerechaItem"
+            if self.item == 'space':
+                self.item = 'enter' 
+            else:
+                self.item = 'space'
+                
+        elif option == "DerechaPausa":
+            print "DerechaPausa"
+            if self.pause == 'p':
+                self.pause = 'esc' 
+            else:
+                self.pause = 'p'
