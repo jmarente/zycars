@@ -134,7 +134,6 @@ class OptionMenu(basicmenu.BasicMenu):
                 x = int(image.getAttribute('x'))
                 y = int(image.getAttribute('y'))
                 
-                print image_code
                 self.images_layers[name_layer][image_code] = (resource.get_image(image_code), x, y)
         
         #La capa inicial será la de sonido

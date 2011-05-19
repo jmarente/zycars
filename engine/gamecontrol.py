@@ -1,6 +1,7 @@
 #-*- encoding: utf-8 -*-
 
 import pygame
+import time
 import state
 import collisionmanager
 import playercar
@@ -21,6 +22,86 @@ import copy
 
 from config import *
 from pygame.locals import *
+
+class Advice:
+    '''
+    @brief Encargada de mostrar mesajes en pantalla durante la carrera
+    '''
+    def __init__(self, message, font_code, max_size, increase, centerx, centery, color, time):
+        '''
+        @brief Constructor.
+        
+        @param message Cadena de texto con el mensaje a mostrar.
+        @param font_code Codigo de la fuente a usar.
+        @param max_size Tamaño máximo de la fuente.
+        @param increase Incermento de la superficie
+        @param centerx Posición central del mensaje en x.
+        @param centery Posición central del mensaje en y.
+        @param color Color del mensaje.
+        @param time Duración del mensaje en pantalla.
+        '''
+        #Asignamos los distintos valores
+        self.font = resource.get_font(font_code, max_size)
+        self.message = self.font.render(message, True, color)
+        self.actual_surface = self.message
+        self.centerx = centerx
+        self.centery = centery
+        self.total_time = time
+        self.start_time = None
+        self.scale = 0
+        self.increase_scale = increase
+        self.complete_advice = False
+        
+        #Obtenemos la superficie inicial, con el tamaño mas pequeño de la escala
+        self.actual_surface = pygame.transform.rotozoom(self.message, 0, self.scale)
+        self.rect = self.actual_surface.get_rect()
+        self.rect.centerx = centerx
+        self.rect.centery = centery
+        
+    def update(self):
+        '''
+        @brief Actualiza el mensaje y controla su finalización.
+        '''
+        #Si aún no habia empezado, recogemos el tiempo actual
+        if not self.start_time:
+            self.start_time = time.time()
+        
+        #Obtenemos el tiempo discurrido
+        elapsed = time.time() - self.start_time
+        
+        #Si aun no ha pasado el tiempo total
+        if elapsed < self.total_time:
+            
+            #Redimensinamos la imagen
+            self.actual_surface = pygame.transform.rotozoom(self.message, 0 ,self.scale)
+            
+            #Actualizamos la posición
+            self.rect = self.actual_surface.get_rect()
+            self.rect.centerx = self.centerx
+            self.rect.centery = self.centery
+            
+            #Aumentamos la escala
+            self.scale += self.increase_scale
+        
+        #Si no avisamo de que el tiempo ya ha terminado
+        else:
+            self.complete_advice = True
+            
+    def draw(self, screen):
+        '''
+        @brief Dibuja el mensaje en pantalla
+        
+        @param screen Superficie destino
+        '''
+        screen.blit(self.actual_surface, self.rect)
+    
+    def complete(self):
+        '''
+        @brief Indica si un mensaje se ha completado
+        
+        @return True si ha acabado, False en caso contrario
+        '''
+        return self.complete_advice 
 
 class PositionBoard():
     '''
@@ -151,7 +232,9 @@ class GameControl(state.State):
         
         #Animaciones que estarán en el juego
         self.static_animations = []
-                       
+        
+        self.advices = []
+                
         #Gestor de colisiones
         self.collision_manager = collisionmanager.CollisionManager()
                 
@@ -176,6 +259,7 @@ class GameControl(state.State):
         self.fadein = True
         self.fadeout = False
         self.fade_speed = 5
+        self.fadeout_speed = 1
         self.actual_alpha = 255
         
         #Actualizamos el contador
@@ -291,6 +375,13 @@ class GameControl(state.State):
                 
                 for gum in self.gums:
                     gum.update()
+
+                for i in range(len(self.advices)):
+                    self.advices[i].update()
+                    if self.advices[i].complete():
+                        del self.advices[i]
+                        if self.complete:
+                            self.fadeout = True
                         
                 #Controlamos el scroll de la pantalla
                 self.scroll_control()
@@ -314,7 +405,7 @@ class GameControl(state.State):
                     self.player.set_state(gameobject.NOACTION)
             
             if self.fadeout:
-                self.actual_alpha += self.fade_speed
+                self.actual_alpha += self.fadeout_speed
                 self.fade_surface.set_alpha(self.actual_alpha)
             
                 if self.actual_alpha >= 255:
@@ -406,6 +497,9 @@ class GameControl(state.State):
         #Mostramos la posición del jugador
         screen.blit(position_surface, (15, 540))
         screen.blit(ordinal_surface, (15 + position_surface.get_width(), 540))
+        
+        for advice in self.advices:
+            advice.draw(screen)
 
         #Si estamos en el estado de cuenta atras, mostramos la cuenta atrás
         if self.actual_state == 'countdown':
@@ -765,9 +859,12 @@ class GameControl(state.State):
         self.actual_time.stop()
         self.actual_time.start()
         
+        if self.actual_laps + 1 == self.max_laps:
+            self.advices.append(Advice('Última vuelta', 'cheesebu', 100, 0.01, 400, 550,(189, 9, 38), 2))
+
         if self.actual_laps >= self.max_laps:
             print "Carrera Completada"
-            self.fadeout = True
+            self.advices.append(Advice('Carrera Completada', 'cheesebu', 100, 0.02, 400, 300,(189, 9, 38), 2))
             self.complete = True
     
     def update_laps_counter(self):
