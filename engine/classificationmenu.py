@@ -104,3 +104,40 @@ class ClassificationMenu(basicmenu.BasicMenu):
         elif option == "Continuar":
             print "Elegido: Continuar"
             self.game.go_on()
+
+class TimedMenu(ClassificationMenu):
+    def __init__(self, father, xml_path):
+        ClassificationMenu.__init__(self, father, xml_path)
+        self.player = None
+        self.total_time = None
+        self.total_improved = None
+        self.fast_lap = None
+        self.lap_improved = None
+        self.total_text = self.font.render('Tiempo total', True, (0, 0, 0))
+        self.lap_text = self.font.render('Mejor Vuelta', True, (0, 0, 0))
+    
+    def set_results(self, player, total_time, total_improved, fast_lap, lap_improved):
+        self.player = player
+        aux = '%02d:%02d:%02d' % (total_time[0], total_time[1], total_time[2])
+        self.total_time = self.font.render(aux, True, (0, 0, 0))
+        self.total_improved = total_improved
+
+        aux = '%02d:%02d:%02d' % (fast_lap[0], fast_lap[1], fast_lap[2])
+        self.fast_lap = self.font.render(aux, True, (0, 0, 0))
+        self.lap_improved = lap_improved
+            
+    def draw(self, screen):
+        self.draw_basic_elements(screen)
+        
+        screen.blit(self.player.get_avatar(), (90, 180))
+        name_surface = self.big_font.render(self.player.get_name(), True, (0, 0, 0))
+        screen.blit(name_surface, (160, 180))
+        
+        screen.blit(self.lap_text, (100, 250))
+        screen.blit(self.fast_lap, (130, 300))
+        
+        screen.blit(self.total_text, (100, 350))
+        screen.blit(self.total_time, (130, 400))
+
+        
+        self.cursor.draw(screen)

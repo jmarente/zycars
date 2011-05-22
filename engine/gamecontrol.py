@@ -19,6 +19,7 @@ import timer
 import astar
 import math
 import copy
+import config
 
 from config import *
 from pygame.locals import *
@@ -188,7 +189,7 @@ class GameControl(state.State):
     @brief Clase encargada de controlar los aspectos básicos de una carrera, desde
     las colisiones hasta el control de las vueltas
     '''
-    def __init__(self, game, game_mode, path, laps = 3):
+    def __init__(self, game, game_mode, path, best_total_time, best_lap, laps = 3):
         '''
         @brief Constructor
         
@@ -259,18 +260,26 @@ class GameControl(state.State):
         self.fadein = True
         self.fadeout = False
         self.fade_speed = 5
-        self.fadeout_speed = 1
+        self.fadeout_speed = 5
         self.actual_alpha = 255
         
         #Actualizamos el contador
         self.update_laps_counter()
         
         #Cronómetros de carrera
-        self.actual_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 10, "Actual:")
-        self.best_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 80, "Mejor:")
-        self.best_time.set_minutes(10)
-        self.total_time = timer.Timer('cheesebu', 30, (0, 0, 0), 700, 150, "Total:")
-                
+        self.actual_time = timer.Timer('cheesebu', 20, (0, 0, 0), 725, 10, "Actual:")
+        self.total_time = timer.Timer('cheesebu', 20, (0, 0, 0), 725, 80, "Total:")
+        
+        #Mejor tiempo total del circuito
+        self.best_total_time = timer.Timer('cheesebu', 20, (0, 0, 0), 600, 80,
+                                        "Mejor total:", best_total_time[0],
+                                        best_total_time[1],best_total_time[2])
+        
+        #Mejor tiempo de vuelta del circuito
+        self.best_time = timer.Timer('cheesebu', 20, (0, 0, 0), 600, 10, 
+                                    "Mejor Vuelta:", best_lap[0], 
+                                    best_lap[1], best_lap[2])
+        
         #Circuito actual que vamos a jugar.
         self.circuit = circuit.Circuit(self, path)
         
@@ -341,10 +350,11 @@ class GameControl(state.State):
             
             #Si estamos el estado en carrera, actualizamos todos los estado de carrera
             elif self.actual_state == 'race':
-                            
-                #Actualizamos el tiempo actual
-                self.actual_time.update()
-                self.total_time.update()
+                
+                if not self.complete:
+                    #Actualizamos el tiempo actual
+                    self.actual_time.update()
+                    self.total_time.update()
                 
                 #Actualizamos al coche del jugador.
                 self.player.update()
@@ -410,7 +420,10 @@ class GameControl(state.State):
             
                 if self.actual_alpha >= 255:
                     self.fadeout = False
-                    self.game_mode.completed_race(self.position_board.get_all_players_position())
+                    if config.Config().get_mode() == config.TIMED:
+                        self.game_mode.completed_race(self.player, self.total_time, self.best_time)
+                    else:
+                        self.game_mode.completed_race(self.position_board.get_all_players_position())
 
 
         for animation in self.static_animations:
@@ -481,6 +494,7 @@ class GameControl(state.State):
         self.actual_time.draw(screen)
         self.best_time.draw(screen)
         self.total_time.draw(screen)
+        self.best_total_time.draw(screen)
         
         #Mostramos el marcador de vueltas
         screen.blit(self.laps_counter, (self.laps_counter_rect))
@@ -860,7 +874,7 @@ class GameControl(state.State):
         self.actual_time.start()
         
         if self.actual_laps + 1 == self.max_laps:
-            self.advices.append(Advice('Última vuelta', 'cheesebu', 100, 0.01, 400, 550,(189, 9, 38), 2))
+            self.advices.append(Advice(u'Última vuelta', 'cheesebu', 100, 0.01, 400, 550,(189, 9, 38), 2))
 
         if self.actual_laps >= self.max_laps:
             print "Carrera Completada"

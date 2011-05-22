@@ -77,9 +77,10 @@ class Start:
                 config.Config().get_player(), self.x + self.circuit.get_tile_width() * 2, 
                 self.y + self.circuit.get_tile_height() * 2, 270))
                 
-                self.game_control.add_ia_car(ia.IA(self.game_control, 
-                'cars/purple.xml', self.x + self.circuit.get_tile_width() * 3, 
-                self.y + self.circuit.get_tile_height() * 2, 270))
+                if config.Config().get_mode() != config.TIMED:
+                    self.game_control.add_ia_car(ia.IA(self.game_control, 
+                    'cars/purple.xml', self.x + self.circuit.get_tile_width() * 3, 
+                    self.y + self.circuit.get_tile_height() * 2, 270))
                 
                 
             

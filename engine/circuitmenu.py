@@ -360,6 +360,7 @@ class CircuitMenu(basicmenu.BasicMenu):
             if self.actual_circuit != 'No Disponible':
                 Config().set_laps(self.laps)
                 Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
+                Config().set_circuit_name(self.actual_circuit)
                 print 'Ha elegido ', self.circuit_files[self.actual_layer][self.actual_circuit]
                 Config().start_game(self.game)
                 

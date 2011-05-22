@@ -1,5 +1,5 @@
 <times>
-    <circuit name='circuit1'>
+    <circuit name='circuit1-beach'>
         <bestrace minutes='00' seconds='45' hseconds='10'/>
         <fasttestlap minutes='00' seconds='15' hseconds='34'/>
     </circuit>

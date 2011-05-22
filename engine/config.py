@@ -20,6 +20,7 @@ class Config:
         self.championship = None
         self.circuit = None
         self.laps = None
+        self.circuit_name = None
     
     def set_laps(self, laps):
         self.laps = laps
@@ -53,10 +54,16 @@ class Config:
     
     def set_circuit(self, circuit):
         self.circuit = circuit
-    
+
+    def set_circuit_name(self, name):
+        self.circuit_name = name
+        
     def get_circuit(self):
         return self.circuit
-    
+
+    def get_circuit_name(self):
+        return self.circuit_name
+        
     def set_championship(self, cp):
         self.championship = cp
     
@@ -65,8 +72,8 @@ class Config:
     
     def start_game(self, game):
         if self.mode == CHAMPIONSHIP:
-            print "lalalala"
+            print "Modo campeonato no disponible"
         elif self.mode == TIMED:
-            pass
+            game.change_state(modes.TimedRace(game, self.get_circuit(), self.laps))
         elif self.mode == FASTRACE:
             game.change_state(modes.FastRace(game, self.get_circuit(), self.laps))
