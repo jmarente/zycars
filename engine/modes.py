@@ -84,6 +84,26 @@ class TimedRace(Mode):
             print "Ha hecho la vuelta mas rapida"
             lap_improved = True
         
+        if lap_improved or total_improved:
+            parse = xml.dom.minidom.parse(data.get_path_xml('times.xml'))
+            
+            for circuit in parse.getElementsByTagName('circuit'):
+                if circuit.getAttribute('name') == self.circuit_name:
+                    if total_improved:
+                        best_race = circuit.getElementsByTagName('bestrace')[0]
+                        best_race.setAttribute('minutes', str(total_time.get_minutes()))
+                        best_race.setAttribute('seconds', str(total_time.get_seconds()))
+                        best_race.setAttribute('hseconds', str(total_time.get_hseconds()))
+                    if lap_improved:
+                        fastest_lap = circuit.getElementsByTagName('fasttestlap')[0]
+                        fastest_lap.setAttribute('minutes', str(best_lap.get_minutes()))
+                        fastest_lap.setAttribute('seconds', str(best_lap.get_seconds()))
+                        fastest_lap.setAttribute('hseconds', str(best_lap.get_hseconds()))
+            
+            f = open(data.get_path_xml('times.xml'), 'wb')
+            parse.writexml(f, encoding = 'utf-8', indent = ' ')
+            f.close()
+        
         tuple_total_time = (total_time.get_minutes(), total_time.get_seconds(), total_time.get_hseconds())
         tuple_best_lap = (best_lap.get_minutes(), best_lap.get_seconds(), best_lap.get_hseconds())
         

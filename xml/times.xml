@@ -1,10 +1,28 @@
-<times>
-    <circuit name='circuit1-beach'>
-        <bestrace minutes='00' seconds='45' hseconds='10'/>
-        <fasttestlap minutes='00' seconds='15' hseconds='34'/>
-    </circuit>
-    <circuit name='circuit2'>
-        <bestrace minutes='01' seconds='05' hseconds='32'/>
-        <fasttestlap minutes='00' seconds='20' hseconds='20'/>
-    </circuit>
-</times>
+<?xml version="1.0" encoding="utf-8"?> <times>        
+    
+    
+            <circuit name="circuit1-beach">        
+    
+        
+            <bestrace hseconds="28" minutes="0" seconds="40"/>        
+    
+        
+            <fasttestlap hseconds="28" minutes="0" seconds="20"/>        
+    
+    
+            </circuit>        
+    
+    
+            <circuit name="circuit2">        
+    
+        
+            <bestrace hseconds="32" minutes="15" seconds="05"/>        
+    
+        
+            <fasttestlap hseconds="20" minutes="00" seconds="20"/>        
+    
+    
+            </circuit>        
+    
+
+            </times>

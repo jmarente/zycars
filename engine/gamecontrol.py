@@ -388,10 +388,16 @@ class GameControl(state.State):
 
                 for i in range(len(self.advices)):
                     self.advices[i].update()
+                
+                i = 0
+                deleted = False
+                while i < len(self.advices) and not deleted:
                     if self.advices[i].complete():
                         del self.advices[i]
+                        deleted = True
                         if self.complete:
                             self.fadeout = True
+                    i += 1
                         
                 #Controlamos el scroll de la pantalla
                 self.scroll_control()
@@ -868,13 +874,14 @@ class GameControl(state.State):
         if self.actual_time.less_than(self.best_time):
             
             self.best_time.assign(self.actual_time)
+            self.advices.append(Advice(u'Vuelta Rápida', 'cheesebu', 100, 0.01, 400, 450,(189, 9, 38), 1))
         
         #Reiniciamos el cronometro principal
         self.actual_time.stop()
         self.actual_time.start()
         
         if self.actual_laps + 1 == self.max_laps:
-            self.advices.append(Advice(u'Última vuelta', 'cheesebu', 100, 0.01, 400, 550,(189, 9, 38), 2))
+            self.advices.append(Advice(u'Última vuelta', 'cheesebu', 100, 0.01, 400, 550,(189, 9, 38), 1))
 
         if self.actual_laps >= self.max_laps:
             print "Carrera Completada"
