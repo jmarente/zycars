@@ -367,11 +367,6 @@ class GameControl(state.State):
                         #Actualizamos los puntos de control para la IA dada
                         ia_car[1].update(ia_car[0])
                 
-                #Actualizamos las cajas de items
-                for box in self.items_box:
-                    if self.on_screen(box):
-                        box.update()
-                
                 for ball in self.balls:
                     ball.update()
                             
@@ -434,6 +429,12 @@ class GameControl(state.State):
 
         for animation in self.static_animations:
             animation.update()
+        
+        if self.actual_state != 'pause':
+            #Actualizamos las cajas de items
+            for box in self.items_box:
+                if self.on_screen(box):
+                    box.update()
             
     def draw(self, screen):
         '''

@@ -76,11 +76,15 @@ class ItemBox(gameobject.GameObject):
         #Llamamos a la función del estado actual para actualizar
         self.states[self.state]()
         
+        #self.update_image()
+        
     def __normal_state(self):
         '''
         @brief Método privado que actualiza la caja de item cuando esta en su estado normal
         '''
-        pass 
+        self.animations[self.state].update() 
+        
+        self.image = self.original_sprite.get_frame(self.animations[self.state].get_frame())
     
     def __explosion_state(self):
         '''
