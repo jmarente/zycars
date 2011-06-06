@@ -207,7 +207,7 @@ class GameControl(state.State):
         self.ia_cars = []
         
         #Checkpoints para la ia
-        self.ia_checkpoints = [checkpoint.CheckPoints(self),]
+        self.ia_checkpoints = [checkpoint.CheckPoints(self),checkpoint.CheckPoints(self),checkpoint.CheckPoints(self),checkpoint.CheckPoints(self)]
         
         #Grupo de sprites que contendrá las cajas de items. 
         #self.items_box = pygame.sprite.Group()

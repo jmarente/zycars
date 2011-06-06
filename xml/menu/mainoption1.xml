@@ -1,6 +1,6 @@
 <option text_position="left">
     <selected selected_image="selected_button1" x="0" y="19" w="350" h="48"/>
     <normal normal_image="normal_button1" x="14" y="15" w="288" h="41"/>
-    <selected_text r="188" g="8" b="37" x="10" y="20" size="40"/>
-    <normal_text r="248" g="179" b="52" x="10" y="15" size="35"/>
+    <selected_text r="188" g="8" b="37" x="10" y="20" size="45"/>
+    <normal_text r="248" g="179" b="52" x="10" y="15" size="40"/>
 </option>

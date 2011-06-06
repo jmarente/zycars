@@ -2077,9 +2077,9 @@
    <tile gid="88"/>
    <tile gid="88"/>
    <tile gid="89"/>
-   <tile gid="75"/>
-   <tile gid="76"/>
-   <tile gid="77"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="22"/>
@@ -2117,9 +2117,9 @@
    <tile gid="68"/>
    <tile gid="0"/>
    <tile gid="109"/>
-   <tile gid="95"/>
-   <tile gid="96"/>
-   <tile gid="97"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="22"/>
@@ -2239,7 +2239,7 @@
    <tile gid="109"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="4"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="22"/>
@@ -2279,7 +2279,7 @@
    <tile gid="109"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="4"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="22"/>
@@ -6426,7 +6426,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup name="checkpoints" width="40" height="40" visible="0">
+ <objectgroup name="checkpoints" width="40" height="40">
   <object name="1" type="Horizontal" x="945" y="855" width="45" height="45"/>
   <object name="6" type="Vertical" x="900" y="270" width="45" height="45"/>
   <object name="10" type="Vertical" x="540" y="270" width="45" height="45"/>
@@ -6455,7 +6455,7 @@
   <object name="26" type="Horizontal" x="945" y="945" width="45" height="45"/>
   <object name="0" type="GoalH" x="945" y="900" width="45" height="45"/>
  </objectgroup>
- <objectgroup name="objetos" width="40" height="40">
+ <objectgroup name="objetos" width="40" height="40" visible="0">
   <object name="Item_box" type="Item_box" x="450" y="405" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="990" y="720" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="1080" y="720" width="45" height="45"/>

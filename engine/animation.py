@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 import resource
+import data
 
 class ImageGrid:
     '''
@@ -19,6 +20,7 @@ class ImageGrid:
         
         #Cargamos la imagen
         self.image = resource.get_image(image_code)
+        #self.image = data.load_image(image_code)
         
         #Obtenemos el ancho y alto de una sola imagen de la rejilla
         self.height = self.image.get_height() / self.rows
