@@ -64,6 +64,7 @@
 		<image code="logo_garden" name="menu/logo_garden.png" alpha="True"/>
 		<image code="logo_beach1" name="menu/logo_beach1.png" alpha="True"/>
 		<image code="logo_beach2" name="menu/logo_beach2.png" alpha="True"/>
+		<image code="logo_beach3" name="menu/logo_beach3.png" alpha="True"/>
 		<image code="logo_garden1" name="menu/logo_garden1.png" alpha="True"/>
 		<!--CIRCUITOS-->
 		<image code="circuit1" name="circuit/circuit1.png" alpha="True"/>
