@@ -6455,7 +6455,7 @@
   <object name="26" type="Horizontal" x="945" y="945" width="45" height="45"/>
   <object name="0" type="GoalH" x="945" y="900" width="45" height="45"/>
  </objectgroup>
- <objectgroup name="objetos" width="40" height="40" visible="0">
+ <objectgroup name="objetos" width="40" height="40">
   <object name="Item_box" type="Item_box" x="450" y="405" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="990" y="720" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="1080" y="720" width="45" height="45"/>
@@ -6468,9 +6468,8 @@
   <object name="2" type="check" x="315" y="405" width="45" height="45"/>
   <object name="3" type="check" x="225" y="945" width="45" height="45"/>
   <object name="4" type="check" x="1035" y="1035" width="45" height="45"/>
-  <object name="dragonfly1" type="animation" x="45" y="135" width="45" height="45"/>
+  <object name="dragonfly1" type="animation" x="540" y="1080" width="45" height="45"/>
   <object name="dragonfly2" type="animation" x="180" y="1080" width="45" height="45"/>
-  <object name="butterfly" type="animation" x="810" y="135" width="45" height="45"/>
-  <object name="dragonfly2" type="animation" x="810" y="810" width="45" height="45"/>
+  <object name="butterfly" type="animation" x="720" y="135" width="45" height="45"/>
  </objectgroup>
 </map>
