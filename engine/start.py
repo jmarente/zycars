@@ -69,7 +69,7 @@ class Start:
             elif car_angle >= 180 and car_angle < 270:
                 self.game_control.add_player(playercar.PlayerCar(self.game_control, 
                 config.Config().get_player(), self.x + self.circuit.get_tile_width() * 2, 
-                self.y + self.circuit.get_tile_height() * 4, 180))
+                self.y + self.circuit.get_tile_height() * 3, 180))
 
                 if config.Config().get_mode() != config.TIMED:
                     self.game_control.add_ia_car(ia.IA(self.game_control, 
@@ -80,7 +80,7 @@ class Start:
                     self.y + self.circuit.get_tile_height() * 2, 180))
                     self.game_control.add_ia_car(ia.IA(self.game_control, 
                     'cars/purple.xml', self.x + self.circuit.get_tile_width() * 4, 
-                    self.y + self.circuit.get_tile_height() * 4, 180))
+                    self.y + self.circuit.get_tile_height() * 3, 180))
         
         #Si por el contrario la posición es horizontal
         else:
@@ -99,10 +99,10 @@ class Start:
                     self.y - self.circuit.get_tile_height() - 45, 90))
                     self.game_control.add_ia_car(ia.IA(self.game_control, 
                     'cars/purple.xml', self.x + self.circuit.get_tile_width() * 2, 
-                    self.y - self.circuit.get_tile_height() * 3, 90))
+                    self.y - self.circuit.get_tile_height() * 4, 90))
                     self.game_control.add_ia_car(ia.IA(self.game_control, 
                     'cars/purple.xml', self.x + self.circuit.get_tile_width() * 3, 
-                    self.y - self.circuit.get_tile_height() * 3 - 45, 90))
+                    self.y - self.circuit.get_tile_height() * 4 - 45, 90))
             
             #Arriba de la linea
             elif car_angle == 270:
@@ -112,13 +112,13 @@ class Start:
                 
                 if config.Config().get_mode() != config.TIMED:
                     self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    'cars/purple.xml', self.x + self.circuit.get_tile_width() * 4, 
+                    'cars/purple.xml', self.x + self.circuit.get_tile_width() * 3, 
                     self.y + self.circuit.get_tile_height() * 2 + 45, 270))
                     self.game_control.add_ia_car(ia.IA(self.game_control, 
                     'cars/purple.xml', self.x + self.circuit.get_tile_width() * 2, 
                     self.y + self.circuit.get_tile_height() * 4, 270))
                     self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    'cars/purple.xml', self.x + self.circuit.get_tile_width() * 4, 
+                    'cars/purple.xml', self.x + self.circuit.get_tile_width() * 3, 
                     self.y + self.circuit.get_tile_height() * 4 + 45, 270))
                 
                 
@@ -134,14 +134,14 @@ class Start:
         #Segun la orientación de la linea de meta, la dibujamos de una forma u otra
         if self.orientation == 'vertical':
             aux_y = 0
-            for i in range(self.circuit.get_circuit_width()):
+            for i in range(self.circuit.get_goal_width()):
                 screen.blit(self.image, (self.x - self.game_control.circuit_x(), \
                             aux_y + self.y - self.game_control.circuit_y()))
                 #Obtenemos la posicion de la siguiente
                 aux_y += self.image.get_height()
         else:
             aux_x = 0
-            for i in range(self.circuit.get_circuit_width()):
+            for i in range(self.circuit.get_goal_width()):
                 screen.blit(self.image, (aux_x + self.x - self.game_control.circuit_x(), \
                             self. y - self.game_control.circuit_y()))
                 #Obtenemos la posicion de la siguiente

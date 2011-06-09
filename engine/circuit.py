@@ -66,6 +66,7 @@ class Circuit:
         collision_map_name = None
         
         self.circuit_width = 0
+        self.goal_width = 0
         self.elements_map = {}
         self.car_angle = 0
         
@@ -83,7 +84,9 @@ class Circuit:
             elif name == 'ancho_pista':
                 self.circuit_width = int(element.getAttribute('value'))
                 frame = int(element.getAttribute('value'))
-                self.elements_map[frame] = name            
+                self.elements_map[frame] = name 
+            elif name == 'ancho_meta':
+                self.goal_width = int(element.getAttribute('value'))
             elif name == 'grado_coche':
                 self.car_angle = int(element.getAttribute('value'))
             elif name == 'item_box':
@@ -438,3 +441,6 @@ class Circuit:
         @return Ancho máximo de la "carretera" del circuito
         '''
         return self.circuit_width
+    
+    def get_goal_width(self):
+        return self.goal_width
