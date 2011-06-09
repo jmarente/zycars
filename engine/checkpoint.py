@@ -94,8 +94,8 @@ class CheckPoints:
         @param screen Superficie destino
         '''
         #Mostramos todos los puntos de control de color negro
-        for cp in self.unchecked:
-            cp.draw(screen, (0, 0, 0))
+        #for cp in self.unchecked:
+            #cp.draw(screen, (0, 0, 0))
         
         #Mostramos el punto de control actual
         if self.actual_checkpoint:

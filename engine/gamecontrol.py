@@ -937,7 +937,7 @@ class GameControl(state.State):
         @param sprite Sprite del que deseamos averiguar en que tile se encuentra
         '''
         
-        x = int(math.floor(rect.x / self.circuit.get_tile_width()))
-        y = int(math.floor(rect.y / self.circuit.get_tile_height()))
+        x = int(math.floor(rect.centerx / self.circuit.get_tile_width()))
+        y = int(math.floor(rect.centery / self.circuit.get_tile_height()))
         
         return (x, y)

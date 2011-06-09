@@ -16,8 +16,8 @@ map = None
 values = {}
 
 values[PASSABLE] = 1
-values[LAG] = 3
-values[GUM] = 6
+values[LAG] = 5
+values[GUM] = 7
 values[OIL] = 10
 values[HOLE] = 200
 values[NOPASSABLE] = 10000
@@ -257,7 +257,12 @@ class Astar:
             path.appendleft(aux)
             aux = aux.father
         
-        path.popleft()
+        if len(path) > 2:
+            path.popleft()
+            if len(path) > 2:
+                path.popleft()
+                if len(path) > 2:
+                    path.popleft()
         
         return path
             
