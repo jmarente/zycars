@@ -109,13 +109,19 @@ class Circuit:
         #Por cada elemento:
         for n in range(4):
             self.map[n] = range(self.height) #reservamos para el alto.
-            astar.map = range(self.height)
+            #astar.map = range(self.height)
             for m in range(self.height):
                 self.map[n][m] = range(self.width) #y para el ancho.
-                astar.map[m] = range(self.width)
+                #astar.map[m] = range(self.width)
                 for o in range(self.width):
                     self.map[n][m][o] = Tile()
-                    astar.map[m][o] = astar.PASSABLE
+                    #astar.map[m][o] = astar.PASSABLE
+        
+        astar.map = range(self.width)
+        for m in range(self.width):
+            astar.map[m] = range(self.height)
+            for o in range(self.height):
+                astar.map[m][o] = astar.PASSABLE
     
         #Cargamos la imagen con los distinto tipos de tiles
         tile_types = data.load_image('tile_types.png')
