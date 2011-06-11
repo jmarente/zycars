@@ -33,7 +33,18 @@
               <fasttestlap hseconds="80" minutes="0" seconds="9"/>          
     
     
-              </circuit>         
+              </circuit>     
+              
+              <circuit name="circuit4-beach">          
+    
+        
+              <bestrace hseconds="25" minutes="0" seconds="10"/>          
+    
+        
+              <fasttestlap hseconds="80" minutes="0" seconds="9"/>          
+    
+    
+              </circuit>  
 
               <circuit name="circuit1-garden">          
     

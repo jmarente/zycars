@@ -49,7 +49,7 @@ class Start:
             #Situamos al coche según el angulo indicado
             
             #A la izquierda de la linea
-            if car_angle >= 0 and car_angle < 90:
+            if car_angle == 0:
                 self.game_control.add_player(playercar.PlayerCar(self.game_control, 
                 config.Config().get_player(), self.x - self.circuit.get_tile_width(), 
                 self.y + self.circuit.get_tile_height() * 2, 0))
@@ -66,7 +66,7 @@ class Start:
                     self.y + self.circuit.get_tile_height() * 3, 0))
             
             #A la derecha de la linea
-            elif car_angle >= 180 and car_angle < 270:
+            elif car_angle == 180:
                 self.game_control.add_player(playercar.PlayerCar(self.game_control, 
                 config.Config().get_player(), self.x + self.circuit.get_tile_width() * 2, 
                 self.y + self.circuit.get_tile_height() * 3, 180))
