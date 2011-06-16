@@ -40,8 +40,9 @@
         <layer name="Copa Arbusto" font_code="cheesebu" size="30">
             <buttons>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-garden.tmx' font="cheesebu" text="circuit1-garden" image_circuit="circuit1" image="logo_garden1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-garden.tmx' font="cheesebu" text="circuit2-garden" image_circuit="circuit1" image="logo_garden2" image_x="30" image_y="20" center="True" x="80" y="410" show_text='False'></button>
                 <!--button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="345" ></button-->
-                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="410" ></button>
+                <!--button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="410" ></button-->
                 <!--button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="475" show_text='True'></button>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="540" show_text='True'></button-->
                 <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="475"></button>
