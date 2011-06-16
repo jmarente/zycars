@@ -58,6 +58,14 @@
 		<image code="character5" name="character/character5.png" alpha="True"/>
 		<image code="character6" name="character/character6.png" alpha="True"/>
 		<image code="character7" name="character/character7.png" alpha="True"/>
+		<!--Avatares-->
+		<image code="avatar1" name="character/avatar1.png" alpha="True"/>
+		<image code="avatar2" name="character/avatar2.png" alpha="True"/>
+		<image code="avatar3" name="character/avatar3.png" alpha="True"/>
+		<image code="avatar4" name="character/avatar4.png" alpha="True"/>
+		<image code="avatar5" name="character/avatar5.png" alpha="True"/>
+		<image code="avatar6" name="character/avatar6.png" alpha="True"/>
+		<image code="avatar7" name="character/avatar7.png" alpha="True"/>
 		<!---->
 		<image code="logo_beach" name="menu/logo_beach.png" alpha="True"/>
 		<image code="logo_kitchen" name="menu/logo_kitchen.png" alpha="True"/>
@@ -87,8 +95,6 @@
 		<image code="gum_show" name="items/gum_show.png" alpha="True"/>
 		<image code="image_position1" name="image_position1.png" alpha="True"/>
 		<image code="image_position2" name="image_position2.png" alpha="True"/>
-		<image code="avatar1" name="character/avatar1.png" alpha="True"/>
-		<image code="avatar2" name="character/avatar2.png" alpha="True"/>
 		<!--Imagen de los controles-->
 		<image code="rows" name="menu/rows.png" alpha="True"/>
 		<image code="letters" name="menu/letters.png" alpha="True"/>
@@ -99,8 +105,13 @@
 	</images>
     <sprites>
 		<!--COCHES-->
-        <sprite code="yellow" name="yellow.png" rows="1" columns="1" alpha="True"/>
-        <sprite code="purple" name="purple.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="yellow" name="cars/yellow.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="purple" name="cars/purple.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="orange" name="cars/orange.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="red" name="cars/red.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="truck" name="cars/truck.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="gray" name="cars/gray.png" rows="1" columns="1" alpha="True"/>
+        <sprite code="pink" name="cars/pink.png" rows="1" columns="1" alpha="True"/>
         <!--ITEMS-->
         <sprite code="item_box" name="items/item_box.png" rows="6" columns="7" alpha="True"/>
         <sprite code="missile" name="items/missile.png" rows="1" columns="1" alpha="True"/>

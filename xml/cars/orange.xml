@@ -1,4 +1,4 @@
-<car name_character="Viejuno" sprite_code="purple" max_speed="5.9" min_speed="3" aceleration="0.45" desaceleration="0.1" rotation_angle="0.4" avatar="avatar2">
+<car name_character="Orange" sprite_code="orange" max_speed="6.5" min_speed="4" aceleration="1" desaceleration="0.1" rotation_angle="0.37" avatar="avatar4">
 <!--NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW-->
     <animations>
         <animation name="normal" frames="0" delay="1"/>
@@ -9,5 +9,7 @@
         <animation name="damaged" frames="0" delay="1"/>
         <animation name="erase" frames="0" delay="1"/>
         <animation name="yaw" frames="0" delay="1"/>
+        <animation name="fall" frames="0" delay="1"/>
+        <animation name="turbo" frames="0" delay="1"/>
     </animations>
 </car>
