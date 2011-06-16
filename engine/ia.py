@@ -82,6 +82,9 @@ class IA(BasicCar):
 
         #Instancia del algoritmo A* del vehiculo
         self.astar = astar.Astar()
+        
+        #Hacemos trampas.
+        self.rotation_angle += 0.3
     
     def control_path(self):
         '''

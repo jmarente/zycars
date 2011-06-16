@@ -165,8 +165,13 @@ class PositionBoard():
             else:
                 screen.blit(self.image1, (self.x, self.y + self.image1.get_height() * i + self.distance * i))
             
+            #Calculamos la posición donde se mostrara el avatar del jugador
+            rect = self.list_position[i][1].get_avatar().get_rect()
+            rect.centerx = self.x + self.image2.get_width() / 2
+            rect.centery = self.y + self.image2.get_height() / 2 + self.image2.get_height() * i + self.distance * i - 5
+            
             #Dibujamos el avatar del jugador sobre la imagen de fondo
-            screen.blit(self.list_position[i][1].get_avatar(), (self.x, self.y + self.image2.get_height() * i + self.distance * i - 5))
+            screen.blit(self.list_position[i][1].get_avatar(), rect)
     
     def get_player_position(self):
         '''
@@ -182,6 +187,11 @@ class PositionBoard():
         return 1
     
     def get_all_players_position(self):
+        '''
+        @brief Consulta la posición de los jugadores
+        
+        @return lista con las posiciones de los jugadores en carrera
+        '''
         return self.list_position
 
 class GameControl(state.State):
