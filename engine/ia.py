@@ -84,7 +84,7 @@ class IA(BasicCar):
         self.astar = astar.Astar()
         
         #Hacemos trampas.
-        self.rotation_angle += 0.3
+        self.rotation_angle = 0.7
     
     def control_path(self):
         '''

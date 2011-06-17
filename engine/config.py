@@ -14,7 +14,7 @@ class Config:
         Log().info('Constructor: Config')
         self.player_selected = None
         self.mode = None
-        self.competitors = None
+        self.competitors = []
         self.debug = False
         self.level_debug = 0
         self.championship = None
@@ -45,6 +45,9 @@ class Config:
     
     def set_competitors(self, competitors):
         self.competitors = competitors
+    
+    def add_competitor(self, competitor):
+        self.competitors.append(competitor)
     
     def debug(self):
         return self.debug

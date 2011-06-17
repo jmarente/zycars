@@ -9,6 +9,7 @@ import xml.dom.minidom
 import pygame
 import math
 import circuitmenu
+import random
 
 from config import *
 from collections import deque
@@ -145,6 +146,7 @@ class GroupOption:
         
         #Situamos opcion actual como la primera que se encontraba en las opciones de la derecha
         self.actual_option = self.right_options.popleft()
+        
         #La siguiente sera la opción de la derecha
         self.actual_right = self.right_options.popleft()
 
@@ -369,10 +371,27 @@ class CharacterMenu(basicmenu.BasicMenu):
         #Si pulsamos el botón de aceptar
         if option == "Aceptar":
             #Guardamos el coche seleccionado
-            print "Aceptar, Elegido:" + self.cars[self.group_option.actual_selected()]['path_xml']
-            Config().set_player(self.cars[self.group_option.actual_selected()]['path_xml'])
+            selected_player = self.group_option.actual_selected()
+            print "Aceptar"
+            print "Jugador Elegido:" + self.cars[selected_player]['path_xml']
+            Config().set_player(self.cars[selected_player]['path_xml'])
+            
+            #Si el modo de juego no es Contrarreloj, obtenemos los rivales
+            if Config().get_mode() != TIMED:
+                #Obtenemos los rivales
+                rivals = self.get_rivals(selected_player)
+                
+                #Los añadimos a la configuracion
+                for rival in rivals:
+                    Config().add_competitor(self.cars[rival]['path_xml'])
+                    
+                print "Rivales :", Config().get_competitors()
+            
+            #Si estamos en modo contrarreloj cargamos el menu Contrarreloj
             if Config().get_mode() == TIMED:
                 self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/cronomenu.xml'))
+            
+            #Si estamos en Carrera Rápida cargamos el menú de Carrera Rápida
             elif Config().get_mode() == FASTRACE:
                 self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/fastracemenu.xml'))
 
@@ -384,17 +403,17 @@ class CharacterMenu(basicmenu.BasicMenu):
 
         #Si pulsamos la felcha hacia la izquierda
         elif option == "Izquierda":
+            
             #Y no estaba el ratón pulsado anteriormente
             if self.new_pressed:
                 print "Izquierda"
                 #Movemos hacia la izquierda el grupo de opciones
                 self.group_option.move_right()
                 
-                #Actualizamos CarFeatures
-                speed = self.cars[self.group_option.actual_selected()]['speed']
-                aceleration = self.cars[self.group_option.actual_selected()]['aceleration']
-                rotation = self.cars[self.group_option.actual_selected()]['rotation']
-                self.car_features.update_values(speed, aceleration, rotation)
+                #Coche actual
+                selected_car = self.group_option.actual_selected()
+                
+                self.update_car_features(selected_car)
         
         #Si pulsamos la flecha hacia la derecha
         elif option == "Derecha":
@@ -404,14 +423,36 @@ class CharacterMenu(basicmenu.BasicMenu):
                 #Movemos el grupo de opciones
                 self.group_option.move_left()
                 
-                #Actualizamos CarFeatures
-                speed = self.cars[self.group_option.actual_selected()]['speed']
-                aceleration = self.cars[self.group_option.actual_selected()]['aceleration']
-                rotation = self.cars[self.group_option.actual_selected()]['rotation']
-                self.car_features.update_values(speed, aceleration, rotation)
+                #Coche actual
+                selected_car = self.group_option.actual_selected()
+                
+                self.update_car_features(selected_car)
 
-    def update_car_features(self, speed, aceleration, rotation):
+    def update_car_features(self, selected_car):
         '''
         @brief Método para actualizar las características del coche
         '''
+        #Obtenemos las características del coche actual
+        speed = self.cars[selected_car]['speed']
+        aceleration = self.cars[selected_car]['aceleration']
+        rotation = self.cars[selected_car]['rotation']
+        
+        #Actualizamos las características
         self.car_features.update_values(speed, aceleration, rotation)
+                    
+    def get_rivals(self, selected):
+        
+        rivals_selected = []
+        all_rivals = []
+        
+        for key in self.cars.keys():
+            all_rivals.append(key)
+        
+        while len(rivals_selected) < 3:
+            rival = all_rivals[random.randint(0, len(all_rivals) - 1)]
+            if rival != selected and rival not in rivals_selected:
+                rivals_selected.append(rival)
+        
+        return rivals_selected
+                
+            
