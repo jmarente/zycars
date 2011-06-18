@@ -42,89 +42,15 @@ class Start:
         self.image = resource.get_image(image_code)
         
         self.orientation = orientation
-
-        rivals = config.Config().get_competitors()
-        player = config.Config().get_player()
-        #Si hemos indicado que la posición es vertical
-        if orientation == 'vertical':
-            #Obtenemos una superfice con el ancho de la "carretera" del circuito como referencia
-            #Situamos al coche según el angulo indicado
-            
-            #A la izquierda de la linea
-            if car_angle == 0:
-                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
-                player, self.x - self.circuit.get_tile_width(), 
-                self.y + self.circuit.get_tile_height() * 2, 0))
-
-                if config.Config().get_mode() != config.TIMED:
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[0], self.x - self.circuit.get_tile_width() - 45, 
-                    self.y + self.circuit.get_tile_height() * 3, 0))
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[1], self.x - self.circuit.get_tile_width() * 3, 
-                    self.y + self.circuit.get_tile_height() * 2, 0))
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[2], self.x - self.circuit.get_tile_width() * 3 - 45, 
-                    self.y + self.circuit.get_tile_height() * 3, 0))
-            
-            #A la derecha de la linea
-            elif car_angle == 180:
-                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
-                player, self.x + self.circuit.get_tile_width() * 2, 
-                self.y + self.circuit.get_tile_height() * 3, 180))
-
-                if config.Config().get_mode() != config.TIMED:
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[0], self.x + self.circuit.get_tile_width() * 2 + 45, 
-                    self.y + self.circuit.get_tile_height() * 2, 180))
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[1], self.x + self.circuit.get_tile_width() * 4 + 45, 
-                    self.y + self.circuit.get_tile_height() * 2, 180))
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[2], self.x + self.circuit.get_tile_width() * 4, 
-                    self.y + self.circuit.get_tile_height() * 3, 180))
         
-        #Si por el contrario la posición es horizontal
+        self.car_angle = car_angle
+        
+        if config.Config().get_mode() == config.TIMED:
+            self.place_player() 
         else:
-            #Creamos una superficie con el alto de la carretera del circuito como referencia
-            #Situamos el coche en el angulo adecuado
-            
-            #Debajo de la linea
-            if car_angle == 90:
-                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
-                player, self.x + self.circuit.get_tile_width() * 2, 
-                self.y - self.circuit.get_tile_height(), 90))
-                
-                if config.Config().get_mode() != config.TIMED:
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[0], self.x + self.circuit.get_tile_width() * 3, 
-                    self.y - self.circuit.get_tile_height() - 45, 90))
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[1], self.x + self.circuit.get_tile_width() * 2, 
-                    self.y - self.circuit.get_tile_height() * 4, 90))
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[2], self.x + self.circuit.get_tile_width() * 3, 
-                    self.y - self.circuit.get_tile_height() * 4 - 45, 90))
-            
-            #Arriba de la linea
-            elif car_angle == 270:
-                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
-                player, self.x + self.circuit.get_tile_width() * 2, 
-                self.y + self.circuit.get_tile_height() * 2, 270))
-                
-                if config.Config().get_mode() != config.TIMED:
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[0], self.x + self.circuit.get_tile_width() * 3, 
-                    self.y + self.circuit.get_tile_height() * 2 + 45, 270))
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[1], self.x + self.circuit.get_tile_width() * 2, 
-                    self.y + self.circuit.get_tile_height() * 4, 270))
-                    self.game_control.add_ia_car(ia.IA(self.game_control, 
-                    rivals[2], self.x + self.circuit.get_tile_width() * 3, 
-                    self.y + self.circuit.get_tile_height() * 4 + 45, 270))
-                
-                
-            
+            self.place_cars()
+
+
     def draw(self, screen):
         '''
         @brief Método que dibuja la linea de meta en pantalla
@@ -148,3 +74,135 @@ class Start:
                             self. y - self.game_control.circuit_y()))
                 #Obtenemos la posicion de la siguiente
                 aux_x += self.image.get_width()
+    
+    def place_player(self):
+
+        player = config.Config().get_player()
+        #Si hemos indicado que la posición es vertical
+        if self.orientation == 'vertical':
+            #Obtenemos una superfice con el ancho de la "carretera" del circuito como referencia
+            #Situamos al coche según el angulo indicado
+            
+            #A la izquierda de la linea
+            if self.car_angle == 0:
+                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
+                player, self.x - self.circuit.get_tile_width(), 
+                self.y + self.circuit.get_tile_height() * 2, 0))
+            
+            #A la derecha de la linea
+            elif self.car_angle == 180:
+                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
+                player, self.x + self.circuit.get_tile_width() * 2, 
+                self.y + self.circuit.get_tile_height() * 3, 180))
+        
+        #Si por el contrario la posición es horizontal
+        else:
+            #Creamos una superficie con el alto de la carretera del circuito como referencia
+            #Situamos el coche en el angulo adecuado
+            
+            #Debajo de la linea
+            if self.car_angle == 90:
+                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
+                player, self.x + self.circuit.get_tile_width() * 2, 
+                self.y - self.circuit.get_tile_height(), 90))
+
+            #Arriba de la linea
+            elif self.car_angle == 270:
+                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
+                player, self.x + self.circuit.get_tile_width() * 2, 
+                self.y + self.circuit.get_tile_height() * 2, 270))
+    
+    def place_cars(self):
+
+        rivals = config.Config().get_competitors()
+        player = config.Config().get_player()
+        #Si hemos indicado que la posición es vertical
+        if self.orientation == 'vertical':
+            #Obtenemos una superfice con el ancho de la "carretera" del circuito como referencia
+            #Situamos al coche según el angulo indicado
+            
+            #A la izquierda de la linea
+            if self.car_angle == 0:
+                #Cuarto
+                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
+                player, self.x - self.circuit.get_tile_width() * 3 - 45, 
+                self.y + self.circuit.get_tile_height() * 3, 0))
+
+                #Primero
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[0], self.x - self.circuit.get_tile_width(), 
+                self.y + self.circuit.get_tile_height() * 2, 0))
+                #Segundo
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[1], self.x - self.circuit.get_tile_width() - 45, 
+                self.y + self.circuit.get_tile_height() * 3, 0))
+                #Tercero
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[2], self.x - self.circuit.get_tile_width() * 3, 
+                self.y + self.circuit.get_tile_height() * 2, 0))
+            
+            #A la derecha de la linea
+            elif self.car_angle == 180:
+                #Cuarto
+                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
+                player, self.x + self.circuit.get_tile_width() * 4 + 45, 
+                self.y + self.circuit.get_tile_height() * 2, 180))
+
+                #Primero
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[0], self.x + self.circuit.get_tile_width() * 2, 
+                self.y + self.circuit.get_tile_height() * 3, 180))
+                #Segundo
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[1], self.x + self.circuit.get_tile_width() * 2 + 45, 
+                self.y + self.circuit.get_tile_height() * 2, 180))
+                #Tercero
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[2], self.x + self.circuit.get_tile_width() * 4, 
+                self.y + self.circuit.get_tile_height() * 3, 180))
+        
+        #Si por el contrario la posición es horizontal
+        else:
+            #Creamos una superficie con el alto de la carretera del circuito como referencia
+            #Situamos el coche en el angulo adecuado
+            
+            #Debajo de la linea
+            if self.car_angle == 90:
+                #Cuarto
+                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
+                player, self.x + self.circuit.get_tile_width() * 3, 
+                self.y - self.circuit.get_tile_height() * 4 - 45, 90))
+                
+                #Primero
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[0], self.x + self.circuit.get_tile_width() * 2, 
+                self.y - self.circuit.get_tile_height(), 90))
+                #Segundo
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[1], self.x + self.circuit.get_tile_width() * 3, 
+                self.y - self.circuit.get_tile_height() - 45, 90))
+                #Tercero
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[2], self.x + self.circuit.get_tile_width() * 2, 
+                self.y - self.circuit.get_tile_height() * 4, 90))
+
+            
+            #Arriba de la linea
+            elif self.car_angle == 270:
+                #Cuarto
+                self.game_control.add_player(playercar.PlayerCar(self.game_control, 
+                player, self.x + self.circuit.get_tile_width() * 3, 
+                self.y + self.circuit.get_tile_height() * 4 + 45, 270))
+                
+                #Primero
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[2], self.x + self.circuit.get_tile_width() * 2, 
+                self.y + self.circuit.get_tile_height() * 2, 270))
+                #Segundo
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[0], self.x + self.circuit.get_tile_width() * 3, 
+                self.y + self.circuit.get_tile_height() * 2 + 45, 270))
+                #Tercero
+                self.game_control.add_ia_car(ia.IA(self.game_control, 
+                rivals[1], self.x + self.circuit.get_tile_width() * 2, 
+                self.y + self.circuit.get_tile_height() * 4, 270))
