@@ -246,7 +246,7 @@ class Astar:
         @brief Obtiene la lista con el camino completo hasta un nodo
         
         @param node Nodo a obtener el camino
-        @brief Cola con el camino hacia el nodo
+        @return Cola con el camino hacia el nodo
         '''
         aux = node
         path = deque()

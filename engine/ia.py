@@ -84,7 +84,7 @@ class IA(BasicCar):
         self.astar = astar.Astar()
         
         #Hacemos trampas.
-        self.rotation_angle = 0.7
+        self.rotation_angle = 0.75
     
     def control_path(self):
         '''
@@ -108,7 +108,7 @@ class IA(BasicCar):
                 left = self.actual_angle + 360 - self.target_angle
                 right = self.target_angle - self.actual_angle
                 
-            if abs(left) < abs(right) and abs(self.target_angle - self.actual_angle) > 5:
+            if abs(left) < abs(right) and abs(self.target_angle - self.actual_angle) > abs(self.max_speed * self.rotation_angle):
                 self.actual_angle -= self.rotation_angle * self.max_speed
             elif abs(self.target_angle - self.actual_angle) > 5:
                 self.actual_angle += self.rotation_angle * self.max_speed
@@ -135,11 +135,11 @@ class IA(BasicCar):
         BasicCar.draw(self, screen)
 
         #Mostramos cada uno de los puntos 
-        for point in self.left_points:
+        '''for point in self.left_points:
             pygame.draw.rect(screen, (0, 0, 0), 
                 (point.rect.x - self.game_control.circuit_x(), 
                 point.rect.y - self.game_control.circuit_y(), 
-                point.rect.w, point.rect.h), 1)
+                point.rect.w, point.rect.h), 1)'''
 
     def update(self):
         '''
@@ -176,10 +176,10 @@ class IA(BasicCar):
         
         #Si ya no queda ningún punto intermedio
         if len(self.left_points) == 0 and not self.actual_point:
-            print "No hay puntos objetivos, calculando"
+            #print "No hay puntos objetivos, calculando"
             
-            print "ACTUAL: ", self.rect
-            print "OBJETIVO: ", self.actual_target
+            '''print "ACTUAL: ", self.rect
+            print "OBJETIVO: ", self.actual_target'''
             
             #Si ya hemos pasado un objetivo
             if self.actual_target:
@@ -204,9 +204,9 @@ class IA(BasicCar):
             if len(self.left_points) > 0:
                 self.actual_point = self.left_points.popleft()
             
-            print "RESULTADO: "
-            for point in self.left_points:
-                print point
+            #print "RESULTADO: "
+            #for point in self.left_points:
+                #print point
         
         #Estimamos el angulo para el punto actual
         self.control_path()

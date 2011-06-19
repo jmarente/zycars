@@ -367,6 +367,7 @@ class CircuitMenu(basicmenu.BasicMenu):
         #Si pulsamos cancelar, volvemos al menú anterior
         elif option == 'Cancelar':
             print "Cancelar"
+            Config().clear_competitors()
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
         
         #Si pulsamos sobre alguna de los campeonatos opcionales, debemos cambiar la capa

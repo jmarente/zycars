@@ -48,6 +48,9 @@ class Config:
     
     def add_competitor(self, competitor):
         self.competitors.append(competitor)
+        
+    def clear_competitors(self):
+        self.competirors = []
     
     def debug(self):
         return self.debug

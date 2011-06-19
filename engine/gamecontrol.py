@@ -20,6 +20,7 @@ import astar
 import math
 import copy
 import config
+import random
 
 from config import *
 from pygame.locals import *
@@ -591,10 +592,14 @@ class GameControl(state.State):
         for bullet in self.bullets:
             if self.collision_manager.item_level_collision(bullet, self.circuit):
                 bullet.set_state(gameobject.EXPLOSION)
+                
             elif bullet.get_state() == gameobject.RUN and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, bullet):
                 bullet.set_state(gameobject.EXPLOSION)
+                self.player.set_angle(bullet.get_angle())
+                self.player.trigonometry()
                 self.player.set_state(gameobject.DAMAGED)
+                
             else:
                 for ball in self.balls:
                     if self.collision_manager.actor_pixelperfectcollision(ball, bullet):
@@ -604,20 +609,28 @@ class GameControl(state.State):
                     for ia_car in self.ia_cars:
                         if self.collision_manager.actor_pixelperfectcollision(ia_car[0], bullet):
                             bullet.set_state(gameobject.EXPLOSION)
+                            ia_car[0].set_angle(bullet.get_angle())
+                            ia_car[0].trigonometry()
                             ia_car[0].set_state(gameobject.DAMAGED)
         
         #Colisiones de las bolas
         for ball in self.balls:
             if self.collision_manager.item_level_collision(ball, self.circuit):
                 pass
+                
             if ball.get_state() == gameobject.RUN and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, ball):
                 ball.set_state(gameobject.EXPLOSION)
+                self.player.set_angle(ball.get_angle())
+                self.player.trigonometry()
                 self.player.set_state(gameobject.DAMAGED)
+                
             elif ball.get_state() != gameobject.EXPLOSION:
                 for ia_car in self.ia_cars:
                     if self.collision_manager.actor_pixelperfectcollision(ia_car[0], ball):
                         ball.set_state(gameobject.EXPLOSION)
+                        ia_car[0].set_angle(ball.get_angle())
+                        ia_car[0].trigonometry()
                         ia_car[0].set_state(gameobject.DAMAGED)
                             
             self.collision_manager.control_limits(ball, self.circuit)
@@ -627,12 +640,18 @@ class GameControl(state.State):
             if self.on_screen(oil) and oil.get_state() != gameobject.NORMAL \
                 and self.player.get_old_state() != gameobject.DAMAGED \
                 and self.collision_manager.actor_pixelperfectcollision(oil, self.player):
+                new_angle = self.player.get_angle() + random.randint(-45, 45)
+                self.player.set_angle(new_angle)
+                self.player.trigonometry()
                 self.player.set_state(gameobject.DAMAGED)
             for ia_car in self.ia_cars:
                 if self.collision_manager.actor_pixelperfectcollision(ia_car[0], oil):
+                    new_angle = self.player.get_angle() + random.randint(-45, 45)
+                    ia_car[0].set_angle(new_angle)
+                    ia_car[0].trigonometry()
                     ia_car[0].set_state(gameobject.DAMAGED)
 
-        #Colisiones con las manchas de aceite
+        #Colisiones con los chicles
         for gum in self.gums:
             if self.on_screen(gum) and gum.get_state() != gameobject.NORMAL \
                 and self.player.get_old_state() != gameobject.DAMAGED \
