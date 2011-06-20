@@ -39,6 +39,10 @@
 		<image code="icon_sound" name="menu/icon_sound.png" alpha="True"/>
 		<image code="logo_player" name="menu/logo_player.png" alpha="True"/>
 		<image code="check" name="menu/check.png" alpha="True"/>
+		<!-- MENU CLASIFICAICON -->
+		<image code="classification_winner" name="menu/classification_winner.png" alpha="True"/>
+		<image code="classification_player" name="menu/classification_player.png" alpha="True"/>
+		<image code="classification_bar" name="menu/classification_bar.png" alpha="True"/>
 		<!--SLIDER-->
 		<image code="slider_bar" name="menu/slider_bar.png" alpha="True"/>
 		<image code="slider_controler" name="menu/slider_controler.png" alpha="True"/>

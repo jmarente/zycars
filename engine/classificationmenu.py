@@ -21,7 +21,11 @@ class ClassificationMenu(basicmenu.BasicMenu):
         parse = xml.dom.minidom.parse(data.get_path_xml(xml_path))
         self.parser_basic_info(parse)
         
-        self.big_font = resource.get_font('cheesebu', 60)
+        self.classification_bar = resource.get_image('classification_bar')
+        self.classification_winner = resource.get_image('classification_winner')
+        self.classification_player = resource.get_image('classification_player')
+        
+        self.big_font = resource.get_font('cheesebu', 40)
         self.tiny_font = resource.get_font('cheesebu', 20)
         
         self.players_position = None
@@ -46,28 +50,39 @@ class ClassificationMenu(basicmenu.BasicMenu):
         self.position = {1: 'st', 2: 'nd', 3: 'rd', 4: 'th'}
         y = 100
         aux = 0
+        image = None
+        
         for i in range(len(self.players_position)):
             
             #Si es el jugador, lo mostraremos resaltado
             if self.players_position[i][2]:
-                color = (189, 9 , 38)
+                color = (248, 179 , 51)
+                image = self.classification_player
+            elif (i + 1) == 1:
+                color = (189, 9, 38)
+                image = self.classification_winner
             else:
-                color = (0, 0, 0)
-                
+                color = (189, 9, 38)
+                image = self.classification_bar
+
+            #Mostramos la barra
+            screen.blit(image, (0, 150 + aux))
+            
             #Mostramos la posición del jugador
-            surface_position = self.big_font.render(str(i + 1), True, color)
-            screen.blit(surface_position, (30, 150 + aux))
+            surface_position = self.big_font.render(str(i + 1), True, (189, 9, 38))
+            screen.blit(surface_position, (30, 160 + aux))
             
             #Mostramos el orden
-            surface_ordinal = self.tiny_font.render(self.position[i + 1], True, color)
-            screen.blit(surface_ordinal, (60, 150 + aux))
+            surface_ordinal = self.tiny_font.render(self.position[i + 1], True, (189, 9, 38))
+            screen.blit(surface_ordinal, (50, 160 + aux))
             
             #Mostramos el avatar
-            screen.blit(self.players_position[i][1].get_avatar(), (90, 150 + aux))
+            screen.blit(self.players_position[i][1].get_avatar(), (150, 135 + aux))
             
             #Mostramos el nombre
             player_name = self.big_font.render(self.players_position[i][1].get_name(), True, color)
-            screen.blit(player_name, (160, 150 + aux))
+            screen.blit(player_name, (250, 160 + aux))
+            
             aux += y
         
         #Por ultimo mostramos el cursor
