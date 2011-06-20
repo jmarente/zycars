@@ -10,15 +10,16 @@ import circuit
 
 from collections import deque
 
-PASSABLE, NOPASSABLE, LAG, HOLE, OIL, GUM = range(6)
+PASSABLE, SELECTED, NOPASSABLE, LAG, HOLE, OIL, GUM = range(7)
 #Variable global del modulo donde se almacenara el mapa de guia 
 map = None
 values = {}
 
 values[PASSABLE] = 1
-values[LAG] = 5
-values[GUM] = 7
-values[OIL] = 10
+values[SELECTED] = 1.5
+values[LAG] = 6
+values[GUM] = 8
+values[OIL] = 12
 values[HOLE] = 200
 values[NOPASSABLE] = 10000
 
@@ -263,6 +264,10 @@ class Astar:
                 path.popleft()
                 if len(path) > 2:
                     path.popleft()
+        
+        for element in path:
+            if map[element.row][element.column] == PASSABLE:
+                map[element.row][element.column] = SELECTED
         
         return path
             

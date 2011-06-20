@@ -120,6 +120,10 @@ class IA(BasicCar):
         #Actualizamos la lista de puntos
         if self.actual_point and self.rect.colliderect(self.actual_point.rect):
             
+            current_tile = self.game_control.current_tile(self.actual_point.rect)
+            if astar.map[current_tile[0]][current_tile[1]] == astar.SELECTED:
+                astar.map[current_tile[0]][current_tile[1]] = astar.PASSABLE
+            
             #si aún quedán puntos por pasar, obtenemos el siguiente de la lista
             if len(self.left_points) > 0:
                 self.actual_point = self.left_points.popleft()
@@ -135,11 +139,11 @@ class IA(BasicCar):
         BasicCar.draw(self, screen)
 
         #Mostramos cada uno de los puntos 
-        '''for point in self.left_points:
+        for point in self.left_points:
             pygame.draw.rect(screen, (0, 0, 0), 
                 (point.rect.x - self.game_control.circuit_x(), 
                 point.rect.y - self.game_control.circuit_y(), 
-                point.rect.w, point.rect.h), 1)'''
+                point.rect.w, point.rect.h), 1)
 
     def update(self):
         '''
