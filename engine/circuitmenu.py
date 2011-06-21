@@ -359,9 +359,16 @@ class CircuitMenu(basicmenu.BasicMenu):
             #Si hemo pulsado aceptar y el circuito está disponible.
             if self.actual_circuit != 'No Disponible':
                 Config().set_laps(self.laps)
-                Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
-                Config().set_circuit_name(self.actual_circuit)
-                print 'Ha elegido ', self.circuit_files[self.actual_layer][self.actual_circuit]
+                if Config().get_mode() == CHAMPIONSHIP:
+                    Config().clear_championship_circuits()
+                    for key in self.circuit_files[self.actual_layer].keys():
+                        Config().add_championship_circuit(self.circuit_files[self.actual_layer][key])
+                        Config().set_championship_circuit_name(self.circuit_files[self.actual_layer][key], key)
+                    print "Los circuitos del campeonato son: ", Config().get_championship_circuits()
+                else:
+                    Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
+                    Config().set_circuit_name(self.actual_circuit)
+                    print 'Ha elegido ', self.circuit_files[self.actual_layer][self.actual_circuit]
                 Config().start_game(self.game)
                 
         #Si pulsamos cancelar, volvemos al menú anterior

@@ -9,6 +9,8 @@ import config
 import timer
 import xml.dom.minidom
 
+from collections import deque
+
 CLASSIFICATION, GAME = range(2)
 
 class Mode(state.State):
@@ -171,13 +173,77 @@ class FastRace(Mode):
         self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
 
 class ChampionShip(Mode):
-    def __init__(self):
-        pass
+    def __init__(self, game, championship_circuits, laps):
+        self.game = game
+        self.remaining_circuits = deque()
+        self.current_circuit_path = None
+        self.passed_circuits = deque()
+        self.best_total_time = None
+        self.best_lap = None
+        self.laps = laps
+        self.classification = classificationmenu.ClassificationMenu(self, 'menu/classificationmenu.xml')     
+        
+        self.scores = {1: 4, 2: 2, 3: 1, 4: 0}
+        
+        for circuit in championship_circuits:
+            self.remaining_circuits.append(circuit)
+        
+        self.current_circuit_path = self.remaining_circuits.popleft()
+        
+        self.get_times(config.Config().get_championship_circuit_name(self.current_circuit_path))
+        
+        self.game_control = gamecontrol.GameControl(self.game, self, self.current_circuit_path, self.best_total_time, self.best_lap, self.laps)
+        self.state = GAME
+
     def update(self):
-        pass
-    def draw(self):
-        pass 
-    def completed_race(self):
-        pass
+        if self.state == CLASSIFICATION:
+            self.classification.update()
+            
+        elif self.state == GAME:
+            self.game_control.update()    
+    
+    def draw(self, screen):
+        if self.state == CLASSIFICATION:
+            self.classification.draw(screen)
+            
+        elif self.state == GAME:
+            self.game_control.draw(screen) 
+                    
+    def completed_race(self, position_players):
+        self.classification.set_players_position(position_players)
+        self.state = CLASSIFICATION
+    
     def reboot_race(self):
         pass
+        
+    def go_on(self):
+        self.passed_circuits.append(self.current_circuit_path)
+        
+        if len(self.remaining_circuits):
+            self.current_circuit_path = self.remaining_circuits.popleft()
+            self.get_times(config.Config().get_championship_circuit_name(self.current_circuit_path))
+            self.state = GAME
+            self.game_control = gamecontrol.GameControl(self.game, self, self.current_circuit_path, self.best_total_time, self.best_lap, self.laps)
+        else:
+            self.complete_championship()
+                    
+    def get_times(self, circuit_name):
+        
+        parse = xml.dom.minidom.parse(data.get_path_xml('times.xml'))
+
+        for time in parse.getElementsByTagName('circuit'):
+            print time.getAttribute('name')
+            if time.getAttribute('name') == circuit_name:
+                best_race = time.getElementsByTagName('bestrace')[0]
+                self.best_total_time = (int(best_race.getAttribute('minutes')),
+                                        int(best_race.getAttribute('seconds')),
+                                        int(best_race.getAttribute('hseconds')))
+                fastest_lap = time.getElementsByTagName('fasttestlap')[0]
+                self.best_lap = (int(fastest_lap.getAttribute('minutes')),
+                                int(fastest_lap.getAttribute('seconds')),
+                                int(fastest_lap.getAttribute('hseconds')))  
+                break
+    
+    def complete_championship(self):
+        self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
+

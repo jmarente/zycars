@@ -376,6 +376,7 @@ class CharacterMenu(basicmenu.BasicMenu):
             print "Jugador Elegido:" + self.cars[selected_player]['path_xml']
             Config().set_player(self.cars[selected_player]['path_xml'])
             
+            Config().clear_competitors()
             #Si el modo de juego no es Contrarreloj, obtenemos los rivales
             if Config().get_mode() != TIMED:
                 #Obtenemos los rivales
@@ -394,7 +395,10 @@ class CharacterMenu(basicmenu.BasicMenu):
             #Si estamos en Carrera Rápida cargamos el menú de Carrera Rápida
             elif Config().get_mode() == FASTRACE:
                 self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/fastracemenu.xml'))
-
+            
+            elif Config().get_mode() == CHAMPIONSHIP:
+                self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/fastracemenu.xml'))
+                
         #Si pulsamos cancelar
         elif option == "Cancelar":
             #Volveriamos al menú anterior

@@ -80,7 +80,7 @@ class MainMenu(basicmenu.BasicMenu):
         elif option == "Campeonato":
             print "Elegido: Campeonato"
             Config().set_mode(CHAMPIONSHIP)
-            #self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
+            self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
             
         elif option == "Contrarreloj":
             print "Ha elegido: Contrarreloj"
