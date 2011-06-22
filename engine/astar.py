@@ -262,8 +262,8 @@ class Astar:
             path.popleft()
             if len(path) > 2:
                 path.popleft()
-                if len(path) > 2:
-                    path.popleft()
+                '''if len(path) > 2:
+                    path.popleft()'''
         
         for element in path:
             if map[element.row][element.column] == PASSABLE:

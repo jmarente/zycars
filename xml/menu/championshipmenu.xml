@@ -1,0 +1,12 @@
+<charactermenu background="background_menu" cursor="cursor.xml">
+    <title text="Clasificación del Campeonato" font="cheesebu" size="35" r="0" g="0" b="0" x="125" y="40"/>
+    <images>
+        <image image_code="separator_line" x="0" y="100" scale="1"></image>
+        <image image_code="logo_menu" x="600" y="3" scale="0.35"></image>
+        <image image_code="logo_player" x="30" y="15" scale="1"></image>
+    </images>
+    <options>
+        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Continuar" center="True" x="700" y="550"></option>
+        <!--option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Reiniciar" center="True" x="700" y="550"></option-->
+    </options>
+</charactermenu>

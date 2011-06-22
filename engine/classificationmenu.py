@@ -4,6 +4,7 @@ import basicmenu
 import data
 import resource
 import xml.dom.minidom
+import config
 
 class ClassificationMenu(basicmenu.BasicMenu):
     '''
@@ -48,6 +49,7 @@ class ClassificationMenu(basicmenu.BasicMenu):
         self.draw_basic_elements(screen)
         
         self.position = {1: 'st', 2: 'nd', 3: 'rd', 4: 'th'}
+        self.scores = {1: '4', 2: '2', 3: '1', 4: '0'}
         y = 100
         aux = 0
         image = None
@@ -82,6 +84,10 @@ class ClassificationMenu(basicmenu.BasicMenu):
             #Mostramos el nombre
             player_name = self.big_font.render(self.players_position[i][1].get_name(), True, color)
             screen.blit(player_name, (250, 160 + aux))
+            
+            if config.Config().get_mode() == config.CHAMPIONSHIP:
+                score = self.big_font.render(str('+' + self.scores[i+1]), True, color)
+                screen.blit(score, (500, 160 + aux))
             
             aux += y
         
@@ -156,3 +162,67 @@ class TimedMenu(ClassificationMenu):
 
         
         self.cursor.draw(screen)
+
+class ChampionShipMenu(ClassificationMenu):
+    def __init__(self, father, xml_path):
+        ClassificationMenu.__init__(self, father, xml_path)
+        self.classification_championship = None
+
+    def set_classification_championship(self, classification_championship):
+        self.classification_championship = classification_championship
+    
+    def draw(self, screen):
+        self.draw_basic_elements(screen)
+
+        self.position = {1: 'st', 2: 'nd', 3: 'rd', 4: 'th'}
+        self.scores = {1: '4', 2: '2', 3: '1', 4: '0'}
+        y = 100
+        aux = 0
+        image = None
+        
+        for i in range(len(self.classification_championship)):
+            
+            #Si es el jugador, lo mostraremos resaltado
+            if self.classification_championship[i][2]:
+                color = (248, 179 , 51)
+                image = self.classification_player
+            elif (i + 1) == 1:
+                color = (189, 9, 38)
+                image = self.classification_winner
+            else:
+                color = (189, 9, 38)
+                image = self.classification_bar
+
+            #Mostramos la barra
+            screen.blit(image, (0, 150 + aux))
+            
+            #Mostramos la posición del jugador
+            surface_position = self.big_font.render(str(i + 1), True, (189, 9, 38))
+            screen.blit(surface_position, (30, 160 + aux))
+            
+            #Mostramos el orden
+            surface_ordinal = self.tiny_font.render(self.position[i + 1], True, (189, 9, 38))
+            screen.blit(surface_ordinal, (50, 160 + aux))
+            
+            #Mostramos el avatar
+            screen.blit(self.classification_championship[i][1].get_avatar(), (150, 135 + aux))
+            
+            #Mostramos el nombre
+            player_name = self.big_font.render(self.classification_championship[i][1].get_name(), True, color)
+            screen.blit(player_name, (250, 160 + aux))
+            
+            score = self.big_font.render(str(self.classification_championship[i][0]), True, color)
+            screen.blit(score, (500, 160 + aux))
+            
+            aux += y
+
+        #Por ultimo mostramos el cursor
+        self.cursor.draw(screen)
+
+    def treat_option(self, option):
+        '''
+        @brief Controla la opción elegida y que hacer según el caso.
+        ''' 
+        if option == "Continuar":
+            print "Elegido: Continuar"
+            self.game.next_circuit()
