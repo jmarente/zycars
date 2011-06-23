@@ -43,6 +43,11 @@
 		<image code="classification_winner" name="menu/classification_winner.png" alpha="True"/>
 		<image code="classification_player" name="menu/classification_player.png" alpha="True"/>
 		<image code="classification_bar" name="menu/classification_bar.png" alpha="True"/>
+		<!-- MENU CLASIFICACION CONTRARRELOJ -->
+		<image code="crono_box1" name="menu/crono_box1.png" alpha="True"/>
+		<image code="crono_box2" name="menu/crono_box2.png" alpha="True"/>
+		<image code="crono_box3" name="menu/crono_box3.png" alpha="True"/>
+
 		<!--SLIDER-->
 		<image code="slider_bar" name="menu/slider_bar.png" alpha="True"/>
 		<image code="slider_controler" name="menu/slider_controler.png" alpha="True"/>

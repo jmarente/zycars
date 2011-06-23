@@ -291,6 +291,9 @@ class GameControl(state.State):
                                     "Mejor Vuelta:", best_lap[0], 
                                     best_lap[1], best_lap[2])
         
+        #Tiempos por vueltas
+        self.lap_times = []
+        
         #Circuito actual que vamos a jugar.
         self.circuit = circuit.Circuit(self, path)
         
@@ -433,7 +436,7 @@ class GameControl(state.State):
                 if self.actual_alpha >= 255:
                     self.fadeout = False
                     if config.Config().get_mode() == config.TIMED:
-                        self.game_mode.completed_race(self.player, self.total_time, self.best_time)
+                        self.game_mode.completed_race(self.player, self.total_time, self.best_time, self.lap_times)
                     else:
                         self.game_mode.completed_race(self.position_board.get_all_players_position())
 
@@ -900,6 +903,13 @@ class GameControl(state.State):
         self.actual_laps += 1
         self.update_laps_counter()
         
+        if config.Config().get_mode() == config.TIMED:
+            time = '%02d:%02d:%02d' % (self.actual_time.get_minutes(),
+                                    self.actual_time.get_seconds(), 
+                                    self.actual_time.get_hseconds())
+                                    
+            self.lap_times.append(time)
+                                        
         #Comprobamos si el tiempo ha mejorado
         if self.actual_time.less_than(self.best_time):
             

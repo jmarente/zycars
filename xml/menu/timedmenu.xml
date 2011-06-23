@@ -4,6 +4,9 @@
         <image image_code="separator_line" x="0" y="140" scale="1"></image>
         <image image_code="logo_menu" x="600" y="3" scale="0.35"></image>
         <image image_code="logo_timer" x="30" y="15" scale="1"></image>
+        <image image_code="crono_box1" x="400" y="200" scale="1"></image>
+        <image image_code="crono_box2" x="400" y="320" scale="1"></image>
+        <image image_code="crono_box3" x="400" y="450" scale="1"></image>
     </images>
     <options>
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Continuar" center="True" x="550" y="550"></option>

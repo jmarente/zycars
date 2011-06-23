@@ -80,7 +80,7 @@ class TimedRace(Mode):
 
         self.game_control = gamecontrol.GameControl(self.game, self, path_circuit, self.best_total_time, self.best_lap, laps)
             
-    def completed_race(self, player, total_time, best_lap):
+    def completed_race(self, player, total_time, best_lap, all_laps):
         old_total_time = timer.Timer('cheesebu', 1, (0, 0, 0), 0, 0, "", 
                                     self.best_total_time[0], 
                                     self.best_total_time[1], 
@@ -122,7 +122,7 @@ class TimedRace(Mode):
         tuple_total_time = (total_time.get_minutes(), total_time.get_seconds(), total_time.get_hseconds())
         tuple_best_lap = (best_lap.get_minutes(), best_lap.get_seconds(), best_lap.get_hseconds())
         
-        self.classification.set_results(player, tuple_total_time, total_improved, tuple_best_lap, lap_improved)
+        self.classification.set_results(player, tuple_total_time, total_improved, tuple_best_lap, lap_improved, all_laps)
         self.state = CLASSIFICATION
 
 class FastRace(Mode):

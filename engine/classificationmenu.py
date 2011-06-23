@@ -134,32 +134,55 @@ class TimedMenu(ClassificationMenu):
         self.total_improved = None
         self.fast_lap = None
         self.lap_improved = None
+        self.all_laps = None
         self.total_text = self.font.render('Tiempo total', True, (0, 0, 0))
         self.lap_text = self.font.render('Mejor Vuelta', True, (0, 0, 0))
+        self.all_laps_text = self.font.render('Tiempos por vuelta', True, (0, 0, 0))
+        self.tiny_font = resource.get_font('cheesebu', 10)
+        self.big_font = resource.get_font('cheesebu', 60)
+        self.positions = {1: self.tiny_font.render('st', True, (189, 9, 38)), 
+                        2: self.tiny_font.render('nd', True, (189, 9, 38)), 
+                        3: self.tiny_font.render('rd', True, (189, 9, 38)),
+                        4: self.tiny_font.render('th', True, (189, 9, 38))}
+
     
-    def set_results(self, player, total_time, total_improved, fast_lap, lap_improved):
+    def set_results(self, player, total_time, total_improved, fast_lap, lap_improved, all_laps):
         self.player = player
         aux = '%02d:%02d:%02d' % (total_time[0], total_time[1], total_time[2])
-        self.total_time = self.font.render(aux, True, (0, 0, 0))
+        self.total_time = self.big_font.render(aux, True, (189, 9, 38))
         self.total_improved = total_improved
 
         aux = '%02d:%02d:%02d' % (fast_lap[0], fast_lap[1], fast_lap[2])
-        self.fast_lap = self.font.render(aux, True, (0, 0, 0))
+        self.fast_lap = self.font.render(aux, True, (189, 9, 38))
         self.lap_improved = lap_improved
+        
+        self.all_laps = all_laps
             
     def draw(self, screen):
         self.draw_basic_elements(screen)
         
-        screen.blit(self.player.get_avatar(), (90, 180))
+        screen.blit(self.player.get_racer_image(), (15, 240))
         name_surface = self.big_font.render(self.player.get_name(), True, (0, 0, 0))
-        screen.blit(name_surface, (160, 180))
+        screen.blit(name_surface, (50, 180))
         
-        screen.blit(self.lap_text, (100, 250))
-        screen.blit(self.fast_lap, (130, 300))
+        screen.blit(self.total_text, (400, 170))
+        screen.blit(self.total_time, (410, 210))
         
-        screen.blit(self.total_text, (100, 350))
-        screen.blit(self.total_time, (130, 400))
+        screen.blit(self.all_laps_text, (400, 290))
+        
+        y = 0
+        for i in range(len(self.all_laps)):
+            time_surface = self.font.render(self.all_laps[i], True, (189, 9, 38))
+            number = self.font.render(str(i+1), True, (189, 9, 38))
+            screen.blit(number, (410, 325 + y))
+            screen.blit(self.positions[i+1], (425, 325 + y))
+            screen.blit(time_surface, (440, 325 + y))
+            
+            y += 30
 
+        
+        screen.blit(self.lap_text, (400, 420))
+        screen.blit(self.fast_lap, (410, 460))
         
         self.cursor.draw(screen)
 
