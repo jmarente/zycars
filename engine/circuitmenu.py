@@ -79,12 +79,18 @@ class Times:
         #Si tenemos tiempos del circuito que se pasa
         if self.circuits.has_key(circuit_name):
             #Renderizamos sus valores
-            self.best_race = self.font.render(self.circuits[circuit_name]['bestrace'][0] \
-                                                + ':' + self.circuits[circuit_name]['bestrace'][1] \
-                                                + ':' + self.circuits[circuit_name]['bestrace'][2], True, (0,0,0))
-            self.fasttest_lap = self.font.render(self.circuits[circuit_name]['fasttestlap'][0] \
-                                                + ':' + self.circuits[circuit_name]['fasttestlap'][1] \
-                                                + ':' + self.circuits[circuit_name]['fasttestlap'][2], True, (0,0,0))
+            string1 = '%02d:%02d:%02d' % (int(self.circuits[circuit_name]['bestrace'][0]), 
+                                        int(self.circuits[circuit_name]['bestrace'][1]), 
+                                        int(self.circuits[circuit_name]['bestrace'][2]))
+                                            
+            self.best_race = self.font.render(string1, True, (0,0,0))
+            
+            string2 = '%02d:%02d:%02d' % (int(self.circuits[circuit_name]['fasttestlap'][0]), 
+                                    int(self.circuits[circuit_name]['fasttestlap'][1]), 
+                                    int(self.circuits[circuit_name]['fasttestlap'][2]))
+                                    
+            self.fasttest_lap = self.font.render(string2, True, (0,0,0))
+            
         #Si el circuito que se pasa no esta en el mapa, motramos que no están disponible sus tiempos
         else:
             self.best_race = self.font.render('No Disponible', True, (0,0,0))
