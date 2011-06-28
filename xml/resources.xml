@@ -140,6 +140,12 @@
 	<musics>
 	</musics>
 	<sounds>
+		<sound code="button-clicked1" name="button-clicked1.wav"/>
+		<sound code="button-clicked2" name="button-clicked2.wav"/>
+		<sound code="button-clicked3" name="button-clicked3.wav"/>
+		<sound code="button-over1" name="button-over1.wav"/>
+		<sound code="button-over2" name="button-over2.wav"/>
+		<sound code="collision1" name="collision1.wav"/>
 	</sounds>
 </resources>
 

@@ -1,4 +1,4 @@
-<option text_position="left">
+<option text_position="left" sound_over='button-over2'>
     <selected selected_image="tiny_row_right" x="0" y="0" w="319" h="48"/>
     <normal normal_image="tiny_row_right" x="0" y="0" w="319" h="41"/>
 </option>

@@ -1,4 +1,4 @@
-<option text_position="bottom" on_button="false">
+<option text_position="bottom" on_button="false" sound_over='button-over2' sound_click='button-clicked3'>
     <selected selected_image="selected_box3" x="0" y="19" w="350" h="48"/>
     <normal normal_image="normal_box3" x="14" y="15" w="288" h="41"/>
     <normal_text r="189" g="9" b="38" x="10" y="50" size="17" angle="12"/>
