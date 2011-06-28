@@ -42,6 +42,16 @@ class Button:
         else:
             self.on_button = True
         
+        self.sound_over = None
+        if father.hasAttribute('sound_over'):
+            self.sound_over = resource.get_sound(str(father.getAttribute('sound_over')))
+            self.sound_over.set_volume(1.0)
+        
+        self.sound_click = None
+        if father.hasAttribute('sound_click'):
+            self.sound_click = resource.get_sound(str(father.getAttribute('sound_click')))
+            self.sound_click.set_volume(1.0)
+            
         #Obtenemos la imagen y sus características cuando el boton esta en estado normal
         for element in parser.getElementsByTagName('normal'):
             
@@ -188,11 +198,20 @@ class Button:
         
         #Comprobamos si el raton se encuentra dentro de la máscara de colisión
         if self.mask_collision(pygame.mouse.get_pos()):
+            
+            if not self.selected and self.sound_over:
+                self.sound_over.play()
+                
             #Indicamos que el botón esta seleccionado
             self.selected = True
             self.rect_draw = self.selected_image.get_rect()
             self.actual_mask = self.selected_mask
+            
             if mouse.newpressed(mouse.LEFT):
+                
+                if self.sound_click:
+                    self.sound_click.play()
+                    
                 self.menu.treat_option(self.text)
         
         #Si no, pues lo contrario
@@ -293,7 +312,3 @@ class Button:
         '''
         self.rect_normal.x = new_x
         self.rect_selected.x = new_x
-        
-
-        
-
