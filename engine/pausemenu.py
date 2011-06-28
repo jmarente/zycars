@@ -85,9 +85,9 @@ class PauseMenu(basicmenu.BasicMenu):
         if option == "Reanudar":
             print "Elegido: Reanudar"
             self.game_control.set_state('race')
-        elif option == "Menu":
+        elif option == u"Menú":
             print "Elegido: Menú"
-            #self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
-        elif option == "Salir":
-            print "Ha elegido: Salir"
             self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
+        elif option == "Reiniciar":
+            print "Ha elegido: Reinicar"
+            self.game_control.reboot_race()

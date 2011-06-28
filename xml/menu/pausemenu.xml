@@ -2,7 +2,7 @@
     <title text="Pausa" font="cheesebu" size="30" r="0" g="0" b="0" x="370" y="170"/>
     <options>
         <option xml_file="menu/genericbutton.xml" font="cheesebu" text="Reanudar" center="True" x="400" y="260"></option>
-        <option xml_file="menu/genericbutton2.xml" font="cheesebu" text="Menú" center="True" x="400" y="330"></option>
-        <option xml_file="menu/genericbutton.xml" font="cheesebu" text="Salir" center="True" x="400" y="388"></option>
+        <option xml_file="menu/genericbutton2.xml" font="cheesebu" text="Reiniciar" center="True" x="400" y="330"></option>
+        <option xml_file="menu/genericbutton.xml" font="cheesebu" text="Menú" center="True" x="400" y="388"></option>
     </options>
 </mainmenu>
