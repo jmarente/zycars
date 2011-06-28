@@ -77,6 +77,10 @@ class BasicMenu(state.State):
         cursor_xml = str(parent.getAttribute('cursor'))
         self.cursor = cursor.Cursor(data.get_path_xml(cursor_xml))
         
+        self.music_file = None
+        if parent.hasAttribute('music'):
+            self.music_file = str(parent.getAttribute('music'))
+        
         #Obtenemos el titulo del menú
         for element in parse.getElementsByTagName('title'):
             #Obtenemos tamaño y fuente
