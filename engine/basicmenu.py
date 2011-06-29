@@ -33,6 +33,11 @@ class BasicMenu(state.State):
         '''
         @brief Método que actualiza los elementos del menú
         '''
+        if self.music_file and config.Config().get_current_music() != self.music_file: 
+            config.Config().set_current_music(self.music_file)
+            pygame.mixer.music.load(data.get_path_music(self.music_file))
+            pygame.mixer.music.play(-1)
+            
         #Comprobamos si el punto esta situado sobre algun botón
         self.actual_option = None
         for b in self.buttons:

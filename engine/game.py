@@ -114,7 +114,7 @@ class Game:
     
     def start_game(self):
         pygame.mixer.music.fadeout(2000)
-        self.current_music = ''
+        config.Config().set_current_music('')
         if config.Config().mode == config.CHAMPIONSHIP:
             self.change_state(modes.ChampionShip(self, config.Config().get_championship_circuits(), config.Config().get_laps()))
         elif config.Config().mode == config.TIMED:

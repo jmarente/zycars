@@ -40,14 +40,6 @@ class ClassificationMenu(basicmenu.BasicMenu):
         @param positions Lista con la posicion de los jugadores
         '''
         self.players_position = positions
-
-    def update(self):
-        if self.music_file and config.Config().get_current_music() != self.music_file:
-            config.Config().set_current_music(self.music_file)
-            pygame.mixer.music.load(data.get_path_music(self.music_file))
-            pygame.mixer.music.play(-1)
-        
-        basicmenu.BasicMenu.update(self)
         
     def draw(self, screen):
         '''
