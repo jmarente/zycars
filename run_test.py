@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-import engine
+from engine import game
 
 def main():
-    g = engine.game.Game()
+    g = game.Game()
     g.run()
     
 if __name__ == "__main__":

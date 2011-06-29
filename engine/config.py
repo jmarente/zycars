@@ -1,7 +1,7 @@
 #-*- encoding: utf-8 -*-
 
-import modes
-import pygame
+#import modes
+#import pygame
 
 from log import Log
 from log import Singleton
@@ -116,13 +116,3 @@ class Config:
    
     def get_sound_volume(self):
         return self.sound_volume
-    
-    def start_game(self, game):
-        pygame.mixer.music.fadeout(2000)
-        self.current_music = ''
-        if self.mode == CHAMPIONSHIP:
-            game.change_state(modes.ChampionShip(game, self.get_championship_circuits(), self.laps))
-        elif self.mode == TIMED:
-            game.change_state(modes.TimedRace(game, self.get_circuit(), self.laps))
-        elif self.mode == FASTRACE:
-            game.change_state(modes.FastRace(game, self.get_circuit(), self.laps))

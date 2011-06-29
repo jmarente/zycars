@@ -8,6 +8,8 @@ import mouse
 import intro
 import xml.dom.minidom
 import os
+import config
+import modes
 
 class Game:
     '''
@@ -109,3 +111,13 @@ class Game:
         @param new_state, nuevo estado del juego
         '''
         self.__actual_state = new_state
+    
+    def start_game(self):
+        pygame.mixer.music.fadeout(2000)
+        self.current_music = ''
+        if config.Config().mode == config.CHAMPIONSHIP:
+            self.change_state(modes.ChampionShip(self, config.Config().get_championship_circuits(), config.Config().get_laps()))
+        elif config.Config().mode == config.TIMED:
+            self.change_state(modes.TimedRace(self, config.Config().get_circuit(), config.Config().get_laps()))
+        elif config.Config().mode == config.FASTRACE:
+            self.change_state(modes.FastRace(self, config.Config().get_circuit(), config.Config().get_laps()))

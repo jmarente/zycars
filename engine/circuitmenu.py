@@ -355,7 +355,8 @@ class CircuitMenu(basicmenu.BasicMenu):
                     config.Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
                     config.Config().set_circuit_name(self.actual_circuit)
                     print 'Ha elegido ', self.circuit_files[self.actual_layer][self.actual_circuit]
-                config.Config().start_game(self.game)
+                #config.Config().start_game(self.game)
+                self.game.start_game()
                 
         #Si pulsamos cancelar, volvemos al menú anterior
         elif option == 'Cancelar':

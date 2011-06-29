@@ -7,6 +7,7 @@ import resource
 import button
 import imagebutton
 import pygame
+import config
 
 class BasicMenu(state.State):
     '''
