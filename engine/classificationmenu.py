@@ -6,6 +6,8 @@ import resource
 import xml.dom.minidom
 import config
 
+import pygame
+
 class ClassificationMenu(basicmenu.BasicMenu):
     '''
     @brief Muestra las posiciones de los corredores tras una carrera
@@ -38,6 +40,14 @@ class ClassificationMenu(basicmenu.BasicMenu):
         @param positions Lista con la posicion de los jugadores
         '''
         self.players_position = positions
+
+    def update(self):
+        if self.music_file and config.Config().get_current_music() != self.music_file:
+            config.Config().set_current_music(self.music_file)
+            pygame.mixer.music.load(data.get_path_music(self.music_file))
+            pygame.mixer.music.play(-1)
+        
+        basicmenu.BasicMenu.update(self)
         
     def draw(self, screen):
         '''
@@ -93,26 +103,6 @@ class ClassificationMenu(basicmenu.BasicMenu):
         
         #Por ultimo mostramos el cursor
         self.cursor.draw(screen)
-        
-    def update(self):
-        '''
-        @brief Método que actualiza los elementos del menú
-        '''
-        #Comprobamos si el punto esta situado sobre algun botón
-        self.actual_option = None
-        for button in self.buttons:
-            button.update()
-            if button.get_selected():
-                self.actual_option = button.get_option()
-        
-        #Si es asi cambiamos la imagen del cursor
-        if self.actual_option:
-            self.cursor.over()
-        else:
-            self.cursor.normal()
-        
-        #Actualizamos el cursor
-        self.cursor.update()
     
     def treat_option(self, option):
         '''

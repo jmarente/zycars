@@ -1,7 +1,7 @@
 #-*- encoding: utf-8 -*-
 
 import modes
-import gamecontrol
+import pygame
 
 from log import Log
 from log import Singleton
@@ -23,6 +23,9 @@ class Config:
         self.circuit_name = None
         self.championship_circuits = []
         self.championship_circuits_name = {}
+        self.current_music = ''
+        self.music_volume = 1
+        self.sound_volume = 1
     
     def set_laps(self, laps):
         self.laps = laps
@@ -96,7 +99,27 @@ class Config:
     def get_championship(self):
         return self.championship
     
+    def get_current_music(self):
+        return self.current_music
+    
+    def set_current_music(self, new_music):
+        self.current_music = new_music
+    
+    def set_music_volume(self, volume):
+        self.music_volume = volume
+   
+    def get_music_volume(self):
+        return self.music_volume
+        
+    def set_sound_volume(self, volume):
+        self.sound_volume = volume
+   
+    def get_sound_volume(self):
+        return self.sound_volume
+    
     def start_game(self, game):
+        pygame.mixer.music.fadeout(2000)
+        self.current_music = ''
         if self.mode == CHAMPIONSHIP:
             game.change_state(modes.ChampionShip(game, self.get_championship_circuits(), self.laps))
         elif self.mode == TIMED:

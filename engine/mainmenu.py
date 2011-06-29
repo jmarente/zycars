@@ -47,32 +47,6 @@ class MainMenu(basicmenu.BasicMenu):
         
         #Dibujamos el cursor
         self.cursor.draw(screen)
-    
-    def update(self):
-        '''
-        @brief Método que actualiza los elementos del menú
-        '''
-        if self.music_file and Config().get_current_music() != self.music_file:
-            print "CAI"
-            Config().set_current_music(self.music_file)
-            pygame.mixer.music.load(data.get_path_music(self.music_file))
-            pygame.mixer.music.play(-1)
-            
-        #Comprobamos si el punto esta situado sobre algun botón
-        self.actual_option = None
-        for button in self.buttons:
-            button.update()
-            if button.get_selected():
-                self.actual_option = button.get_option()
-        
-        #Si es asi cambiamos la imagen del cursor
-        if self.actual_option:
-            self.cursor.over()
-        else:
-            self.cursor.normal()
-        
-        #Actualizamos el cursor
-        self.cursor.update()
             
     def treat_option(self, option):
         '''
@@ -100,3 +74,11 @@ class MainMenu(basicmenu.BasicMenu):
         elif option == "Salir":
             print "Ha elegido: Salir"
             keyboard.set_quit(True)
+    
+    def update(self):
+        if self.music_file and Config().get_current_music() != self.music_file:
+            Config().set_current_music(self.music_file)
+            pygame.mixer.music.load(data.get_path_music(self.music_file))
+            pygame.mixer.music.play(-1)
+        
+        basicmenu.BasicMenu.update(self)

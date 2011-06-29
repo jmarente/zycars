@@ -310,31 +310,6 @@ class CharacterMenu(basicmenu.BasicMenu):
                 first = False
 
         self.new_pressed = True
-        
-    def update(self):
-        '''
-        @brief Método que actualiza el menú
-        '''
-        #Actualizamos todos los botones
-        self.actual_option = None
-        for button in self.buttons:
-            button.update()
-            #Si el puntero esta sobre alguno de ellos
-            if button.get_selected():
-                #Nos quedamos con su opción
-                self.actual_option = button.get_option()
-        
-        #Si hay alguna opción seleccionada
-        if self.actual_option:
-            #Modificamos el cursor
-            self.cursor.over()
-
-        #Si no, el cursor sigue normal
-        else:
-            self.cursor.normal()
-        
-        #Actualizamos el cursor
-        self.cursor.update()
     
     def draw(self, screen):
         '''

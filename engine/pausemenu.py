@@ -1,11 +1,10 @@
 #-*- encoding: utf-8 -*-
 
-import basicmenu
 import data
-import keyboard
-import mainmenu
 import pygame
 import xml.dom.minidom
+import basicmenu
+import mainmenu
 
 class PauseMenu(basicmenu.BasicMenu):
     '''
@@ -55,28 +54,6 @@ class PauseMenu(basicmenu.BasicMenu):
         screen.blit(self.title, self.title_rect)
         
         self.cursor.draw(screen)
-        
-    def update(self):
-        '''
-        @brief Método que actualiza el menú
-        '''
-        #Comprobamos el estado de los botones
-        self.actual_option = None
-        for button in self.buttons:
-            button.update()
-            if button.get_selected():
-                self.actual_option = button.get_option()
-        
-        #Si alguno está seleccionado cambiamos el cursor
-        if self.actual_option:
-            self.cursor.over()
-                
-        #Si no, lo dejamos normal
-        else:
-            self.cursor.normal()
-        
-        #Actualizamos el cursor
-        self.cursor.update()
             
     def treat_option(self, option):
         '''

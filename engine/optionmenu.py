@@ -10,6 +10,7 @@ import mainmenu
 import xml.dom.minidom
 import pygame
 import checkbox
+import config
 
 class OptionMenu(basicmenu.BasicMenu):
     '''
@@ -147,38 +148,18 @@ class OptionMenu(basicmenu.BasicMenu):
         @brief Método encargado de actualizar todos los elementos del menú
         '''
         
-        #Actualizamos cada uno de los botones
-        self.actual_option = None
-        for button in self.buttons:
-            button.update()
-            #So el cursor está sobre alguno de los botones
-            if button.get_selected():
-                #Obtenemos su opción
-                self.actual_option = button.get_option()
-        
         for button in self.buttons_layers[self.actual_layer]:
             button.update()
             #So el cursor está sobre alguno de los botones
             if button.get_selected():
                 #Obtenemos su opción
                 self.actual_option = button.get_option()
-                
-        #Si hay alguna opción
-        if self.actual_option:
-            
-            #Cambiamos el cursor
-            self.cursor.over()
-                
-        #Si no, lo dejamos normal
-        else:
-            self.cursor.normal()
         
         #Actualizamos todos los elementos de la capa actual
         for element in self.elements_layers[self.actual_layer]:
             element.update()
         
-        #Actualizamos el cursor
-        self.cursor.update()
+        basicmenu.BasicMenu.update(self)
                     
     def draw(self, screen):
         '''

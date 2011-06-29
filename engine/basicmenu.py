@@ -6,7 +6,6 @@ import data
 import resource
 import button
 import imagebutton
-import xml.dom.minidom
 import pygame
 
 class BasicMenu(state.State):
@@ -31,9 +30,23 @@ class BasicMenu(state.State):
         
     def update(self):
         '''
-        @brief Método que actualizara al menú, debe ser implementado por sus descendientes
+        @brief Método que actualiza los elementos del menú
         '''
-        pass
+        #Comprobamos si el punto esta situado sobre algun botón
+        self.actual_option = None
+        for button in self.buttons:
+            button.update()
+            if button.get_selected():
+                self.actual_option = button.get_option()
+        
+        #Si es asi cambiamos la imagen del cursor
+        if self.actual_option:
+            self.cursor.over()
+        else:
+            self.cursor.normal()
+        
+        #Actualizamos el cursor
+        self.cursor.update()
         
     def draw(self):
         '''
@@ -151,9 +164,7 @@ class BasicMenu(state.State):
             #Obtenemos el tipo de boton
             if element.hasAttribute('type'):
                 type_button = str(element.getAttribute('type'))
-            
-            image_button = None
-            
+                        
             #Según el tipo de boton obtendremos un boton u otro
             if type_button == 'normal':
                 aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text, True)

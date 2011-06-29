@@ -298,32 +298,13 @@ class CircuitMenu(basicmenu.BasicMenu):
         @brief Método que actualiza lógicamente el menú
         Solo actualiza los elementos de la capa actual
         '''
-        self.actual_option = None
-        #Actualizamos cada uno de los botones, por defecto del menú
-        for button in self.buttons:
-            button.update()
-            #Si el cursor está sobre alguno de los botones
-            if button.get_selected():
-                #Obtenemos su opción
-                self.actual_option = button.get_option()
-        
         #Actualizamos los botones de las capas
         for button in self.buttons_layers[self.actual_layer]:
             button.update()
             if button.get_selected():
                 self.actual_option = button.get_option()
         
-        #Si hay algun botón seleccionado
-        if self.actual_option:
-            #Cambiamos el cursor
-            self.cursor.over()
-                
-        #Si no, lo dejamos normal
-        else:
-            self.cursor.normal()
-        
-        #Actualizamos el cursor
-        self.cursor.update()
+        basicmenu.BasicMenu.update(self)
                     
     def draw(self, screen):
         '''
