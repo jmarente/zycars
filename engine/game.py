@@ -1,18 +1,13 @@
 # -*- encoding: utf-8 -*-
 
 import pygame
-from pygame.color import *
 import data
 import resource
 import keyboard
 import mouse
-import button
 import intro
-import optionmenu
 import xml.dom.minidom
 import os
-
-from pygame.locals import *
 
 class Game:
     '''
@@ -76,7 +71,7 @@ class Game:
             mouse.update()
             
             #Ponemos la pantalla a negro completamente
-            self.screen.fill(THECOLORS['black'])
+            self.screen.fill(pygame.color.THECOLORS['black'])
             
             #Actualizamos y dibujamos el estado actual
             self.__actual_state.update()

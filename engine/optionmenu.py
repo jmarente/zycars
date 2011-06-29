@@ -4,7 +4,6 @@ import basicmenu
 import data
 import resource
 import button
-import imagebutton
 import slider
 import mainmenu
 import xml.dom.minidom

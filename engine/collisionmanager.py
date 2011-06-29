@@ -2,7 +2,6 @@
 
 import pygame
 import circuit
-import basiccar
 import gameobject
 import pixelperfect
 import item
@@ -114,10 +113,7 @@ class CollisionManager:
         @param circ Circuito a comprobar
         '''
         #Comprobamos el eje X.
-        x_collision = False
-        y_collision = False
         result = None
-        tile_pos = None
         tile_rect = None
 
         #Colisiones verticales, con el eje x

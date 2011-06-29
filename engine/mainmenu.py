@@ -1,19 +1,13 @@
 #-*- encoding: utf-8 -*-
 
-import state
 import data
-import resource
-import button
 import keyboard
 import pygame
-import cursor
 import basicmenu
 import optionmenu
 import charactermenu
 import xml.dom.minidom
-import unicodedata
-
-from config import *
+import config
 
 class MainMenu(basicmenu.BasicMenu):
     '''
@@ -54,17 +48,17 @@ class MainMenu(basicmenu.BasicMenu):
         '''
         if option == u"Carrera Rápida":
             print "Elegido: Carrera Rapida"
-            Config().set_mode(FASTRACE)
+            config.Config().set_mode(config.FASTRACE)
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
             
         elif option == "Campeonato":
             print "Elegido: Campeonato"
-            Config().set_mode(CHAMPIONSHIP)
+            config.Config().set_mode(config.CHAMPIONSHIP)
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
             
         elif option == "Contrarreloj":
             print "Ha elegido: Contrarreloj"
-            Config().set_mode(TIMED)
+            config.Config().set_mode(config.TIMED)
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
             
         elif option == "Opciones":
@@ -76,8 +70,8 @@ class MainMenu(basicmenu.BasicMenu):
             keyboard.set_quit(True)
     
     def update(self):
-        if self.music_file and Config().get_current_music() != self.music_file:
-            Config().set_current_music(self.music_file)
+        if self.music_file and config.Config().get_current_music() != self.music_file:
+            config.Config().set_current_music(self.music_file)
             pygame.mixer.music.load(data.get_path_music(self.music_file))
             pygame.mixer.music.play(-1)
         

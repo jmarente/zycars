@@ -8,7 +8,6 @@ Implementa la clase Start
 '''
 import config
 import resource
-import pygame
 import playercar
 import ia
 

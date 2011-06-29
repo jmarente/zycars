@@ -8,7 +8,6 @@ cuáles se sueltan y cuáles se vuelven a presionar.
 '''
 
 import pygame
-from pygame.locals import *
 
 __actual_keyboard = None
 __old_keyboard = None
@@ -43,7 +42,7 @@ def update():
     __actual_keyboard = pygame.key.get_pressed()
     
     for event in pygame.event.get():
-        if event.type == QUIT:
+        if event.type == pygame.QUIT:
             __quit = True
 
 

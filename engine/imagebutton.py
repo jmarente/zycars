@@ -2,9 +2,6 @@
 
 import button
 import resource
-import data
-import pygame
-import xml.dom.minidom
 
 class ImageButton(button.Button):
     '''
@@ -50,7 +47,6 @@ class ImageButton(button.Button):
         @param screen Superficie destino
         '''
         aux_surface = None
-        destiny_rect = None
 
         #Si está seleccionado copiamos la imagen seleccionada
         if self.selected:

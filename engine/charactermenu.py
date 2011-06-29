@@ -3,15 +3,14 @@
 import basicmenu
 import data
 import resource
-import imagebutton
 import mainmenu
 import xml.dom.minidom
 import pygame
 import math
 import circuitmenu
 import random
+import config
 
-from config import *
 from collections import deque
 
 class CarFeatures:
@@ -349,29 +348,29 @@ class CharacterMenu(basicmenu.BasicMenu):
             selected_player = self.group_option.actual_selected()
             print "Aceptar"
             print "Jugador Elegido:" + self.cars[selected_player]['path_xml']
-            Config().set_player(self.cars[selected_player]['path_xml'])
+            config.Config().set_player(self.cars[selected_player]['path_xml'])
             
-            Config().clear_competitors()
+            config.Config().clear_competitors()
             #Si el modo de juego no es Contrarreloj, obtenemos los rivales
-            if Config().get_mode() != TIMED:
+            if config.Config().get_mode() != config.TIMED:
                 #Obtenemos los rivales
                 rivals = self.get_rivals(selected_player)
                 
                 #Los añadimos a la configuracion
                 for rival in rivals:
-                    Config().add_competitor(self.cars[rival]['path_xml'])
+                    config.Config().add_competitor(self.cars[rival]['path_xml'])
                     
-                print "Rivales :", Config().get_competitors()
+                print "Rivales :", config.Config().get_competitors()
             
             #Si estamos en modo contrarreloj cargamos el menu Contrarreloj
-            if Config().get_mode() == TIMED:
+            if config.Config().get_mode() == config.TIMED:
                 self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/cronomenu.xml'))
             
             #Si estamos en Carrera Rápida cargamos el menú de Carrera Rápida
-            elif Config().get_mode() == FASTRACE:
+            elif config.Config().get_mode() == config.FASTRACE:
                 self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/fastracemenu.xml'))
             
-            elif Config().get_mode() == CHAMPIONSHIP:
+            elif config.Config().get_mode() == config.CHAMPIONSHIP:
                 self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/fastracemenu.xml'))
                 
         #Si pulsamos cancelar

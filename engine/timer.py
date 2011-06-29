@@ -2,7 +2,6 @@
 
 import time
 import resource
-import pygame
 
 class Timer:
     '''

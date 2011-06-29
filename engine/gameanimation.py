@@ -1,11 +1,8 @@
 #-*- encoding: utf-8 -*-
 
 import gameobject
-import resource
-import animation
 import data
 import xml.dom.minidom
-import pygame
 
 class GameAnimation(gameobject.GameObject):
     def __init__(self, game_control, path_xml, x, y):

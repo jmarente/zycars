@@ -12,8 +12,6 @@ import particle
 import data
 import xml.dom.minidom
 
-from gameobject import *
-
 class ItemBox(gameobject.GameObject):
     '''
     @brief Clase que simula el comportamiento de las "cajas" de items 
@@ -43,8 +41,8 @@ class ItemBox(gameobject.GameObject):
         self.particles = particle.SystemParticle(self.game_control, self.rect.centerx, self.rect.centery, ['particle'], 25, 1, 5, 100, 0.5)
 
         #Establecemos las funciones a tratar según el estado
-        self.states = {NORMAL: self.__normal_state,
-                    EXPLOSION: self.__explosion_state
+        self.states = {gameobject.NORMAL: self.__normal_state,
+                    gameobject.EXPLOSION: self.__explosion_state
                     }
                     
         self.update_image()
@@ -56,7 +54,7 @@ class ItemBox(gameobject.GameObject):
         @param screen Superficie destino
         '''
         #Si el estado no es de explosión dibujamos normal
-        if self.state != EXPLOSION:
+        if self.state != gameobject.EXPLOSION:
             gameobject.GameObject.draw(self, screen)
             
         #Si el estado es de explosión dibujamos el sistema de particulas
@@ -70,7 +68,7 @@ class ItemBox(gameobject.GameObject):
         #Controlamos el cambio de estado para reiniciar la animación
         if self.state != self.previous_state:
             self.previous_state = self.state
-            if self.state != EXPLOSION:
+            if self.state != gameobject.EXPLOSION:
                 self.animations[self.state].restart()
         
         #Llamamos a la función del estado actual para actualizar
@@ -97,4 +95,4 @@ class ItemBox(gameobject.GameObject):
         #reiniciamos el sistema de particulas
         if self.particles.done():
             self.particles.restart()
-            self.state = NORMAL 
+            self.state = gameobject.NORMAL 

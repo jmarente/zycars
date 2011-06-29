@@ -8,7 +8,6 @@ Cuando queremos recursos de algún tipo simplente accedemos mediante su clave.
 
 import data
 import animation
-import pygame
 import xml.dom.minidom
 
 from log import Log

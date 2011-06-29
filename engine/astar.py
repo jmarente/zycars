@@ -6,8 +6,6 @@
 @date Abril 2011
 '''
 
-import circuit
-
 from collections import deque
 
 PASSABLE, SELECTED, NOPASSABLE, LAG, HOLE, OIL, GUM = range(7)

@@ -8,8 +8,7 @@ import button
 import imagebutton
 import charactermenu
 import xml.dom.minidom
-
-from config import *
+import config
 
 class Times:
     '''
@@ -184,7 +183,7 @@ class CircuitMenu(basicmenu.BasicMenu):
         self.text_laps_position = (int(laps.getAttribute('text_x')), int(laps.getAttribute('text_y')))
         self.laps_position = (int(laps.getAttribute('num_x')), int(laps.getAttribute('num_y')))
         
-        if Config().get_mode() == TIMED:
+        if config.Config().get_mode() == config.TIMED:
             #Obtenemos la posición del marcador de los tiempos
             time_pos = parse.getElementsByTagName('times_position')[0]
             x = int(time_pos.getAttribute('x'))
@@ -345,23 +344,23 @@ class CircuitMenu(basicmenu.BasicMenu):
             print "Aceptar"
             #Si hemo pulsado aceptar y el circuito está disponible.
             if self.actual_circuit != 'No Disponible':
-                Config().set_laps(self.laps)
-                if Config().get_mode() == CHAMPIONSHIP:
-                    Config().clear_championship_circuits()
+                config.Config().set_laps(self.laps)
+                if config.Config().get_mode() == config.CHAMPIONSHIP:
+                    config.Config().clear_championship_circuits()
                     for key in self.circuit_files[self.actual_layer].keys():
-                        Config().add_championship_circuit(self.circuit_files[self.actual_layer][key])
-                        Config().set_championship_circuit_name(self.circuit_files[self.actual_layer][key], key)
-                    print "Los circuitos del campeonato son: ", Config().get_championship_circuits()
+                        config.Config().add_championship_circuit(self.circuit_files[self.actual_layer][key])
+                        config.Config().set_championship_circuit_name(self.circuit_files[self.actual_layer][key], key)
+                    print "Los circuitos del campeonato son: ", config.Config().get_championship_circuits()
                 else:
-                    Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
-                    Config().set_circuit_name(self.actual_circuit)
+                    config.Config().set_circuit(self.circuit_files[self.actual_layer][self.actual_circuit])
+                    config.Config().set_circuit_name(self.actual_circuit)
                     print 'Ha elegido ', self.circuit_files[self.actual_layer][self.actual_circuit]
-                Config().start_game(self.game)
+                config.Config().start_game(self.game)
                 
         #Si pulsamos cancelar, volvemos al menú anterior
         elif option == 'Cancelar':
             print "Cancelar"
-            Config().clear_competitors()
+            config.Config().clear_competitors()
             self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
         
         #Si pulsamos sobre alguna de los campeonatos opcionales, debemos cambiar la capa

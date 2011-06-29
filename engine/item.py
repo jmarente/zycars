@@ -3,11 +3,11 @@
 import gameobject
 import particle
 import data
+import resource
 import collisionmanager
 import animation
-import pygame
-
-from gameobject import *
+import xml.dom.minidom
+import math
 
 #Distintos tipos de items
 MISSILE, OIL, GUM, BALL = range(4)
@@ -47,8 +47,8 @@ class Item(gameobject.GameObject):
         #Si es 0 actualizamos el angulo del item
         else:
             self.actual_angle = angle
-            self.dx = cos(angle) * self.actual_speed
-            self.dy = sin(angle) * self.actual_speed
+            self.dx = math.cos(angle) * self.actual_speed
+            self.dy = math.sin(angle) * self.actual_speed
         
         #Actualizamos la posicion del coche según su angulo
         self.update_position()
@@ -87,10 +87,10 @@ class Missile(Item):
         
         #Funciones para cada estado
         self.states = {
-            NORMAL: self.__normal_state, 
-            RUN: self.__run_state, 
-            EXPLOSION: self.__explosion_state, 
-            ERASE: self.__erase_state, 
+            gameobject.NORMAL: self.__normal_state, 
+            gameobject.RUN: self.__run_state, 
+            gameobject.EXPLOSION: self.__explosion_state, 
+            gameobject.ERASE: self.__erase_state, 
             }
         
         #Creamos el sistema de particulas, para cuando colisionemos con la caja
@@ -105,14 +105,14 @@ class Missile(Item):
         #Controlamos el cambio de estado para reiniciar la animación
         if self.state != self.previous_state:
             self.previous_state = self.state
-            if self.state != EXPLOSION:
+            if self.state != gameobject.EXPLOSION:
                 self.animations[self.state].restart()
         
         #Llamamos a la función del estado actual para actualizar
         self.states[self.state]()
 
         #Si el coche no se encuentra cayendo
-        if self.state != EXPLOSION:
+        if self.state != gameobject.EXPLOSION:
             #Actualizmaos posicion. imagen y dirección
             self.update_position()
             self.update_direction()
@@ -125,7 +125,7 @@ class Missile(Item):
         @param screen Superficie destino
         '''
         #Si el estado no es de explosión dibujamos normal
-        if self.state != EXPLOSION:
+        if self.state != gameobject.EXPLOSION:
             gameobject.GameObject.draw(self, screen)
             
         #Si el estado es de explosión y ya hemos creado el sistema de particulas
@@ -146,7 +146,7 @@ class Missile(Item):
         #Si el coche que soltó la mancha de aceite ya la a dejao atras cambiamos su estado,
         #Para que ya pueda colisionar con él
         if not collisionmanager.CollisionManager().actor_rectanglecollision(self, self.owner):
-            self.state = RUN
+            self.state = gameobject.RUN
             
     def __run_state(self):
         '''
@@ -155,7 +155,8 @@ class Missile(Item):
         self.move(cmp(self.actual_speed, 0))
         
         #Y la trigonometria del mismo
-        self.trigonometry()    
+        self.trigonometry() 
+           
     def __erase_state(self):
         '''
         @brief Método privado que actualia la caja cuando esta en estado de borrado
@@ -199,8 +200,8 @@ class Oil(Item):
         
         #Funciones para cada estado
         self.states = {
-            NORMAL: self.__normal_state, 
-            RUN: self.__run_state, 
+            gameobject.NORMAL: self.__normal_state, 
+            gameobject.RUN: self.__run_state, 
             }
             
     def update(self):
@@ -210,7 +211,7 @@ class Oil(Item):
         #Controlamos el cambio de estado para reiniciar la animación
         if self.state != self.previous_state:
             self.previous_state = self.state
-            if self.state != EXPLOSION:
+            if self.state != gameobject.EXPLOSION:
                 self.animations[self.state].restart()
         
         #Llamamos a la función del estado actual para actualizar
@@ -223,7 +224,7 @@ class Oil(Item):
         #Si el coche que soltó la mancha de aceite ya la a dejao atras cambiamos su estado,
         #Para que ya pueda colisionar con él
         if not collisionmanager.CollisionManager().actor_rectanglecollision(self, self.owner):
-            self.state = RUN
+            self.state = gameobject.RUN
             
     def __run_state(self):
         '''
@@ -263,10 +264,10 @@ class Ball(Item):
 
         #Funciones para cada estado
         self.states = {
-            NORMAL: self.__normal_state, 
-            RUN: self.__run_state, 
-            EXPLOSION: self.__explosion_state, 
-            ERASE: self.__erase_state, 
+            gameobject.NORMAL: self.__normal_state, 
+            gameobject.RUN: self.__run_state, 
+            gameobject.EXPLOSION: self.__explosion_state, 
+            gameobject.ERASE: self.__erase_state, 
             }
         
         #Creamos el sistema de particulas, para cuando colisionemos con la caja
@@ -280,14 +281,14 @@ class Ball(Item):
         #Controlamos el cambio de estado para reiniciar la animación
         if self.state != self.previous_state:
             self.previous_state = self.state
-            if self.state != EXPLOSION:
+            if self.state != gameobject.EXPLOSION:
                 self.animations[self.state].restart()
         
         #Llamamos a la función del estado actual para actualizar
         self.states[self.state]()
 
         #Si el coche no se encuentra cayendo
-        if self.state != EXPLOSION:
+        if self.state != gameobject.EXPLOSION:
             #Actualizmaos posicion. imagen y dirección
             self.update_position()
             self.update_direction()
@@ -300,7 +301,7 @@ class Ball(Item):
         @param screen Superficie destino
         '''
         #Si el estado no es de explosión dibujamos normal
-        if self.state != EXPLOSION:
+        if self.state != gameobject.EXPLOSION:
             gameobject.GameObject.draw(self, screen)
             
         #Si el estado es de explosión y ya hemos creado el sistema de particulas
@@ -320,7 +321,7 @@ class Ball(Item):
         #Si el coche que soltó la mancha de aceite ya la a dejao atras cambiamos su estado,
         #Para que ya pueda colisionar con él
         if not collisionmanager.CollisionManager().actor_rectanglecollision(self, self.owner):
-            self.state = RUN
+            self.state = gameobject.RUN
             
     def __run_state(self):
         '''
@@ -351,5 +352,5 @@ class Ball(Item):
         #reiniciamos el sistema de particulas
         if self.particles.done():
             self.particles = None
-            self.state = ERASE
+            self.state = gameobject.ERASE
             self.kill()

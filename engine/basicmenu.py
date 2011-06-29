@@ -34,10 +34,10 @@ class BasicMenu(state.State):
         '''
         #Comprobamos si el punto esta situado sobre algun botón
         self.actual_option = None
-        for button in self.buttons:
-            button.update()
-            if button.get_selected():
-                self.actual_option = button.get_option()
+        for b in self.buttons:
+            b.update()
+            if b.get_selected():
+                self.actual_option = b.get_option()
         
         #Si es asi cambiamos la imagen del cursor
         if self.actual_option:
@@ -71,8 +71,8 @@ class BasicMenu(state.State):
             screen.blit(image[1], image[2])
         
         #Dibujamos los botones
-        for button in self.buttons:
-            button.draw(screen)
+        for b in self.buttons:
+            b.draw(screen)
     
     def parser_basic_info(self, parse):
         '''

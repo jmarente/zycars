@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 import resource
-import data
 
 class ImageGrid:
     '''

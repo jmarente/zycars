@@ -4,26 +4,19 @@ import pygame
 import time
 import state
 import collisionmanager
-import playercar
 import gameobject
-import gameanimation
-import basiccar
 import circuit
 import checkpoint
 import resource
 import countdown
-import pausemenu
 import keyboard
 import start
 import timer
 import astar
 import math
-import copy
 import config
 import random
-
-from config import *
-from pygame.locals import *
+import pausemenu
 
 class Advice:
     '''
@@ -301,7 +294,7 @@ class GameControl(state.State):
         self.pause = pausemenu.PauseMenu(self.game, self, 'menu/pausemenu.xml')
         
         #Cuenta atras
-        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 0)
+        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 3)
         
         #Marcador de las posiciones de los jugadores
         self.position_board = PositionBoard(20, 10, 'image_position1', 'image_position2')
@@ -422,7 +415,7 @@ class GameControl(state.State):
                     self.position_board.update((self.player, self.checkpoints), self.ia_cars)
                 
                 #Si pulsamos el espacio o escape, cambiamos al estado pause
-                if keyboard.pressed(K_ESCAPE) or keyboard.pressed(K_p) \
+                if keyboard.pressed(pygame.K_ESCAPE) or keyboard.pressed(pygame.K_p) \
                     or not pygame.key.get_focused():
                         
                     self.actual_state = 'pause'
@@ -914,14 +907,14 @@ class GameControl(state.State):
         if self.actual_time.less_than(self.best_time):
             
             self.best_time.assign(self.actual_time)
-            self.advices.append(Advice(u'Vuelta Rápida', 'cheesebu', 100, 0.01, 400, 450,(189, 9, 38), 1))
+            self.advices.append(Advice(u'Vuelta Rápida', 'cheesebu', 100, 0.02, 400, 450,(189, 9, 38), 1))
         
         #Reiniciamos el cronometro principal
         self.actual_time.stop()
         self.actual_time.start()
         
         if self.actual_laps + 1 == self.max_laps:
-            self.advices.append(Advice(u'Última vuelta', 'cheesebu', 100, 0.01, 400, 550,(189, 9, 38), 1))
+            self.advices.append(Advice(u'Última vuelta', 'cheesebu', 100, 0.01, 400, 550,(189, 9, 38), 2))
 
         if self.actual_laps >= self.max_laps:
             print "Carrera Completada"
@@ -980,3 +973,6 @@ class GameControl(state.State):
         y = int(math.floor(rect.centery / self.circuit.get_tile_height()))
         
         return (x, y)
+    
+    def reboot_race(self):
+        self.game_mode.reboot_race()

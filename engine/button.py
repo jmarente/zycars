@@ -171,7 +171,6 @@ class Button:
         '''
         #Superficie y rectangulo de destino auxiliar
         aux_surface = None
-        destiny_rect = None
         
         #Si el boton esta seleccionado
         if self.selected:

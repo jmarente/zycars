@@ -5,10 +5,7 @@ import animation
 import resource
 import pixelperfect
 #import gamecontrol
-import xml.dom.minidom
 import math
-
-from math import *
 
 #Distinos estado que pueden tener los objetos del juego.
 NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION, FALL, TURBO = range(11)
@@ -171,9 +168,9 @@ class GameObject(pygame.sprite.Sprite):
         '''
         @brief Aplica la rotación del objeto segun el angulo de este
         '''
-        angle = radians(self.actual_angle)
-        self.dx = cos(angle) * self.actual_speed
-        self.dy = sin(angle) * self.actual_speed
+        angle = math.radians(self.actual_angle)
+        self.dx = math.cos(angle) * self.actual_speed
+        self.dy = math.sin(angle) * self.actual_speed
 
     def update_image(self):
         '''

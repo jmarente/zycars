@@ -115,7 +115,7 @@ def image_alpha(image, alpha):
     #Si no, cogeremos como color alpha el pixel 0,0 de la imagen
     else:
         color = image.get_at((0,0))
-        image.set_colorkey(color, RLEACCEL)
+        image.set_colorkey(color, pygame.RLEACCEL)
         
     return image
     

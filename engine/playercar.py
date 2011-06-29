@@ -2,19 +2,14 @@
 
 import basiccar
 import gameobject
+import resource
 import keyboard
 import data
 import item
-import math
 import pygame
 import xml.dom.minidom
 import random
 import time
-
-from basiccar import *
-from gameobject import *
-from pygame.locals import *
-from math import *
 
 class Hud:
     '''
@@ -47,9 +42,6 @@ class Hud:
         self.position_image = self.image.get_rect()
         self.position_image.centerx = self.centerx
         self.position_image.centery = self.centery
-        
-        #Posición para los items
-        items = parse.getElementsByTagName('items')
                 
         #Mapa para los items
         self.items = {}
@@ -136,7 +128,7 @@ class Hud:
             if self.actual_item == '3missile':
                 self.missile = 3
 
-class PlayerCar(BasicCar):
+class PlayerCar(basiccar.BasicCar):
     '''
     @brief Clase que modela el comportamiento y las características del vehículo del jugador
     '''
@@ -158,16 +150,16 @@ class PlayerCar(BasicCar):
         #Simulación se Switch de C o C++.
         #Según el estado llamaremos a una función u otra.
         self.states = {
-                    NORMAL: self.__normal_state, 
-                    NOACTION: self.__noaction_state, 
-                    RUN: self.__run_state, 
-                    FORWARD: self.__forward_state, 
-                    REVERSE: self.__reverse_state, 
-                    DAMAGED: self.__damaged_state, 
-                    ERASE: self.__erase_state, 
-                    YAW: self.__yaw_state,
-                    FALL: self.__fall_state,
-                    TURBO: self.__turbo_state
+                    gameobject.NORMAL: self.__normal_state, 
+                    gameobject.NOACTION: self.__noaction_state, 
+                    gameobject.RUN: self.__run_state, 
+                    gameobject.FORWARD: self.__forward_state, 
+                    gameobject.REVERSE: self.__reverse_state, 
+                    gameobject.DAMAGED: self.__damaged_state, 
+                    gameobject.ERASE: self.__erase_state, 
+                    gameobject.YAW: self.__yaw_state,
+                    gameobject.FALL: self.__fall_state,
+                    gameobject.TURBO: self.__turbo_state
                     }
         
         self.falling = False
@@ -192,11 +184,11 @@ class PlayerCar(BasicCar):
         self.states[self.state]()
         
         #Si pulsamos espacio, lanzamos el item que tengamos actualmente
-        if keyboard.newpressed(K_SPACE):
+        if keyboard.newpressed(pygame.K_SPACE):
             self.hud.released_item()
         
         #Si el coche no se encuentra cayendo
-        if self.state != FALL:
+        if self.state != gameobject.FALL:
             #Actualizmaos posicion. imagen y dirección
             self.update_position()
             self.update_direction()
@@ -210,11 +202,11 @@ class PlayerCar(BasicCar):
         '''
         #Según la tecla pulsada cambiamos de estado o no
         if keyboard.pressed(self.UP):
-            self.old_state = NORMAL
-            self.state = RUN
+            self.old_state = gameobject.NORMAL
+            self.state = gameobject.RUN
         elif keyboard.pressed(self.DOWN):
-            self.old_state = NORMAL
-            self.state = REVERSE
+            self.old_state = gameobject.NORMAL
+            self.state = gameobject.REVERSE
             
     def __run_state(self):
         '''
@@ -224,11 +216,11 @@ class PlayerCar(BasicCar):
         
         #Según la tecla pulsada cambiamos de estado o no
         if keyboard.release(self.UP):
-            self.old_state = RUN
-            self.state = NOACTION
+            self.old_state = gameobject.RUN
+            self.state = gameobject.NOACTION
         if keyboard.pressed(self.DOWN):
-            self.old_state = RUN
-            self.state = REVERSE
+            self.old_state = gameobject.RUN
+            self.state = gameobject.REVERSE
         
         #Controlamos la rotación del coche
         self.control_rotation()
@@ -252,7 +244,7 @@ class PlayerCar(BasicCar):
         
         #Si a pasado mas de un segundo, volvemos al estado normal
         if elapsed > 1:
-            self.state = NOACTION
+            self.state = gameobject.NOACTION
             self.turbo_state = None
             #self.max_speed = self.old_max_speed
             self.max_speed = self.max_speed / 2
@@ -266,7 +258,6 @@ class PlayerCar(BasicCar):
         #Y la trigonometria del mismo
         self.trigonometry()
 
-            
     def __noaction_state(self):
         '''
         @brief Método que actualiza al coche en su estado 
@@ -274,11 +265,11 @@ class PlayerCar(BasicCar):
         '''
         #Según la tecla pulsada cambiamos de estado o no
         if keyboard.pressed(self.UP):
-            self.old_state = NOACTION
-            self.state = RUN
+            self.old_state = gameobject.NOACTION
+            self.state = gameobject.RUN
         if keyboard.pressed(self.DOWN):
-            self.old_state = NOACTION
-            self.state = REVERSE
+            self.old_state = gameobject.NOACTION
+            self.state = gameobject.REVERSE
         
         #Controlamos la desaceleración del mismo
         if self.actual_speed > self.desaceleration:
@@ -287,7 +278,7 @@ class PlayerCar(BasicCar):
             self.actual_speed += self.desaceleration
         else:
             self.actual_speed = 0
-            self.state = NORMAL
+            self.state = gameobject.NORMAL
                     
         #Controlamos la rotación del coche
         self.control_rotation()
@@ -303,11 +294,11 @@ class PlayerCar(BasicCar):
         
         #Controlamos la desaceleración del mismo
         if keyboard.release(self.DOWN):
-            self.old_state = REVERSE
-            self.state = NOACTION
+            self.old_state = gameobject.REVERSE
+            self.state = gameobject.NOACTION
         if keyboard.pressed(self.UP):
-            self.old_state = REVERSE
-            self.state = RUN
+            self.old_state = gameobject.REVERSE
+            self.state = gameobject.RUN
         
         #Controlamos la rotación del coche
         self.control_rotation()
@@ -333,8 +324,8 @@ class PlayerCar(BasicCar):
         
         if self.actual_scale < self.min_scale:
             self.actual_speed = 0
-            self.state = NOACTION
-            self.old_state = FALL
+            self.state = gameobject.NOACTION
+            self.old_state = gameobject.FALL
             self.falling = False
             self.actual_scale = 1
             self.x += 90
@@ -352,7 +343,7 @@ class PlayerCar(BasicCar):
         self.actual_angle += self.rotation_angle * (self.max_speed * 2)
         
         if actual >= 1:
-            self.state = NOACTION
+            self.state = gameobject.NOACTION
             self.start = None
             self.actual_speed -= 0.5
             #self.old_angle = None
@@ -382,15 +373,15 @@ class PlayerCar(BasicCar):
         @brief Método que asigna los controles segun el tipo de jugador.
         '''
         if player == 1:
-            self.UP = K_UP
-            self.DOWN = K_DOWN
-            self.RIGHT = K_RIGHT
-            self.LEFT = K_LEFT
+            self.UP = pygame.K_UP
+            self.DOWN = pygame.K_DOWN
+            self.RIGHT = pygame.K_RIGHT
+            self.LEFT = pygame.K_LEFT
         elif player == 2:
-            self.UP = K_w
-            self.DOWN = K_s
-            self.RIGHT = K_d
-            self.LEFT = K_a
+            self.UP = pygame.K_w
+            self.DOWN = pygame.K_s
+            self.RIGHT = pygame.K_d
+            self.LEFT = pygame.K_a
     
     def collected_item(self):
         '''
@@ -413,39 +404,7 @@ class PlayerCar(BasicCar):
             ball = item.Ball(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
             self.game_control.add_ball(ball)
         elif item_type == 'turbo':
-            self.state = TURBO
+            self.state = gameobject.TURBO
     
     def draw_hud(self, screen):
         self.hud.draw(screen)
-            
-    def __update(self):
-        '''
-        Movimiento básico sin actualización de estado.
-        Actualmente si uso.
-        '''
-        if keyboard.pressed(self.LEFT):
-            self.actual_angle -= self.rotation_angle * self.actual_speed
-        elif keyboard.pressed(self.RIGHT):
-            self.actual_angle += self.rotation_angle * self.actual_speed
-
-        if keyboard.pressed(self.UP):
-            self.move(+1)
-        elif keyboard.pressed(self.DOWN):
-            self.move(-1)
-        else:
-            # Reduce la velocidad de manera gradual.
-            if self.actual_speed > self.desaceleration:
-                self.actual_speed -= self.desaceleration
-            elif self.actual_speed < -self.desaceleration:
-                self.actual_speed += self.desaceleration
-            else:
-                self.actual_speed = 0
-
-        angle = radians(self.actual_angle)
-        self.dx = cos(angle) * self.actual_speed
-        self.dy = sin(angle) * self.actual_speed
-
-        self.update_position()
-        self.update_image()
-        self.update_direction()
-

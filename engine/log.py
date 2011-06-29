@@ -36,7 +36,7 @@ class Log:
     
     def __init__(self):
         
-        LOG_FILENAME = "log.out"
+        #LOG_FILENAME = "log.out"
         
         self.logger = logging.getLogger('Zycars')
         self.logger.setLevel(logging.DEBUG)

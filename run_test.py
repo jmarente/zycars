@@ -3,10 +3,8 @@
 
 import engine
 
-from engine.game import *
-
 def main():
-    g = Game()
+    g = engine.game.Game()
     g.run()
     
 if __name__ == "__main__":

@@ -2,14 +2,12 @@
 
 #import gamecontrol
 import data
-import resource
 import checkpoint
 import itembox
 import astar
 import xml.dom.minidom
 import sys
 import pygame
-import math
 import gameanimation
 
 #Distintos tipos de tiles
@@ -100,7 +98,6 @@ class Circuit:
         
         #Cargamos el mampa de colisiones para el circuito
         collision_map_prueba = data.load_sprite(collision_map_name, tileset_height, tileset_width)#, tileset_height, tileset_width)
-        collision_map = data.load_image(collision_map_name)#, tileset_height, tileset_width)
 
         #Suponiendo que 4 sera el numero de capas que tendrá el mapa
         #Self.map sera la matriz logica que indicara donse se posiciona
@@ -122,14 +119,6 @@ class Circuit:
             astar.map[m] = range(self.height)
             for o in range(self.height):
                 astar.map[m][o] = astar.PASSABLE
-    
-        #Cargamos la imagen con los distinto tipos de tiles
-        tile_types = data.load_image('tile_types.png')
-        
-        #Obtenemos un array de pixeles tanto de los distintos tipos de tiles.
-        pxarray_tile_types = pygame.PixelArray(tile_types)
-        #Como del mapa de colisiones, para poder hacer comprobaciones
-        pxarray = pygame.PixelArray(collision_map)
 
         num_layer = 0
         num_row = 0

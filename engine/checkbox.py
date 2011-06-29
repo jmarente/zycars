@@ -3,7 +3,6 @@
 import button
 import imagebutton
 import mouse
-import pygame
 
 class CheckBox(imagebutton.ImageButton):
     '''
@@ -34,7 +33,6 @@ class CheckBox(imagebutton.ImageButton):
         @param screen Superficie destino
         '''
         aux_surface = None
-        destiny_rect = None
 
         #Si está seleccionado copiamos la imagen seleccionada
         if self.selected:

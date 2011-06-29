@@ -1,13 +1,10 @@
 # -*- encoding: utf-8 -*-
 
-import pygame
 import gameobject
 import resource
 import data
 import xml.dom.minidom
 import math
-
-from math import *
 
 class BasicCar(gameobject.GameObject):
     '''
@@ -51,8 +48,8 @@ class BasicCar(gameobject.GameObject):
         #Si es 0 actualizamos el angulo del coche
         else:
             self.actual_angle = angle
-            self.dx = cos(angle) * self.actual_speed
-            self.dy = sin(angle) * self.actual_speed
+            self.dx = math.cos(angle) * self.actual_speed
+            self.dy = math.sin(angle) * self.actual_speed
         
         #Actualizamos la posicion del coche según su angulo
         self.update_position()

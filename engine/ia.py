@@ -13,8 +13,6 @@ import astar
 import time
 import pygame
 
-from basiccar import BasicCar
-from gameobject import *
 from collections import deque
 
 class Point:
@@ -40,7 +38,7 @@ class Point:
         '''
         return str(self.rect)
 
-class IA(BasicCar):
+class IA(basiccar.BasicCar):
     '''
     @brief Controla el comportamiento del vehículo
     '''
@@ -55,15 +53,15 @@ class IA(BasicCar):
         @brief angle Ángulo inicial del vehículo
         '''
         
-        BasicCar.__init__(self, game_control, xml_file, x, y, angle)
+        basiccar.BasicCar.__init__(self, game_control, xml_file, x, y, angle)
         
         #Simulación se Switch de C o C++.
         #Según el estado llamaremos a una función u otra.
         self.states = {
-                    NORMAL: self.__normal_state,
-                    NOACTION: self.__normal_state,
-                    RUN: self.__run_state,
-                    DAMAGED : self.__damaged_state
+                    gameobject.NORMAL: self.__normal_state,
+                    gameobject.NOACTION: self.__normal_state,
+                    gameobject.RUN: self.__run_state,
+                    gameobject.DAMAGED : self.__damaged_state
                     }
                                     
         self.falling = False
@@ -136,7 +134,7 @@ class IA(BasicCar):
         '''
         @brief Dibuja el coche por pantalla y los puntos por los que tiene que pasar
         '''
-        BasicCar.draw(self, screen)
+        basiccar.BasicCar.draw(self, screen)
 
         #Mostramos cada uno de los puntos 
         for point in self.left_points:
@@ -171,7 +169,7 @@ class IA(BasicCar):
         
         #Mientras no comience la carrera el coche permanecerá quieto
         if self.game_control.get_state() == 'race':
-            self.state = RUN
+            self.state = gameobject.RUN
     
     def __run_state(self):
         '''
@@ -236,7 +234,7 @@ class IA(BasicCar):
         self.control_points()
         
         if actual >= 1:
-            self.state = RUN
+            self.state = gameobject.RUN
             self.start = None
             self.actual_speed -= 0.5
             self.left_points = deque()
