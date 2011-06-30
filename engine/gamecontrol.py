@@ -298,7 +298,7 @@ class GameControl(state.State):
         self.pause = pausemenu.PauseMenu(self.game, self, 'menu/pausemenu.xml')
         
         #Cuenta atras
-        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 3)
+        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 3, 'countdown')
         
         #Marcador de las posiciones de los jugadores
         self.position_board = PositionBoard(20, 10, 'image_position1', 'image_position2')

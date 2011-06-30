@@ -16,7 +16,7 @@ class CountDown:
     '''
     @brief Clase que simula una cuenta atrás
     '''
-    def __init__(self, font_code, size_font, inicial_scale, increase_scale, color, number = 3):
+    def __init__(self, font_code, size_font, inicial_scale, increase_scale, color, number = 3, sound_file = None):
         '''
         @brief Constructor
         
@@ -32,6 +32,10 @@ class CountDown:
         
         #Creamos la cola de elementos
         self.elements = deque()
+
+        self.sound = None
+        if sound_file:
+            self.sound = resource.get_sound(sound_file)
         
         #Introducimos todos los elementos
         for i in range(1,number + 1):
@@ -60,6 +64,7 @@ class CountDown:
         self.rect_destiny.centerx = self.centerx
         self.rect_destiny.centery = self.centery
         self.__start = None
+        self.sound_start = False
         self.stop = False
         
     def update(self):
@@ -71,6 +76,10 @@ class CountDown:
         if not self.__start:
             #La iniciamos
             self.__start = time.time()
+        
+        if not self.sound_start and self.sound:
+            self.sound.play(0)
+            self.sound_start = True
         
         #Si ya ha pasado un segundo o más y aún quedan elementos
         elif (time.time() - self.__start) >= 1 and len(self.elements) > 0:
