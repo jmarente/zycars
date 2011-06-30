@@ -11,7 +11,7 @@ class Slider:
     '''
     @brief Clase que representa un slider
     '''
-    def __init__(self, xml_path, actual_value, max_value, x, y):
+    def __init__(self, xml_path, actual_value, max_value, x, y, option = ''):
         '''
         @brief Constructor.
         
@@ -57,6 +57,7 @@ class Slider:
         self.actual_value = actual_value
         self.update_controler()
         self.still_pressed = False
+        self.option = option
         
     def update(self):
         '''
@@ -143,3 +144,6 @@ class Slider:
         posicion_100 = self.bar_rect.w
         posicion = (self.actual_value * posicion_100) / self.max_value
         self.controler_rect.centerx = posicion + self.bar_rect.x
+    
+    def get_option(self):
+        return self.option

@@ -82,8 +82,14 @@ class OptionMenu(basicmenu.BasicMenu):
                 x = int(slider_option.getAttribute('x'))
                 y = int(slider_option.getAttribute('y'))
                 
+                text = str(slider_option.getAttribute('text'))
+                value = 0
+                if text == 'sonido':
+                    value = int(config.Config().get_sound_volume() * 100)
+                else:
+                    value = int(config.Config().get_music_volume() * 100)
                 #Obtenemos el slider
-                new_slider = slider.Slider(xml_path, 50, 100, x, y)
+                new_slider = slider.Slider(xml_path, value, 100, x, y, text)
                 
                 #Lo introducimos en la lista de sliders
                 self.elements_layers[name_layer].append(new_slider)
@@ -112,7 +118,6 @@ class OptionMenu(basicmenu.BasicMenu):
                 font_code = str(button_layer.getAttribute('font'))
                 text = button_layer.getAttribute('text')
                 
-                
                 x = int(button_layer.getAttribute('x'))
                 y = int(button_layer.getAttribute('y'))
                 show_text = True
@@ -135,12 +140,16 @@ class OptionMenu(basicmenu.BasicMenu):
                 y = int(image.getAttribute('y'))
                 
                 self.images_layers[name_layer][image_code] = (resource.get_image(image_code), x, y)
+            
+        for chb in self.elements_layers['Pantalla']:
+            if config.Config().get_fullscreen():
+                chb.set_checked()
         
         #La capa inicial será la de sonido
         self.actual_layer = "Sonido"
-        self.direction = 'rows'
-        self.pause = 'p'
-        self.item = 'enter'
+        self.direction = config.Config().get_direction()
+        self.pause = 'p' if config.Config().get_pause_key() == pygame.K_p else 'esc'
+        self.item = 'space' if config.Config().get_item_key() == pygame.K_SPACE else 'enter'
                             
     def update(self):
         '''
@@ -195,6 +204,7 @@ class OptionMenu(basicmenu.BasicMenu):
         '''
         if option == "Aceptar":
             print "Aceptar"
+            self.save_options()
             self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
             
         elif option == "Cancelar":
@@ -230,3 +240,34 @@ class OptionMenu(basicmenu.BasicMenu):
                 self.pause = 'esc' 
             else:
                 self.pause = 'p'
+    
+    def save_options(self):
+        
+        for element in self.elements_layers['Sonido']:
+            if element.get_option() == 'sonido':
+                config.Config().set_sound_volume(float(element.get_value() / 100.0))
+            elif element.get_option() == 'musica':
+                config.Config().set_music_volume(float(element.get_value() / 100.0))
+            elif element.get_option() == 'silenciar' and element.is_checked():
+                config.Config().set_sound_volume(0)
+                config.Config().set_music_volume(0)
+                
+        for element in self.elements_layers['Pantalla']:
+            if element.get_option() == 'resolucion':
+                if config.Config().get_fullscreen() != element.is_checked():
+                    config.Config().set_fullscreen(element.is_checked())
+                    self.game.set_screen()
+                    
+        if self.pause == 'p':
+            config.Config().set_pause_key(pygame.K_p)
+        else:
+            config.Config().set_pause_key(pygame.K_ESCAPE)
+        
+        if self.item == 'enter':
+            config.Config().set_item_key(pygame.K_RETURN)
+        else:
+            config.Config().set_item_key(pygame.K_SPACE)
+        
+        config.Config().set_direction(self.direction)
+
+

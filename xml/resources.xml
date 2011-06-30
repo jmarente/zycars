@@ -137,8 +137,6 @@
 	<fonts>
 		<font code="cheesebu" name="cheesebu.ttf" size="20"/>
 	</fonts>
-	<musics>
-	</musics>
 	<sounds>
 		<sound code="button-clicked1" name="button-clicked1.wav"/>
 		<sound code="button-clicked2" name="button-clicked2.wav"/>

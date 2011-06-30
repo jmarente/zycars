@@ -4,6 +4,7 @@ import resource
 import data
 import xml.dom.minidom
 import mouse
+import config
 
 def strTobool(string):
     return string.lower() in ['yes', 'true', 't', '1']
@@ -45,12 +46,12 @@ class Button:
         self.sound_over = None
         if father.hasAttribute('sound_over'):
             self.sound_over = resource.get_sound(str(father.getAttribute('sound_over')))
-            self.sound_over.set_volume(1.0)
+            self.sound_over.set_volume(config.Config().get_sound_volume())
         
         self.sound_click = None
         if father.hasAttribute('sound_click'):
             self.sound_click = resource.get_sound(str(father.getAttribute('sound_click')))
-            self.sound_click.set_volume(1.0)
+            self.sound_click.set_volume(config.Config().get_sound_volume())
             
         #Obtenemos la imagen y sus características cuando el boton esta en estado normal
         for element in parser.getElementsByTagName('normal'):

@@ -10,6 +10,8 @@ Implementa la clase CountDown
 import pygame
 import resource
 import time
+import config
+
 from collections import deque
 
 class CountDown:
@@ -36,7 +38,8 @@ class CountDown:
         self.sound = None
         if sound_file:
             self.sound = resource.get_sound(sound_file)
-        
+            self.sound.set_volume(config.Config().get_sound_volume())
+            
         #Introducimos todos los elementos
         for i in range(1,number + 1):
             self.elements.appendleft(self.font.render(str(i), True, color))

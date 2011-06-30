@@ -8,6 +8,7 @@ import mainmenu
 import config
 import timer
 import xml.dom.minidom
+import pygame
 
 from collections import deque
 
@@ -46,6 +47,8 @@ class Mode(state.State):
         pass
         
     def reboot_race(self):
+        pygame.mixer.music.stop()
+        config.Config().set_current_music('')
         self.game_control = gamecontrol.GameControl(self.game, self, self.path_circuit, self.best_total_time, self.best_lap, self.laps)
         self.state = GAME
 
@@ -218,6 +221,7 @@ class ChampionShip(Mode):
         self.passed_circuits.append(self.path_circuit)
         
         if len(self.remaining_circuits):
+            pygame.mixer.music.stop()
             self.path_circuit = self.remaining_circuits.popleft()
             self.get_times(config.Config().get_championship_circuit_name(self.path_circuit))
             self.state = GAME

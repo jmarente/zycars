@@ -426,7 +426,7 @@ class GameControl(state.State):
                     self.position_board.update((self.player, self.checkpoints), self.ia_cars)
                 
                 #Si pulsamos el espacio o escape, cambiamos al estado pause
-                if keyboard.pressed(pygame.K_ESCAPE) or keyboard.pressed(pygame.K_p) \
+                if keyboard.pressed(config.Config().get_pause_key()) \
                     or not pygame.key.get_focused():
                         
                     self.actual_state = 'pause'

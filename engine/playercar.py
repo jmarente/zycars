@@ -10,6 +10,7 @@ import pygame
 import xml.dom.minidom
 import random
 import time
+import config
 
 class Hud:
     '''
@@ -145,7 +146,7 @@ class PlayerCar(basiccar.BasicCar):
         '''
         basiccar.BasicCar.__init__(self, game_control, xml_file, x, y, angle)
         
-        self.__assing_controls(player)
+        self.__assing_controls()
         
         #Simulación se Switch de C o C++.
         #Según el estado llamaremos a una función u otra.
@@ -184,7 +185,7 @@ class PlayerCar(basiccar.BasicCar):
         self.states[self.state]()
         
         #Si pulsamos espacio, lanzamos el item que tengamos actualmente
-        if keyboard.newpressed(pygame.K_SPACE):
+        if keyboard.newpressed(config.Config().get_item_key()):
             self.hud.released_item()
         
         #Si el coche no se encuentra cayendo
@@ -368,16 +369,16 @@ class PlayerCar(basiccar.BasicCar):
         elif keyboard.pressed(self.RIGHT):
             self.actual_angle += self.rotation_angle * self.max_speed
         
-    def __assing_controls(self, player):
+    def __assing_controls(self):
         '''
         @brief Método que asigna los controles segun el tipo de jugador.
         '''
-        if player == 1:
+        if config.Config().get_direction() == 'rows':
             self.UP = pygame.K_UP
             self.DOWN = pygame.K_DOWN
             self.RIGHT = pygame.K_RIGHT
             self.LEFT = pygame.K_LEFT
-        elif player == 2:
+        else:
             self.UP = pygame.K_w
             self.DOWN = pygame.K_s
             self.RIGHT = pygame.K_d

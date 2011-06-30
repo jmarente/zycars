@@ -69,7 +69,13 @@ class CheckBox(imagebutton.ImageButton):
     
     def control_checked(self):
         
-        if self.checked:
-            self.checked = False
-        else:
-            self.checked = True
+        self.checked = not self.checked
+    
+    def is_checked(self):
+        return self.checked
+    
+    def set_checked(self):
+        self.checked = True
+
+    def set_unchecked(self):
+        self.checked = False

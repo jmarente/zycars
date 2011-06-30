@@ -38,7 +38,8 @@ class Game:
         pygame.init()
         
         #Obtenemos la ventana de juego
-        self.screen = pygame.display.set_mode((self.__screen_width, self.__screen_height))
+        self.screen = None
+        self.set_screen()
         
         #Obtenemos el icono
         for element in parser.getElementsByTagName('icon'):
@@ -121,3 +122,9 @@ class Game:
             self.change_state(modes.TimedRace(self, config.Config().get_circuit(), config.Config().get_laps()))
         elif config.Config().mode == config.FASTRACE:
             self.change_state(modes.FastRace(self, config.Config().get_circuit(), config.Config().get_laps()))
+    
+    def set_screen(self):
+        if config.Config().get_fullscreen():
+            self.screen = pygame.display.set_mode((self.__screen_width, self.__screen_height), pygame.FULLSCREEN | pygame.HWSURFACE) 
+        else:
+            self.screen = pygame.display.set_mode((self.__screen_width, self.__screen_height))

@@ -1,7 +1,7 @@
 #-*- encoding: utf-8 -*-
 
 #import modes
-#import pygame
+import pygame
 
 from log import Log
 from log import Singleton
@@ -26,6 +26,10 @@ class Config:
         self.current_music = ''
         self.music_volume = 1
         self.sound_volume = 1
+        self.fullscreen = False
+        self.direction = 'rows'
+        self.item = pygame.K_SPACE
+        self.pause = pygame.K_p
     
     def set_laps(self, laps):
         self.laps = laps
@@ -107,6 +111,7 @@ class Config:
     
     def set_music_volume(self, volume):
         self.music_volume = volume
+        pygame.mixer.music.set_volume(volume)
    
     def get_music_volume(self):
         return self.music_volume
@@ -116,3 +121,28 @@ class Config:
    
     def get_sound_volume(self):
         return self.sound_volume
+    
+    def get_fullscreen(self):
+        return self.fullscreen
+        
+    def set_fullscreen(self, fullscreen):
+        self.fullscreen = fullscreen
+    
+    def get_pause_key(self):
+        return self.pause 
+    
+    def get_item_key(self):
+        return self.item
+    
+    def get_direction(self):
+        return self.direction
+        
+    def set_pause_key(self, pause):
+        self.pause = pause
+    
+    def set_item_key(self, item):
+        self.item = item
+    
+    def set_direction(self, direction):
+        self.direction = direction
+    

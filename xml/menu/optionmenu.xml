@@ -22,8 +22,8 @@
                 <text value="Silenciar todo" x="70" y="445"/>
             </texts>
             <sliders>
-                <slider xml_file="menu/slider.xml" x="350" y="340"/>
-                <slider xml_file="menu/slider.xml" x="350" y="400"/>
+                <slider xml_file="menu/slider.xml" x="350" y="340" text='sonido'/>
+                <slider xml_file="menu/slider.xml" x="350" y="400" text='musica'/>
             </sliders>
             <checkboxes>
                 <checkbox xml_file="menu/checkbox.xml" font="cheesebu" show_text='false' text="silenciar" image_code="check" image_x="0" image_y="0" center="True" x="370" y="460"/>
@@ -35,7 +35,7 @@
                 <text value="Pantalla completa" x="100" y="380"/>
             </texts>
             <checkboxes>
-                <checkbox xml_file="menu/checkbox.xml" font="cheesebu" show_text='false' text="silenciar" image_code="check" image_x="0" image_y="0" center="True" x="400" y="390"/>
+                <checkbox xml_file="menu/checkbox.xml" font="cheesebu" show_text='false' text="resolucion" image_code="check" image_x="0" image_y="0" center="True" x="400" y="390"/>
             </checkboxes>
         </layer>
         <layer name="Controles" font_code="cheesebu" size="30">
