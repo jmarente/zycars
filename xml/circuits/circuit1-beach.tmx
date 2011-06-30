@@ -7,6 +7,7 @@
   <property name="grado_coche" value="270"/>
   <property name="tileset_alto" value="22"/>
   <property name="tileset_ancho" value="20"/>
+  <property name="music" value="Speed Surfer - Pirato Ketchup.ogg"/>
  </properties>
  <tileset firstgid="1" name="tileset-beach" tilewidth="45" tileheight="45">
   <image source="tilesetbeach.png" width="900" height="990"/>
