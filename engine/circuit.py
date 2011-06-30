@@ -90,6 +90,9 @@ class Circuit:
             elif name == 'item_box':
                 frame = int(element.getAttribute('value'))
                 self.elements_map[frame] = name
+            elif name == 'music':
+                music_file = str(element.getAttribute('value'))
+                self.game_control.set_music_file(music_file)
                 
         #print "Tileset_height: " + str(tileset_height) + ' Tileset_width: ' + str(tileset_width)
         

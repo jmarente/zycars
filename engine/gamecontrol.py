@@ -5,6 +5,7 @@ import time
 import state
 import collisionmanager
 import gameobject
+import data
 import circuit
 import checkpoint
 import resource
@@ -202,6 +203,9 @@ class GameControl(state.State):
         '''
         state.State.__init__(self, game)
         
+        #Musica circuito
+        self.music_file = None
+        
         self.game_mode = game_mode
         #Coche del jugador.
         #self.player = playercar.PlayerCar(self, 'cars/coche_prueba_yellow.xml', 0, 0, 0)
@@ -345,8 +349,15 @@ class GameControl(state.State):
                 self.count_down.update()
                 for animation in self.static_animations:
                     animation.update()
+                    
                 #Si se ha completado cambiamos el estado del juego
                 if self.count_down.complete():
+                    
+                    if self.music_file and config.Config().get_current_music() != self.music_file:
+                        config.Config().set_current_music(self.music_file)
+                        pygame.mixer.music.load(data.get_path_music(self.music_file))
+                        pygame.mixer.music.play(-1)
+                        
                     self.actual_state = 'race'
                     self.actual_time.start()
                     self.total_time.start()
@@ -419,6 +430,7 @@ class GameControl(state.State):
                     or not pygame.key.get_focused():
                         
                     self.actual_state = 'pause'
+                    pygame.mixer.music.pause()
                     self.actual_time.pause()
                     self.player.set_state(gameobject.NOACTION)
             
@@ -882,6 +894,7 @@ class GameControl(state.State):
         '''
         if self.actual_state == 'pause' and new_state == 'race':
             self.actual_time.start()
+            pygame.mixer.music.unpause()
             
         self.actual_state = new_state
     
@@ -920,6 +933,7 @@ class GameControl(state.State):
             print "Carrera Completada"
             self.advices.append(Advice('Carrera Completada', 'cheesebu', 100, 0.02, 400, 300,(189, 9, 38), 2))
             self.complete = True
+            pygame.mixer.music.fadeout(2000)
     
     def update_laps_counter(self):
         '''
@@ -976,3 +990,10 @@ class GameControl(state.State):
     
     def reboot_race(self):
         self.game_mode.reboot_race()
+    
+    def get_music_file(self):
+        return self.music_file
+    
+    def set_music_file(self, music_file):
+        self.music_file = music_file
+        
