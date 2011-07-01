@@ -26,11 +26,6 @@
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-beach.tmx' font="cheesebu" text="circuit2-beach" image_circuit="circuit2" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="410" show_text='False'></button>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit3-beach.tmx' font="cheesebu" text="circuit3-beach" image_circuit="circuit1" image="logo_beach3" image_x="40" image_y="15" center="True" x="80" y="475" show_text='False'></button>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit4-beach.tmx' font="cheesebu" text="circuit4-beach" image_circuit="circuit2" image="logo_beach4" image_x="20" image_y="7" center="True" x="80" y="540" show_text='False'></button>
-                <!--button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="410"></button-->
-                <!--button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="475" show_text='True'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="540" show_text='True'></button-->
-                <!--button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="475"></button-->
-                <!--button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="540"></button-->
             </buttons>
             <elements>
                 <element name='circuit1'></element>
@@ -40,11 +35,7 @@
             <buttons>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-garden.tmx' font="cheesebu" text="circuit1-garden" image_circuit="circuit1" image="logo_garden1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-garden.tmx' font="cheesebu" text="circuit2-garden" image_circuit="circuit1" image="logo_garden2" image_x="30" image_y="20" center="True" x="80" y="410" show_text='False'></button>
-                <!--button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="345" ></button-->
-                <!--button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="410" ></button-->
-                <!--button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="475" show_text='True'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No disponible" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="540" show_text='True'></button-->
-                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="475"></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit3-garden.tmx' font="cheesebu" text="circuit3-garden" image_circuit="circuit1" image="logo_garden3" image_x="15" image_y="0" center="True" x="80" y="475" show_text='False'></button>
                 <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="540"></button>
             </buttons>
         </layer>
