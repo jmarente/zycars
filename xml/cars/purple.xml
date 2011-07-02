@@ -9,5 +9,7 @@
         <animation name="damaged" frames="0" delay="1"/>
         <animation name="erase" frames="0" delay="1"/>
         <animation name="yaw" frames="0" delay="1"/>
+        <animation name="fall" frames="0" delay="1"/>
+        <animation name="turbo" frames="0" delay="1"/>
     </animations>
 </car>

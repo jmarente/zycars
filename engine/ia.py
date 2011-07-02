@@ -59,6 +59,7 @@ class IA(basiccar.BasicCar):
         #Según el estado llamaremos a una función u otra.
         self.states = {
                     gameobject.NORMAL: self.__normal_state,
+                    gameobject.TURBO: self.__turbo_state,
                     gameobject.NOACTION: self.__normal_state,
                     gameobject.RUN: self.__run_state,
                     gameobject.DAMAGED : self.__damaged_state
@@ -83,6 +84,8 @@ class IA(basiccar.BasicCar):
         
         #Hacemos trampas.
         self.rotation_angle = 0.75
+        self.hud = basiccar.Hud(self, 'hud.xml')
+        self.turbo_time = None
     
     def control_path(self):
         '''
@@ -166,7 +169,6 @@ class IA(basiccar.BasicCar):
         '''
         @brief Estado NORMAL
         '''
-        
         #Mientras no comience la carrera el coche permanecerá quieto
         if self.game_control.get_state() == 'race':
             self.state = gameobject.RUN
@@ -218,6 +220,29 @@ class IA(basiccar.BasicCar):
         
         #Aplicamos la trigonometria
         self.trigonometry()
+        
+        self.control_release_item()
+    
+    def __turbo_state(self):
+        
+        #Si es la primera llamada
+        if not self.turbo_state:
+            #Obtenemos el tiempo de inicio
+            self.turbo_state = time.time()
+            #Aumentamos la velocidad
+            self.max_speed *= 2
+        
+        #Calculamos el tiempo transcurrido
+        elapsed = time.time() - self.turbo_state
+        
+        #Si a pasado mas de un segundo, volvemos al estado normal
+        if elapsed > 1:
+            self.state = gameobject.NOACTION
+            self.turbo_state = None
+            #self.max_speed = self.old_max_speed
+            self.max_speed = self.max_speed / 2
+        
+        self.__normal_state()
     
     def __damaged_state(self):
         
@@ -285,5 +310,38 @@ class IA(basiccar.BasicCar):
             result.append(Point(point.row, point.column, tile_width, tile_height))
         
         return result
+    
+    def collected_item(self):
+        self.hud.collected_item() 
+    
+    def control_release_item(self):
+        current = self.hud.get_current_item()
+        
+        released = False
+        if current == 'oil' or current == 'gum':
             
+            for ia_car in self.game_control.get_ia_cars():
+                if ia_car[0] != self:
+                    distance = self.distance(ia_car[0])
+                    print "DISTANCIA ", distance
+                    if distance <= 90:
+                        self.hud.release_item()
+                        released = True
+                        break
             
+            if not released:
+                distance = self.distance(self.game_control.get_player())
+                print "DISTANCIA ", distance
+                if distance <= 90:
+                    self.hud.release_item()
+                    released = True
+                
+        elif current == 'turbo':
+            self.hud.release_item()
+        
+        else:
+            pass
+    
+    def distance(self, sprite):
+        return ((self.rect.centerx - sprite.rect.centerx) ** 2 + (self.rect.centery - sprite.rect.centery) ** 2) ** 0.5
+

@@ -5,7 +5,131 @@ import resource
 import data
 import xml.dom.minidom
 import math
+import random
+import item
 
+class Hud:
+    '''
+    @brief Clase que representa la casilla del item actual del jugador
+    '''
+    def __init__(self, player, path_xml):
+        '''
+        @brief Constructor.
+        
+        @param player Referencia al jugador.
+        @param path_xml Ruta del archivo xml donde se encuentra toda las características
+        '''
+        self.player = player
+        parse = xml.dom.minidom.parse(data.get_path_xml(path_xml))
+        
+        #Obtenemos la imagen de fondo
+        image = parse.getElementsByTagName('image')[0]
+        image_code = image.getAttribute('image_code')
+        self.image = resource.get_image(image_code)
+        
+        #Controla los misiles restantes
+        self.missile = 0
+        
+        #Fuente para mostrar los misiles restantes
+        self.font = resource.get_font('cheesebu', 40)
+        
+        #Posicion de la imagen de fondo
+        self.centerx = int(image.getAttribute('centerx'))
+        self.centery = int(image.getAttribute('centery'))
+        self.position_image = self.image.get_rect()
+        self.position_image.centerx = self.centerx
+        self.position_image.centery = self.centery
+                
+        #Mapa para los items
+        self.items = {}
+        
+        #Recorremos cada uno de los items
+        for element in parse.getElementsByTagName('item'):
+            code = element.getAttribute('code')
+            
+            self.items[code] = {}
+            self.items[code]['image'] = None
+            self.items[code]['xml'] = None
+            
+            #Nos quedamos con su imagen de muestra
+            image_code = element.getAttribute('image_code')
+            self.items[code]['image'] = resource.get_image(image_code)
+            
+            #Y con su archivo xml de configuración
+            path_xml = element.getAttribute('path_xml')
+            self.items[code]['xml'] = path_xml
+        
+        #En un principio no tenemos ningun item
+        self.actual_item = None
+        
+        self.temp_angle = None
+                
+    def draw(self, screen):
+        '''
+        @brief Método encargado de dibujar en pantalla el hud
+        
+        @param screen Superficie destino
+        '''
+                
+        #Si hay algun item actualmente lo mostramos
+        if self.actual_item:
+            #Obtenemos posicion
+            self.position_image = self.items[self.actual_item]['image'].get_rect()
+            self.position_image.centerx = self.centerx
+            self.position_image.centery = self.centery
+            
+            #Mostramos
+            screen.blit(self.items[self.actual_item]['image'], self.position_image)
+            
+            #Si el item es del tipo de 3 misiles, mostramos los misiles restantes
+            if self.actual_item == "3missile":
+                surface = self.font.render(str(self.missile), True, (0,0,0))
+                screen.blit(surface, self.position_image)
+        
+        #Si no, mostramos el casillero vacio
+        else:
+            #Obtenemos la posicion
+            self.position_image = self.image.get_rect()
+            self.position_image.centerx = self.centerx
+            self.position_image.centery = self.centery
+            
+            #Pintamos
+            screen.blit(self.image, self.position_image)
+
+            
+    def release_item(self):
+        '''
+        @brief Método llamado cuando se a lanzado un item
+        '''
+        #Si tenemos algun item, lo lanzamos
+        if self.actual_item:
+            self.player.release_item(self.actual_item, self.items[self.actual_item]['xml'])
+            
+            #Si es del tipo 3 misiles, restamos los misiles restantes
+            if self.actual_item == "3missile":
+                self.missile -= 1
+                
+            #Si no tenemos mas misiles o el item es disinto de 3 misiles
+            #Indicamos que no nos quedan misiles
+            if self.missile == 0 or self.actual_item != "3missile":
+                self.actual_item = None
+            
+    def collected_item(self):
+        '''
+        @brief Método llamado cuando recogemos algun item
+        '''
+        #Si no tenemos actualmente un item
+        if not self.actual_item:
+            #Obtenemos uno aleatorio de la lista
+            self.actual_item = self.items.keys()[random.randint(0, len(self.items.keys()) - 1)]
+            #self.actual_item = 'oil'
+            print "Jugador ", self.player, " recoge: ", self.actual_item
+            if self.actual_item == '3missile':
+                self.missile = 3
+    
+    def get_current_item(self):
+        return self.actual_item
+                
 class BasicCar(gameobject.GameObject):
     '''
     @brief Clase "virtual pura" que abstrae el comportamiento y las características 
@@ -132,3 +256,20 @@ class BasicCar(gameobject.GameObject):
     
     def get_racer_image(self):
         return self.racer_image
+
+    def release_item(self, item_type, path_xml):
+
+        if item_type == 'missile' or item_type == '3missile':
+            missile = item.Missile(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            self.game_control.add_bullet(missile)
+        elif item_type == 'oil':
+            oil = item.Oil(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            self.game_control.add_oil(oil)
+        elif item_type == 'gum':
+            gum = item.Oil(self.game_control, self, path_xml, self.x, self.y, self.actual_angle, True)
+            self.game_control.add_gum(gum)
+        elif item_type == 'ball':
+            ball = item.Ball(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            self.game_control.add_ball(ball)
+        elif item_type == 'turbo':
+            self.state = gameobject.TURBO

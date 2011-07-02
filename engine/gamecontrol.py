@@ -593,6 +593,7 @@ class GameControl(state.State):
                 for ia_car in self.ia_cars:
                     if box.get_state() != gameobject.EXPLOSION and \
                         self.collision_manager.actor_pixelperfectcollision(ia_car[0], box):
+                        ia_car[0].collected_item()
                         if self.on_screen(box):
                             box.set_state(gameobject.EXPLOSION)
         
@@ -615,7 +616,8 @@ class GameControl(state.State):
                         ball.set_state(gameobject.EXPLOSION)
                 if bullet.get_state() != gameobject.EXPLOSION:
                     for ia_car in self.ia_cars:
-                        if self.collision_manager.actor_pixelperfectcollision(ia_car[0], bullet):
+                        if bullet.get_state() == gameobject.RUN and \
+                        self.collision_manager.actor_pixelperfectcollision(ia_car[0], bullet):
                             bullet.set_state(gameobject.EXPLOSION)
                             ia_car[0].set_angle(bullet.get_angle())
                             ia_car[0].trigonometry()
@@ -635,7 +637,8 @@ class GameControl(state.State):
                 
             elif ball.get_state() != gameobject.EXPLOSION:
                 for ia_car in self.ia_cars:
-                    if self.collision_manager.actor_pixelperfectcollision(ia_car[0], ball):
+                    if ball.get_state() == gameobject.RUN and \
+                    self.collision_manager.actor_pixelperfectcollision(ia_car[0], ball):
                         ball.set_state(gameobject.EXPLOSION)
                         ia_car[0].set_angle(ball.get_angle())
                         ia_car[0].trigonometry()
@@ -653,7 +656,8 @@ class GameControl(state.State):
                 self.player.trigonometry()
                 self.player.set_state(gameobject.DAMAGED)
             for ia_car in self.ia_cars:
-                if self.collision_manager.actor_pixelperfectcollision(ia_car[0], oil):
+                if oil.get_state() != gameobject.NORMAL \
+                and self.collision_manager.actor_pixelperfectcollision(ia_car[0], oil):
                     new_angle = self.player.get_angle() + random.randint(-45, 45)
                     ia_car[0].set_angle(new_angle)
                     ia_car[0].trigonometry()
@@ -672,7 +676,8 @@ class GameControl(state.State):
                             self.player.actual_speed = -1 * abs(self.player.max_speed / 8)
                             
             for ia_car in self.ia_cars:
-                if self.collision_manager.actor_pixelperfectcollision(ia_car[0], gum):
+                if gum.get_state() != gameobject.NORMAL and \
+                self.collision_manager.actor_pixelperfectcollision(ia_car[0], gum):
                     
                     if abs(ia_car[0].actual_speed) >= abs(ia_car[0].max_speed / 8):
                         if ia_car[0].actual_speed > 0:
@@ -996,4 +1001,9 @@ class GameControl(state.State):
     
     def set_music_file(self, music_file):
         self.music_file = music_file
-        
+    
+    def get_player(self):
+        return self.player 
+    
+    def get_ia_cars(self):
+        return self.ia_cars
