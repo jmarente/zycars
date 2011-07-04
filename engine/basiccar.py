@@ -7,6 +7,7 @@ import xml.dom.minidom
 import math
 import random
 import item
+import pygame
 
 class Hud:
     '''
@@ -164,6 +165,9 @@ class BasicCar(gameobject.GameObject):
         self.start = None
         self.turbo_state = None
         self.old_max_speed = self.max_speed
+
+        self.front_line = gameobject.Line(1,1,1,1)
+        self.back_line = gameobject.Line(1,1,1,1)
         
         #Si el angulo es 0, no hacemos nada
         if angle == 0:
@@ -179,6 +183,16 @@ class BasicCar(gameobject.GameObject):
         self.update_position()
         #Actualizamos la rotación de la imagen del coche
         self.update_image()
+
+    def draw(self, screen):
+        '''
+        @brief Método encargado de dibujar el objeto sobre una superficie
+        
+        @param screen Superficie destino
+        '''
+        gameobject.GameObject.draw(self, screen)
+        pygame.draw.line(screen, (0, 0, 0), (self.front_line.x1 - self.game_control.circuit_x(), self.front_line.y1 - self.game_control.circuit_y()),(self.front_line.x2 - self.game_control.circuit_x(), self.front_line.y2 - self.game_control.circuit_y()))
+        pygame.draw.line(screen, (255, 0, 0), (self.back_line.x1 - self.game_control.circuit_x(), self.back_line.y1 - self.game_control.circuit_y()),(self.back_line.x2 - self.game_control.circuit_x(), self.back_line.y2 - self.game_control.circuit_y()))
         
     def parser_car_info(self, parse):
         '''
@@ -273,3 +287,19 @@ class BasicCar(gameobject.GameObject):
             self.game_control.add_ball(ball)
         elif item_type == 'turbo':
             self.state = gameobject.TURBO
+    
+    def update_lines(self):
+        angle = math.radians(self.actual_angle)
+        frontx = math.cos(angle) * (300)
+        fronty = math.sin(angle) * (300)
+        backx = math.cos(angle) * (-200)
+        backy = math.sin(angle) * (-200)
+        self.front_line = gameobject.Line(self.rect.centerx, self.rect.centery, self.rect.centerx + frontx, self.rect.centery + fronty)
+        self.back_line = gameobject.Line(self.rect.centerx, self.rect.centery, self.rect.centerx + backx, self.rect.centery + backy)
+
+    
+    def get_front_line(self):
+        return self.front_line
+        
+    def get_back_line(self):
+        return self.back_line

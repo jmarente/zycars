@@ -10,6 +10,13 @@ import math
 #Distinos estado que pueden tener los objetos del juego.
 NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION, FALL, TURBO = range(11)
 
+class Line:
+    def __init__(self, x1 = 0, y1 = 0, x2 = 0, y2 = 0):
+        self.x1 = x1
+        self.x2 = x2
+        self.y1 = y1
+        self.y2 = y2
+
 class GameObject(pygame.sprite.Sprite):
     '''
     @brief Clase "virtual pura" que abstrae las características básicas de los 
@@ -46,7 +53,7 @@ class GameObject(pygame.sprite.Sprite):
         self.animations = {}
         
         #Posiciones del coche
-        self.dx = self.dy = self.x = self.y = self.old_x = self.old_y = self.previous_x = self.previous_y = None
+        self.dx = self.dy = self.x = self.y = self.old_x = self.old_y = self.previous_x = self.previous_y = 0
         
         #Dirección hacia la que va el objeto
         self.right_direction = self.left_direction = self.up_direction = self.down_direction = False
@@ -133,8 +140,8 @@ class GameObject(pygame.sprite.Sprite):
         @param screen Superficie destino
         '''
         screen.blit(self.image, (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y()))
-        #pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
-
+        pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
+        
     def move(self, delta):
         '''
         @brief Movemos el objeto en el sentido dado 
@@ -163,7 +170,7 @@ class GameObject(pygame.sprite.Sprite):
         self.rect.y = int(self.y) - self.rect.h / 2
         self.x += self.dx
         self.y += self.dy
-
+        
     def trigonometry(self):
         '''
         @brief Aplica la rotación del objeto segun el angulo de este
@@ -312,5 +319,4 @@ class GameObject(pygame.sprite.Sprite):
         
         @param new_angle Nuevo ángulo para el objetos
         '''
-        self.actual_angle = new_angle
-    
+        self.actual_angle = new_angle    
