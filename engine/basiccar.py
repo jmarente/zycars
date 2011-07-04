@@ -13,7 +13,7 @@ class Hud:
     '''
     @brief Clase que representa la casilla del item actual del jugador
     '''
-    def __init__(self, player, path_xml):
+    def __init__(self, player, path_xml, ia = False):
         '''
         @brief Constructor.
         
@@ -43,6 +43,7 @@ class Hud:
                 
         #Mapa para los items
         self.items = {}
+        self.ia = ia
         
         #Recorremos cada uno de los items
         for element in parse.getElementsByTagName('item'):
@@ -59,6 +60,9 @@ class Hud:
             #Y con su archivo xml de configuración
             path_xml = element.getAttribute('path_xml')
             self.items[code]['xml'] = path_xml
+        
+        if self.ia and 'turbo' in self.items.keys():
+            del self.items['turbo']
         
         #En un principio no tenemos ningun item
         self.actual_item = None
@@ -123,7 +127,7 @@ class Hud:
         if not self.actual_item:
             #Obtenemos uno aleatorio de la lista
             self.actual_item = self.items.keys()[random.randint(0, len(self.items.keys()) - 1)]
-            #self.actual_item = 'oil'
+            #self.actual_item = 'turbo'
             print "Jugador ", self.player, " recoge: ", self.actual_item
             if self.actual_item == '3missile':
                 self.missile = 3

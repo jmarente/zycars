@@ -84,7 +84,7 @@ class IA(basiccar.BasicCar):
         
         #Hacemos trampas.
         self.rotation_angle = 0.75
-        self.hud = basiccar.Hud(self, 'hud.xml')
+        self.hud = basiccar.Hud(self, 'hud.xml', True)
         self.turbo_time = None
     
     def control_path(self):
@@ -235,13 +235,14 @@ class IA(basiccar.BasicCar):
         
         #Calculamos el tiempo transcurrido
         elapsed = time.time() - self.turbo_state
-        
+
         #Si a pasado mas de un segundo, volvemos al estado normal
         if elapsed > 1:
             self.state = gameobject.NOACTION
-            self.turbo_state = None
+            self.turbo_state = False
             #self.max_speed = self.old_max_speed
             self.max_speed = self.max_speed / 2
+            self.actual_speed = self.max_speed / 2 - 1
         
         self.__normal_state()
     
@@ -323,15 +324,13 @@ class IA(basiccar.BasicCar):
             
             for ia_car in self.game_control.get_ia_cars():
                 if ia_car[0] != self:
-                    distance = self.distance(ia_car[0])
-                    if distance <= 90:
+                    if self.game_control.collision_manager.line_rectangle_collision(self.back_line, ia_car[0].rect):
                         self.hud.release_item()
                         released = True
                         break
             
             if not released:
-                distance = self.distance(self.game_control.get_player())
-                if distance <= 90:
+                if self.game_control.collision_manager.line_rectangle_collision(self.back_line, self.game_control.get_player().rect):
                     self.hud.release_item()
                     released = True
                 
@@ -339,8 +338,18 @@ class IA(basiccar.BasicCar):
             self.hud.release_item()
         
         else:
-            pass
-    
+            for ia_car in self.game_control.get_ia_cars():
+                if ia_car[0] != self:
+                    if self.game_control.collision_manager.line_rectangle_collision(self.front_line, ia_car[0].rect):
+                        self.hud.release_item()
+                        released = True
+                        break
+            
+            if not released:
+                if self.game_control.collision_manager.line_rectangle_collision(self.front_line, self.game_control.get_player().rect):
+                    self.hud.release_item()
+                    released = True   
+                     
     def distance(self, sprite):
         return ((self.rect.centerx - sprite.rect.centerx) ** 2 + (self.rect.centery - sprite.rect.centery) ** 2) ** 0.5
 
