@@ -77,6 +77,7 @@ class PlayerCar(basiccar.BasicCar):
             self.update_image()
         
         self.update_angle()
+        self.update_lines()
         
     def __normal_state(self):
         '''

@@ -29,7 +29,7 @@ class Config:
         self.fullscreen = False
         self.direction = 'rows'
         self.item = pygame.K_SPACE
-        self.pause = pygame.K_p
+        self.pause = pygame.K_ESCAPE
     
     def set_laps(self, laps):
         self.laps = laps

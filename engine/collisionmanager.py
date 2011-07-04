@@ -648,3 +648,30 @@ class CollisionManager:
             or sprite.rect.x + sprite.rect.w > circ.get_real_width() - circ.get_tile_width():
             sprite.kill()
             Log().critical('Item fuera de limites, con angulo ' + str(sprite.actual_angle))
+    
+    def line_rectangle_collision(self, line, rect):
+        
+        #Colisiones eje X
+        #Atraviesa verticalmente el rectangulo, con los extremos fuera
+        if (min(line.x1, line.x2) >= rect.x and min(line.x1, line.x2) <= rect.x + rect.w) and (min(line.y1, line.y2) <= rect.y and max(line.y1, line.y2) >= rect.y + rect.h):
+            return True
+        #Atraviesa verticalmente el rectangulo, con el extremo inferior fuera
+        if (min(line.x1, line.x2) >= rect.x and min(line.x1, line.x2) <= rect.x + rect.w) and (min(line.y1, line.y2) >= rect.y and min(line.y1, line.y2) <= rect.y + rect.h):
+            return True
+        #Atraviesa verticalmente el rectangulo, con el extremo superior fuera
+        if (max(line.x1, line.x2) >= rect.x and max(line.x1, line.x2) <= rect.x + rect.w) and (max(line.y1, line.y2) >= rect.y and max(line.y1, line.y2) <= rect.y + rect.h):
+            return True
+            
+        #Colisiones eje Y
+        #Atraviesa horizontalmente el rectangulo, con los dos extremos fuera
+        if (min(line.y1, line.y2) >= rect.y  and min(line.y1, line.y2) <= rect.y + rect.h) and (min(line.x1, line.x2) <= rect.x and max(line.x1, line.x2) >= rect.x + rect.w):
+            return True
+        #Atraviesa horizontalmente el rectangulo, con el extremo derecho fuera
+        if (min(line.y1, line.y2) >= rect.y  and min(line.y1, line.y2) <= rect.y + rect.h) and (min(line.x1, line.x2) >= rect.x and min(line.x1, line.x2) <= rect.x + rect.w):
+            return True          
+        #Atraviesa horizontalmente el rectangulo, con el extremo izquierdo fuera
+        if (max(line.y1, line.y2) >= rect.y  and max(line.y1, line.y2) <= rect.y + rect.h) and (max(line.x1, line.x2) >= rect.x and max(line.x1, line.x2) <= rect.x + rect.w):
+            return True
+
+        return False
+

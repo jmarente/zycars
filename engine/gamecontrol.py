@@ -575,10 +575,9 @@ class GameControl(state.State):
                 if ia_car[0] != ia_car2[0]:
                     self.collision_manager.actor_actor_collision(ia_car[0], ia_car2[0])
 
-        
         #Colisiones con las cajas de items
         for box in self.items_box:
-            
+                
             #Si está en la pantalla, no esta explotando y colisiona con el jugador
             if self.on_screen(box) and box.get_state() != gameobject.EXPLOSION and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, box):

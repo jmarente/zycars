@@ -164,6 +164,7 @@ class IA(basiccar.BasicCar):
         self.update_image()
         
         self.update_angle()
+        self.update_lines()
     
     def __normal_state(self):
         '''
@@ -323,7 +324,6 @@ class IA(basiccar.BasicCar):
             for ia_car in self.game_control.get_ia_cars():
                 if ia_car[0] != self:
                     distance = self.distance(ia_car[0])
-                    print "DISTANCIA ", distance
                     if distance <= 90:
                         self.hud.release_item()
                         released = True
@@ -331,7 +331,6 @@ class IA(basiccar.BasicCar):
             
             if not released:
                 distance = self.distance(self.game_control.get_player())
-                print "DISTANCIA ", distance
                 if distance <= 90:
                     self.hud.release_item()
                     released = True
