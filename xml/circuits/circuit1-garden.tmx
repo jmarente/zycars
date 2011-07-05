@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="88" height="74" tilewidth="45" tileheight="45">
  <properties>
-  <property name="ancho_pista" value="5"/>
   <property name="ancho_meta" value="5"/>
+  <property name="ancho_pista" value="5"/>
   <property name="collision_map" value="collisionmapgarden.png"/>
   <property name="grado_coche" value="270"/>
   <property name="tileset_alto" value="35"/>
@@ -7153,8 +7153,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="26"/>
+   <tile gid="151"/>
+   <tile gid="152"/>
    <tile gid="27"/>
    <tile gid="28"/>
    <tile gid="29"/>
@@ -7241,7 +7241,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="30"/>
+   <tile gid="172"/>
    <tile gid="221"/>
    <tile gid="496"/>
    <tile gid="497"/>
@@ -7976,7 +7976,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="221"/>
    <tile gid="26"/>
    <tile gid="27"/>
    <tile gid="28"/>
@@ -8064,7 +8064,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="221"/>
    <tile gid="373"/>
    <tile gid="497"/>
    <tile gid="498"/>
@@ -8152,7 +8152,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="221"/>
    <tile gid="394"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -9560,7 +9560,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="220"/>
    <tile gid="624"/>
    <tile gid="645"/>
    <tile gid="646"/>
@@ -9648,8 +9648,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="250"/>
+   <tile gid="220"/>
+   <tile gid="220"/>
    <tile gid="251"/>
    <tile gid="252"/>
    <tile gid="252"/>
@@ -10024,8 +10024,8 @@
    <tile gid="336"/>
    <tile gid="334"/>
    <tile gid="335"/>
-   <tile gid="336"/>
-   <tile gid="0"/>
+   <tile gid="220"/>
+   <tile gid="220"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -10113,7 +10113,7 @@
    <tile gid="667"/>
    <tile gid="668"/>
    <tile gid="604"/>
-   <tile gid="0"/>
+   <tile gid="220"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -10849,10 +10849,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="5"/>
-   <tile gid="6"/>
-   <tile gid="7"/>
+   <tile gid="49"/>
+   <tile gid="50"/>
+   <tile gid="49"/>
+   <tile gid="50"/>
    <tile gid="8"/>
    <tile gid="9"/>
    <tile gid="10"/>
@@ -10955,7 +10955,7 @@
    <tile gid="0"/>
    <tile gid="221"/>
    <tile gid="221"/>
-   <tile gid="221"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -11169,8 +11169,8 @@
    <tile gid="482"/>
    <tile gid="483"/>
    <tile gid="437"/>
-   <tile gid="115"/>
-   <tile gid="0"/>
+   <tile gid="49"/>
+   <tile gid="50"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -11226,38 +11226,38 @@
    <tile gid="29"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="221"/>
-   <tile gid="221"/>
-   <tile gid="221"/>
-   <tile gid="221"/>
-   <tile gid="6"/>
-   <tile gid="7"/>
-   <tile gid="8"/>
-   <tile gid="9"/>
-   <tile gid="10"/>
-   <tile gid="11"/>
-   <tile gid="5"/>
-   <tile gid="6"/>
-   <tile gid="7"/>
-   <tile gid="8"/>
-   <tile gid="9"/>
-   <tile gid="10"/>
-   <tile gid="11"/>
-   <tile gid="5"/>
-   <tile gid="6"/>
-   <tile gid="7"/>
-   <tile gid="8"/>
-   <tile gid="9"/>
-   <tile gid="10"/>
-   <tile gid="11"/>
-   <tile gid="5"/>
-   <tile gid="6"/>
-   <tile gid="7"/>
-   <tile gid="8"/>
-   <tile gid="9"/>
-   <tile gid="10"/>
-   <tile gid="11"/>
    <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="221"/>
+   <tile gid="221"/>
+   <tile gid="6"/>
+   <tile gid="7"/>
+   <tile gid="8"/>
+   <tile gid="9"/>
+   <tile gid="10"/>
+   <tile gid="11"/>
+   <tile gid="5"/>
+   <tile gid="6"/>
+   <tile gid="7"/>
+   <tile gid="8"/>
+   <tile gid="9"/>
+   <tile gid="10"/>
+   <tile gid="11"/>
+   <tile gid="5"/>
+   <tile gid="6"/>
+   <tile gid="7"/>
+   <tile gid="8"/>
+   <tile gid="9"/>
+   <tile gid="10"/>
+   <tile gid="11"/>
+   <tile gid="5"/>
+   <tile gid="6"/>
+   <tile gid="7"/>
+   <tile gid="8"/>
+   <tile gid="9"/>
+   <tile gid="47"/>
+   <tile gid="48"/>
+   <tile gid="47"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -11315,7 +11315,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="221"/>
+   <tile gid="0"/>
    <tile gid="221"/>
    <tile gid="221"/>
    <tile gid="0"/>
@@ -11404,8 +11404,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="49"/>
+   <tile gid="50"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -26182,12 +26182,12 @@
   <object name="79" type="Vertical" x="1620" y="2385" width="45" height="45"/>
  </objectgroup>
  <objectgroup name="objetos" width="88" height="74">
-  <object name="1" type="check" x="315" y="270" width="45" height="45"/>
-  <object name="2" type="check" x="2205" y="225" width="45" height="45"/>
-  <object name="3" type="check" x="2250" y="585" width="45" height="45"/>
-  <object name="4" type="check" x="1665" y="675" width="45" height="45"/>
-  <object name="5" type="check" x="1665" y="1620" width="45" height="45"/>
-  <object name="6" type="check" x="2970" y="1665" width="45" height="45"/>
+  <object name="1" type="check" x="450" y="225" width="45" height="45"/>
+  <object name="2" type="check" x="2205" y="405" width="45" height="45"/>
+  <object name="3" type="check" x="2070" y="630" width="45" height="45"/>
+  <object name="4" type="check" x="1665" y="810" width="45" height="45"/>
+  <object name="5" type="check" x="1845" y="1665" width="45" height="45"/>
+  <object name="6" type="check" x="2970" y="1845" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="225" y="405" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="315" y="405" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="1260" y="180" width="45" height="45"/>
@@ -26200,8 +26200,8 @@
   <object name="Item_box" type="Item_box" x="1305" y="2340" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="225" y="1755" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="315" y="1755" width="45" height="45"/>
-  <object name="7" type="check" x="2970" y="2430" width="45" height="45"/>
-  <object name="8" type="check" x="270" y="2250" width="45" height="45"/>
+  <object name="7" type="check" x="2790" y="2475" width="45" height="45"/>
+  <object name="8" type="check" x="270" y="2115" width="45" height="45"/>
   <object name="butterfly" type="animation" x="2700" y="2070" width="45" height="45"/>
  </objectgroup>
 </map>

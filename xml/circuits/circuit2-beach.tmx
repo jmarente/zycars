@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="58" height="58" tilewidth="45" tileheight="45">
  <properties>
-  <property name="ancho_pista" value="8"/>
   <property name="ancho_meta" value="5"/>
+  <property name="ancho_pista" value="8"/>
   <property name="collision_map" value="collisionmapbeach2.png"/>
   <property name="grado_coche" value="180"/>
+  <property name="music" value="Terror en la Bahia - Los Cadaver.ogg"/>
   <property name="tileset_alto" value="34"/>
   <property name="tileset_ancho" value="21"/>
-  <property name="music" value="Terror en la Bahia - Los Cadaver.ogg"/>
  </properties>
  <tileset firstgid="1" name="tilesetbeach2" tilewidth="45" tileheight="45">
   <image source="tilesetbeach2.png" width="945" height="1530"/>
@@ -3911,8 +3911,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="22"/>
+   <tile gid="22"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -3969,7 +3969,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="22"/>
    <tile gid="91"/>
    <tile gid="92"/>
    <tile gid="92"/>
@@ -4866,8 +4866,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4929,7 +4929,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="25"/>
    <tile gid="4"/>
    <tile gid="4"/>
@@ -4987,8 +4987,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5569,7 +5569,7 @@
    <tile gid="6"/>
    <tile gid="6"/>
    <tile gid="24"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5626,8 +5626,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5709,10 +5709,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5770,7 +5770,7 @@
    <tile gid="6"/>
    <tile gid="6"/>
    <tile gid="5"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5828,7 +5828,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="5"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -13571,15 +13571,15 @@
   <object name="26" type="Vertical" x="810" y="225" width="45" height="45"/>
  </objectgroup>
  <objectgroup name="objetos" width="58" height="58">
-  <object name="3" type="check" x="2070" y="360" width="45" height="45"/>
-  <object name="4" type="check" x="1935" y="675" width="45" height="45"/>
-  <object name="1" type="check" x="540" y="1800" width="45" height="45"/>
-  <object name="8" type="check" x="1890" y="1305" width="45" height="45"/>
-  <object name="6" type="check" x="765" y="1035" width="45" height="45"/>
-  <object name="5" type="check" x="720" y="720" width="45" height="45"/>
-  <object name="7" type="check" x="1665" y="1080" width="45" height="45"/>
-  <object name="9" type="check" x="1755" y="1800" width="45" height="45"/>
-  <object name="2" type="check" x="315" y="315" width="45" height="45"/>
+  <object name="3" type="check" x="2070" y="450" width="45" height="45"/>
+  <object name="4" type="check" x="1890" y="675" width="45" height="45"/>
+  <object name="1" type="check" x="315" y="1665" width="45" height="45"/>
+  <object name="8" type="check" x="1935" y="1485" width="45" height="45"/>
+  <object name="6" type="check" x="900" y="1035" width="45" height="45"/>
+  <object name="5" type="check" x="675" y="855" width="45" height="45"/>
+  <object name="7" type="check" x="1665" y="1170" width="45" height="45"/>
+  <object name="9" type="check" x="1710" y="1800" width="45" height="45"/>
+  <object name="2" type="check" x="405" y="315" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="630" y="1755" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="630" y="1845" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="180" y="585" width="45" height="45"/>

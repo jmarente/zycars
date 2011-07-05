@@ -5,9 +5,9 @@
   <property name="ancho_pista" value="8"/>
   <property name="collision_map" value="collisionmapbeach2.png"/>
   <property name="grado_coche" value="90"/>
+  <property name="music" value="Up Down - The Wavers.ogg"/>
   <property name="tileset_alto" value="34"/>
   <property name="tileset_ancho" value="21"/>
-  <property name="music" value="Up Down - The Wavers.ogg"/>
  </properties>
  <tileset firstgid="1" name="tilesetbeach2" tilewidth="45" tileheight="45">
   <image source="tilesetbeach2.png" width="945" height="1530"/>
@@ -571,7 +571,7 @@
    <tile gid="89"/>
    <tile gid="65"/>
    <tile gid="85"/>
-   <tile gid="85"/>
+   <tile gid="89"/>
    <tile gid="1"/>
    <tile gid="89"/>
    <tile gid="89"/>
@@ -621,7 +621,7 @@
    <tile gid="236"/>
    <tile gid="65"/>
    <tile gid="85"/>
-   <tile gid="85"/>
+   <tile gid="89"/>
    <tile gid="1"/>
    <tile gid="235"/>
    <tile gid="236"/>
@@ -3877,7 +3877,7 @@
    <tile gid="134"/>
    <tile gid="134"/>
    <tile gid="135"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="22"/>
@@ -3926,8 +3926,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="22"/>
@@ -3974,8 +3974,8 @@
    <tile gid="114"/>
    <tile gid="0"/>
    <tile gid="91"/>
-   <tile gid="92"/>
    <tile gid="93"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4024,8 +4024,8 @@
    <tile gid="114"/>
    <tile gid="0"/>
    <tile gid="133"/>
-   <tile gid="134"/>
    <tile gid="135"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4127,8 +4127,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="38"/>
    <tile gid="39"/>
    <tile gid="40"/>
@@ -4376,7 +4376,7 @@
    <tile gid="125"/>
    <tile gid="126"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="133"/>
    <tile gid="134"/>
    <tile gid="179"/>
@@ -4426,8 +4426,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4474,7 +4474,7 @@
    <tile gid="114"/>
    <tile gid="43"/>
    <tile gid="43"/>
-   <tile gid="43"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4524,7 +4524,7 @@
    <tile gid="114"/>
    <tile gid="43"/>
    <tile gid="43"/>
-   <tile gid="43"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4626,9 +4626,9 @@
    <tile gid="43"/>
    <tile gid="43"/>
    <tile gid="43"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4778,7 +4778,7 @@
    <tile gid="0"/>
    <tile gid="44"/>
    <tile gid="45"/>
-   <tile gid="46"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4976,9 +4976,9 @@
    <tile gid="83"/>
    <tile gid="84"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="43"/>
    <tile gid="43"/>
    <tile gid="43"/>
@@ -5026,7 +5026,7 @@
    <tile gid="104"/>
    <tile gid="105"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="91"/>
    <tile gid="92"/>
    <tile gid="92"/>
@@ -5042,7 +5042,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="400"/>
    <tile gid="400"/>
    <tile gid="400"/>
@@ -5076,7 +5076,7 @@
    <tile gid="125"/>
    <tile gid="126"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="112"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5092,9 +5092,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="120"/>
    <tile gid="121"/>
@@ -5486,9 +5486,9 @@
    <tile gid="69"/>
    <tile gid="0"/>
    <tile gid="380"/>
-   <tile gid="0"/>
    <tile gid="7"/>
    <tile gid="8"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5536,9 +5536,9 @@
    <tile gid="49"/>
    <tile gid="50"/>
    <tile gid="380"/>
-   <tile gid="0"/>
    <tile gid="28"/>
    <tile gid="29"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5640,8 +5640,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5690,7 +5690,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="403"/>
    <tile gid="401"/>
    <tile gid="401"/>
@@ -5736,7 +5736,7 @@
    <tile gid="401"/>
    <tile gid="401"/>
    <tile gid="403"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5785,8 +5785,8 @@
    <tile gid="385"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="43"/>
+   <tile gid="43"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -13629,13 +13629,13 @@
   </data>
  </layer>
  <objectgroup name="objetos" width="50" height="68">
-  <object name="1" type="check" x="990" y="1440" width="45" height="45"/>
-  <object name="2" type="check" x="1485" y="1890" width="45" height="45"/>
+  <object name="1" type="check" x="1125" y="1575" width="45" height="45"/>
+  <object name="2" type="check" x="1440" y="1890" width="45" height="45"/>
   <object name="3" type="check" x="945" y="2025" width="45" height="45"/>
-  <object name="4" type="check" x="360" y="1350" width="45" height="45"/>
-  <object name="5" type="check" x="315" y="900" width="45" height="45"/>
-  <object name="6" type="check" x="630" y="270" width="45" height="45"/>
-  <object name="7" type="check" x="945" y="315" width="45" height="45"/>
+  <object name="4" type="check" x="405" y="1305" width="45" height="45"/>
+  <object name="5" type="check" x="270" y="810" width="45" height="45"/>
+  <object name="6" type="check" x="675" y="270" width="45" height="45"/>
+  <object name="7" type="check" x="945" y="450" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="1215" y="1530" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="1215" y="1620" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="225" y="630" width="45" height="45"/>
@@ -13646,8 +13646,9 @@
   <object name="Item_box" type="Item_box" x="227" y="1800" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="857" y="2025" width="45" height="45"/>
   <object name="Item_box" type="Item_box" x="945" y="2025" width="45" height="45"/>
+  <object name="3" type="check" x="720" y="2205" width="45" height="45"/>
  </objectgroup>
- <objectgroup name="checkpoints" width="50" height="68">
+ <objectgroup name="checkpoints" width="50" height="68" visible="0">
   <object name="0" type="GoalH" x="810" y="945" width="45" height="45"/>
   <object name="1" type="Horizontal" x="810" y="1035" width="45" height="45"/>
   <object name="2" type="Horizontal" x="810" y="1125" width="45" height="45"/>
