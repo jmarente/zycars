@@ -12,12 +12,12 @@
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="700" y="550"></option>
     </options>
     <characters normal_image='normal_box2' selected_image='selected_box2'>
-        <character image='character1' name='Chulo' image_car='car1' path_xml="cars/yellow.xml" speed='5' aceleration='2' rotation='4'/>
-        <character image='character2' name='Viejuno' image_car='car2' path_xml="cars/purple.xml" speed='4.5' aceleration='3' rotation='3.5'/>
-        <character image='character3' name='Opra' image_car='car3' path_xml="cars/gray.xml" speed='5' aceleration='2' rotation='4'/>
-        <character image='character4' name='Chusma-cher' image_car='car4' path_xml="cars/orange.xml" speed='4.5' aceleration='3' rotation='3.5'/>
-        <character image='character5' name='Unknown' image_car='car5' path_xml="cars/red.xml" speed='5' aceleration='2' rotation='4'/>
-        <character image='character6' name='Haris Pilton' image_car='car6' path_xml="cars/pink.xml" speed='4.5' aceleration='3' rotation='3.5'/>
-        <character image='character7' name='Coronel cebolleta' image_car='car7' path_xml="cars/truck.xml" speed='4.5' aceleration='3' rotation='3.5'/>
+        <character image='character1' name='Camaro Bun' image_car='car1' path_xml="cars/yellow.xml" speed='5' aceleration='4' rotation='4'/>
+        <character image='character2' name='Wacky Dash' image_car='car2' path_xml="cars/purple.xml" speed='4.5' aceleration='3' rotation='3.5'/>
+        <character image='character3' name='Opra' image_car='car3' path_xml="cars/gray.xml" speed='4.5' aceleration='2' rotation='3'/>
+        <character image='character4' name='Racer F1' image_car='car4' path_xml="cars/orange.xml" speed='6' aceleration='6' rotation='5'/>
+        <character image='character5' name='Unknown' image_car='car5' path_xml="cars/red.xml" speed='6' aceleration='5' rotation='6'/>
+        <character image='character6' name='Chevy Beetle' image_car='car6' path_xml="cars/pink.xml" speed='5' aceleration='2' rotation='4'/>
+        <character image='character7' name='El Coronel' image_car='car7' path_xml="cars/truck.xml" speed='4.5' aceleration='1' rotation='2'/>
     </characters>
 </charactermenu>

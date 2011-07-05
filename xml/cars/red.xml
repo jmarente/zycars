@@ -1,4 +1,4 @@
-<car name_character="Red" sprite_code="red" max_speed="6.4" min_speed="4" aceleration="0.8" desaceleration="0.1" rotation_angle="0.39" avatar="avatar5" racer_image='car5'>
+<car name_character="Red" sprite_code="red" max_speed="6.2" min_speed="4" aceleration="0.8" desaceleration="0.1" rotation_angle="0.39" avatar="avatar5" racer_image='car5'>
 <!--NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW-->
     <animations>
         <animation name="normal" frames="0" delay="1"/>
