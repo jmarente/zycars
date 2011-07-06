@@ -98,11 +98,11 @@ class CheckPoints:
             #cp.draw(screen, (0, 0, 0))
         
         #Mostramos el punto de control actual
-        if self.actual_checkpoint:
-            self.actual_checkpoint.draw(screen, (0, 0, 255))
+        #if self.actual_checkpoint:
+            #self.actual_checkpoint.draw(screen, (0, 0, 255))
             
         #Mostramos la meta de color rojo
-        self.goal.draw(screen, (255, 0, 0))
+        #self.goal.draw(screen, (255, 0, 0))
             
     def update(self, sprite, player = False):
         '''

@@ -15,9 +15,9 @@ values = {}
 
 values[PASSABLE] = 1
 values[SELECTED] = 1.5
-values[LAG] = 6
-values[GUM] = 8
-values[OIL] = 12
+values[LAG] = 3
+values[GUM] = 5
+values[OIL] = 6
 values[HOLE] = 200
 values[NOPASSABLE] = 10000
 

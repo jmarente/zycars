@@ -195,8 +195,8 @@ class BasicCar(gameobject.GameObject):
         @param screen Superficie destino
         '''
         gameobject.GameObject.draw(self, screen)
-        pygame.draw.line(screen, (0, 0, 0), (self.front_line.x1 - self.game_control.circuit_x(), self.front_line.y1 - self.game_control.circuit_y()),(self.front_line.x2 - self.game_control.circuit_x(), self.front_line.y2 - self.game_control.circuit_y()))
-        pygame.draw.line(screen, (255, 0, 0), (self.back_line.x1 - self.game_control.circuit_x(), self.back_line.y1 - self.game_control.circuit_y()),(self.back_line.x2 - self.game_control.circuit_x(), self.back_line.y2 - self.game_control.circuit_y()))
+        #pygame.draw.line(screen, (0, 0, 0), (self.front_line.x1 - self.game_control.circuit_x(), self.front_line.y1 - self.game_control.circuit_y()),(self.front_line.x2 - self.game_control.circuit_x(), self.front_line.y2 - self.game_control.circuit_y()))
+        #pygame.draw.line(screen, (255, 0, 0), (self.back_line.x1 - self.game_control.circuit_x(), self.back_line.y1 - self.game_control.circuit_y()),(self.back_line.x2 - self.game_control.circuit_x(), self.back_line.y2 - self.game_control.circuit_y()))
         
     def parser_car_info(self, parse):
         '''

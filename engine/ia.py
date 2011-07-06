@@ -140,11 +140,11 @@ class IA(basiccar.BasicCar):
         basiccar.BasicCar.draw(self, screen)
 
         #Mostramos cada uno de los puntos 
-        for point in self.left_points:
+        '''for point in self.left_points:
             pygame.draw.rect(screen, (0, 0, 0), 
                 (point.rect.x - self.game_control.circuit_x(), 
                 point.rect.y - self.game_control.circuit_y(), 
-                point.rect.w, point.rect.h), 1)
+                point.rect.w, point.rect.h), 1)'''
 
     def update(self):
         '''
