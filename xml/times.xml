@@ -78,6 +78,18 @@
                          <fasttestlap hseconds="20" minutes="00" seconds="20"/>                     
     
     
+                         </circuit>   
+                                        
+                                       
+                         <circuit name="circuit4-garden">                     
+    
+        
+                         <bestrace hseconds="20" minutes="0" seconds="33"/>                     
+    
+        
+                         <fasttestlap hseconds="20" minutes="00" seconds="20"/>                     
+    
+    
                          </circuit>                  
 
     
