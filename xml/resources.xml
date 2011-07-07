@@ -87,6 +87,7 @@
 		<image code="logo_garden2" name="menu/logo_garden2.png" alpha="True"/>
 		<image code="logo_garden3" name="menu/logo_garden3.png" alpha="True"/>
 		<image code="logo_garden4" name="menu/logo_garden4.png" alpha="True"/>
+		<image code="logo_kitchen1" name="menu/logo_kitchen1.png" alpha="True"/>
 		<!--CIRCUITOS-->
 		<image code="circuit1" name="circuit/circuit1.png" alpha="True"/>
 		<image code="circuit2" name="circuit/circuit2.png" alpha="True"/>
