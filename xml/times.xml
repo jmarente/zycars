@@ -101,6 +101,17 @@
                           <fasttestlap hseconds="20" minutes="00" seconds="20"/>                      
     
     
+                          </circuit>    
+                                         
+                          <circuit name="circuit2-kitchen">                      
+    
+        
+                          <bestrace hseconds="49" minutes="0" seconds="24"/>                      
+    
+        
+                          <fasttestlap hseconds="20" minutes="00" seconds="20"/>                      
+    
+    
                           </circuit>                   
 
     

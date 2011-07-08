@@ -42,7 +42,7 @@
         <layer name="Copa Rodillo" font_code="cheesebu" size="30">
             <buttons>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-kitchen.tmx' font="cheesebu" text="circuit1-kitchen" image_circuit="circuit1" image="logo_kitchen1" image_x="20" image_y="15" center="True" x="80" y="345" show_text='False'></button>
-                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="410" ></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-kitchen.tmx' font="cheesebu" text="circuit2-kitchen" image_circuit="circuit1" image="logo_kitchen2" image_x="20" image_y="15" center="True" x="80" y="410" show_text='False'></button>
                 <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="475"></button>
                 <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="540"></button>
             </buttons>
