@@ -106,7 +106,7 @@ class OptionMenu(basicmenu.BasicMenu):
                 x = int(check_box.getAttribute('x'))
                 y = int(check_box.getAttribute('y'))
                 
-                new_checkbox = checkbox.CheckBox(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
+                new_checkbox = checkbox.CheckBox(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text)
                 self.elements_layers[name_layer].append(new_checkbox)
             
             for button_layer in element.getElementsByTagName('button'):
@@ -127,7 +127,7 @@ class OptionMenu(basicmenu.BasicMenu):
                     show_text = button_layer.getAttribute('show_text')
                     show_text = button.strTobool(show_text)
                 
-                aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text, True)
+                aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text)
                     
                 #Lo añadimos a la lista de botones
                 self.buttons_layers[name_layer].append(aux_button)   

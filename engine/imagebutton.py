@@ -8,7 +8,7 @@ class ImageButton(button.Button):
     @brief Clase que modela el comportamiento de un boton que tiene una imagen
     Hereda todas las funcionalidades de Button
     '''
-    def __init__(self, menu, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text = True, center = True):
+    def __init__(self, menu, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text = True):
         '''
         @brief Constructor
         

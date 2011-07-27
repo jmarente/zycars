@@ -1,5 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+'''
+@file hbasicar.py
+@brief Implementa la clase Hud y Basicar
+@author José Jesús Marente Florín
+@date Octubre 2010.
+'''
+
 import gameobject
 import resource
 import data
@@ -7,18 +14,18 @@ import xml.dom.minidom
 import math
 import random
 import item
-import pygame
+#import pygame
 
 class Hud:
     '''
     @brief Clase que representa la casilla del item actual del jugador
     '''
-    def __init__(self, player, path_xml, ia = False):
+    def __init__(self, player, path_xml, is_ia = False):
         '''
         @brief Constructor.
         
         @param player Referencia al jugador.
-        @param path_xml Ruta del archivo xml donde se encuentra toda las características
+        @param path_xml Ruta del archivo xml
         '''
         self.player = player
         parse = xml.dom.minidom.parse(data.get_path_xml(path_xml))
@@ -43,7 +50,7 @@ class Hud:
                 
         #Mapa para los items
         self.items = {}
-        self.ia = ia
+        self.is_ia = is_ia
         
         #Recorremos cada uno de los items
         for element in parse.getElementsByTagName('item'):
@@ -61,7 +68,7 @@ class Hud:
             path_xml = element.getAttribute('path_xml')
             self.items[code]['xml'] = path_xml
         
-        if self.ia and 'turbo' in self.items.keys():
+        if self.is_ia and 'turbo' in self.items.keys():
             del self.items['turbo']
         
         #En un principio no tenemos ningun item
@@ -88,7 +95,7 @@ class Hud:
             
             #Si el item es del tipo de 3 misiles, mostramos los misiles restantes
             if self.actual_item == "3missile":
-                surface = self.font.render(str(self.missile), True, (0,0,0))
+                surface = self.font.render(str(self.missile), True, (0, 0, 0))
                 screen.blit(surface, self.position_image)
         
         #Si no, mostramos el casillero vacio
@@ -133,6 +140,11 @@ class Hud:
                 self.missile = 3
     
     def get_current_item(self):
+        '''
+        @brief Consulta el item actual
+        
+        @return Item actual
+        '''
         return self.actual_item
                 
 class BasicCar(gameobject.GameObject):
@@ -170,8 +182,8 @@ class BasicCar(gameobject.GameObject):
         self.turbo_state = None
         self.old_max_speed = self.max_speed
 
-        self.front_line = gameobject.Line(1,1,1,1)
-        self.back_line = gameobject.Line(1,1,1,1)
+        self.front_line = gameobject.Line(1, 1, 1, 1)
+        self.back_line = gameobject.Line(1, 1, 1, 1)
         
         #Si el angulo es 0, no hacemos nada
         if angle == 0:
@@ -216,7 +228,7 @@ class BasicCar(gameobject.GameObject):
         '''
         @brief Método que debe ser implementado por sus descendientes
         '''
-        raise NotImplemented("La funcion update de GameObject debe ser implementada por sus descendientes")
+        raise NotImplementedError("La funcion update de GameObject debe ser implementada por sus descendientes")
         
     def get_speed(self):
         '''
@@ -267,43 +279,88 @@ class BasicCar(gameobject.GameObject):
         self.min_speed = abs(new_min_speed)
     
     def get_avatar(self):
+        '''
+        @brief Consultor de la imagen de avatar
+        
+        @return Imagen avatar del jugador
+        '''
         return self.avatar
     
     def get_name(self):
+        '''
+        @brief Consultor del nombre del personaje.
+        
+        @return nombre del personaje
+        '''
         return self.name_character
     
     def get_racer_image(self):
+        '''
+        @brief Consultor de la imagen de corredor
+        
+        @return Imagen de corredor
+        '''
         return self.racer_image
 
     def release_item(self, item_type, path_xml):
+        '''
+        @brief Encargado de añadir el item al juego.
+        
+        @param item_type Tipo del item
+        @param path_xml Archivo xml del item
+        '''
 
         if item_type == 'missile' or item_type == '3missile':
-            missile = item.Missile(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            missile = item.Missile(self.game_control, self, path_xml, self.x, 
+                                self.y, self.actual_angle)
             self.game_control.add_bullet(missile)
+            
         elif item_type == 'oil':
-            oil = item.Oil(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            oil = item.Oil(self.game_control, self, path_xml, self.x, self.y, 
+                        self.actual_angle)
             self.game_control.add_oil(oil)
+            
         elif item_type == 'gum':
-            gum = item.Oil(self.game_control, self, path_xml, self.x, self.y, self.actual_angle, True)
+            gum = item.Oil(self.game_control, self, path_xml, self.x, self.y, 
+                        self.actual_angle, True)
             self.game_control.add_gum(gum)
+            
         elif item_type == 'ball':
-            ball = item.Ball(self.game_control, self, path_xml, self.x, self.y, self.actual_angle)
+            ball = item.Ball(self.game_control, self, path_xml, self.x, 
+                        self.y, self.actual_angle)
             self.game_control.add_ball(ball)
+            
         elif item_type == 'turbo':
             self.state = gameobject.TURBO
     
     def update_lines(self):
+        '''
+        @brief Actualiza los segmentos del coche
+        '''
         angle = math.radians(self.actual_angle)
         frontx = math.cos(angle) * (300)
         fronty = math.sin(angle) * (300)
         backx = math.cos(angle) * (-200)
         backy = math.sin(angle) * (-200)
-        self.front_line = gameobject.Line(self.rect.centerx, self.rect.centery, self.rect.centerx + frontx, self.rect.centery + fronty)
-        self.back_line = gameobject.Line(self.rect.centerx, self.rect.centery, self.rect.centerx + backx, self.rect.centery + backy)
+        self.front_line = gameobject.Line(self.rect.centerx, self.rect.centery, 
+                                        self.rect.centerx + frontx, 
+                                        self.rect.centery + fronty)
+        self.back_line = gameobject.Line(self.rect.centerx, self.rect.centery, 
+                                        self.rect.centerx + backx, 
+                                        self.rect.centery + backy)
 
-    
     def get_front_line(self):
+        '''
+        @brief Consulta la linea delantera
+        
+        @return Linea delantera
+        '''
         return self.front_line
         
     def get_back_line(self):
+        '''
+        @brief Consulta la linea trasera
+        
+        @return Linea trasera
+        '''
         return self.back_line

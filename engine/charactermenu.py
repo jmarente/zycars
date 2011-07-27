@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file charactermenu.py
+@brief Implementa la clase CarFeatures, CharacterMenu y GroupOption
+@author José Jesús Marente Florín
+@date Diciembre 2010.
+'''
+
 import basicmenu
 import data
 import resource
@@ -32,13 +39,17 @@ class CarFeatures:
         self.y = y
         
         #Cargamos los nombres de cada carcterísticas
-        self.text_speed = resource.get_font(font_code, 30).render('Velocidad', True, (0,0,0))
+        self.text_speed = resource.get_font(font_code, 30).render('Velocidad', 
+                                                                True, 
+                                                                (0, 0, 0))
         
         #Situamos la posición de cada una de ellas
         self.text_speed_y = y
-        self.text_aceleration = resource.get_font(font_code, 30).render(u'Aceleración', True, (0,0,0))
+        self.text_aceleration = resource.get_font(font_code, 30).render(u'Aceleración', True, (0, 0, 0))
         self.text_aceleration_y = self.y + self.text_speed.get_height() + 15
-        self.text_rotation = resource.get_font(font_code, 30).render('Giro', True, (0,0,0))
+        self.text_rotation = resource.get_font(font_code, 30).render('Giro', 
+                                                                    True, 
+                                                                    (0, 0, 0))
         self.text_rotation_y = self.text_aceleration_y + self.text_aceleration.get_height() + 15
         
         #Cargamos la imagen 
@@ -148,9 +159,6 @@ class GroupOption:
         
         #La siguiente sera la opción de la derecha
         self.actual_right = self.right_options.popleft()
-
-    def update(self):
-        pass
         
     def draw(self, screen):
         '''
@@ -275,13 +283,16 @@ class CharacterMenu(basicmenu.BasicMenu):
         self.parser_basic_info(parse)
         
         #Inicializamos car_features para representar las caracteristicas de los personajes
-        self.car_features = CarFeatures(500, 350 , 'cheesebu', 'slider_controler')
+        self.car_features = CarFeatures(500, 350 , 'cheesebu', 
+                                        'slider_controler')
         
         #Obtenemos el fragmento de los personajes 
         characters_parse = parse.getElementsByTagName('characters')[0]
         #Inicializmaos el grupo de opciones
-        self.group_option = GroupOption(self, characters_parse, characters_parse.getAttribute('normal_image'), \
-                                        characters_parse.getAttribute('selected_image'),150, 110, 90)
+        self.group_option = GroupOption(self, characters_parse, 
+                            characters_parse.getAttribute('normal_image'), 
+                            characters_parse.getAttribute('selected_image'), 
+                            150, 110, 90)
                 
         self.cars = {}
         first = True
@@ -364,20 +375,24 @@ class CharacterMenu(basicmenu.BasicMenu):
             
             #Si estamos en modo contrarreloj cargamos el menu Contrarreloj
             if config.Config().get_mode() == config.TIMED:
-                self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/cronomenu.xml'))
+                self.game.change_state(circuitmenu.CircuitMenu(self.game, 
+                                                        'menu/cronomenu.xml'))
             
             #Si estamos en Carrera Rápida cargamos el menú de Carrera Rápida
             elif config.Config().get_mode() == config.FASTRACE:
-                self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/fastracemenu.xml'))
+                self.game.change_state(circuitmenu.CircuitMenu(self.game, 
+                                                    'menu/fastracemenu.xml'))
             
             elif config.Config().get_mode() == config.CHAMPIONSHIP:
-                self.game.change_state(circuitmenu.CircuitMenu(self.game, 'menu/fastracemenu.xml'))
+                self.game.change_state(circuitmenu.CircuitMenu(self.game, 
+                                                    'menu/fastracemenu.xml'))
                 
         #Si pulsamos cancelar
         elif option == "Cancelar":
             #Volveriamos al menú anterior
             print "Cancelar"
-            self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
+            self.game.change_state(mainmenu.MainMenu(self.game, 
+                                                    'menu/mainmenu.xml'))
 
         #Si pulsamos la felcha hacia la izquierda
         elif option == "Izquierda":
@@ -419,7 +434,12 @@ class CharacterMenu(basicmenu.BasicMenu):
         self.car_features.update_values(speed, aceleration, rotation)
                     
     def get_rivals(self, selected):
+        '''
+        @brief Calcula todos los rivales para el jugador seleccionado
         
+        @param selected Jugador seleccionado por el usuario
+        @return Lista con los rivales para el jugador
+        '''
         rivals_selected = []
         all_rivals = []
         

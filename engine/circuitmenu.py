@@ -239,7 +239,7 @@ class CircuitMenu(basicmenu.BasicMenu):
                 if type_button == 'normal':
                     
                     #Si es un botón normal sin imagen significa que el circuito no está disponible.
-                    aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text, True)
+                    aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text)
                     
                     #Si que le asociamos como imagen el mensaje de que no está disponible
                     self.images_circuits[name_layer][text] = message
@@ -251,7 +251,7 @@ class CircuitMenu(basicmenu.BasicMenu):
                     image_x = int(option.getAttribute('image_x'))
                     image_y = int(option.getAttribute('image_y'))
                     
-                    aux_button = imagebutton.ImageButton(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
+                    aux_button = imagebutton.ImageButton(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text)
 
                     #Obtenemos el archivo de configuración del circuito
                     circuit_file = str(option.getAttribute('circuit_file'))

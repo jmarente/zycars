@@ -1,7 +1,7 @@
 #-*- encoding: utf-8 -*-
 
 '''
-@file Implementación de el algoritmo A* para la búsqueda de caminos
+@file Implementación de el algoritmo A* para la búsqueda de caminos.
 @author José Jesús Marente Florín
 @date Abril 2011
 '''
@@ -132,7 +132,8 @@ class Astar:
                 #Obtenemos todos los nodos vecinos del actual
                 neighbors = self.get_neighbors(self.current)
                 
-                #Comprobamos los vecinos y actualizamos la lista de abiertos y cerrados
+                #Comprobamos los vecinos y actualizamos la lista de abiertos 
+                #y cerrados
                 self.check_neighbors(neighbors)
         
         #Una vez completado devolvemos la lista completa del camino
@@ -159,18 +160,6 @@ class Astar:
         
         if nodo.column - 1 >= 0 and map[nodo.row][nodo.column - 1] != NOPASSABLE:
             neighbors.append(Nodo(nodo.row, nodo.column - 1, (self.target.row, self.target.column), nodo))
-
-        '''if nodo.row + 1 < len(map) and nodo.column + 1 < len(map[nodo.row + 1]) and map[nodo.row + 1][nodo.column + 1] != NOPASSABLE:
-            neighbors.append(Nodo(nodo.row + 1, nodo.column + 1, (self.target.row, self.target.column), nodo))
-
-        if nodo.row - 1 >= 0 and nodo.column - 1 >= 0 and map[nodo.row - 1][nodo.column - 1] != NOPASSABLE:
-            neighbors.append(Nodo(nodo.row - 1, nodo.column - 1, (self.target.row, self.target.column), nodo))
-
-        if nodo.row + 1 < len(map) and nodo.column - 1 >= 0 and map[nodo.row + 1][nodo.column - 1] != NOPASSABLE:
-            neighbors.append(Nodo(nodo.row + 1, nodo.column - 1, (self.target.row, self.target.column), nodo))
-
-        if nodo.row - 1 >= 0 and nodo.column + 1 < len(map[nodo.row - 1]) and map[nodo.row - 1][nodo.column + 1] != NOPASSABLE:
-            neighbors.append(Nodo(nodo.row - 1, nodo.column + 1, (self.target.row, self.target.column), nodo))'''
         
         return neighbors
     
@@ -193,13 +182,13 @@ class Astar:
         del self.open[n]
         return actual
     
-    def in_list(self, node, myList):
+    def in_list(self, node, my_list):
         '''
         @brief Comprueba si un nodo esta en un lista
         
         @param node Nodo a comprobar
         '''
-        for element in myList:
+        for element in my_list:
             #Si tiene la misma posicion es que son el mismo nodo
             if node.row == element.row and node.column == element.column:
                 return True

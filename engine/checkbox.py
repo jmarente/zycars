@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file checkbox.py
+@brief Implementa la clase Checkbox
+@author José Jesús Marente Florín
+@date Febrero 2011.
+'''
+
 import button
 import imagebutton
 import mouse
@@ -8,7 +15,7 @@ class CheckBox(imagebutton.ImageButton):
     '''
     @brief Clase que simula el comportamiento de un Check box
     '''
-    def __init__(self, menu, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text = True, center = True):
+    def __init__(self, menu, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text = True):
         '''
         @brief Constructor
         
@@ -22,7 +29,9 @@ class CheckBox(imagebutton.ImageButton):
         @param image_y Posición y de la imagen respecto al botón
         @param show_text Indica si se debe mostrar el texto o no
         '''
-        imagebutton.ImageButton.__init__(self, menu, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text, center)
+        imagebutton.ImageButton.__init__(self, menu, xml_file, text, centerx, 
+                                        centery, font_code, image_code, 
+                                        image_x, image_y, show_text)
         
         self.checked = False
     
@@ -68,14 +77,27 @@ class CheckBox(imagebutton.ImageButton):
             self.control_checked()
     
     def control_checked(self):
-        
+        '''
+        @brief Controla si pasa a estar seleccionado o no
+        '''
         self.checked = not self.checked
     
     def is_checked(self):
+        '''
+        @brief Indica si esta seleccionado o no
+        
+        @return True o False
+        '''
         return self.checked
     
     def set_checked(self):
+        '''
+        @brief Indica como seleccionado
+        '''
         self.checked = True
 
     def set_unchecked(self):
+        '''
+        @brief Indica como no seleccionado
+        '''
         self.checked = False

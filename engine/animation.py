@@ -1,5 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+'''
+@file animation.py
+@brief Implementa la clase ImageGrid y Animation
+@author José Jesús Marente Florín
+@date Mayo 2011.
+'''
+
 import resource
 
 class ImageGrid:

@@ -250,9 +250,10 @@ class CollisionManager:
                     
                     #Dependiendo de la dirección vertical, tendrá un rebote u otro
                     if it.go_down():
-                        it.actual_angle += 70
-                    elif it.go_up():
-                        it.actual_angle -= 70
+                        it.actual_angle = 135
+                    #elif it.go_up():
+                    else:
+                        it.actual_angle = 225
                     col = True
             
             #Si va hacia la izquierda y colisiona con la derecha del tile
@@ -263,9 +264,10 @@ class CollisionManager:
                     
                     #Aplicamos el rebote dependiendo de la dirección vertical
                     if it.go_down():
-                        it.actual_angle -= 70
-                    elif it.go_up():
-                        it.actual_angle += 70
+                        it.actual_angle = 45
+                    #elif it.go_up():
+                    else:
+                        it.actual_angle = 315
                     col = True
             
             #Si va hacia abajo y colisiona por la parte superior del tile
@@ -276,9 +278,10 @@ class CollisionManager:
                     
                     #Aplicamos rebote segun la dirección horizontal
                     if it.go_left():
-                        it.actual_angle += 70
-                    elif it.go_right():
-                        it.actual_angle -= 70
+                        it.actual_angle = 225
+                    #elif it.go_right():
+                    else:
+                        it.actual_angle = 315
                     col = True
             
             #Si va hacia arriba y colisiona por la parte inferior del tile
@@ -289,9 +292,10 @@ class CollisionManager:
 
                     #Aplicamos rebote segun la dirección horizontal
                     if it.go_left():
-                        it.actual_angle -= 70
-                    elif it.go_right():
-                        it.actual_angle += 70
+                        it.actual_angle = 135
+                    #elif it.go_right():
+                    else:
+                        it.actual_angle = 45
                     col = True
             
             #Indicamos que hay colision

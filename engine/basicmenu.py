@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file basicmenu.py
+@brief Implementa la clase BasicMenu
+@author José Jesús Marente Florín
+@date Diciembre 2010.
+'''
+
 import state
 import cursor
 import data
@@ -173,12 +180,17 @@ class BasicMenu(state.State):
                         
             #Según el tipo de boton obtendremos un boton u otro
             if type_button == 'normal':
-                aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text, True)
+                aux_button = button.Button(self, xml_file, text, x, y, 
+                                    font_code, show_text)
+                                    
             elif type_button == 'image_button':
                 image_code = str(element.getAttribute('image'))
                 image_x = int(element.getAttribute('image_x'))
                 image_y = int(element.getAttribute('image_y'))
-                aux_button = imagebutton.ImageButton(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text, True)
+                aux_button = imagebutton.ImageButton(self, xml_file, text, x, 
+                                                    y, font_code, image_code, 
+                                                    image_x, image_y, 
+                                                    show_text)
             
             #Lo añadimos a la lista de botones
             self.buttons.append(aux_button)

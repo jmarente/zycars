@@ -1,4 +1,12 @@
 #-*- encoding: utf-8 -*-
+
+'''
+@file button.py
+@brief Implementa la clase Button
+@author José Jesús Marente Florín
+@date Diciembre 2010.
+'''
+
 import pygame
 import resource
 import data
@@ -7,13 +15,18 @@ import mouse
 import config
 
 def strTobool(string):
+    '''
+    @brief Indica si una cadena es un booleano o no
+    
+    @return True o Flase.
+    '''
     return string.lower() in ['yes', 'true', 't', '1']
 
 class Button:
     '''
     @brief Clase que modela el comportamiento de un botón
     '''
-    def __init__(self, menu, xml_file, text, centerx, centery, font_code, show_text = True, center = True):
+    def __init__(self, menu, xml_file, text, centerx, centery, font_code, show_text = True):
         '''
         @brief Constructor.
         
@@ -64,7 +77,7 @@ class Button:
             aux_rect = self.normal_image.get_rect()
             aux_rect.x = self.centerx
             aux_rect.y = self.centery
-            self.rect_normal = pygame.Rect((0,0,0,0))
+            self.rect_normal = pygame.Rect((0, 0, 0, 0))
             self.rect_normal.x = int(element.getAttribute('x')) + aux_rect.x
             self.rect_normal.y = int(element.getAttribute('y')) + aux_rect.y
             self.rect_normal.w = int(element.getAttribute('w'))
@@ -81,7 +94,7 @@ class Button:
             aux_rect = self.selected_image.get_rect()
             aux_rect.x = self.centerx
             aux_rect.y = self.centery
-            self.rect_selected = pygame.Rect((0,0,0,0))
+            self.rect_selected = pygame.Rect((0, 0, 0, 0))
             self.rect_selected.x = int(element.getAttribute('x')) + aux_rect.x
             self.rect_selected.y = int(element.getAttribute('y')) + aux_rect.y
             self.rect_selected.w = int(element.getAttribute('w'))
@@ -109,7 +122,8 @@ class Button:
                 
                 #Renderizamos
                 self.normal_font = resource.get_font(font_code, font_size)
-                self.text_render_normal = self.normal_font.render(self.text, True, color)
+                self.text_render_normal = self.normal_font.render(self.text, 
+                                                                True, color)
                 
                 #Vemos si el texto tendrá algun tipo de inclinación
                 if element.hasAttribute('angle'):
@@ -120,7 +134,8 @@ class Button:
                 self.normal_text_rect = self.text_render_normal.get_rect()
                 posx = int(element.getAttribute('x'))
                 posy = int(element.getAttribute('y'))
-                self.normal_text_rect = self.__set_rect_text(self.normal_text_rect, posx, posy)
+                self.normal_text_rect = self.__set_rect_text(self.normal_text_rect, 
+                                                            posx, posy)
             
             #Si hay opcion de cambio del color del texto cuando el botón esté seleccionado
             if len(parser.getElementsByTagName('selected_text')) > 0:
@@ -178,14 +193,16 @@ class Button:
             #Copiamos la imagen en la superficie y dibujamos el texto en el
             aux_surface = self.selected_image.copy()
             if self.show_text:
-                aux_surface.blit(self.text_render_selected, self.selected_text_rect)
+                aux_surface.blit(self.text_render_selected, 
+                                self.selected_text_rect)
         
         #Si el botón no está seleccionado
         else:
             #Idem de lo anterior
             aux_surface = self.normal_image.copy()
             if self.show_text:
-                aux_surface.blit(self.text_render_normal, self.normal_text_rect)
+                aux_surface.blit(self.text_render_normal, 
+                                self.normal_text_rect)
         
         #Dibujamos el resultado
         screen.blit(aux_surface, self.rect_draw)

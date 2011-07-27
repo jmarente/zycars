@@ -39,9 +39,6 @@ class CheckPoint:
         #Dibujamos el punto de control con respecto a la pantalla
         pygame.draw.rect(screen, color, (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
         
-    def update(self):
-        pass
-        
     def collision_sprite(self, sprite):
         '''
         @brief Método que comprueba si algun sprite colisiona con el punto de control
@@ -89,7 +86,7 @@ class CheckPoints:
         
     def draw(self, screen):
         '''
-        @brief Método encargado de mostrar los puntos de control por pantalla-
+        @brief Método encargado de mostrar los puntos de control por pantalla
         
         @param screen Superficie destino
         '''
@@ -110,7 +107,6 @@ class CheckPoints:
         
         @param sprite Sprite con el que comprobaremos el estado de los CheckPoints
         '''
-        
         #Si aun no hemos pasado por la meta ni una sola vez y pasamos,
         #indicamos que se inicia la actualización de los CheckPoinst
         if not self.start and self.goal.collision_sprite(sprite):
@@ -156,16 +152,6 @@ class CheckPoints:
                 
                 #Obtenemos el siguiente punto actual
                 self.actual_checkpoint = self.unchecked.popleft()
-            
-            '''#Controlamos que el coche no de marcha atras en la meta
-            if not self.wrong_direction and len(self.unchecked) > 0 and self.goal.collision_sprite(sprite):
-                #Indicamos que va en mala dirección
-                self.wrong_direction = True'''
-                
-        '''#Si vamos en mala direccion y pasamos por la meta
-        elif self.wrong_direction and self.goal.collision_sprite(sprite):
-            #Indicamos que la dirección es correcta
-            self.wrong_direction = False'''
         
     def total_chekpoints(self):
         '''
@@ -204,11 +190,26 @@ class CheckPoints:
         self.goal = goal
     
     def get_laps(self):
+        '''
+        @brief Indica el número de vueltas
+        
+        @return Número de vueltas
+        '''
         return self.laps
     
     def get_checked(self):
+        '''
+        @brief Número de puntos checkeados
+        
+        @return Número de puntos checkeados
+        '''
         return len(self.checked)
     
     def get_total_checked(self):
+        '''
+        @brief Número total de puntos checkeados
+        
+        @return Número total de puntos checkeados
+        '''
         return self.total_checked
         
