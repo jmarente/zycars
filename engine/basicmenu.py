@@ -61,7 +61,7 @@ class BasicMenu(state.State):
         #Actualizamos el cursor
         self.cursor.update()
         
-    def draw(self):
+    def draw(self, screen):
         '''
         @brief Método que dibujara el menú, debe ser implementado por sus descendientes
         '''
@@ -100,8 +100,9 @@ class BasicMenu(state.State):
         self.background = resource.get_image(image_code)
         
         #Obtenemos el cursor del menú
-        cursor_xml = str(parent.getAttribute('cursor'))
-        self.cursor = cursor.Cursor(data.get_path_xml(cursor_xml))
+        #cursor_xml = str(parent.getAttribute('cursor'))
+        #self.cursor = cursor.Cursor(data.get_path_xml(cursor_xml))
+        self.cursor = cursor.Cursor()
         
         self.music_file = None
         if parent.hasAttribute('music'):
