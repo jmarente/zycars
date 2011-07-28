@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file cursor.py
+Implementa la clase Cursor
+@author José Jesús Marente Florín
+@date Diciembre 2010.
+'''
+
 import pygame
 import data
 import resource
@@ -9,7 +16,7 @@ class Cursor(pygame.sprite.Sprite):
     '''
     @brief Clase encargada de representar un cursor en pantalla
     '''
-    def __init__(self, xml_path):
+    def __init__(self):
         '''
         @brief Constructor de cursor
         

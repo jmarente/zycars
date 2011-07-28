@@ -1,15 +1,17 @@
 # -*- encoding: utf-8 -*-
 
 '''
-@brief Módulo encargado de realizar los accesos a memoria necesarios, para obtener 
-los recursos requeridos, tanto música, fuentes, imagenes, como ficheros xml.
+@brief Módulo encargado de realizar los accesos a memoria necesarios, 
+para obtener  los recursos requeridos, tanto música, fuentes, imagenes, 
+como ficheros xml.
 '''
     
 import pygame
 import os
 
 #Definimos los directorios en los que se encuentran los recursos multimedia
-MULTIMEDIA_DIR = os.path.relpath(os.path.join(__file__, '..', '..', 'multimedia'))
+MULTIMEDIA_DIR = os.path.relpath(os.path.join(__file__, '..', '..', 
+                                            'multimedia'))
 
 #Directorio donde están los ficheros xml
 XML_DIR = os.path.relpath(os.path.join(__file__, '..', '..', 'xml'))
@@ -84,7 +86,8 @@ def __load_basic_image(image_name):
     @return Devuelve una imagen cargada
     '''
     #Si la imagen tiene la extensión que debería
-    if check_extension(image_name, ".png") or check_extension(image_name, ".gif"):
+    if check_extension(image_name, ".png") or \
+        check_extension(image_name, ".gif"):
         #Obtenemos su ruta
         image_path = os.path.join(MULTIMEDIA_DIR, "image", image_name)
     #Sino
@@ -114,7 +117,7 @@ def image_alpha(image, alpha):
     
     #Si no, cogeremos como color alpha el pixel 0,0 de la imagen
     else:
-        color = image.get_at((0,0))
+        color = image.get_at((0, 0))
         image.set_colorkey(color, pygame.RLEACCEL)
         
     return image
@@ -166,10 +169,7 @@ def load_sound(sound_name):
         sound_path = os.path.join(MULTIMEDIA_DIR, "sound", sound_name + ".wav")
     
     #Cargamos el sonido
-    try:
-        sound = pygame.mixer.Sound(sound_path)
-    except pygame.Error, message:
-        raise SystemExit, message
+    sound = pygame.mixer.Sound(sound_path)
     
     return sound
 
@@ -191,10 +191,7 @@ def load_font(font_name, size):
         font_path = os.path.join(MULTIMEDIA_DIR, "font", font_name + ".ttf")
     
     #Cargamos la fuente
-    try:
-        font = pygame.font.Font(font_path, size)
-    except pygame.Error, message:
-        raise SystemExit, message
+    font = pygame.font.Font(font_path, size)
     
     return font
             

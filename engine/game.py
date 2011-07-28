@@ -1,5 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+'''
+@file game.py
+@brief Implementa la clase Game
+@author José Jesús Marente Florín
+@date Octubre 2010.
+'''
+
 import pygame
 import data
 import resource
@@ -57,7 +64,6 @@ class Game:
         
         #Estado actual del juego
         self.__actual_state = intro.Intro(self, 'intro.xml')  
-        #self.__actual_state = optionmenu.OptionMenu(self, 'menu/optionmenu.xml')
               
     def run(self):
         '''
@@ -82,7 +88,7 @@ class Game:
             
             fps = self.clock.get_fps()
             
-            render_fps = self.font.render(str(round(fps, 2)), True, (0,0,0))
+            render_fps = self.font.render(str(round(fps, 2)), True, (0, 0, 0))
 
             self.screen.blit(render_fps, (730, 565))
             
@@ -114,17 +120,33 @@ class Game:
         self.__actual_state = new_state
     
     def start_game(self):
+        '''
+        @brief Comienza el modo de juego almacenado en la configuracion
+        '''
         pygame.mixer.music.fadeout(2000)
         config.Config().set_current_music('')
+        
         if config.Config().mode == config.CHAMPIONSHIP:
-            self.change_state(modes.ChampionShip(self, config.Config().get_championship_circuits(), config.Config().get_laps()))
+            self.change_state(modes.ChampionShip(self, 
+                                    config.Config().get_championship_circuits(),
+                                    config.Config().get_laps()))
+                                    
         elif config.Config().mode == config.TIMED:
-            self.change_state(modes.TimedRace(self, config.Config().get_circuit(), config.Config().get_laps()))
+            self.change_state(modes.TimedRace(self, 
+                                    config.Config().get_circuit(), 
+                                    config.Config().get_laps()))
+                                    
         elif config.Config().mode == config.FASTRACE:
-            self.change_state(modes.FastRace(self, config.Config().get_circuit(), config.Config().get_laps()))
+            self.change_state(modes.FastRace(self, 
+                                    config.Config().get_circuit(), 
+                                    config.Config().get_laps()))
     
     def set_screen(self):
+        '''
+        @brief Establece el modo de pantalla indicado en la configuración
+        '''
         if config.Config().get_fullscreen():
             self.screen = pygame.display.set_mode((self.__screen_width, self.__screen_height), pygame.FULLSCREEN | pygame.HWSURFACE) 
         else:
-            self.screen = pygame.display.set_mode((self.__screen_width, self.__screen_height))
+            self.screen = pygame.display.set_mode((self.__screen_width, 
+                                                    self.__screen_height))

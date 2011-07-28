@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file circuitmenu.py
+Implementa la clase CircuitMenu y Times
+@author José Jesús Marente Florín
+@date Febrero 2011.
+'''
+
 import data
 import resource
 import basicmenu
@@ -31,11 +38,13 @@ class Times:
         self.font = resource.get_font('cheesebu', 30)
         
         #Superfice con el texto de Mejor Carrera y posición
-        self.best_text = self.font.render('Mejor Carrera', True, (194, 26, 26))
+        self.best_text = self.font.render('Mejor Carrera', True, 
+                                        (194, 26, 26))
         self.best_text_position = (x, y)
         
         #Superficie con el texto de Vuelta Rapida y donde se almacenará la posición
-        self.fasttest_text = self.font.render(u'Vuelta Rápida', True, (194, 26, 26))
+        self.fasttest_text = self.font.render(u'Vuelta Rápida', True, 
+                                            (194, 26, 26))
         self.fasttest_text_position = None
         
         #Superficie que contendrá los tiempos de los circuitos
@@ -82,23 +91,30 @@ class Times:
                                         int(self.circuits[circuit_name]['bestrace'][1]), 
                                         int(self.circuits[circuit_name]['bestrace'][2]))
                                             
-            self.best_race = self.font.render(string1, True, (0,0,0))
+            self.best_race = self.font.render(string1, True, (0, 0, 0))
             
             string2 = '%02d:%02d:%02d' % (int(self.circuits[circuit_name]['fasttestlap'][0]), 
                                     int(self.circuits[circuit_name]['fasttestlap'][1]), 
                                     int(self.circuits[circuit_name]['fasttestlap'][2]))
                                     
-            self.fasttest_lap = self.font.render(string2, True, (0,0,0))
+            self.fasttest_lap = self.font.render(string2, True, (0, 0, 0))
             
         #Si el circuito que se pasa no esta en el mapa, motramos que no están disponible sus tiempos
         else:
-            self.best_race = self.font.render('No Disponible', True, (0,0,0))
-            self.fasttest_lap = self.font.render('No Disponible', True, (0,0,0))
+            self.best_race = self.font.render('No Disponible', True, 
+                                            (0, 0, 0))
+            self.fasttest_lap = self.font.render('No Disponible', True, 
+                                                (0,0,0))
         
         #Asignamos las posiciones para cada una de las superficie y queden todas alineadas
-        self.best_race_position = (self.best_text_position[0], self.best_text.get_height() + self.best_text_position[1])
-        self.fasttest_text_position = (self.best_text_position[0], self.best_race.get_height() + self.best_race_position[1])
-        self.fasttest_lap_position = (self.best_text_position[0], self.fasttest_text.get_height() + self.fasttest_text_position[1])
+        self.best_race_position = (self.best_text_position[0], 
+                    self.best_text.get_height() + self.best_text_position[1])
+                    
+        self.fasttest_text_position = (self.best_text_position[0], 
+                    self.best_race.get_height() + self.best_race_position[1])
+                    
+        self.fasttest_lap_position = (self.best_text_position[0], 
+            self.fasttest_text.get_height() + self.fasttest_text_position[1])
         
     def draw(self, screen):
         '''
@@ -113,9 +129,15 @@ class Times:
         screen.blit(self.fasttest_lap, self.fasttest_lap_position)
     
     def get_best_time(self, circuit_name):
+        '''
+        @brief Mejores tiempos del circuito
+        '''
         pass
     
     def get_fattest_lap(self, circuit_name):
+        '''
+        @brief Mejor vuelta del circuito
+        '''
         pass
 
 class CircuitMenu(basicmenu.BasicMenu):
@@ -166,7 +188,8 @@ class CircuitMenu(basicmenu.BasicMenu):
         
         #Texto a mostrar cuando no hay circuito disponible
         font = resource.get_font('cheesebu', 30)
-        message = font.render('Lo sentimos, Circuito no disponible', True, (0,0,0))
+        message = font.render('Lo sentimos, Circuito no disponible', True, 
+                            (0, 0, 0))
         
         #Obtenemos la posicion de la imagen que representará al circuito
         image_pos = parse.getElementsByTagName('circuit_position')[0]
@@ -176,12 +199,15 @@ class CircuitMenu(basicmenu.BasicMenu):
         
         self.times = None
         
-        self.text_laps = self.font.render('Vueltas', True, (189, 9 ,38))
+        self.text_laps = self.font.render('Vueltas', True, (189, 9 , 38))
         self.laps = 1
         laps = parse.getElementsByTagName('laps')[0]
         
-        self.text_laps_position = (int(laps.getAttribute('text_x')), int(laps.getAttribute('text_y')))
-        self.laps_position = (int(laps.getAttribute('num_x')), int(laps.getAttribute('num_y')))
+        self.text_laps_position = (int(laps.getAttribute('text_x')), 
+                                int(laps.getAttribute('text_y')))
+                                
+        self.laps_position = (int(laps.getAttribute('num_x')), 
+                            int(laps.getAttribute('num_y')))
         
         if config.Config().get_mode() == config.TIMED:
             #Obtenemos la posición del marcador de los tiempos
@@ -239,7 +265,8 @@ class CircuitMenu(basicmenu.BasicMenu):
                 if type_button == 'normal':
                     
                     #Si es un botón normal sin imagen significa que el circuito no está disponible.
-                    aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text)
+                    aux_button = button.Button(self, xml_file, text, x, y, 
+                                            font_code, show_text)
                     
                     #Si que le asociamos como imagen el mensaje de que no está disponible
                     self.images_circuits[name_layer][text] = message
@@ -251,7 +278,10 @@ class CircuitMenu(basicmenu.BasicMenu):
                     image_x = int(option.getAttribute('image_x'))
                     image_y = int(option.getAttribute('image_y'))
                     
-                    aux_button = imagebutton.ImageButton(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text)
+                    aux_button = imagebutton.ImageButton(self, xml_file, text, 
+                                                        x, y, font_code, 
+                                                        image_code, image_x, 
+                                                        image_y, show_text)
 
                     #Obtenemos el archivo de configuración del circuito
                     circuit_file = str(option.getAttribute('circuit_file'))
@@ -269,7 +299,9 @@ class CircuitMenu(basicmenu.BasicMenu):
                     self.actual_circuit = text
                     
                     #También renderizamos el título del circuito
-                    self.actual_name = self.font.render(text, True, (255, 255, 255))
+                    self.actual_name = self.font.render(text, True, 
+                                                    (255, 255, 255))
+                                                    
                     self.rect_name = self.actual_name.get_rect()
                     self.rect_name.y = self.y_name
                     self.rect_name.centerx = self.centerx_name
@@ -298,10 +330,10 @@ class CircuitMenu(basicmenu.BasicMenu):
         Solo actualiza los elementos de la capa actual
         '''
         #Actualizamos los botones de las capas
-        for button in self.buttons_layers[self.actual_layer]:
-            button.update()
-            if button.get_selected():
-                self.actual_option = button.get_option()
+        for button_layer in self.buttons_layers[self.actual_layer]:
+            button_layer.update()
+            if button_layer.get_selected():
+                self.actual_option = button_layer.get_option()
         
         basicmenu.BasicMenu.update(self)
                     
@@ -316,8 +348,8 @@ class CircuitMenu(basicmenu.BasicMenu):
         self.draw_basic_elements(screen) 
         
         #Dibujamos los botones de la capa actual
-        for button in self.buttons_layers[self.actual_layer]:
-            button.draw(screen)
+        for button_layer in self.buttons_layers[self.actual_layer]:
+            button_layer.draw(screen)
         
         #Dibujamos la imagen del circuito de la imagen actual
         screen.blit(self.images_circuits[self.actual_layer][self.actual_circuit], self.circuit_position)
@@ -377,7 +409,8 @@ class CircuitMenu(basicmenu.BasicMenu):
                     self.times.update(self.actual_circuit)
                 
                 #Renderizamos el nombre del nuevo circuito y asignamos posición
-                self.actual_name = self.font.render(self.first_circuit[option], True, (255, 255, 255))
+                self.actual_name = self.font.render(self.first_circuit[option], 
+                                                True, (255, 255, 255))
                 self.rect_name = self.actual_name.get_rect()
                 self.rect_name.y = self.y_name
                 self.rect_name.centerx = self.centerx_name
@@ -405,7 +438,9 @@ class CircuitMenu(basicmenu.BasicMenu):
                     self.times.update(option)
                 
                 #Renderizamos el nombre del nuevo circuito y asignamos posición
-                self.actual_name = self.font.render(option, True, (255, 255, 255))
+                self.actual_name = self.font.render(option, True, 
+                                                (255, 255, 255))
+                                                
                 self.rect_name = self.actual_name.get_rect()
                 self.rect_name.y = self.y_name
                 self.rect_name.centerx = self.centerx_name

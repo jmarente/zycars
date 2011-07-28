@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file collisionmanager.py
+Implementa la clase CollisionManager
+@author José Jesús Marente Florín
+@date Noviembre 2011.
+'''
+
 import pygame
 import circuit
 import gameobject
@@ -186,7 +193,8 @@ class CollisionManager:
                     col = True
                 
         #Si hemos obtenido colisión y es de tipo lag
-        elif result and (result['type'] == circuit.LAG or result['type'] == circuit.HOLE):
+        elif result and (result['type'] == circuit.LAG or \
+            result['type'] == circuit.HOLE):
             
             #Si el coche va mas rapido que la mitad de su velocidad maxima
             if(abs(sprite.actual_speed) > (abs(sprite.get_max_speed()) / 2)):
@@ -227,12 +235,15 @@ class CollisionManager:
         
         #Si existe algun tipo de colision, el tile no es transpasable
         #Y el item es de tipo misil devolvemos true
-        if result and result['type'] == circuit.NOPASSABLE and it.type == item.MISSILE:
+        if result and result['type'] == circuit.NOPASSABLE and \
+            it.type == item.MISSILE:
+                
             return True
 
         #Si existe algun tipo de colision, el tile no es transpasable
         #Y el item es de tipo bola, gestionamos el rebote
-        elif result and result['type'] == circuit.NOPASSABLE and it.type == item.BALL:
+        elif result and result['type'] == circuit.NOPASSABLE and \
+            it.type == item.BALL:
             
             tile_rect = result['rect']
             
@@ -434,7 +445,14 @@ class CollisionManager:
                     sprite1.actual_speed *= -1
 
     def __collision_ver(self, sprite, circ, direction):
-
+        '''
+        @brief Comprueba la colision en el eje X
+        
+        @param sprite Sprtie a compribar
+        @param circ Circuito
+        @param direction Dirección del sprite
+        @return False si no hay colision o el tile de la colision en caso contrario
+        '''
         tile_y0 = sprite.rect.y / circ.get_tile_height()
         tile_y1 = (sprite.rect.y + sprite.rect.h) / circ.get_tile_height()
         
@@ -446,14 +464,16 @@ class CollisionManager:
         i = tile_y0
         
         while i <= tile_y1:
-            if (circ.get_tile(1, tilecoordx, i).type == circuit.NOPASSABLE) or \
-            (circ.get_tile(0, tilecoordx, i).type == circuit.NOPASSABLE):
+            if (circ.get_tile(1, tilecoordx, i).type == circuit.NOPASSABLE) \
+            or (circ.get_tile(0, tilecoordx, i).type == circuit.NOPASSABLE):
                 tilecoordx *= circ.get_tile_width()
                 
                 result = {}
                 result['type'] = circuit.NOPASSABLE
-                result['rect'] = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
-                circ.get_tile_width(), circ.get_tile_height()))
+                result['rect'] = pygame.Rect((tilecoordx, 
+                                            i * circ.get_tile_height(),
+                                            circ.get_tile_width(), 
+                                            circ.get_tile_height()))
                 
                 return result
                 
@@ -461,7 +481,7 @@ class CollisionManager:
             
         i = tile_y0
         
-        while i <=tile_y1:
+        while i <= tile_y1:
             if (circ.get_tile(1, tilecoordx, i).type == circuit.LAG) or \
             (circ.get_tile(0, tilecoordx, i).type == circuit.LAG):
                 tilecoordx *= circ.get_tile_width()
@@ -479,8 +499,10 @@ class CollisionManager:
 
                 result = {}
                 result['type'] = circuit.HOLE
-                result['rect'] = pygame.Rect((tilecoordx, i * circ.get_tile_height(), \
-                circ.get_tile_width(), circ.get_tile_height()))
+                result['rect'] = pygame.Rect((tilecoordx, 
+                                            i * circ.get_tile_height(),
+                                            circ.get_tile_width(), 
+                                            circ.get_tile_height()))
                 
                 return result
             i += 1
@@ -488,7 +510,14 @@ class CollisionManager:
         return False
             
     def __collision_hor(self, sprite, circ, direction):
-
+        '''
+        @brief Comprueba la colision en el eje Y
+        
+        @param sprite Sprtie a compribar
+        @param circ Circuito
+        @param direction Dirección del sprite
+        @return False si no hay colision o el tile de la colision en caso contrario
+        '''
         tile_x0 = sprite.rect.x / circ.get_tile_width()
         tile_x1 = (sprite.rect.x + sprite.rect.w) / circ.get_tile_width()
         
@@ -500,14 +529,15 @@ class CollisionManager:
         i = tile_x0
         
         while i <= tile_x1:
-            if (circ.get_tile(1, i, tilecoordy).type == circuit.NOPASSABLE) or \
-            (circ.get_tile(0, i, tilecoordy).type == circuit.NOPASSABLE):
+            if (circ.get_tile(1, i, tilecoordy).type == circuit.NOPASSABLE) \
+            or (circ.get_tile(0, i, tilecoordy).type == circuit.NOPASSABLE):
                 tilecoordy *= circ.get_tile_height()
                 
                 result = {}
                 result['type'] = circuit.NOPASSABLE
-                result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
-                circ.get_tile_width(), circ.get_tile_height()))
+                result['rect'] = pygame.Rect((i * circ.get_tile_width(), 
+                                            tilecoordy, circ.get_tile_width(),
+                                            circ.get_tile_height()))
                 
                 return result
 
@@ -517,8 +547,9 @@ class CollisionManager:
                 
                 result = {}
                 result['type'] = circuit.LAG
-                result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
-                circ.get_tile_width(), circ.get_tile_height()))
+                result['rect'] = pygame.Rect((i * circ.get_tile_width(), 
+                                            tilecoordy, circ.get_tile_width(),
+                                            circ.get_tile_height()))
                 
                 return result
 
@@ -528,8 +559,9 @@ class CollisionManager:
 
                 result = {}
                 result['type'] = circuit.HOLE
-                result['rect'] = pygame.Rect((i * circ.get_tile_width(), tilecoordy, \
-                circ.get_tile_width(), circ.get_tile_height()))
+                result['rect'] = pygame.Rect((i * circ.get_tile_width(), 
+                                            tilecoordy, circ.get_tile_width(),
+                                            circ.get_tile_height()))
                 
                 return result
                 
@@ -546,7 +578,8 @@ class CollisionManager:
         @param tile_rect Rectangulo que representa el tile
         @param edge Lista con los filos por los que colisiona el sprite con el tile
         '''
-        collision = {'left': False, 'right': False, 'top': False, 'bottom': False}
+        collision = {'left': False, 'right': False, 
+                    'top': False, 'bottom': False}
         
         #Comprobamos que lado debemos corregir, viendo que parte del sprite
         #Esta mas superpuesto con el tile
@@ -597,6 +630,13 @@ class CollisionManager:
         return collision
 
     def side_collision2(self, sprite, tile_rect):
+        '''
+        @brief Indica por que lado se produce una colision
+        
+        @param sprite Sprite a comprobar
+        @param tile_rect Rectangulo de tile a comprobar
+        @return Diccionario con los lados de las colisiones
+        '''
         collision = {'left': False, 'right': False, 'top': False, 
                     'bottom': False, 'horizontal':False, 'vertical': False}
                     
@@ -654,27 +694,52 @@ class CollisionManager:
             Log().critical('Item fuera de limites, con angulo ' + str(sprite.actual_angle))
     
     def line_rectangle_collision(self, line, rect):
+        '''
+        @brief Comprueba la colisión entre una linea y un rectangulo
+        
+        @param line Linea a comprobar
+        @param rect Rectangulo a comprobar
+        @return True o False
+        '''
         
         #Colisiones eje X
         #Atraviesa verticalmente el rectangulo, con los extremos fuera
-        if (min(line.x1, line.x2) >= rect.x and min(line.x1, line.x2) <= rect.x + rect.w) and (min(line.y1, line.y2) <= rect.y and max(line.y1, line.y2) >= rect.y + rect.h):
+        if (min(line.x1, line.x2) >= rect.x and \
+            min(line.x1, line.x2) <= rect.x + rect.w) and \
+            (min(line.y1, line.y2) <= rect.y and \
+            max(line.y1, line.y2) >= rect.y + rect.h):
             return True
         #Atraviesa verticalmente el rectangulo, con el extremo inferior fuera
-        if (min(line.x1, line.x2) >= rect.x and min(line.x1, line.x2) <= rect.x + rect.w) and (min(line.y1, line.y2) >= rect.y and min(line.y1, line.y2) <= rect.y + rect.h):
+        if (min(line.x1, line.x2) >= rect.x and \
+            min(line.x1, line.x2) <= rect.x + rect.w) and \
+            (min(line.y1, line.y2) >= rect.y and \
+            min(line.y1, line.y2) <= rect.y + rect.h):
             return True
         #Atraviesa verticalmente el rectangulo, con el extremo superior fuera
-        if (max(line.x1, line.x2) >= rect.x and max(line.x1, line.x2) <= rect.x + rect.w) and (max(line.y1, line.y2) >= rect.y and max(line.y1, line.y2) <= rect.y + rect.h):
+        if (max(line.x1, line.x2) >= rect.x and \
+            max(line.x1, line.x2) <= rect.x + rect.w) and \
+            (max(line.y1, line.y2) >= rect.y and \
+            max(line.y1, line.y2) <= rect.y + rect.h):
             return True
             
         #Colisiones eje Y
         #Atraviesa horizontalmente el rectangulo, con los dos extremos fuera
-        if (min(line.y1, line.y2) >= rect.y  and min(line.y1, line.y2) <= rect.y + rect.h) and (min(line.x1, line.x2) <= rect.x and max(line.x1, line.x2) >= rect.x + rect.w):
+        if (min(line.y1, line.y2) >= rect.y  and \
+            min(line.y1, line.y2) <= rect.y + rect.h) and \
+            (min(line.x1, line.x2) <= rect.x and \
+            max(line.x1, line.x2) >= rect.x + rect.w):
             return True
         #Atraviesa horizontalmente el rectangulo, con el extremo derecho fuera
-        if (min(line.y1, line.y2) >= rect.y  and min(line.y1, line.y2) <= rect.y + rect.h) and (min(line.x1, line.x2) >= rect.x and min(line.x1, line.x2) <= rect.x + rect.w):
+        if (min(line.y1, line.y2) >= rect.y  and \
+            min(line.y1, line.y2) <= rect.y + rect.h) and \
+            (min(line.x1, line.x2) >= rect.x and \
+            min(line.x1, line.x2) <= rect.x + rect.w):
             return True          
         #Atraviesa horizontalmente el rectangulo, con el extremo izquierdo fuera
-        if (max(line.y1, line.y2) >= rect.y  and max(line.y1, line.y2) <= rect.y + rect.h) and (max(line.x1, line.x2) >= rect.x and max(line.x1, line.x2) <= rect.x + rect.w):
+        if (max(line.y1, line.y2) >= rect.y  and \
+            max(line.y1, line.y2) <= rect.y + rect.h) and \
+            (max(line.x1, line.x2) >= rect.x and \
+            max(line.x1, line.x2) <= rect.x + rect.w):
             return True
 
         return False

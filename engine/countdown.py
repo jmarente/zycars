@@ -18,7 +18,8 @@ class CountDown:
     '''
     @brief Clase que simula una cuenta atrás
     '''
-    def __init__(self, font_code, size_font, inicial_scale, increase_scale, color, number = 3, sound_file = None):
+    def __init__(self, font_code, size_font, inicial_scale, increase_scale, 
+                color, number = 3, sound_file = None):
         '''
         @brief Constructor
         
@@ -41,7 +42,7 @@ class CountDown:
             self.sound.set_volume(config.Config().get_sound_volume())
             
         #Introducimos todos los elementos
-        for i in range(1,number + 1):
+        for i in range(1, number + 1):
             self.elements.appendleft(self.font.render(str(i), True, color))
         
         #Introducimos el fin de la cuenta atras
@@ -106,7 +107,8 @@ class CountDown:
         if not self.stop:
             
             #Escalamos la imagen actual
-            self.element_modify = pygame.transform.rotozoom(self.actual_element, 0, self.scale)
+            self.element_modify = pygame.transform.rotozoom(self.actual_element,
+                                                        0, self.scale)
             
             #Incrementamos la escala para la siguiente iteración
             self.scale += self.increase_scale
