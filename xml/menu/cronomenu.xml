@@ -22,7 +22,7 @@
     <layers>
         <layer name="Copa Chancla" font_code="cheesebu" size="30">
             <buttons>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-beach.tmx' font="cheesebu" text="circuit1-beach" image_circuit="circuit1" image="logo_beach1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit-beach.tmx' font="cheesebu" text="circuit1-beach" image_circuit="circuit1" image="logo_beach1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-beach.tmx' font="cheesebu" text="circuit2-beach" image_circuit="circuit2" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="410" show_text='False'></button>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit3-beach.tmx' font="cheesebu" text="circuit3-beach" image_circuit="circuit1" image="logo_beach3" image_x="40" image_y="15" center="True" x="80" y="475" show_text='False'></button>
                 <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit4-beach.tmx' font="cheesebu" text="circuit4-beach" image_circuit="circuit2" image="logo_beach4" image_x="20" image_y="7" center="True" x="80" y="540" show_text='False'></button>
