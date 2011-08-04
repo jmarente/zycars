@@ -7,6 +7,7 @@
   <property name="grado_coche" value="90"/>
   <property name="tileset_alto" value="40"/>
   <property name="tileset_ancho" value="21"/>
+  <property name="music" value="Dance Cleopatra - Zamalska.ogg"/>
  </properties>
  <tileset firstgid="1" name="tilesetkitchen" tilewidth="45" tileheight="45">
   <image source="tilesetkitchen.png" width="945" height="1802"/>
