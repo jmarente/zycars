@@ -96,6 +96,17 @@
 		<image code="circuit1" name="circuit/circuit1.png" alpha="True"/>
 		<image code="circuit2" name="circuit/circuit2.png" alpha="True"/>
 		<image code="circuit1-beach" name="circuit/circuit1-beach.png" alpha="True"/>
+		<image code="circuit2-beach" name="circuit/circuit2-beach.png" alpha="True"/>
+		<image code="circuit3-beach" name="circuit/circuit3-beach.png" alpha="True"/>
+		<image code="circuit4-beach" name="circuit/circuit4-beach.png" alpha="True"/>
+		<image code="circuit1-garden" name="circuit/circuit1-garden.png" alpha="True"/>
+		<image code="circuit2-garden" name="circuit/circuit2-garden.png" alpha="True"/>
+		<image code="circuit3-garden" name="circuit/circuit3-garden.png" alpha="True"/>
+		<image code="circuit4-garden" name="circuit/circuit4-garden.png" alpha="True"/>
+		<image code="circuit1-kitchen" name="circuit/circuit1-kitchen.png" alpha="True"/>
+		<image code="circuit2-kitchen" name="circuit/circuit2-kitchen.png" alpha="True"/>
+		<!--image code="circuit3-kitchen" name="circuit/circuit3-kitchen.png" alpha="True"/>
+		<image code="circuit4-kitchen" name="circuit/circuit4-kitchen.png" alpha="True"/-->
 		<image code="nodisponible" name="circuit/nodisponible.png" alpha="True"/>
 		<!--JUEGO-->
 		<image code="goal" name="goal.png" alpha="True"/>

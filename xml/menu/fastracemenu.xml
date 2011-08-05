@@ -1,31 +1,31 @@
 <mainmenu background="background_menu" cursor="cursor.xml" music='la maryjane - bob wizman.ogg'>
     <title text="Carrera Rápida" font="cheesebu" size="35" r="0" g="0" b="0" x="30" y="15"/>
     <images>
-        <image image_code="separator_line" x="0" y="270" scale="1"></image>
-        <image image_code="logo_menu" x="550" y="7" scale="0.38"></image>
+        <image image_code="separator_line" x="0" y="230" scale="1"></image>
+        <image image_code="logo_menu" x="630" y="7" scale="0.3"></image>
         <!--image image_code="logo_timer" x="30" y="15" scale="1"></image-->
     </images>
     <!--line image_code="separator_line" x="0" y="240"/>
     <logo image_code="logo_menu" x="130" y="5"/-->
     <options>
-        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Chancla" image="logo_beach" image_x="6" image_y="7" center="True" x="200" y="175"></option>
-        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Arbusto" image="logo_garden" image_x="6" image_y="7" center="True" x="400" y="175"></option>
-        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Rodillo" image="logo_kitchen" image_x="6" image_y="6" center="True" x="595" y="175"></option>
-        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Aceptar" center="True" x="550" y="550"></option>
-        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="700" y="550"></option>
-        <option type="normal" xml_file="menu/tinyrowleftbutton.xml" font="cheesebu" text="Izquierda" show_text='false' center="True" x="640" y="370"></option>
-        <option type="normal" xml_file="menu/tinyrowrightbutton.xml" font="cheesebu" text="Derecha" show_text='false' center="True" x="720" y="370"></option>
+        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Chancla" image="logo_beach" image_x="6" image_y="7" center="True" x="200" y="145"></option>
+        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Arbusto" image="logo_garden" image_x="6" image_y="7" center="True" x="400" y="145"></option>
+        <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Rodillo" image="logo_kitchen" image_x="6" image_y="6" center="True" x="595" y="145"></option>
+        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Aceptar" center="True" x="570" y="565"></option>
+        <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="720" y="565"></option>
+        <option type="normal" xml_file="menu/tinyrowleftbutton.xml" font="cheesebu" text="Izquierda" show_text='false' center="True" x="680" y="370"></option>
+        <option type="normal" xml_file="menu/tinyrowrightbutton.xml" font="cheesebu" text="Derecha" show_text='false' center="True" x="760" y="370"></option>
     </options>
-    <circuit_position x="220" y="375"/>
+    <circuit_position x="200" y="300"/>
     <times_position x="600" y="500"/>
-    <laps text_x = '635' text_y = '320' num_x = '675' num_y = '355'/>
+    <laps text_x = '675' text_y = '320' num_x = '715' num_y = '355'/>
     <layers>
         <layer name="Copa Chancla" font_code="cheesebu" size="30">
             <buttons>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit-beach.tmx' font="cheesebu" text="circuit1-beach" image_circuit="circuit1" image="logo_beach1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-beach.tmx' font="cheesebu" text="circuit2-beach" image_circuit="circuit2" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="410" show_text='False'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit3-beach.tmx' font="cheesebu" text="circuit3-beach" image_circuit="circuit1" image="logo_beach3" image_x="40" image_y="15" center="True" x="80" y="475" show_text='False'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit4-beach.tmx' font="cheesebu" text="circuit4-beach" image_circuit="circuit2" image="logo_beach4" image_x="20" image_y="7" center="True" x="80" y="540" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit-beach.tmx' font="cheesebu" text="circuit1-beach" image_circuit="circuit1-beach" image="logo_beach1" image_x="6" image_y="7" center="True" x="80" y="315" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-beach.tmx' font="cheesebu" text="circuit2-beach" image_circuit="circuit2-beach" image="logo_beach2" image_x="6" image_y="7" center="True" x="80" y="390" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit3-beach.tmx' font="cheesebu" text="circuit3-beach" image_circuit="circuit3-beach" image="logo_beach3" image_x="40" image_y="15" center="True" x="80" y="465" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit4-beach.tmx' font="cheesebu" text="circuit4-beach" image_circuit="circuit4-beach" image="logo_beach4" image_x="20" image_y="7" center="True" x="80" y="540" show_text='False'></button>
             </buttons>
             <elements>
                 <element name='circuit1'></element>
@@ -33,17 +33,17 @@
         </layer>
         <layer name="Copa Arbusto" font_code="cheesebu" size="30">
             <buttons>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-garden.tmx' font="cheesebu" text="circuit1-garden" image_circuit="circuit1" image="logo_garden1" image_x="6" image_y="7" center="True" x="80" y="345" show_text='False'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-garden.tmx' font="cheesebu" text="circuit2-garden" image_circuit="circuit1" image="logo_garden3" image_x="15" image_y="0" center="True" x="80" y="410" show_text='False'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit3-garden.tmx' font="cheesebu" text="circuit3-garden" image_circuit="circuit1" image="logo_garden2" image_x="30" image_y="20" center="True" x="80" y="475" show_text='False'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit4-garden.tmx' font="cheesebu" text="circuit4-garden" image_circuit="circuit1" image="logo_garden4" image_x="30" image_y="20" center="True" x="80" y="540" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-garden.tmx' font="cheesebu" text="circuit1-garden" image_circuit="circuit1-garden" image="logo_garden1" image_x="6" image_y="7" center="True" x="80" y="315" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-garden.tmx' font="cheesebu" text="circuit2-garden" image_circuit="circuit2-garden" image="logo_garden3" image_x="15" image_y="0" center="True" x="80" y="390" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit3-garden.tmx' font="cheesebu" text="circuit3-garden" image_circuit="circuit3-garden" image="logo_garden2" image_x="30" image_y="20" center="True" x="80" y="465" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit4-garden.tmx' font="cheesebu" text="circuit4-garden" image_circuit="circuit4-garden" image="logo_garden4" image_x="30" image_y="20" center="True" x="80" y="540" show_text='False'></button>
             </buttons>
         </layer>
         <layer name="Copa Rodillo" font_code="cheesebu" size="30">
             <buttons>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-kitchen.tmx' font="cheesebu" text="circuit1-kitchen" image_circuit="circuit1" image="logo_kitchen1" image_x="20" image_y="15" center="True" x="80" y="345" show_text='False'></button>
-                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-kitchen.tmx' font="cheesebu" text="circuit2-kitchen" image_circuit="circuit1" image="logo_kitchen2" image_x="20" image_y="15" center="True" x="80" y="410" show_text='False'></button>
-                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="475"></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit1-kitchen.tmx' font="cheesebu" text="circuit1-kitchen" image_circuit="circuit1-kitchen" image="logo_kitchen1" image_x="20" image_y="15" center="True" x="80" y="315" show_text='False'></button>
+                <button type="image_button" xml_file="menu/circuitbutton.xml" circuit_file='circuits/circuit2-kitchen.tmx' font="cheesebu" text="circuit2-kitchen" image_circuit="circuit2-kitchen" image="logo_kitchen2" image_x="20" image_y="15" center="True" x="80" y="390" show_text='False'></button>
+                <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="465"></button>
                 <button type="normal" xml_file="menu/circuitbutton.xml" font="cheesebu" text="No Disponible" image_circuit="nodisponible" center="True" x="80" y="540"></button>
             </buttons>
         </layer>

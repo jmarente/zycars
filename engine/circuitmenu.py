@@ -175,7 +175,7 @@ class CircuitMenu(basicmenu.BasicMenu):
         
         #Obtenemos los parametros para la posición del título de los circuitos
         self.centerx_name = 400
-        self.y_name = 300
+        self.y_name = 250
         self.rect_name = None
         self.actual_name = None
         
@@ -200,7 +200,7 @@ class CircuitMenu(basicmenu.BasicMenu):
         self.times = None
         
         self.text_laps = self.font.render('Vueltas', True, (189, 9 , 38))
-        self.laps = 1
+        self.laps = config.Config().get_laps()
         laps = parse.getElementsByTagName('laps')[0]
         
         self.text_laps_position = (int(laps.getAttribute('text_x')), 
