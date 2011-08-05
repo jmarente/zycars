@@ -32,7 +32,7 @@ class Config:
         self.level_debug = 0
         self.championship = None
         self.circuit = None
-        self.laps = None
+        self.laps = 3
         self.circuit_name = None
         self.championship_circuits = []
         self.championship_circuits_name = {}

@@ -41,6 +41,7 @@
 		<image code="check" name="menu/check.png" alpha="True"/>
 		<image code="credits_bar" name="menu/credits_bar.png" alpha="True"/>
 		<image code="credits_bar2" name="menu/credits_bar2.png" alpha="True"/>
+		<image code="new_record" name="menu/new_record.png" alpha="True"/>
 		<!-- MENU CLASIFICAICON -->
 		<image code="classification_winner" name="menu/classification_winner.png" alpha="True"/>
 		<image code="classification_player" name="menu/classification_player.png" alpha="True"/>
@@ -94,6 +95,7 @@
 		<!--CIRCUITOS-->
 		<image code="circuit1" name="circuit/circuit1.png" alpha="True"/>
 		<image code="circuit2" name="circuit/circuit2.png" alpha="True"/>
+		<image code="circuit1-beach" name="circuit/circuit1-beach.png" alpha="True"/>
 		<image code="nodisponible" name="circuit/nodisponible.png" alpha="True"/>
 		<!--JUEGO-->
 		<image code="goal" name="goal.png" alpha="True"/>
@@ -151,6 +153,8 @@
 		<sound code="button-over2" name="button-over2.wav"/>
 		<sound code="collision1" name="collision1.wav"/>
 		<sound code="countdown" name="countdown.wav"/>
+		<sound code="item_collected" name="item_collected.wav"/>
+		<sound code="missile_explosion" name="missile-explosion.wav"/>
 	</sounds>
 </resources>
 

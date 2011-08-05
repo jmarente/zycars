@@ -7,6 +7,7 @@ Implementa la clase ChampionShipMenu, ClassificationMenu, TimedMenu
 @date Mayo 2011.
 '''
 
+import pygame
 import basicmenu
 import data
 import resource
@@ -39,7 +40,7 @@ class ClassificationMenu(basicmenu.BasicMenu):
         self.tiny_font = resource.get_font('cheesebu', 20)
         
         self.players_position = None
-        
+                
     def set_players_position(self, positions):
         '''
         @brief Establece la lista de los jugadores y sus posiciones
@@ -150,7 +151,11 @@ class TimedMenu(ClassificationMenu):
                         2: self.tiny_font.render('nd', True, (189, 9, 38)), 
                         3: self.tiny_font.render('rd', True, (189, 9, 38)),
                         4: self.tiny_font.render('th', True, (189, 9, 38))}
-
+        
+        self.record_image = resource.get_image('new_record')
+        
+        self.record_total_image = pygame.transform.rotozoom(self.record_image, 30, 1)
+        self.record_lap_image = pygame.transform.rotozoom(self.record_image, 30, 0.7)
     
     def set_results(self, player, total_time, total_improved, fast_lap, 
                 lap_improved, all_laps):
@@ -192,6 +197,9 @@ class TimedMenu(ClassificationMenu):
         screen.blit(self.total_text, (400, 170))
         screen.blit(self.total_time, (410, 210))
         
+        if self.total_improved:
+            screen.blit(self.record_total_image, (600, 170))
+        
         screen.blit(self.all_laps_text, (400, 290))
         
         y = 0
@@ -209,6 +217,10 @@ class TimedMenu(ClassificationMenu):
         
         screen.blit(self.lap_text, (400, 420))
         screen.blit(self.fast_lap, (410, 460))
+        
+        if self.lap_improved:
+            screen.blit(self.record_lap_image, (600, 430))
+
         
         self.cursor.draw(screen)
 
