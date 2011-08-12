@@ -215,7 +215,10 @@ class GameControl(state.State):
         self.ia_cars = []
         
         #Checkpoints para la ia
-        self.ia_checkpoints = [checkpoint.CheckPoints(self),checkpoint.CheckPoints(self),checkpoint.CheckPoints(self),checkpoint.CheckPoints(self)]
+        self.ia_checkpoints = [checkpoint.CheckPoints(self),
+                            checkpoint.CheckPoints(self),
+                            checkpoint.CheckPoints(self),
+                            checkpoint.CheckPoints(self)]
         
         #Grupo de sprites que contendrá las cajas de items. 
         #self.items_box = pygame.sprite.Group()
@@ -330,6 +333,14 @@ class GameControl(state.State):
         
         #Posicionamos la pantalla
         self.scroll_control()
+        
+        self.sounds = {}
+        
+        self.sounds['collected_item'] = resource.get_sound('item_collected')
+        self.sounds['missile_explosion'] = resource.get_sound('missile_explosion')
+        self.sounds['ball_explosion'] = resource.get_sound('ball_explosion')
+        self.sounds['ball_rebound'] = resource.get_sound('ball_rebound')
+        self.sounds['yaw'] = resource.get_sound('yaw')
         
     def update(self):
         '''
@@ -583,6 +594,7 @@ class GameControl(state.State):
             if self.on_screen(box) and box.get_state() != gameobject.EXPLOSION and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, box):
                 
+                self.sounds['collected_item'].play()
                 #Cambiamos su estado al de explosion
                 box.set_state(gameobject.EXPLOSION)
                 #Indicamos que el jugador a recogido un itwm
@@ -595,15 +607,19 @@ class GameControl(state.State):
                         self.collision_manager.actor_pixelperfectcollision(ia_car[0], box):
                         ia_car[0].collected_item()
                         if self.on_screen(box):
+                            self.sounds['collected_item'].play()
                             box.set_state(gameobject.EXPLOSION)
         
         #Colisiones de los misiles
         for bullet in self.bullets:
-            if self.collision_manager.item_level_collision(bullet, self.circuit):
+            if bullet.get_state() == gameobject.RUN and \
+                self.collision_manager.item_level_collision(bullet, self.circuit):
+                self.sounds['missile_explosion'].play()
                 bullet.set_state(gameobject.EXPLOSION)
                 
             elif bullet.get_state() == gameobject.RUN and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, bullet):
+                self.sounds['missile_explosion'].play()
                 bullet.set_state(gameobject.EXPLOSION)
                 self.player.set_angle(bullet.get_angle())
                 self.player.trigonometry()
@@ -612,24 +628,31 @@ class GameControl(state.State):
             else:
                 for ball in self.balls:
                     if self.collision_manager.actor_pixelperfectcollision(ball, bullet):
+                        self.sounds['missile_explosion'].play()
                         bullet.set_state(gameobject.EXPLOSION)
                         ball.set_state(gameobject.EXPLOSION)
                 if bullet.get_state() != gameobject.EXPLOSION:
                     for ia_car in self.ia_cars:
                         if bullet.get_state() == gameobject.RUN and \
                         self.collision_manager.actor_pixelperfectcollision(ia_car[0], bullet):
+                            self.sounds['missile_explosion'].play()
                             bullet.set_state(gameobject.EXPLOSION)
                             ia_car[0].set_angle(bullet.get_angle())
                             ia_car[0].trigonometry()
                             ia_car[0].set_state(gameobject.DAMAGED)
+            
+            self.collision_manager.control_limits(bullet, self.circuit)
+
         
         #Colisiones de las bolas
         for ball in self.balls:
             if self.collision_manager.item_level_collision(ball, self.circuit):
-                pass
+                if self.on_screen(ball):
+                    self.sounds['ball_rebound'].play()
                 
             if ball.get_state() == gameobject.RUN and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, ball):
+                self.sounds['ball_explosion'].play()
                 ball.set_state(gameobject.EXPLOSION)
                 self.player.set_angle(ball.get_angle())
                 self.player.trigonometry()
@@ -639,6 +662,7 @@ class GameControl(state.State):
                 for ia_car in self.ia_cars:
                     if ball.get_state() == gameobject.RUN and \
                     self.collision_manager.actor_pixelperfectcollision(ia_car[0], ball):
+                        self.sounds['ball_explosion'].play()
                         ball.set_state(gameobject.EXPLOSION)
                         ia_car[0].set_angle(ball.get_angle())
                         ia_car[0].trigonometry()
@@ -648,16 +672,21 @@ class GameControl(state.State):
         
         #Colisiones con las manchas de aceite
         for oil in self.oils:
+            
             if self.on_screen(oil) and oil.get_state() != gameobject.NORMAL \
                 and self.player.get_old_state() != gameobject.DAMAGED \
                 and self.collision_manager.actor_pixelperfectcollision(oil, self.player):
+                self.sounds['yaw'].play()
                 new_angle = self.player.get_angle() + random.randint(-45, 45)
                 self.player.set_angle(new_angle)
                 self.player.trigonometry()
                 self.player.set_state(gameobject.DAMAGED)
+                
             for ia_car in self.ia_cars:
                 if oil.get_state() != gameobject.NORMAL \
                 and self.collision_manager.actor_pixelperfectcollision(ia_car[0], oil):
+                    if self.on_screen(ia_car[0]):
+                        self.sounds['yaw'].play()
                     new_angle = self.player.get_angle() + random.randint(-45, 45)
                     ia_car[0].set_angle(new_angle)
                     ia_car[0].trigonometry()

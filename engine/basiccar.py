@@ -180,6 +180,7 @@ class BasicCar(gameobject.GameObject):
         
         self.start = None
         self.turbo_state = None
+        self.turbo_sound = resource.get_sound('turbo')
         self.old_max_speed = self.max_speed
 
         self.front_line = gameobject.Line(1, 1, 1, 1)
@@ -331,6 +332,7 @@ class BasicCar(gameobject.GameObject):
             self.game_control.add_ball(ball)
             
         elif item_type == 'turbo':
+            self.turbo_sound.play()
             self.state = gameobject.TURBO
     
     def update_lines(self):

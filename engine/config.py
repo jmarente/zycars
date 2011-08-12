@@ -38,6 +38,7 @@ class Config:
         self.championship_circuits_name = {}
         self.current_music = ''
         self.music_volume = 1
+        pygame.mixer.music.set_volume(self.music_volume)
         self.sound_volume = 1
         self.fullscreen = False
         self.direction = 'rows'
