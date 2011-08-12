@@ -7,6 +7,7 @@
   <property name="grado_coche" value="0"/>
   <property name="tileset_alto" value="35"/>
   <property name="tileset_ancho" value="21"/>
+  <property name="music" value="vamos ala playa - Bob Wizman.ogg"/>
  </properties>
  <tileset firstgid="1" name="tilesetgarden" tilewidth="45" tileheight="45">
   <image source="tilesetgarden.png" width="945" height="1575"/>

@@ -5,7 +5,7 @@
   <property name="ancho_pista" value="5"/>
   <property name="collision_map" value="collisionmapbeach.png"/>
   <property name="grado_coche" value="270"/>
-  <property name="music" value="Speed Surfer - Pirato Ketchup.ogg"/>
+  <property name="music" value="Alaska - Pirato Ketchup.ogg"/>
   <property name="tileset_alto" value="22"/>
   <property name="tileset_ancho" value="20"/>
  </properties>
