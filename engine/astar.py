@@ -167,19 +167,25 @@ class Astar:
         '''
         @brief Devuelve el nodo con la f mas baja de la lista de abiertos, y lo elimina de esta
         '''
-        actual = self.open[0]
-        n = 0
         
-        #Recorremos los nodos de la lista de abiertos
-        for i in range(1, len(self.open)):
+        if len(self.open) > 0:
+            actual = self.open[0]
+            n = 0
             
-            #Si el actual tiene mejor f, nos lo quedamos
-            if self.open[i].f < actual.f:
-                actual = self.open[i]
-                n = i
+            #Recorremos los nodos de la lista de abiertos
+            for i in range(1, len(self.open)):
+                
+                #Si el actual tiene mejor f, nos lo quedamos
+                if self.open[i].f < actual.f:
+                    actual = self.open[i]
+                    n = i
+            
+            #Lo eliminamos de la lista de abiertos
+            del self.open[n]
         
-        #Lo eliminamos de la lista de abiertos
-        del self.open[n]
+        else:
+            actual = self.target
+            
         return actual
     
     def in_list(self, node, my_list):
@@ -238,6 +244,9 @@ class Astar:
         '''
         aux = node
         path = deque()
+
+        if not aux.father:
+            path.appendleft(aux)
         
         #Mientras el padre no sea nulo(para no añadir también el inicio)
         while aux.father:
