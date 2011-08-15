@@ -1,5 +1,5 @@
 <mainmenu background="background_menu" cursor="cursor.xml">
-    <title text="Contrarreloj" font="cheesebu" size="35" r="0" g="0" b="0" x="150" y="50"/>
+    <title text="Contrarreloj" font="cheesebu" size="35" r="0" g="0" b="0" x="150" y="30"/>
     <images>
         <image image_code="separator_line" x="0" y="230" scale="1"></image>
         <image image_code="logo_menu" x="630" y="7" scale="0.3"></image>
@@ -16,7 +16,7 @@
         <option type="normal" xml_file="menu/tinyrowleftbutton.xml" font="cheesebu" text="Izquierda" show_text='false' center="True" x="685" y="340"></option>
         <option type="normal" xml_file="menu/tinyrowrightbutton.xml" font="cheesebu" text="Derecha" show_text='false' center="True" x="765" y="340"></option>
     </options>
-    <circuit_position x="200" y="300"/>
+    <circuit_position x="190" y="300"/>
     <times_position x="630" y="370"/>
     <laps text_x = '675' text_y = '300' num_x = '715' num_y = '325'/>
     <layers>

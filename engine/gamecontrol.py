@@ -291,6 +291,10 @@ class GameControl(state.State):
                                     "Mejor Vuelta:", best_lap[0], 
                                     best_lap[1], best_lap[2])
         
+        #Mejor vuelta del jugador
+        self.best_lap_player = timer.Timer('cheesebu', 20, (0, 0, 0), 600, 10, 
+                                    "Mejor Vuelta:", 100, 0, 0)
+        
         #Tiempos por vueltas
         self.lap_times = []
         
@@ -453,7 +457,7 @@ class GameControl(state.State):
                 if self.actual_alpha >= 255:
                     self.fadeout = False
                     if config.Config().get_mode() == config.TIMED:
-                        self.game_mode.completed_race(self.player, self.total_time, self.best_time, self.lap_times)
+                        self.game_mode.completed_race(self.player, self.total_time, self.best_lap_player, self.lap_times)
                     else:
                         self.game_mode.completed_race(self.position_board.get_all_players_position())
 
@@ -951,10 +955,13 @@ class GameControl(state.State):
             self.lap_times.append(time)
                                         
         #Comprobamos si el tiempo ha mejorado
-        if self.actual_time.less_than(self.best_time):
+        if self.actual_time.less_than(self.best_lap_player):
             
-            self.best_time.assign(self.actual_time)
-            self.advices.append(Advice(u'Vuelta Rápida', 'cheesebu', 100, 0.02, 400, 450,(189, 9, 38), 1))
+            self.best_lap_player.assign(self.actual_time)
+            
+            if self.best_lap_player.less_than(self.best_time):
+                self.best_time.assign(self.best_lap_player)
+                self.advices.append(Advice(u'Vuelta Rápida', 'cheesebu', 100, 0.02, 400, 450,(189, 9, 38), 1))
         
         #Reiniciamos el cronometro principal
         self.actual_time.stop()
@@ -974,8 +981,11 @@ class GameControl(state.State):
         @brief Método que se llama para actualizar el contador visible de las vueltas
         '''
         #Obtenemos la cadena
-        laps = 'Vuelta ' + str(self.actual_laps) + '/' + str(self.max_laps)
-        
+        if self.actual_laps < self.max_laps:
+            laps = 'Vuelta ' + str(self.actual_laps + 1) + '/' + str(self.max_laps)
+        else:
+            laps = 'Vuelta ' + str(self.actual_laps) + '/' + str(self.max_laps)
+
         #Renderizamos
         self.laps_counter = self.font.render(laps, True, (0, 0, 0))
         
