@@ -1,141 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?> <times>                          
-    
-    
-                              <circuit name="circuit1-beach">                          
-    
-        
-                              <bestrace hseconds="46" minutes="0" seconds="9"/>                          
-    
-        
-                              <fasttestlap hseconds="46" minutes="0" seconds="9"/>                          
-    
-    
-                              </circuit>                          
-    
-    
-                              <circuit name="circuit2-beach">                          
-    
-        
-                              <bestrace hseconds="32" minutes="15" seconds="05"/>                          
-    
-        
-                              <fasttestlap hseconds="20" minutes="00" seconds="20"/>                          
-    
-    
-                              </circuit>                   
 
-                              <circuit name="circuit3-beach">                          
-    
-        
-                              <bestrace hseconds="25" minutes="0" seconds="10"/>                          
-    
-        
-                              <fasttestlap hseconds="80" minutes="0" seconds="9"/>                          
-    
-    
-                              </circuit>                     
-              
-                              <circuit name="circuit4-beach">                          
-    
-        
-                              <bestrace hseconds="25" minutes="0" seconds="10"/>                          
-    
-        
-                              <fasttestlap hseconds="80" minutes="0" seconds="9"/>                          
-    
-    
-                              </circuit>                  
 
-                              <circuit name="circuit1-garden">                          
-    
-        
-                              <bestrace hseconds="25" minutes="0" seconds="10"/>                          
-    
-        
-                              <fasttestlap hseconds="80" minutes="0" seconds="9"/>                          
-    
-    
-                              </circuit>                    
-    
-    
-                              <circuit name="circuit2-garden">                          
-    
-        
-                              <bestrace hseconds="20" minutes="0" seconds="33"/>                          
-    
-        
-                              <fasttestlap hseconds="20" minutes="00" seconds="20"/>                          
-    
-    
-                              </circuit>         
-                                       
-                              <circuit name="circuit3-garden">                          
-    
-        
-                              <bestrace hseconds="20" minutes="0" seconds="33"/>                          
-    
-        
-                              <fasttestlap hseconds="20" minutes="00" seconds="20"/>                          
-    
-    
-                              </circuit>        
-                                        
-                                       
-                              <circuit name="circuit4-garden">                          
-    
-        
-                              <bestrace hseconds="20" minutes="0" seconds="33"/>                          
-    
-        
-                              <fasttestlap hseconds="20" minutes="00" seconds="20"/>                          
-    
-    
-                              </circuit>       
-                                         
-                              <circuit name="circuit1-kitchen">                          
-    
-        
-                              <bestrace hseconds="49" minutes="0" seconds="24"/>                          
-    
-        
-                              <fasttestlap hseconds="20" minutes="00" seconds="20"/>                          
-    
-    
-                              </circuit>        
-                                         
-                              <circuit name="circuit2-kitchen">                          
-    
-        
-                              <bestrace hseconds="49" minutes="0" seconds="24"/>                          
-    
-        
-                              <fasttestlap hseconds="20" minutes="00" seconds="20"/>                          
-    
-    
-                              </circuit>   
-                                                  
-                              <circuit name="circuit3-kitchen">                          
-    
-        
-                              <bestrace hseconds="49" minutes="0" seconds="24"/>                          
-    
-        
-                              <fasttestlap hseconds="20" minutes="00" seconds="20"/>                          
-    
-    
-                              </circuit>               
-                                      
-                              <circuit name="circuit4-kitchen">                          
-    
-        
-                              <bestrace hseconds="49" minutes="0" seconds="24"/>                          
-    
-        
-                              <fasttestlap hseconds="20" minutes="00" seconds="20"/>                          
-    
-    
-                              </circuit>                       
+    <circuit name="circuit1-beach">                          
 
-    
 
-                              </times>
+        <bestrace hseconds="20" minutes="1" seconds="10"/>                          
+
+
+        <fasttestlap hseconds="37" minutes="0" seconds="22"/>                          
+
+
+    </circuit>                          
+
+
+    <circuit name="circuit2-beach">                          
+
+
+        <bestrace hseconds="12" minutes="1" seconds="50"/>                          
+
+
+        <fasttestlap hseconds="31" minutes="00" seconds="38"/>                          
+
+
+    </circuit>                   
+
+    <circuit name="circuit3-beach">                          
+
+
+        <bestrace hseconds="25" minutes="1" seconds="45"/>                          
+
+
+        <fasttestlap hseconds="80" minutes="0" seconds="37"/>                          
+
+
+    </circuit>                     
+
+    <circuit name="circuit4-beach">                          
+
+
+        <bestrace hseconds="12" minutes="1" seconds="15"/>                          
+
+
+        <fasttestlap hseconds="41" minutes="0" seconds="29"/>                          
+
+
+    </circuit>                  
+
+    <circuit name="circuit1-garden">                          
+
+
+        <bestrace hseconds="53" minutes="1" seconds="58"/>                          
+
+
+        <fasttestlap hseconds="77" minutes="0" seconds="42"/>                          
+
+
+    </circuit>                    
+
+
+    <circuit name="circuit2-garden">                          
+
+
+        <bestrace hseconds="04" minutes="1" seconds="43"/>                          
+
+
+        <fasttestlap hseconds="79" minutes="00" seconds="39"/>                          
+
+
+    </circuit>         
+
+    <circuit name="circuit3-garden">                          
+
+
+        <bestrace hseconds="61" minutes="1" seconds="52"/>                          
+
+
+        <fasttestlap hseconds="83" minutes="00" seconds="42"/>                          
+
+
+    </circuit>        
+
+
+    <circuit name="circuit4-garden">                          
+
+
+        <bestrace hseconds="26" minutes="2" seconds="01"/>                          
+
+
+        <fasttestlap hseconds="37" minutes="00" seconds="43"/>                          
+
+
+    </circuit>       
+
+    <circuit name="circuit1-kitchen">                          
+
+
+        <bestrace hseconds="04" minutes="1" seconds="27"/>                          
+
+
+        <fasttestlap hseconds="15" minutes="00" seconds="31"/>                          
+
+
+    </circuit>        
+
+    <circuit name="circuit2-kitchen">                          
+
+
+        <bestrace hseconds="17" minutes="2" seconds="05"/>                          
+
+
+        <fasttestlap hseconds="58" minutes="00" seconds="40"/>                          
+
+
+    </circuit>   
+
+    <circuit name="circuit3-kitchen">                          
+
+
+        <bestrace hseconds="68" minutes="1" seconds="24"/>                          
+
+
+        <fasttestlap hseconds="84" minutes="00" seconds="30"/>                          
+
+
+    </circuit>               
+
+    <circuit name="circuit4-kitchen">                          
+
+
+        <bestrace hseconds="57" minutes="1" seconds="12"/>                          
+
+
+        <fasttestlap hseconds="96" minutes="00" seconds="27"/>                          
+
+
+    </circuit>                       
+
+
+
+</times>
