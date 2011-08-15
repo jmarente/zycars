@@ -359,7 +359,8 @@ class Circuit:
         '''
         #Si el tile que se pide no esta en la pantalla, ni en el tileset, 
         #Pasamos un tile vacio
-        if x < 0 or x > self.width or y < 0 or y > self.height:
+        if x < 0 or x >= self.width or y < 0 or y >= self.height:
+                
             print "WARNING: tile fuera de rango"
             tile = Tile()
             return tile
