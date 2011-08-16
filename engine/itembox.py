@@ -38,7 +38,11 @@ class ItemBox(gameobject.GameObject):
         self.rect.y = y
         
         #Creamos el sistema de particulas, para cuando colisionemos con la caja
-        self.particles = particle.SystemParticle(self.game_control, self.rect.centerx, self.rect.centery, ['particle'], 25, 1, 5, 100, 0.5)
+        self.particles = particle.SystemParticle(self.game_control, 
+                                                self.rect.centerx, 
+                                                self.rect.centery, 
+                                                ['particle'], 25, 1, 5, 
+                                                100, 0.5)
 
         #Establecemos las funciones a tratar según el estado
         self.states = {gameobject.NORMAL: self.__normal_state,

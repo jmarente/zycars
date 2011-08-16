@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file mainmenu.py
+Implementa la clase MainMenu y CreditMenu
+@author José Jesús Marente Florín
+@date Diciembre 2010.
+'''
+
 import data
 import resource
 import keyboard
@@ -28,7 +35,8 @@ class MainMenu(basicmenu.BasicMenu):
         
         parse = xml.dom.minidom.parse(data.get_path_xml(path_xml))
         
-        #Le pasamos el archivo parseado a BasicMenu para que obtenga los elementos básicos
+        #Le pasamos el archivo parseado a BasicMenu para que obtenga los 
+        #elementos básicos
         self.parser_basic_info(parse)
 
     def draw(self, screen):
@@ -50,32 +58,40 @@ class MainMenu(basicmenu.BasicMenu):
         if option == u"Carrera Rápida":
             print "Elegido: Carrera Rapida"
             config.Config().set_mode(config.FASTRACE)
-            self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
+            self.game.change_state(charactermenu.CharacterMenu(self.game, 
+                                                    'menu/charactermenu.xml'))
             
         elif option == "Campeonato":
             print "Elegido: Campeonato"
             config.Config().set_mode(config.CHAMPIONSHIP)
-            self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
+            self.game.change_state(charactermenu.CharacterMenu(self.game, 
+                                                    'menu/charactermenu.xml'))
             
         elif option == "Contrarreloj":
             print "Ha elegido: Contrarreloj"
             config.Config().set_laps(3)
             config.Config().set_mode(config.TIMED)
-            self.game.change_state(charactermenu.CharacterMenu(self.game, 'menu/charactermenu.xml'))
+            self.game.change_state(charactermenu.CharacterMenu(self.game, 
+                                                    'menu/charactermenu.xml'))
             
         elif option == "Opciones":
             print "Ha elegido: Opciones"
-            self.game.change_state(optionmenu.OptionMenu(self.game, 'menu/optionmenu.xml'))
+            self.game.change_state(optionmenu.OptionMenu(self.game, 
+                                                    'menu/optionmenu.xml'))
         
         elif option == u'Créditos':
             print "Ha elegido: Créditos"
-            self.game.change_state(CreditsMenu(self.game, 'menu/creditsmenu.xml'))
+            self.game.change_state(CreditsMenu(self.game, 
+                                            'menu/creditsmenu.xml'))
 
         elif option == "Salir":
             print "Ha elegido: Salir"
             keyboard.set_quit(True)
 
 class CreditsMenu(basicmenu.BasicMenu):
+    '''
+    @brief Menú de créditos
+    '''
     def __init__(self, game, path_xml):
         '''
         @brief Constructor
@@ -95,20 +111,27 @@ class CreditsMenu(basicmenu.BasicMenu):
         
         self.tiny_font = resource.get_font('cheesebu', 18)
 
-        self.developer = self.font.render('Desarrollador', True, (0,0,0))
-        self.developer_name = self.font.render(u'José J. Marente Florín', True, (189, 9, 38))
+        self.developer = self.font.render('Desarrollador', True, (0, 0, 0))
+        self.developer_name = self.font.render(u'José J. Marente Florín', True, 
+                                            (189, 9, 38))
         self.developer_email = self.tiny_font.render(u'jose.marente.florin@gmail.com', True, (189, 9, 38))
         self.developer_web = self.tiny_font.render(u'http://code.google.com/p/zycars/', True, (189, 9, 38))
-        self.artist = self.font.render(u'Diseñador gráfico', True, (0,0,0))
-        self.artist_name = self.font.render(u'David Nieto Rojas', True, (189, 9, 38))
-        self.artist_email = self.tiny_font.render('info@deividart.com', True, (189, 9, 38))
-        self.artist_web = self.tiny_font.render(u'http://www.deividart.com', True, (189, 9, 38))
-        self.music = self.font.render(u'Música', True, (0,0,0))
+        self.artist = self.font.render(u'Diseñador gráfico', True, (0, 0, 0))
+        self.artist_name = self.font.render(u'David Nieto Rojas', True, 
+                                        (189, 9, 38))
+        self.artist_email = self.tiny_font.render('info@deividart.com', True, 
+                                                (189, 9, 38))
+        self.artist_web = self.tiny_font.render(u'http://www.deividart.com', 
+                                            True, (189, 9, 38))
+        self.music = self.font.render(u'Música', True, (0, 0, 0))
         self.music_name1 = self.font.render(u'Bob Wizman', True, (189, 9, 38))
-        self.music_name2 = self.font.render(u'Pirato Ketchup', True, (189, 9, 38))
+        self.music_name2 = self.font.render(u'Pirato Ketchup', True, (189, 9, 
+                                        38))
         self.music_name3 = self.font.render(u'Los Cadaver', True, (189, 9, 38))
         self.music_name4 = self.font.render(u'The Wavers', True, (189, 9, 38))
         self.music_name5 = self.font.render(u'Zamalska', True, (189, 9, 38))
+        self.music_web = self.tiny_font.render(u'http://www.jamendo.com', True, 
+                                            (189, 9, 38))
 
     def draw(self, screen):
         '''
@@ -133,6 +156,7 @@ class CreditsMenu(basicmenu.BasicMenu):
         screen.blit(self.music_name3, (280, 420))
         screen.blit(self.music_name4, (280, 450))
         screen.blit(self.music_name5, (520, 360))
+        screen.blit(self.music_web, (520, 470))
         
         #Dibujamos el cursor
         self.cursor.draw(screen)

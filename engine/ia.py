@@ -1,9 +1,10 @@
 #-*- encoding: utf-8 -*-
 
 '''
-@file Implementación de los coches controlados por la IA
+@file ia.py
+@brief Implementa la clase IA y Point
 @author José Jesús Marente Florín
-@date Abril 2011
+@date Marzo 2011.
 '''
 
 import gameobject
@@ -98,7 +99,8 @@ class IA(basiccar.BasicCar):
             y = self.actual_point.centery - self.rect.centery
             
             #Actualizamos el angulo obtenido para que esté en el rando 0-360
-            self.target_angle = self.update_angle2(math.degrees(math.atan2(y, x)))
+            self.target_angle = self.update_angle2(math.degrees(math.atan2(y, 
+                                                                        x)))
         
             #Angulo actual del coche
             #TO-DO:Rotar el coche suavemente hasta el punto objetivo
@@ -117,6 +119,9 @@ class IA(basiccar.BasicCar):
         self.control_points()
 
     def control_points(self):
+        '''
+        @brief Controla la colisión de la IA con los puntos de control
+        '''
         #Si el coche colisiona con el rectangulo en el que esta el punto
         #Actualizamos la lista de puntos
         if self.actual_point and self.rect.colliderect(self.actual_point.rect):
@@ -178,7 +183,6 @@ class IA(basiccar.BasicCar):
         '''
         @brief Comportamiento en el estado RUN
         '''
-        
         #Si ya no queda ningún punto intermedio
         if len(self.left_points) == 0 and not self.actual_point:
             #print "No hay puntos objetivos, calculando"
@@ -225,7 +229,9 @@ class IA(basiccar.BasicCar):
         self.control_release_item()
     
     def __turbo_state(self):
-        
+        '''
+        @brief Controla el estado TURBO de la IA
+        '''
         #Si es la primera llamada
         if not self.turbo_state:
             #Obtenemos el tiempo de inicio
@@ -247,7 +253,9 @@ class IA(basiccar.BasicCar):
         self.__normal_state()
     
     def __damaged_state(self):
-        
+        '''
+        @brief Controla el estado DAMAGE de la IA
+        '''
         if not self.start:
             self.start = time.time()
             #self.temp_angle = self.actual_angle
@@ -309,14 +317,21 @@ class IA(basiccar.BasicCar):
         tile_height = self.game_control.circuit.get_tile_height()
         
         for point in road:
-            result.append(Point(point.row, point.column, tile_width, tile_height))
+            result.append(Point(point.row, point.column, tile_width, 
+                            tile_height))
         
         return result
     
     def collected_item(self):
+        '''
+        @brief Función llamada cuando se recoge un ítem
+        '''
         self.hud.collected_item() 
     
     def control_release_item(self):
+        '''
+        @brief Controla cuando la IA debe lanzar algún ítem
+        '''
         current = self.hud.get_current_item()
         
         released = False
@@ -351,5 +366,10 @@ class IA(basiccar.BasicCar):
                     released = True   
                      
     def distance(self, sprite):
+        '''
+        @brief Calcula la distancia de la IA hasta otro sprite
+        
+        @param sprite Sprite a calcular la distancia
+        '''
         return ((self.rect.centerx - sprite.rect.centerx) ** 2 + (self.rect.centery - sprite.rect.centery) ** 2) ** 0.5
 

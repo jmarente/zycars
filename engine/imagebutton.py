@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file imagebutton.py
+@brief Implementa la clase ImageButton
+@author José Jesús Marente Florín
+@date Diciembre 2011.
+'''
+
 import button
 import resource
 
@@ -8,7 +15,8 @@ class ImageButton(button.Button):
     @brief Clase que modela el comportamiento de un boton que tiene una imagen
     Hereda todas las funcionalidades de Button
     '''
-    def __init__(self, menu, xml_file, text, centerx, centery, font_code, image_code, image_x, image_y, show_text = True):
+    def __init__(self, menu, xml_file, text, centerx, centery, font_code, 
+                image_code, image_x, image_y, show_text = True):
         '''
         @brief Constructor
         
@@ -22,9 +30,8 @@ class ImageButton(button.Button):
         @param image_y Posición y de la imagen respecto al botón
         @param show_text Indica si se debe mostrar el texto o no
         '''
-        button.Button.__init__(self, menu, xml_file, text, centerx, centery, font_code, show_text)
-        
-        #self.text_render_normal = pygame.transform.rotozoom(self.text_render_normal, 12, 1)
+        button.Button.__init__(self, menu, xml_file, text, centerx, centery, 
+                            font_code, show_text)
         
         #Si se muestra el texto y no es sobre el botón, asignamos la posición
         if self.show_text:

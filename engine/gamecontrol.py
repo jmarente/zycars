@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file gamecontrol.py
+@brief Implementa la clase GameControl, Advice y PositionBoard
+@author José Jesús Marente Florín
+@date Noviembre 2011.
+'''
+
 import pygame
 import time
 import state
@@ -23,7 +30,8 @@ class Advice:
     '''
     @brief Encargada de mostrar mesajes en pantalla durante la carrera
     '''
-    def __init__(self, message, font_code, max_size, increase, centerx, centery, color, time):
+    def __init__(self, message, font_code, max_size, increase, centerx, 
+                centery, color, time):
         '''
         @brief Constructor.
         
@@ -49,7 +57,8 @@ class Advice:
         self.complete_advice = False
         
         #Obtenemos la superficie inicial, con el tamaño mas pequeño de la escala
-        self.actual_surface = pygame.transform.rotozoom(self.message, 0, self.scale)
+        self.actual_surface = pygame.transform.rotozoom(self.message, 0, 
+                                                    self.scale)
         self.rect = self.actual_surface.get_rect()
         self.rect.centerx = centerx
         self.rect.centery = centery
@@ -69,7 +78,8 @@ class Advice:
         if elapsed < self.total_time:
             
             #Redimensinamos la imagen
-            self.actual_surface = pygame.transform.rotozoom(self.message, 0 ,self.scale)
+            self.actual_surface = pygame.transform.rotozoom(self.message, 0, 
+                                                        self.scale)
             
             #Actualizamos la posición
             self.rect = self.actual_surface.get_rect()
@@ -137,7 +147,8 @@ class PositionBoard():
         #Introducimos los elementos
         aux_positions.append((player[1].get_total_checked(), player[0], True)) 
         for ia_car in ia_cars:
-            aux_positions.append((ia_car[1].get_total_checked(), ia_car[0], False))
+            aux_positions.append((ia_car[1].get_total_checked(), ia_car[0], 
+                                False))
         
         #Ordenamos la lista al reves
         self.list_position = sorted(aux_positions, reverse = True)
@@ -194,7 +205,8 @@ class GameControl(state.State):
     @brief Clase encargada de controlar los aspectos básicos de una carrera, desde
     las colisiones hasta el control de las vueltas
     '''
-    def __init__(self, game, game_mode, path, best_total_time, best_lap, laps = 3):
+    def __init__(self, game, game_mode, path, best_total_time, best_lap, 
+                laps = 3):
         '''
         @brief Constructor
         
@@ -278,8 +290,10 @@ class GameControl(state.State):
         self.update_laps_counter()
         
         #Cronómetros de carrera
-        self.actual_time = timer.Timer('cheesebu', 20, (0, 0, 0), 725, 10, "Actual:")
-        self.total_time = timer.Timer('cheesebu', 20, (0, 0, 0), 725, 80, "Total:")
+        self.actual_time = timer.Timer('cheesebu', 20, (0, 0, 0), 725, 10, 
+                                    "Actual:")
+        self.total_time = timer.Timer('cheesebu', 20, (0, 0, 0), 725, 80,
+                                    "Total:")
         
         #Mejor tiempo total del circuito
         self.best_total_time = timer.Timer('cheesebu', 20, (0, 0, 0), 600, 80,
@@ -306,10 +320,12 @@ class GameControl(state.State):
         
         #Cuenta atras
         #self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (221, 113, 5), 3, 'countdown')
-        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, (0, 0, 0), 3, 'countdown')
+        self.count_down = countdown.CountDown('cheesebu', 300, 0.02, 0.05, 
+                                            (0, 0, 0), 3, 'countdown')
         
         #Marcador de las posiciones de los jugadores
-        self.position_board = PositionBoard(20, 10, 'image_position1', 'image_position2')
+        self.position_board = PositionBoard(20, 10, 'image_position1', 
+                                        'image_position2')
         
         #Pasamos al estado de cuenta atras
         self.actual_state = None
@@ -333,7 +349,8 @@ class GameControl(state.State):
         self.ia_cars = aux_ia_cars
         
         #Actualizamos por primera vez el marcador de posiciones
-        self.position_board.update((self.player, self.checkpoints), self.ia_cars)
+        self.position_board.update((self.player, self.checkpoints), 
+                                    self.ia_cars)
         
         #Posicionamos la pantalla
         self.scroll_control()
@@ -439,7 +456,8 @@ class GameControl(state.State):
                     self.checkpoints.update(self.player, True)
 
                     #Obtenemos la posicion del jugador actualizando el marcador
-                    self.position_board.update((self.player, self.checkpoints), self.ia_cars)
+                    self.position_board.update((self.player, self.checkpoints), 
+                                            self.ia_cars)
                 
                 #Si pulsamos el espacio o escape, cambiamos al estado pause
                 if keyboard.pressed(config.Config().get_pause_key()) \
@@ -457,7 +475,10 @@ class GameControl(state.State):
                 if self.actual_alpha >= 255:
                     self.fadeout = False
                     if config.Config().get_mode() == config.TIMED:
-                        self.game_mode.completed_race(self.player, self.total_time, self.best_lap_player, self.lap_times)
+                        self.game_mode.completed_race(self.player, 
+                                                    self.total_time, 
+                                                    self.best_lap_player, 
+                                                    self.lap_times)
                     else:
                         self.game_mode.completed_race(self.position_board.get_all_players_position())
 
@@ -547,8 +568,11 @@ class GameControl(state.State):
         #Actualizamos la posicion del jugador
         self.player_position = self.position_board.get_player_position()
         position = self.position[self.player_position]
-        position_surface = self.font2.render(str(self.player_position), True, (0,0,0))
-        ordinal_surface = self.font.render(position, True, (0,0,0))
+        
+        position_surface = self.font2.render(str(self.player_position), True, 
+                                            (0, 0, 0))
+                                            
+        ordinal_surface = self.font.render(position, True, (0, 0, 0))
         
         #Mostramos la posición del jugador
         screen.blit(position_surface, (15, 540))
@@ -584,18 +608,21 @@ class GameControl(state.State):
             #Con el nivel
             self.collision_manager.level_collision(ia_car[0], self.circuit)
             #Con el jugador
-            self.collision_manager.actor_actor_collision(self.player, ia_car[0])
+            self.collision_manager.actor_actor_collision(self.player, 
+                                                        ia_car[0])
             
             #Con los otros coches de la IA
             for ia_car2 in self.ia_cars:
                 if ia_car[0] != ia_car2[0]:
-                    self.collision_manager.actor_actor_collision(ia_car[0], ia_car2[0])
+                    self.collision_manager.actor_actor_collision(ia_car[0], 
+                                                                ia_car2[0])
 
         #Colisiones con las cajas de items
         for box in self.items_box:
                 
             #Si está en la pantalla, no esta explotando y colisiona con el jugador
-            if self.on_screen(box) and box.get_state() != gameobject.EXPLOSION and \
+            if self.on_screen(box) and\
+                box.get_state() != gameobject.EXPLOSION and \
                 self.collision_manager.actor_pixelperfectcollision(self.player, box):
                 
                 self.sounds['collected_item'].play()
@@ -702,11 +729,11 @@ class GameControl(state.State):
                 and self.player.get_old_state() != gameobject.DAMAGED \
                 and self.collision_manager.actor_pixelperfectcollision(gum, self.player):
                     
-                    if abs(self.player.actual_speed) >= abs(self.player.max_speed / 8):
-                        if self.player.actual_speed > 0:
-                            self.player.actual_speed = abs(self.player.max_speed / 8)
-                        else:
-                            self.player.actual_speed = -1 * abs(self.player.max_speed / 8)
+                if abs(self.player.actual_speed) >= abs(self.player.max_speed / 8):
+                    if self.player.actual_speed > 0:
+                        self.player.actual_speed = abs(self.player.max_speed / 8)
+                    else:
+                        self.player.actual_speed = -1 * abs(self.player.max_speed / 8)
                             
             for ia_car in self.ia_cars:
                 if gum.get_state() != gameobject.NORMAL and \
@@ -875,6 +902,9 @@ class GameControl(state.State):
             astar.map[x2][y2] = type
     
     def order_checkpoints(self):
+        '''
+        @brief Ordena todos los checkpoints de los competidores
+        '''
         self.checkpoints.order_checkpoints()
         for ia_check in self.ia_checkpoints:
             ia_check.order_checkpoints()
@@ -900,7 +930,8 @@ class GameControl(state.State):
         @param circuit_width Ancho del circuito
         @param car_angle Angulo de los coches
         '''
-        self.start = start.Start(self, circuit, x, y, image_code, orientation, car_angle)
+        self.start = start.Start(self, circuit, x, y, image_code, orientation, 
+                                car_angle)
     
     def circuit_x(self):
         '''
@@ -937,6 +968,11 @@ class GameControl(state.State):
         self.actual_state = new_state
     
     def get_state(self):
+        '''
+        @brief Consulta el estado del juego
+        
+        @return Estado del juedo
+        '''
         return self.actual_state
     
     def lap_complete(self):
@@ -961,18 +997,22 @@ class GameControl(state.State):
             
             if self.best_lap_player.less_than(self.best_time):
                 self.best_time.assign(self.best_lap_player)
-                self.advices.append(Advice(u'Vuelta Rápida', 'cheesebu', 100, 0.02, 400, 450,(189, 9, 38), 1))
+                self.advices.append(Advice(u'Vuelta Rápida', 'cheesebu', 100, 
+                                        0.02, 400, 450,(189, 9, 38), 1))
         
         #Reiniciamos el cronometro principal
         self.actual_time.stop()
         self.actual_time.start()
         
         if self.actual_laps + 1 == self.max_laps:
-            self.advices.append(Advice(u'Última vuelta', 'cheesebu', 100, 0.01, 400, 550,(189, 9, 38), 2))
+            self.advices.append(Advice(u'Última vuelta', 'cheesebu', 100, 0.01, 
+                                    400, 550,(189, 9, 38), 2))
 
         if self.actual_laps >= self.max_laps:
             print "Carrera Completada"
-            self.advices.append(Advice('Carrera Completada', 'cheesebu', 100, 0.02, 400, 300,(189, 9, 38), 2))
+            self.advices.append(Advice('Carrera Completada', 'cheesebu', 100, 
+                                    0.02, 400, 300,(189, 9, 38), 2))
+                                    
             self.complete = True
             pygame.mixer.music.fadeout(2000)
     
@@ -1033,16 +1073,39 @@ class GameControl(state.State):
         return (x, y)
     
     def reboot_race(self):
+        '''
+        @brief Reinicia la carrera actual
+        '''
         self.game_mode.reboot_race()
     
     def get_music_file(self):
+        '''
+        @brief Consulta el archivo de música
+        
+        @return Nombre del archivo de música
+        '''
         return self.music_file
     
     def set_music_file(self, music_file):
+        '''
+        @brief Estable un nuevo archivo de música
+        
+        @param music_file nombre del nuevo fichero de música
+        '''
         self.music_file = music_file
     
     def get_player(self):
+        '''
+        @brief Constultor jugador
+        
+        @return Jugador
+        '''
         return self.player 
     
     def get_ia_cars(self):
+        '''
+        @brief Constultor ia
+        
+        @return IA
+        '''
         return self.ia_cars

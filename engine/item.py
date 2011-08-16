@@ -1,5 +1,12 @@
 # -*- encoding: utf-8 -*-
 
+'''
+@file item.py
+@brief Implementa la clase Ball, Missile, Item y Oil
+@author José Jesús Marente Florín
+@date Febrero 2011.
+'''
+
 import gameobject
 import particle
 import data
@@ -55,6 +62,12 @@ class Item(gameobject.GameObject):
         #Actualizamos la rotación de la imagen del coche
         self.update_image()
         self.type = None
+    
+    def update(self):
+        '''
+        @brief Actualiza
+        '''
+        pass
 
 class Missile(Item):
     '''
@@ -343,7 +356,11 @@ class Ball(Item):
         @brief Método privado que actualia la caja cuando esta en estado de explosión
         '''
         if not self.particles:
-            self.particles = particle.SystemParticle(self.game_control, self.rect.centerx, self.rect.centery, [self.particle_code,], 25, 1, 5, 100, 0.5)
+            self.particles = particle.SystemParticle(self.game_control, 
+                                                    self.rect.centerx, 
+                                                    self.rect.centery, 
+                                                    [self.particle_code,], 
+                                                    25, 1, 5, 100, 0.5)
 
         #Actualizamos el sistema de particulas
         self.particles.update()

@@ -1,5 +1,12 @@
 # -*- encoding: utf-8 -*-
- 
+
+'''
+@file gameobject.py
+@brief Implementa la clase GameObject u Line
+@author José Jesús Marente Florín
+@date octubre 2011.
+'''
+
 import pygame
 import animation
 import resource
@@ -8,10 +15,22 @@ import pixelperfect
 import math
 
 #Distinos estado que pueden tener los objetos del juego.
-NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION, FALL, TURBO = range(11)
+NORMAL, NOACTION, RUN, FORWARD, REVERSE, DAMAGED, ERASE, YAW, EXPLOSION, \
+FALL, TURBO = range(11)
 
 class Line:
+    '''
+    @brief Representa una Linea
+    '''
     def __init__(self, x1 = 0, y1 = 0, x2 = 0, y2 = 0):
+        '''
+        @brief Constructor
+        
+        @param x1 Coordenada x1
+        @param y1 Coordenada y1
+        @param x2 Coordenada x2
+        @param y2 Coordenada y2
+        '''
         self.x1 = x1
         self.x2 = x2
         self.y1 = y1
@@ -53,10 +72,12 @@ class GameObject(pygame.sprite.Sprite):
         self.animations = {}
         
         #Posiciones del coche
-        self.dx = self.dy = self.x = self.y = self.old_x = self.old_y = self.previous_x = self.previous_y = 0
+        self.dx = self.dy = self.x = self.y = self.old_x = self.old_y = \
+        self.previous_x = self.previous_y = 0
         
         #Dirección hacia la que va el objeto
-        self.right_direction = self.left_direction = self.up_direction = self.down_direction = False
+        self.right_direction = self.left_direction = self.up_direction = \
+        self.down_direction = False
         
     def parser_basic_info(self, parse):
         '''
@@ -76,25 +97,35 @@ class GameObject(pygame.sprite.Sprite):
             
             #Vemos que tipo de animación es y lo añadimos al mapa de imagenes
             if animation_name == 'normal':
-                self.animations[NORMAL] = animation.Animation(animation_frames, animation_delay)
+                self.animations[NORMAL] = animation.Animation(animation_frames, 
+                                                            animation_delay)
             elif animation_name == 'noaction':
-                self.animations[NOACTION] = animation.Animation(animation_frames, animation_delay)
+                self.animations[NOACTION] = animation.Animation(animation_frames, 
+                                                            animation_delay)
             elif animation_name == 'run':
-                self.animations[RUN] = animation.Animation(animation_frames, animation_delay)
+                self.animations[RUN] = animation.Animation(animation_frames, 
+                                                        animation_delay)
             elif animation_name == 'forward':
-                self.animations[FORWARD] = animation.Animation(animation_frames, animation_delay)
+                self.animations[FORWARD] = animation.Animation(animation_frames, 
+                                                            animation_delay)
             elif animation_name == 'reverse':
-                self.animations[REVERSE] = animation.Animation(animation_frames, animation_delay)
+                self.animations[REVERSE] = animation.Animation(animation_frames, 
+                                                            animation_delay)
             elif animation_name == 'damaged':
-                self.animations[DAMAGED] = animation.Animation(animation_frames, animation_delay)
+                self.animations[DAMAGED] = animation.Animation(animation_frames, 
+                                                            animation_delay)
             elif animation_name == 'erase':
-                self.animations[ERASE] = animation.Animation(animation_frames, animation_delay)
+                self.animations[ERASE] = animation.Animation(animation_frames, 
+                                                            animation_delay)
             elif animation_name == 'yaw':
-                self.animations[YAW] = animation.Animation(animation_frames, animation_delay)
+                self.animations[YAW] = animation.Animation(animation_frames, 
+                                                        animation_delay)
             elif animation_name == 'fall':
-                self.animations[FALL] = animation.Animation(animation_frames, animation_delay)
+                self.animations[FALL] = animation.Animation(animation_frames, 
+                                                        animation_delay)
             elif animation_name == 'turbo':
-                self.animations[TURBO] = animation.Animation(animation_frames, animation_delay)
+                self.animations[TURBO] = animation.Animation(animation_frames, 
+                                                            animation_delay)
                 
         #Inicializamos la imagen, el rectangulo y la mascara de pixeles
         self.image = self.original_sprite.get_frame(self.animations[NORMAL].get_frame())
@@ -108,7 +139,7 @@ class GameObject(pygame.sprite.Sprite):
         #brief Método que actualiza lógicamente al objeto
         Debe ser implementada por los descendientes de GameObject
         '''
-        raise NotImplemented("La funcion update de GameObject debe ser implementada por sus descendientes")
+        raise NotImplementedError("La funcion update de GameObject debe ser implementada por sus descendientes")
     
     def update_direction(self):
         '''
@@ -139,7 +170,8 @@ class GameObject(pygame.sprite.Sprite):
         
         @param screen Superficie destino
         '''
-        screen.blit(self.image, (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y()))
+        screen.blit(self.image, (self.rect.x - self.game_control.circuit_x(), 
+                                self.rect.y - self.game_control.circuit_y()))
         #pygame.draw.rect(screen, (0, 0, 0), (self.rect.x - self.game_control.circuit_x(), self.rect.y - self.game_control.circuit_y(), self.rect.w, self.rect.h), 1)
         
     def move(self, delta):
@@ -195,6 +227,9 @@ class GameObject(pygame.sprite.Sprite):
         self.hitmask = pixelperfect.get_alpha_hitmask(self.image, self.rect)
     
     def update_angle(self):
+        '''
+        @brief Actualiza el ángulo del objeto para que esté dentro de los márgenes
+        '''
         if self.actual_angle < 0:
             self.actual_angle += 360
         if self.actual_angle > 360:

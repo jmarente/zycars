@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file intro.py
+@brief Implementa la clase Intro
+@author José Jesús Marente Florín
+@date Diciembre 2011.
+'''
+
 import state
 import data
 import resource
@@ -32,7 +39,8 @@ class Intro(state.State):
         self.actual_alpha = 0
         
         #Obtenemos una superficie negra del mismo tamaño que la pantalla
-        self.surface = pygame.Surface((pygame.display.get_surface().get_width(), pygame.display.get_surface().get_height()))
+        self.surface = pygame.Surface((pygame.display.get_surface().get_width(),
+                                    pygame.display.get_surface().get_height()))
         
         #Obtenemos la imagen del logo
         for element in parser.getElementsByTagName('image'):
@@ -44,7 +52,7 @@ class Intro(state.State):
             image = resource.get_image(image_code)
             
             #La dibujamos sobre la superficie antes mencionada
-            self.surface.blit(image, (x,y))
+            self.surface.blit(image, (x, y))
         
         #Indicamos el alfa de la superficie, en un principio será 0, es decir
         #Negra completamente
@@ -62,7 +70,9 @@ class Intro(state.State):
         if self.to_opaque:
             
             #Si pulsamos alguna de las teclas cancelamos al intro
-            if keyboard.pressed(pygame.K_ESCAPE) or keyboard.pressed(pygame.K_SPACE) or keyboard.pressed(pygame.K_RETURN):
+            if keyboard.pressed(pygame.K_ESCAPE) or \
+            keyboard.pressed(pygame.K_SPACE) or \
+            keyboard.pressed(pygame.K_RETURN):
                 self.quit = True
             
             #Vamos aumentado el alpha segun la velocidad indicada
@@ -77,14 +87,17 @@ class Intro(state.State):
         else:
             
             #si pulsamos alguna de las teclas cancelamos la intro
-            if keyboard.pressed(pygame.K_ESCAPE) or keyboard.pressed(pygame.K_SPACE) or keyboard.pressed(pygame.K_RETURN):
+            if keyboard.pressed(pygame.K_ESCAPE) or \
+            keyboard.pressed(pygame.K_SPACE) or \
+            keyboard.pressed(pygame.K_RETURN):
                 self.quit = True
             
             #Vamos disminuyendo el canal alpha de la superficie
             self.actual_alpha -= self.speed
             self.surface.set_alpha(self.actual_alpha)
             
-            #Cuando llegamos de nuevo al negro completo, indicamos que la intro ha terminado
+            #Cuando llegamos de nuevo al negro completo, indicamos que la 
+            #intro ha terminado
             if self.actual_alpha <= 0:
                 self.quit = True
     
@@ -92,7 +105,8 @@ class Intro(state.State):
         if self.quit:
             print "Al menú principal"
             #Pasamos al menu principal
-            self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
+            self.game.change_state(mainmenu.MainMenu(self.game, 
+                                                'menu/mainmenu.xml'))
             
     def draw(self, screen):
         '''
@@ -100,5 +114,5 @@ class Intro(state.State):
         
         @param screen Superficie destino
         '''
-        screen.blit(self.surface, (0,0))
+        screen.blit(self.surface, (0, 0))
         
