@@ -27,6 +27,7 @@
 		<image code="selected_circuit" name="menu/selected_circuit.png" alpha="True"/>
 		<image code="normal_box3" name="menu/normal_box3.png" alpha="True"/>
 		<image code="selected_box3" name="menu/selected_box3.png" alpha="True"/>
+		<image code="championship_box" name="menu/championship_box.png" alpha="True"/>
 		<!--ELEMENTOS DE MENÚ(FONDO, LOGOS, ICONOS, IMAGENES)-->
 		<image code="background_menu" name="menu/background_menu.png" alpha="True"/>
 		<image code="background_pause" name="menu/background_pause.png" alpha="True"/>
