@@ -13,8 +13,8 @@
         <option type="image_button" xml_file="menu/boxbutton2.xml" font="cheesebu" text="Copa Rodillo" image="logo_kitchen" image_x="6" image_y="6" center="True" x="595" y="145"></option>
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Aceptar" center="True" x="570" y="565"></option>
         <option type="normal" xml_file="menu/genericbutton.xml" font="cheesebu" text="Cancelar" center="True" x="720" y="565"></option>
-        <option type="normal" xml_file="menu/tinyrowleftbutton.xml" font="cheesebu" text="Izquierda" show_text='false' center="True" x="685" y="340"></option>
-        <option type="normal" xml_file="menu/tinyrowrightbutton.xml" font="cheesebu" text="Derecha" show_text='false' center="True" x="765" y="340"></option>
+        <!--option type="normal" xml_file="menu/tinyrowleftbutton.xml" font="cheesebu" text="Izquierda" show_text='false' center="True" x="685" y="340"></option>
+        <option type="normal" xml_file="menu/tinyrowrightbutton.xml" font="cheesebu" text="Derecha" show_text='false' center="True" x="765" y="340"></option-->
     </options>
     <circuit_position x="190" y="300"/>
     <times_position x="630" y="370"/>

@@ -12,7 +12,7 @@ import pygame
 
 from collections import deque
 
-CLASSIFICATION, CHAMPIONSHIPMENU, GAME = range(3)
+CLASSIFICATION, CHAMPIONSHIPMENU, GAME, CHAMPIONSHIPCOMPLETED = range(4)
 
 class Mode(state.State):
     FASTRACE, TIMED, CHAMPIONSHIP = range(3)
@@ -152,7 +152,8 @@ class ChampionShip(Mode):
         self.remaining_circuits = deque()
         self.path_circuit = None
         self.passed_circuits = deque()
-        self.championship_menu = classificationmenu.ChampionShipMenu(self, 'menu/championshipmenu.xml')     
+        self.championship_menu = classificationmenu.ChampionShipMenu(self, 'menu/championshipmenu.xml')
+        self.championship_completed = classificationmenu.ChampionShipCompleted(self, 'menu/championshipmenu.xml')
         
         self.scores = {1: 4, 2: 2, 3: 1, 4: 0}
         self.classification_championship = []
@@ -176,6 +177,9 @@ class ChampionShip(Mode):
         
         elif self.state == CHAMPIONSHIPMENU:
             self.championship_menu.update()
+
+        elif self.state == CHAMPIONSHIPCOMPLETED:
+            self.championship_completed.update()
     
     def draw(self, screen):
         if self.state == CLASSIFICATION:
@@ -186,6 +190,9 @@ class ChampionShip(Mode):
         
         elif self.state == CHAMPIONSHIPMENU:
             self.championship_menu.draw(screen)
+        
+        elif self.state == CHAMPIONSHIPCOMPLETED:
+            self.championship_completed.draw(screen)
                     
     def completed_race(self, position_players):
         self.players_position = []
@@ -227,7 +234,9 @@ class ChampionShip(Mode):
             self.state = GAME
             self.game_control = gamecontrol.GameControl(self.game, self, self.path_circuit, self.best_total_time, self.best_lap, self.laps)
         else:
-            self.complete_championship()
+            self.state = CHAMPIONSHIPCOMPLETED
+            self.championship_completed.set_classification_player(self.classification_championship)
+            #self.complete_championship()
     
     def complete_championship(self):
         self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))

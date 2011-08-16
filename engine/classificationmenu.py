@@ -309,3 +309,59 @@ class ChampionShipMenu(ClassificationMenu):
         if option == "Continuar":
             print "Elegido: Continuar"
             self.game.next_circuit()
+
+class ChampionShipCompleted(basicmenu.BasicMenu):
+    def __init__(self, father, xml_path):
+
+        basicmenu.BasicMenu.__init__(self, father)
+        
+        parse = xml.dom.minidom.parse(data.get_path_xml(xml_path))
+        self.parser_basic_info(parse)
+        
+        self.player_name = None
+        self.player_image = None
+        self.player_position = None
+        self.final_message1 = None
+        self.final_message2 = None
+        self.font2 = resource.get_font('cheesebu', 45)
+        self.box = resource.get_image('championship_box')
+        self.final_text = self.font2.render('Campeonato completado', True, (0, 0, 0))
+        self.messages1 = {1: "Muy bien hecho,",
+                        2: "Segundo puesto,",
+                        3: "Tercer puesto,",
+                        4: "Cuarto puesto"}
+        self.messages2 = {1: u"eres el Campeón",
+                        2: u"no está nada mal",
+                        3: u"puedes hacerlo mejor",
+                        4: u"debes mejorar mucho"}
+
+    def set_classification_player(self, classification_championship):
+        
+        for i in range(len(classification_championship)):
+            
+            if classification_championship[i][2]:
+                self.player_image = classification_championship[i][1].get_racer_image()
+                player_name = classification_championship[i][1].get_name()
+                self.player_position = i + 1
+                break
+        
+        self.final_message1 = self.font2.render(self.messages1[self.player_position], True, (189, 9, 38))
+        self.final_message2 = self.font2.render(self.messages2[self.player_position], True, (189, 9, 38))
+        self.player_name = self.font2.render(player_name, True, (0, 0, 0))
+
+    def draw(self, screen):
+        self.draw_basic_elements(screen)
+
+        screen.blit(self.player_name, (100, 200))
+        screen.blit(self.player_image, (10, 250))
+        screen.blit(self.final_text, (360, 200))
+        screen.blit(self.box, (375, 290))
+        screen.blit(self.final_message1, (390, 305))
+        screen.blit(self.final_message2, (390, 345))
+        
+        self.cursor.draw(screen)
+        
+    def treat_option(self, option):
+        if option == "Continuar":
+            print "Elegido: Continuar"
+            self.game.complete_championship()
