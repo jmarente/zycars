@@ -1,8 +1,14 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file slider.py
+@brief Implementa la clase Slider
+@author José Jesús Marente Florín
+@date Diciembre 2010.
+'''
+
 import pygame
 import xml.dom.minidom
-
 import data
 import resource
 import mouse
@@ -51,12 +57,13 @@ class Slider:
         r = int(font[0].getAttribute('r'))
         g = int(font[0].getAttribute('g'))
         b = int(font[0].getAttribute('b'))
-        self.color_font = (r,b,g)
+        self.color_font = (r, b, g)
         
         self.max_value = max_value
+        self.min_value = 0
         self.actual_value = actual_value
         self.update_controler()
-        self.still_pressed = False
+        self.still_pressed = self.new_pressed = False
         self.option = option
         
     def update(self):
@@ -98,12 +105,13 @@ class Slider:
         @param screen Superficie destino
         '''
         #Renderizamos el valor actual
-        value_render = self.font.render(str(self.actual_value), True, self.color_font)
+        value_render = self.font.render(str(self.actual_value), True, 
+                                    self.color_font)
         
         #Asignamos la posición
         value_rect = value_render.get_rect()
         value_rect.x = self.bar_rect.x + self.bar_rect.w + 10
-        value_rect.centery =self.bar_rect.centery
+        value_rect.centery = self.bar_rect.centery
         
         #Dibujamos recta, controlador y valor
         screen.blit(self.bar_image, self.bar_rect)
@@ -129,8 +137,8 @@ class Slider:
     
     def update_value(self):
         '''
-        @brief Función encargada de actualizar el valor actual en función de la posición
-        del controlador sobre la barra
+        @brief Función encargada de actualizar el valor actual en función de 
+        la posición del controlador sobre la barra
         '''
         posicion_100 = self.bar_rect.w
         posicion_barra = self.controler_rect.centerx - self.bar_rect.x - self.bar_rect.w
@@ -138,12 +146,15 @@ class Slider:
     
     def update_controler(self):
         '''
-        @brief Función encargada de actualizar la posición del controlador en función
-        del valor actual del slider
+        @brief Función encargada de actualizar la posición del controlador en 
+        función del valor actual del slider
         '''
         posicion_100 = self.bar_rect.w
         posicion = (self.actual_value * posicion_100) / self.max_value
         self.controler_rect.centerx = posicion + self.bar_rect.x
     
     def get_option(self):
+        '''
+        @brief Devuelve la opción del slider
+        '''
         return self.option

@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file pausemenu.py
+@brief Implementa la clase PauseMenu
+@author José Jesús Marente Florín
+@date Enero 2011.
+'''
+
 import data
 import pygame
 import xml.dom.minidom
@@ -27,12 +34,13 @@ class PauseMenu(basicmenu.BasicMenu):
         #Parseamos la configuración basica
         self.parser_basic_info(parse)
         
+        screen = pygame.display.get_surface()
         #Obtenemos la superficie transparente que será el fondo del menú
-        self.layer = pygame.Surface((pygame.display.get_surface().get_width(), pygame.display.get_surface().get_height()))
+        self.layer = pygame.Surface((screen.get_width(), screen.get_height()))
         self.layer.set_alpha(125)
         
         #Obtenemos el centro de la pantalla
-        center_screen = (pygame.display.get_surface().get_width() / 2, pygame.display.get_surface().get_height() / 2)
+        center_screen = (screen.get_width() / 2, screen.get_height() / 2)
         
         #Asigamos la posición de dibujado de la pantalla que será el centro
         self.rect_background = self.background.get_rect()
@@ -64,7 +72,8 @@ class PauseMenu(basicmenu.BasicMenu):
             self.game_control.set_state('race')
         elif option == u"Menú":
             print "Elegido: Menú"
-            self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
+            self.game.change_state(mainmenu.MainMenu(self.game, 
+                                                    'menu/mainmenu.xml'))
         elif option == "Reiniciar":
             print "Ha elegido: Reinicar"
             self.game_control.reboot_race()

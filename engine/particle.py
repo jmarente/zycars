@@ -39,9 +39,7 @@ class Particle:
         self.image = pygame.transform.rotozoom(image, rotation, scale)
         #self.image.convert_alpha(self.image)
         #self.image = self.image.set_alpha(0, pygame.RLEACCEL)
-        '''self.actual_step = 0
-        self.dx = speed * randint(-1, 1) * random.random()
-        self.dy = speed* randint(-1, 1) * random.random()'''
+        
         self.speed = speed
         self.x = 0
         self.y = 0
@@ -57,9 +55,8 @@ class Particle:
             self.x = math.cos(self.angle) * self.speed + self.x
             self.y = math.sin(self.angle) * self.speed + self.y
         
-            '''self.x += self.dx
-            self.y += self.dy'''
-            #Si no está en los limites de distancia, indicamos que acaba su ejecución
+            #Si no está en los limites de distancia, indicamos que acaba 
+            #su ejecución
             if abs(self.x) > self.distance or abs(self.y) > self.distance:
                 self.status = "done"
               
@@ -87,7 +84,8 @@ class SystemParticle:
     '''
     @brief Clase que simula el comportamiento de una explosión mediante un sistema de particulas
     '''
-    def __init__(self, game_control, x, y, images_code, number, duration, speed, distance=200, scale = 1):
+    def __init__(self, game_control, x, y, images_code, number, duration, 
+                speed, distance=200, scale = 1):
         '''
         @brief Constructor
         
@@ -149,7 +147,8 @@ class SystemParticle:
         @param screen Superficie de destino
         '''
         for particle in self.particles:
-            particle.draw(screen, self.x - self.game_control.circuit_x(), self.y - self.game_control.circuit_y())
+            particle.draw(screen, self.x - self.game_control.circuit_x(), 
+                        self.y - self.game_control.circuit_y())
     
     def get_status(self):
         '''
@@ -160,6 +159,9 @@ class SystemParticle:
         return self.status
     
     def done(self):
+        '''
+        @brief Establece el estado indicando que la particula a finalizado
+        '''
         return True if self.status == 'done' else False
     
     def restart(self):
@@ -182,13 +184,17 @@ class SystemParticle:
         for i in range(0, self.number):
             
             #Obtenemos el código de una imagen aleatoria de la lista de códigos
-            image = resource.get_image(self.images_code[randint(0, len(self.images_code ) - 1)])
+            image = resource.get_image(self.images_code[randint(0, 
+                                                len(self.images_code ) - 1)])
             
             particle = Particle(randint(0, 360),#Obtenemos un angulo aleatorio
-                                        random.uniform(0.1, self.distance),#Distancia máxima aleatoria
-                                        random.uniform(0.1, self.scale),#Escala aleatoria
+                                        #Distancia máxima aleatoria
+                                        random.uniform(0.1, self.distance),
+                                        #Escala aleatoria
+                                        random.uniform(0.1, self.scale),
                                         image,#Imagen en cuestión
-                                        random.uniform(0.1, self.speed),#Velocidad aleatoria
+                                        #Velocidad aleatoria
+                                        random.uniform(0.1, self.speed),
                                         randint(0,360))
             #Insertamos una nueva particula
             self.particles.append(particle)#Rotación de la imagen 

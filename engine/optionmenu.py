@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file optionmenu.py
+Implementa la clase OptionMenu
+@author José Jesús Marente Florín
+@date Diciembre 2010.
+'''
+
 import basicmenu
 import data
 import resource
@@ -69,7 +76,8 @@ class OptionMenu(basicmenu.BasicMenu):
                 text_render_rect.y = posy
                 
                 #Insertamos en la lista de textos por capa
-                self.text_layers[name_layer].append((text_render, text_render_rect))
+                self.text_layers[name_layer].append((text_render, 
+                                                    text_render_rect))
             
             #Obtenemos los distintos objetos que tendrán cada capa
             #En primer lugar obtenemos los slider
@@ -106,7 +114,9 @@ class OptionMenu(basicmenu.BasicMenu):
                 x = int(check_box.getAttribute('x'))
                 y = int(check_box.getAttribute('y'))
                 
-                new_checkbox = checkbox.CheckBox(self, xml_file, text, x, y, font_code, image_code, image_x, image_y, show_text)
+                new_checkbox = checkbox.CheckBox(self, xml_file, text, x, y, 
+                                                font_code, image_code, 
+                                                image_x, image_y, show_text)
                 self.elements_layers[name_layer].append(new_checkbox)
             
             for button_layer in element.getElementsByTagName('button'):
@@ -122,12 +132,14 @@ class OptionMenu(basicmenu.BasicMenu):
                 y = int(button_layer.getAttribute('y'))
                 show_text = True
                 
-                #Miramos si se indica si se debe mostrar o no el texto en el botón
+                #Miramos si se indica si se debe mostrar o no el texto 
+                #en el botón
                 if button_layer.hasAttribute('show_text'):
                     show_text = button_layer.getAttribute('show_text')
                     show_text = button.strTobool(show_text)
                 
-                aux_button = button.Button(self, xml_file, text, x, y, font_code, show_text)
+                aux_button = button.Button(self, xml_file, text, x, y, 
+                                        font_code, show_text)
                     
                 #Lo añadimos a la lista de botones
                 self.buttons_layers[name_layer].append(aux_button)   
@@ -139,7 +151,8 @@ class OptionMenu(basicmenu.BasicMenu):
                 x = int(image.getAttribute('x'))
                 y = int(image.getAttribute('y'))
                 
-                self.images_layers[name_layer][image_code] = (resource.get_image(image_code), x, y)
+                self.images_layers[name_layer][image_code] = \
+                                        (resource.get_image(image_code), x, y)
             
         for chb in self.elements_layers['Pantalla']:
             if config.Config().get_fullscreen():
@@ -148,20 +161,22 @@ class OptionMenu(basicmenu.BasicMenu):
         #La capa inicial será la de sonido
         self.actual_layer = "Sonido"
         self.direction = config.Config().get_direction()
-        self.pause = 'p' if config.Config().get_pause_key() == pygame.K_p else 'esc'
-        self.item = 'space' if config.Config().get_item_key() == pygame.K_SPACE else 'enter'
+        self.pause = 'p' if config.Config().get_pause_key() == \
+                                                        pygame.K_p else 'esc'
+        self.item = 'space' if config.Config().get_item_key() == \
+                                                pygame.K_SPACE else 'enter'
                             
     def update(self):
         '''
         @brief Método encargado de actualizar todos los elementos del menú
         '''
         
-        for button in self.buttons_layers[self.actual_layer]:
-            button.update()
+        for but in self.buttons_layers[self.actual_layer]:
+            but.update()
             #So el cursor está sobre alguno de los botones
-            if button.get_selected():
+            if but.get_selected():
                 #Obtenemos su opción
-                self.actual_option = button.get_option()
+                self.actual_option = but.get_option()
         
         #Actualizamos todos los elementos de la capa actual
         for element in self.elements_layers[self.actual_layer]:
@@ -191,9 +206,15 @@ class OptionMenu(basicmenu.BasicMenu):
             button_layer.draw(screen)
 
         if self.actual_layer == 'Controles':
-            screen.blit(self.images_layers[self.actual_layer][self.direction][0], (self.images_layers[self.actual_layer][self.direction][1], self.images_layers[self.actual_layer][self.direction][2]))
-            screen.blit(self.images_layers[self.actual_layer][self.pause][0], (self.images_layers[self.actual_layer][self.pause][1], self.images_layers[self.actual_layer][self.pause][2]))
-            screen.blit(self.images_layers[self.actual_layer][self.item][0], (self.images_layers[self.actual_layer][self.item][1], self.images_layers[self.actual_layer][self.item][2]))
+            screen.blit(self.images_layers[self.actual_layer][self.direction][0],
+                    (self.images_layers[self.actual_layer][self.direction][1], 
+                    self.images_layers[self.actual_layer][self.direction][2]))
+            screen.blit(self.images_layers[self.actual_layer][self.pause][0], 
+                    (self.images_layers[self.actual_layer][self.pause][1], 
+                    self.images_layers[self.actual_layer][self.pause][2]))
+            screen.blit(self.images_layers[self.actual_layer][self.item][0], 
+                    (self.images_layers[self.actual_layer][self.item][1], 
+                    self.images_layers[self.actual_layer][self.item][2]))
             
         #Dibujamos el cursor
         self.cursor.draw(screen)
@@ -205,11 +226,13 @@ class OptionMenu(basicmenu.BasicMenu):
         if option == "Aceptar":
             print "Aceptar"
             self.save_options()
-            self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
+            self.game.change_state(mainmenu.MainMenu(self.game, 
+                                                    'menu/mainmenu.xml'))
             
         elif option == "Cancelar":
             print "Cancelar"
-            self.game.change_state(mainmenu.MainMenu(self.game, 'menu/mainmenu.xml'))
+            self.game.change_state(mainmenu.MainMenu(self.game, 
+                                                    'menu/mainmenu.xml'))
 
         elif option == "Sonido":
             self.actual_layer = "Sonido"
@@ -242,7 +265,9 @@ class OptionMenu(basicmenu.BasicMenu):
                 self.pause = 'p'
     
     def save_options(self):
-        
+        '''
+        @brief Almacena las opciones en la configuración
+        '''
         for element in self.elements_layers['Sonido']:
             if element.get_option() == 'sonido':
                 config.Config().set_sound_volume(float(element.get_value() / 100.0))

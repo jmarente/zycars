@@ -14,7 +14,7 @@ import xml.dom.minidom
 import math
 import random
 import item
-#import pygame
+import config
 
 class Hud:
     '''
@@ -132,8 +132,13 @@ class Hud:
         '''
         #Si no tenemos actualmente un item
         if not self.actual_item:
-            #Obtenemos uno aleatorio de la lista
-            self.actual_item = self.items.keys()[random.randint(0, len(self.items.keys()) - 1)]
+            
+            if config.Config().get_mode() == config.TIMED:
+                self.actual_item = 'turbo'
+            else:
+                #Obtenemos uno aleatorio de la lista
+                self.actual_item = self.items.keys()[random.randint(0, len(self.items.keys()) - 1)]
+                
             #self.actual_item = 'turbo'
             print "Jugador ", self.player, " recoge: ", self.actual_item
             if self.actual_item == '3missile':

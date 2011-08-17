@@ -1,12 +1,16 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file playercar.py
+@brief Implementa la clase PlayerCar
+@author José Jesús Marente Florín
+@date Octubre 2010.
+'''
+
 import basiccar
 import gameobject
-import resource
 import keyboard
-import data
 import pygame
-import xml.dom.minidom
 import time
 import config
 
@@ -14,7 +18,7 @@ class PlayerCar(basiccar.BasicCar):
     '''
     @brief Clase que modela el comportamiento y las características del vehículo del jugador
     '''
-    def __init__(self, game_control, xml_file, x, y, angle = 0, player = 1):
+    def __init__(self, game_control, xml_file, x, y, angle = 0):
         '''
         @brief Consturtor
         
@@ -197,7 +201,8 @@ class PlayerCar(basiccar.BasicCar):
             self.image = self.original_sprite[self.animations[self.state].get_frame()]
             self.falling = True
         
-        self.image = pygame.transform.rotozoom(self.image, -5, self.actual_scale)
+        self.image = pygame.transform.rotozoom(self.image, -5, 
+                                            self.actual_scale)
         
         #Actualizamos tanto el alto como el ancho 
         self.rect.w = self.image.get_width()
@@ -214,7 +219,9 @@ class PlayerCar(basiccar.BasicCar):
             self.x += 90
 
     def __damaged_state(self):
-        
+        '''
+        @brief Gestiona el estado de daño del jugador
+        '''
         if not self.start:
             self.start = time.time()
             #self.temp_angle = self.actual_angle
@@ -234,12 +241,21 @@ class PlayerCar(basiccar.BasicCar):
             #self.temp_angle = None
         
     def __forward_state(self):
+        '''
+        @brief Por implementar
+        '''
         pass
         
     def __erase_state(self):
+        '''
+        @brief Por implementar
+        '''
         pass
         
     def __yaw_state(self):
+        '''
+        @brief Por implementar
+        '''
         pass
     
     def control_rotation(self):
@@ -273,4 +289,9 @@ class PlayerCar(basiccar.BasicCar):
         self.hud.collected_item()
     
     def draw_hud(self, screen):
+        '''
+        @brief Dibuja el hud en pantalla
+        
+        @param screen Superficie destino
+        '''
         self.hud.draw(screen)

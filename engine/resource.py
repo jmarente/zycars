@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 '''
 @brief Carga y cachea todos los recursos multimedia necesarios.
-Se pretende seguir una especie de patrón Singleton, pero usando un módulo en lugar de una clase, ya que
+Se pretende seguir una especie de patrón Singleton, pero usando un módulo en 
+lugar de una clase, ya que
 un módulo es accesible desde todo el sistema y tendra una única instancia.
 Cuando queremos recursos de algún tipo simplente accedemos mediante su clave.
 '''
@@ -27,7 +28,8 @@ __fonts_info = {}
 def __initialize_module():
     '''
 	@brief Función privada del módulo.Es la encargada de inicializar el módulo 
-    parseando un fichero xml que contendrá todos los recursos necesarios en el sistema.
+    parseando un fichero xml que contendrá todos los recursos necesarios en el 
+    sistema.
 	'''
     parser = xml.dom.minidom.parse(data.get_path_xml('resources.xml'))
     
@@ -62,7 +64,8 @@ def __initialize_module():
 
 def __check_initialize():
     '''
-	@brief Función privada del módulo encargada de comprobar si el modulo ya se ha inicializado.
+	@brief Función privada del módulo encargada de comprobar si el modulo ya 
+    se ha inicializado.
 	Si no es asi se procede a inicializarlo.
 	'''
     global __initialize
@@ -83,10 +86,9 @@ def get_image(image_code):
     #si la imagen no estaba cargada la cargamos
     if __images.has_key(image_code):
         pass
-        #print "Imagen " + image_code + " ya cargada."
     else:
-        #print "Imagen " + str(image_code) + " no estaba cargada aún, cargando..."
-        __images[image_code] = data.load_image(__images_info[image_code][0], __images_info[image_code][1])
+        __images[image_code] = data.load_image(__images_info[image_code][0], 
+                                            __images_info[image_code][1])
         
     return __images[image_code]
         
@@ -105,21 +107,28 @@ def get_sprite(sprite_code):
         #print "Sprite " + sprite_code + " ya cargado"
     else:
         #print "Sprite " + sprite_code + " no estaba cargado aún, cargando..."
-        __sprites[sprite_code] = data.load_sprite(__sprites_info[sprite_code][0], __sprites_info[sprite_code][1], \
-                                                __sprites_info[sprite_code][2], __sprites_info[sprite_code][3])
+        __sprites[sprite_code] = data.load_sprite(__sprites_info[sprite_code][0],
+                                                __sprites_info[sprite_code][1],
+                                                __sprites_info[sprite_code][2], 
+                                                __sprites_info[sprite_code][3])
         
     return __sprites[sprite_code]
     
 def get_new_sprite(sprite_code):
+    '''
+    @brief Devuelve un nuevo sprite
     
+    @param sprite_code código del sprite
+    '''
     __check_initialize()
     if __new_sprites.has_key(sprite_code):
         pass
         #print "New Sprite " + sprite_code + " ya cargado"
     else:
         #print "New Sprite " + sprite_code + " no estaba cargado aún, cargando..."
-        __new_sprites[sprite_code] = animation.ImageGrid(sprite_code, __sprites_info[sprite_code][1], \
-                                                __sprites_info[sprite_code][2])
+        __new_sprites[sprite_code] = animation.ImageGrid(sprite_code, 
+                                            __sprites_info[sprite_code][1],
+                                            __sprites_info[sprite_code][2])
     return __new_sprites[sprite_code]
     
 def get_sound(sound_code):
@@ -141,7 +150,8 @@ def get_sound(sound_code):
     
 def get_font(font_code, size):
     '''
-	@brief Función que devuelve la fuente asociado con el codigo de fuente y tamaño dado.
+	@brief Función que devuelve la fuente asociado con el codigo de fuente y 
+    tamaño dado.
     
     @param font_code Código de la fuente.
     @param size Tamaño de la fuente.
@@ -150,10 +160,9 @@ def get_font(font_code, size):
     __check_initialize()
     if __fonts.has_key((font_code, size)):
         pass
-        #print "Fuente " + font_code + " con tamaño " + str(size) + " ya cargada"
     else:
-        #print "Fuente " + font_code + " con tamaño " + str(size) +  " no estaba cargada aún, cargando..."
-        __fonts[(font_code, size)] = data.load_font(__fonts_info[font_code], size)
+        __fonts[(font_code, size)] = data.load_font(__fonts_info[font_code], 
+                                                    size)
         
     return __fonts[(font_code, size)]
 

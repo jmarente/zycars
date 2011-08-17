@@ -1,5 +1,12 @@
 #-*- encoding: utf-8 -*-
 
+'''
+@file timer.py
+Implementa la clase Timer
+@author José Jesús Marente Florín
+@date Enero 2011.
+'''
+
 import time
 import resource
 
@@ -7,7 +14,8 @@ class Timer:
     '''
     @brief Clase Timer, simula el comportamiento de de un cronómetro.
     '''
-    def __init__(self, font_code, font_size, color, x, y, text, minutes = 0, seconds = 0, hseconds = 0):
+    def __init__(self, font_code, font_size, color, x, y, text, minutes = 0, 
+                seconds = 0, hseconds = 0):
         '''
         @brief Constructor de timer.
         
@@ -48,6 +56,7 @@ class Timer:
         #Obtenemos la superficie con el texto dado
         self.text = self.font.render(text, True, color)
         self.rect_text = self.text.get_rect()
+        self.surface = None
         self.update_surface()
         
     def update(self):
@@ -65,7 +74,8 @@ class Timer:
             self.minutes = int(elap / 60) 
             #Obtenemos los segundos, restando los minutos anteriores
             self.seconds = int(elap - self.minutes * 60.0)
-            #Obtenemos las centésimas de segundo, restando tanto minutos, como segundos anteriores
+            #Obtenemos las centésimas de segundo, restando tanto minutos, 
+            #como segundos anteriores
             self.hseconds = int((elap - self.minutes * 60.0 - self.seconds) * 100)
             
             #Actualizamos la superficie del cronometro
@@ -228,8 +238,9 @@ class Timer:
         @param timer Timer a comparar
         @return True si son iguales, false en caso contrario
         '''
-        if self.minutes == timer.get_minutes() and self.seconds == timer.get_seconds() \
-            and self.hseconds == timer.get_hseconds():
+        if self.minutes == timer.get_minutes() and \
+            self.seconds == timer.get_seconds() and\
+            self.hseconds == timer.get_hseconds():
             return True
         return False
     
