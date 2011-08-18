@@ -258,6 +258,7 @@ class CollisionManager:
                 if collision['left']:
                     #Corregimos la posicion
                     it.x = tile_rect.x - (it.rect.w / 2)
+                    #it.x = it.previous_x
                     
                     #Dependiendo de la dirección vertical, tendrá un rebote u otro
                     if it.go_down():
@@ -272,6 +273,7 @@ class CollisionManager:
                 if collision['right'] and not col:
                     #Corregimos la posicion
                     it.x = tile_rect.x + tile_rect.w + (it.rect.w / 2)
+                    #it.x = it.previous_x
                     
                     #Aplicamos el rebote dependiendo de la dirección vertical
                     if it.go_down():
@@ -286,6 +288,7 @@ class CollisionManager:
                 if collision['top'] and not col:
                     #Corregimos la posicion
                     it.y = tile_rect.y - (it.rect.h / 2)
+                    #it.y = it.previous_y
                     
                     #Aplicamos rebote segun la dirección horizontal
                     if it.go_left():
@@ -300,6 +303,7 @@ class CollisionManager:
                 if collision['bottom'] and not col:
                     #Corregimos la posición
                     it.y = tile_rect.y + tile_rect.w + (it.rect.h / 2)
+                    #it.y = it.previous_y
 
                     #Aplicamos rebote segun la dirección horizontal
                     if it.go_left():

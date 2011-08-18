@@ -355,6 +355,7 @@ class GameControl(state.State):
         #Posicionamos la pantalla
         self.scroll_control()
         
+        #Sonidos de juego
         self.sounds = {}
         
         self.sounds['collected_item'] = resource.get_sound('item_collected')
@@ -362,6 +363,9 @@ class GameControl(state.State):
         self.sounds['ball_explosion'] = resource.get_sound('ball_explosion')
         self.sounds['ball_rebound'] = resource.get_sound('ball_rebound')
         self.sounds['yaw'] = resource.get_sound('yaw')
+        
+        for key in self.sounds.keys():
+            self.sounds[key].set_volume(config.Config().get_sound_volume())
         
     def update(self):
         '''
@@ -643,7 +647,7 @@ class GameControl(state.State):
         
         #Colisiones de los misiles
         for bullet in self.bullets:
-            if bullet.get_state() == gameobject.RUN and \
+            if bullet.get_state() != gameobject.EXPLOSION and \
                 self.collision_manager.item_level_collision(bullet, self.circuit):
                 self.sounds['missile_explosion'].play()
                 bullet.set_state(gameobject.EXPLOSION)

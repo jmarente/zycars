@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 '''
-@file hbasicar.py
+@file basicar.py
 @brief Implementa la clase Hud y Basicar
 @author José Jesús Marente Florín
 @date Octubre 2010.
@@ -186,6 +186,8 @@ class BasicCar(gameobject.GameObject):
         self.start = None
         self.turbo_state = None
         self.turbo_sound = resource.get_sound('turbo')
+        self.turbo_sound.set_volume(config.Config().get_sound_volume())
+        
         self.old_max_speed = self.max_speed
 
         self.front_line = gameobject.Line(1, 1, 1, 1)
