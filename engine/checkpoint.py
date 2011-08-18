@@ -110,7 +110,7 @@ class CheckPoints:
         #Si aun no hemos pasado por la meta ni una sola vez y pasamos,
         #indicamos que se inicia la actualización de los CheckPoinst
         if not self.start and self.goal.collision_sprite(sprite):
-            Log().info("Comienza el control de vueltas")
+            #Log().info("Comienza el control de vueltas")
             self.start = True
         
         #Si hemos pasado al menos una vez por la meta una vez tomada la salida
@@ -139,7 +139,7 @@ class CheckPoints:
                 
                 #Aumentamos en uno el número de vueltas dadas
                 self.laps += 1
-                Log().info("Nº de vueltas:" + str(self.laps))
+                #Log().info("Nº de vueltas:" + str(self.laps))
                 
                 #Informamos a GameControl de que se ha completado una vuelta
                 if player:

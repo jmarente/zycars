@@ -24,7 +24,7 @@ class Config:
         '''
         @brief Constructor. Inicializa todos los atributos necesarios
         '''
-        Log().info('Constructor: Config')
+        #Log().info('Constructor: Config')
         self.player_selected = None
         self.mode = None
         self.competitors = []

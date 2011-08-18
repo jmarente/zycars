@@ -74,7 +74,7 @@ class Log:
         
         self.logger.addHandler(handler)
         
-        self.logger.debug('Constructor de Log')
+        #self.logger.debug('Constructor de Log')
         
     def debug(self, text):
         '''
