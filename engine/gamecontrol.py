@@ -464,8 +464,8 @@ class GameControl(state.State):
                                             self.ia_cars)
                 
                 #Si pulsamos el espacio o escape, cambiamos al estado pause
-                if keyboard.pressed(config.Config().get_pause_key()) \
-                    or not pygame.key.get_focused():
+                if (keyboard.pressed(config.Config().get_pause_key()) \
+                    or not pygame.key.get_focused()) and not self.fadeout:
                         
                     self.actual_state = 'pause'
                     pygame.mixer.music.pause()
