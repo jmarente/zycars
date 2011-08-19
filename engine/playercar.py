@@ -134,7 +134,7 @@ class PlayerCar(basiccar.BasicCar):
             self.state = gameobject.NOACTION
             self.turbo_state = None
             #self.max_speed = self.old_max_speed
-            self.max_speed = self.max_speed / 2
+            self.max_speed = self.original_max_speed
         
         #Movemos el coche
         self.move(+1)

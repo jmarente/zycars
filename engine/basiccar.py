@@ -227,6 +227,7 @@ class BasicCar(gameobject.GameObject):
         self.avatar = resource.get_image(parent_node.getAttribute('avatar'))
         self.racer_image = resource.get_image(parent_node.getAttribute('racer_image'))
         self.max_speed = float(parent_node.getAttribute('max_speed'))
+        self.original_max_speed = float(parent_node.getAttribute('max_speed'))
         self.min_speed = float(parent_node.getAttribute('min_speed'))
         self.rotation_angle = float(parent_node.getAttribute('rotation_angle'))
         self.aceleration = float(parent_node.getAttribute('aceleration'))

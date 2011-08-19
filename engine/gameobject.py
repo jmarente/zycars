@@ -59,6 +59,7 @@ class GameObject(pygame.sprite.Sprite):
 
         #Distintos atributos del objeto
         self.max_speed = 0
+        self.original_max_speed = 0
         self.actual_speed = 0
         self.min_speed = 0
         #self.__angle_rotation = None

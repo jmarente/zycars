@@ -656,6 +656,7 @@ class GameControl(state.State):
                 self.collision_manager.actor_pixelperfectcollision(self.player, bullet):
                 self.sounds['missile_explosion'].play()
                 bullet.set_state(gameobject.EXPLOSION)
+                self.player.max_speed = self.player.original_max_speed
                 self.player.set_angle(bullet.get_angle())
                 self.player.trigonometry()
                 self.player.set_state(gameobject.DAMAGED)
@@ -672,6 +673,7 @@ class GameControl(state.State):
                         self.collision_manager.actor_pixelperfectcollision(ia_car[0], bullet):
                             self.sounds['missile_explosion'].play()
                             bullet.set_state(gameobject.EXPLOSION)
+                            ia_car[0].max_speed = ia_car[0].original_max_speed
                             ia_car[0].set_angle(bullet.get_angle())
                             ia_car[0].trigonometry()
                             ia_car[0].set_state(gameobject.DAMAGED)
@@ -689,6 +691,7 @@ class GameControl(state.State):
                 self.collision_manager.actor_pixelperfectcollision(self.player, ball):
                 self.sounds['ball_explosion'].play()
                 ball.set_state(gameobject.EXPLOSION)
+                self.player.max_speed = self.player.original_max_speed
                 self.player.set_angle(ball.get_angle())
                 self.player.trigonometry()
                 self.player.set_state(gameobject.DAMAGED)
@@ -699,6 +702,7 @@ class GameControl(state.State):
                     self.collision_manager.actor_pixelperfectcollision(ia_car[0], ball):
                         self.sounds['ball_explosion'].play()
                         ball.set_state(gameobject.EXPLOSION)
+                        ia_car[0].max_speed = ia_car[0].original_max_speed
                         ia_car[0].set_angle(ball.get_angle())
                         ia_car[0].trigonometry()
                         ia_car[0].set_state(gameobject.DAMAGED)
@@ -713,6 +717,7 @@ class GameControl(state.State):
                 and self.collision_manager.actor_pixelperfectcollision(oil, self.player):
                 self.sounds['yaw'].play()
                 new_angle = self.player.get_angle() + random.randint(-45, 45)
+                self.player.max_speed = self.player.original_max_speed
                 self.player.set_angle(new_angle)
                 self.player.trigonometry()
                 self.player.set_state(gameobject.DAMAGED)
@@ -723,6 +728,7 @@ class GameControl(state.State):
                     if self.on_screen(ia_car[0]):
                         self.sounds['yaw'].play()
                     new_angle = self.player.get_angle() + random.randint(-45, 45)
+                    ia_car[0].max_speed = ia_car[0].original_max_speed
                     ia_car[0].set_angle(new_angle)
                     ia_car[0].trigonometry()
                     ia_car[0].set_state(gameobject.DAMAGED)

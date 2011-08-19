@@ -160,6 +160,10 @@ class CircuitMenu(basicmenu.BasicMenu):
         #Parseamos la información básica del circuito(botones, imagenes...)
         parse = xml.dom.minidom.parse(data.get_path_xml(path_xml))
         self.parser_basic_info(parse)
+
+        #Guarrada para el titulo del campeonato
+        if config.Config().get_mode() == config.CHAMPIONSHIP:
+            self.title = self.font.render('Campeonato', True, (0,0,0))
         
         #Mapa que contendrá los botones de cada capa
         self.buttons_layers = {}
