@@ -149,23 +149,32 @@ class Astar:
         neighbors = []
         
         #Obtenemos los nodos adyacentes si son atravesables
-        if nodo.row + 1 < len(map) and map[nodo.row + 1][nodo.column] != NOPASSABLE:
-            neighbors.append(Nodo(nodo.row + 1, nodo.column, (self.target.row, self.target.column), nodo))
+        if nodo.row + 1 < len(map) and \
+        map[nodo.row + 1][nodo.column] != NOPASSABLE:
+            neighbors.append(Nodo(nodo.row + 1, nodo.column, 
+                            (self.target.row, self.target.column), nodo))
 
-        if nodo.row - 1 >= 0 and map[nodo.row - 1][nodo.column] != NOPASSABLE:
-            neighbors.append(Nodo(nodo.row - 1, nodo.column, (self.target.row, self.target.column), nodo))
+        if nodo.row - 1 >= 0 and \
+        map[nodo.row - 1][nodo.column] != NOPASSABLE:
+            neighbors.append(Nodo(nodo.row - 1, nodo.column, 
+                            (self.target.row, self.target.column), nodo))
             
-        if nodo.column + 1 < len(map[nodo.row]) and map[nodo.row][nodo.column + 1] != NOPASSABLE:
-            neighbors.append(Nodo(nodo.row, nodo.column + 1, (self.target.row, self.target.column), nodo))
+        if nodo.column + 1 < len(map[nodo.row]) and \
+        map[nodo.row][nodo.column + 1] != NOPASSABLE:
+            neighbors.append(Nodo(nodo.row, nodo.column + 1, 
+                            (self.target.row, self.target.column), nodo))
         
-        if nodo.column - 1 >= 0 and map[nodo.row][nodo.column - 1] != NOPASSABLE:
-            neighbors.append(Nodo(nodo.row, nodo.column - 1, (self.target.row, self.target.column), nodo))
+        if nodo.column - 1 >= 0 and \
+        map[nodo.row][nodo.column - 1] != NOPASSABLE:
+            neighbors.append(Nodo(nodo.row, nodo.column - 1, 
+                            (self.target.row, self.target.column), nodo))
         
         return neighbors
     
     def best_open(self):
         '''
-        @brief Devuelve el nodo con la f mas baja de la lista de abiertos, y lo elimina de esta
+        @brief Devuelve el nodo con la f mas baja de la lista de abiertos, y 
+        lo elimina de esta
         '''
         
         if len(self.open) > 0:
@@ -203,7 +212,8 @@ class Astar:
     
     def check_neighbors(self, neighbors):
         '''
-        @brief Comprueba si los vecinos estan en abiertos o cerrados y actualiza la lista de abietos
+        @brief Comprueba si los vecinos estan en abiertos o cerrados y 
+        actualiza la lista de abietos
         
         @param neighbors Lista con los nodos vecinos
         '''
@@ -225,7 +235,8 @@ class Astar:
                     
                     #Localizamos el nodo en la lista de abiertos
                     for j in range(len(self.open)):
-                        if neighbors[i].row == self.open[j].row and neighbors[i].column == self.open[j].column :
+                        if neighbors[i].row == self.open[j].row and \
+                        neighbors[i].column == self.open[j].column :
                             #if neighbors[i].g < self.open[j].g:
                             #Eliminamos el anterior
                             del self.open[j]
@@ -272,7 +283,8 @@ class Astar:
         @brief Comprueba si el nodo actual es el objetivo
         '''
         #Si tienen la misma posición es que es el objetivo
-        if self.current.row == self.target.row and self.current.column == self.target.column:
+        if self.current.row == self.target.row and \
+        self.current.column == self.target.column:
             return True
             
         return False

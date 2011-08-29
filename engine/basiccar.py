@@ -91,7 +91,8 @@ class Hud:
             self.position_image.centery = self.centery
             
             #Mostramos
-            screen.blit(self.items[self.actual_item]['image'], self.position_image)
+            screen.blit(self.items[self.actual_item]['image'], 
+                        self.position_image)
             
             #Si el item es del tipo de 3 misiles, mostramos los misiles restantes
             if self.actual_item == "3missile":
@@ -115,7 +116,8 @@ class Hud:
         '''
         #Si tenemos algun item, lo lanzamos
         if self.actual_item:
-            self.player.release_item(self.actual_item, self.items[self.actual_item]['xml'])
+            self.player.release_item(self.actual_item, 
+                                    self.items[self.actual_item]['xml'])
             
             #Si es del tipo 3 misiles, restamos los misiles restantes
             if self.actual_item == "3missile":
@@ -154,8 +156,8 @@ class Hud:
                 
 class BasicCar(gameobject.GameObject):
     '''
-    @brief Clase "virtual pura" que abstrae el comportamiento y las características 
-    básicas de los vehiculos en el juego
+    @brief Clase "virtual pura" que abstrae el comportamiento y las 
+    características básicas de los vehiculos en el juego
     '''
     def __init__(self, game_control, xml_file, x, y, angle = 0):
         '''
@@ -215,8 +217,6 @@ class BasicCar(gameobject.GameObject):
         @param screen Superficie destino
         '''
         gameobject.GameObject.draw(self, screen)
-        #pygame.draw.line(screen, (0, 0, 0), (self.front_line.x1 - self.game_control.circuit_x(), self.front_line.y1 - self.game_control.circuit_y()),(self.front_line.x2 - self.game_control.circuit_x(), self.front_line.y2 - self.game_control.circuit_y()))
-        #pygame.draw.line(screen, (255, 0, 0), (self.back_line.x1 - self.game_control.circuit_x(), self.back_line.y1 - self.game_control.circuit_y()),(self.back_line.x2 - self.game_control.circuit_x(), self.back_line.y2 - self.game_control.circuit_y()))
         
     def parser_car_info(self, parse):
         '''
