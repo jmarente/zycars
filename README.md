@@ -4,18 +4,16 @@
 
 ## What is Zycars?
 
-2D racing video game written in Python using Pygame
-
-**Zycars** is a 2D racing video game written in Python using Pygame. It's have 3 game mods.
-During the races you'll be able to use different items in order to obstruct our opponents
-or improve our abilities.
+**Zycars** is a 2D racing video game written in Python using Pygame. It has 3 game modes.
+During the races you'll be able to use different items in order to obstruct your opponents
+or improve your abilities.
 
 ## Game modes
 
-* **Single race**: just a single race against 3 CPU opponents. We can configure how many laps to complete
+* **Single race**: just a single race against 3 CPU opponents. You can configure how many laps to complete
 * **Championship**: compete against 3 CPU oppnents along 4 races. The player with the most number of points
-will be the winner
-* **Time trial**: player compete against himself in order to improce his time in different circuits.
+will be the winner.
+* **Time trial**: player competes against himself in order to improve his time in different circuits.
 
 ## Project documentation
 
