@@ -1,0 +1,141 @@
+
+\paragraph{}
+El diseño de casos de pruebas para un videojuego es algo complicado, no sólo para \emph{Zycars}, si no para la mayoría de los
+distintos tipos de videojuegos existentes. Esto se debe a que estamos en un
+escenario simulando como interactúan muchísimos 
+elementos entre sí. Pero las pruebas son algo necesario si deseamos un software con una calidad aceptable.
+
+\paragraph{}
+Todos los módulos que componen la aplicación han sido probados individualmente, como pueden ser aquellos módulos 
+encargados de la gestión de colisiones, la inteligencia artificial, gestión de las carreras.
+
+\paragraph{}
+También se realizaron pruebas de integración, ya que había módulos, una vez probado en solitario, debían realizar distintas acciones 
+junto con otros módulos. Como puede ser la búsqueda A* o el módulo de configuración.
+
+\paragraph{}
+Otras pruebas que se realizaron fueron las de jugabilidad, tanto yo como
+personas ajenas al desarrollo de proyecto probaron el 
+mismo ofreciendo sus opiniones sobre aspectos que deberían ser modificados o
+errores que aparecían a lo largo de la ejecución
+del juego.
+
+\paragraph{}
+Se hicieron pruebas sobre la interfaz a medida que se implementaban nuevos menús de juego, donde se probaban
+la reacción de esto ante situaciones para las que no estaban pensado su uso.
+
+\paragraph{}
+En definitiva, la organización de los casos de pruebas fue la siguiente:
+
+\begin{enumerate}
+    \item Tras finalizar la implementación de cada módulo, se realizaban pruebas unitarias sobre estos.
+    \item A medida que distintos módulo que anteriormente probados individualmente, debían colaborar entre ellos, se
+    llevaban a cabo pruebas de integración.
+    \item Con las distintas versiones jugables se realizaban pruebas de jugabilidad.
+    \item Pruebas de interfaz sobre los distintos menús que se implementaban.
+\end{enumerate}
+
+\section{Pruebas unitarias}
+
+\paragraph{}
+Esta pruebas se realizaron junto a la fase de implementación, conforme se implementaban nuevos módulos necesarios para la aplicación
+se realizaban pruebas individuales sobre estos módulos. De esta forma se buscaban todos los caminos posibles que podría dar cada 
+módulo, teniendo en cuenta aquellos que fueran más predispuesto a fallos.
+
+\paragraph{}
+De esta forma todas las sentencias se ejecutaban como mínimo una vez y los posibles fallos se encontraban de una forma más sencilla.
+Por lo que también eran más fácil localizar donde estaba el problema y afrontar la solución de este.
+
+\subsection{Análisis del código con Pylint.}
+
+\paragraph{}
+Una vez que se comprobaba el correcto funcionamiento del módulo implementado, se le pasaba el analizador de código pylint, con el 
+fin de que el código siguiera un estándar uniforme y que estuviera exento de cualquier tipo de errores o signos de mala calidad.
+
+\paragraph{}
+Pylint proporciona una nota de 1 a 10 al código analizado. Se intentó que todos y cada uno de los módulos tuvieran al menos
+una nota mínima de 7. Finalmente se obtuvo una nota de 8.25 en todo el código conjunto de la aplicación.
+
+\section{Pruebas de integración}
+
+\paragraph{}
+Conforme aparecían nuevos módulos, cuya implementación era necesaria y a su vez estos requerían el uso de otro módulos que 
+posteriormente habían sido probados individualmente, se realizaban pruebas de integración entre dichos módulos.
+
+\paragraph{}
+Conforme se avanzaba en el desarrollo de \emph{Zycars} se realizaban pruebas de integración a mayor escala. No solo entre módulos
+del mismo sistema, sino entre varios sistemas del juego.
+
+\paragraph{}
+En este apartado los principales problemas se encontraron a la hora de integrar todas las pantallas del juego, como pueden ser todos
+los menús, los modos de juego y la pantalla de juego en sí. Pero la resolución
+de los errores que aparecían no tuvieron gran 
+dificultad.
+
+\section{Pruebas de jugabilidad}
+
+\paragraph{}
+Cada vez que estaban disponibles nuevas versiones jugables del juego, se pedían la ayuda a personas, totalmente ajenas al desarrollo
+de la aplicación, que probaran las distintas demos disponibles. De esta forma cada uno de los colaboradores daba su opinión sobre
+distintos aspectos como la jugabilidad, dificultad, respuesta del juego o nivel de la inteligencia artificial. Tras recopilar la
+información que todos ellos proporcionaron, se procedía a realizar los ajustes
+necesarios a los distintos parámetros requeridos.
+
+\paragraph{}
+Entre los distintos aspectos a probar que se le recomendaban a los
+colaboradores que hicieran especial hincapié, son los siguiente:
+
+\begin{itemize}
+    \item \textbf{Colisiones con escenario}: se les pedía que comprobarán que era imposible atravesar los objetos colisionables
+    que se pueden encontrar a lo largo de los circuitos.
+    
+    \item \textbf{Colisiones con otros competidores}: comprobación de las colisiones con los otros competidores de la carrera y la
+    reacción de los coches.
+    
+    \item \textbf{Control de carreras}: correcto funcionamiento del sistema de control de carrera, que se controlaran 
+    correctamente las posiciones de los personajes, el control de las vuelta y la consecución correcta de esta.
+    
+    \item \textbf{Inteligencia artificial}: los coches controlados inteligencia artificial hacen correctamente el recorriendo y 
+    lanzan ítems cuando lo ven oportuno.
+    
+    \item \textbf{Modo carrera rápida}: la carrera se completa correctamente y muestra la posición de los distintos jugadores tal 
+    y como terminó la carrera.
+    
+    \item \textbf{Modo contrarreloj}: Los tiempos se controlan bien y al concluir la carrera se muestra los tiempos obtenido y si se
+    ha superado algún tiempo.
+    
+    \item \textbf{Modo campeonato}: se pasan correctamente de una carrera a otra y el control de los puntos acumulados por carrera
+    se realiza correctamente.
+\end{itemize}
+
+\paragraph{}
+La mayor parte de las personas que probaron el juego, opinaron que este tenía la dificultad necesaria para que el juego fuera un 
+reto competir contra coches dirigidos por el ordenador, pero no hasta el punto de que fuera imposible vencer a esta. Aun así aconsejaron
+adaptar las velocidad de los distintos vehículos disponibles, para que la diferencia entre estos fuera menor y la posibilidad
+de adelantamientos fuera mayor. Tras realizar los cambios propuesto, los colaboradores se mostraron más contentos con los resultados.
+
+\section{Pruebas de interfaz}
+
+\paragraph{}
+Conforme se realizaban las distintas pantallas referentes a los menús que podemos encontrar en el juego, se realizaban pruebas 
+exhaustivas sobre estas. Sobre todo se comprobaban que las interfaces fueran intuitivas y claras. Así como probar a cambiar 
+valores erróneos de elementos que podríamos encontrar en el menú de opciones o a la hora de seleccionar las vueltas de carrera.
+
+\paragraph{}
+Se hizo especial hincapié en las siguientes pantallas:
+
+\begin{itemize}
+    \item \textbf{Menú principal}: comprobar si se accedía correctamente a las distintas opciones disponibles.
+    
+    \item \textbf{Menú de opciones}: se modificaban las opciones sin problemas y sin poder añadir valor errores, tras aceptar
+    los cambios, estos se aplicaban correctamente.
+    
+    \item \textbf{Menú de selección de personaje}: se elegía el personaje deseado correctamente.
+    
+    \item \textbf{Menú de selección de circuito}: se elegía correctamente el circuito deseado y la modificación del número de 
+    vueltas se hacia correctamente.
+\end{itemize}
+
+\paragraph{}
+Se comprobó que la interfaz era bastante solida y no era necesario ningún manual de usuario para poder navegar sobre ella. El 
+sistema de opciones no admite valores erróneos.

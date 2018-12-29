@@ -1,0 +1,1162 @@
+%%%%%%%%%%%%%%%%% TOMA DE REQUISITOS %%%%%%%%%%%%%%%%%%%%%%%5
+\section{Especificación de requisitos del sistema}
+
+\paragraph{}
+Para la creación de cualquier producto software, es necesario establecer las distintas condiciones y necesidades que
+ha de satisfacer. Seguiremos un esquema que nos permita describir los requisitos de una forma metódica y racional.
+%\paragraph{}
+
+\subsection{Requisitos de interfaces externas}
+
+\paragraph{}
+En este apartado se describirá los requisitos de conexión del software y el hardware, así como la interfaz de usuario.
+
+\paragraph{}
+La conexión entres el software y el hardware se encarga la librería \emph{SDL}, mediante el wrapper \emph{Pygame} para 
+el lenguaje de programación \emph{Python}. Por lo que al ser un sistema preestablecido, no será necesario realizar el diseño,
+ni el análisis, sólo haremos uso de él.
+
+\paragraph{}
+Así que pasamos a definir la interfaz entre el usuario y el videojuego. Todas las ventanas de la aplicación tendrán una 
+resolución de 800x600 píxeles, siendo posible establecer el modo de pantalla completa \footnote{El modo de pantalla completa
+se podrá establecer a través del menú de opciones}. A continuación se distinguen las distintas
+ventanas que el usuario encontrará en el sistema:
+
+\begin{description}
+    \item \textbf{Ventana de introducción} En esta primera ventana se mostrará únicamente el logotipo del juego, situando al usuario en
+    contexto para introducirlo en la ejecución de la aplicación.
+    
+    \item \textbf{Ventana de menú principal} La ventana del menú principal (figura \ref{fig:boceto-menu-principal})
+    muestra el menú de inicio de \emph{Zycars}, así como 
+    todas las opciones generales del juego disponibles, que son las siguientes:
+        \begin{itemize}
+            \item Carrera Rápida
+            \item Campeonato
+            \item Contrarreloj
+            \item Opciones
+            \item Créditos
+            \item Salir
+        \end{itemize}
+        En este menú y en los siguiente que se describan se usará el ratón para navegar por ellos y solo será necesario
+        hacer click sobre la opción deseada para acceder a ella.
+
+        \figura{imagenes/analisis/boceto_menu_principal.png}{scale=0.5}{Análisis: Boceto del menú principal}{fig:boceto-menu-principal}{H}
+    
+    \item \textbf{Ventana de opciones} Desde la ventana de opciones (figura \ref{fig:boceto-opciones}) se podrán
+    modificar las distintas características de la 
+    configuración del juego como el audio o controles. Esta ventana se podría dividir en tres partes diferencias que se indican
+    a continuación:
+        \begin{itemize}
+            \item Opciones de audio: podremos modificar el volumen de efectos de sonido y música del juego. También estará la opción
+            de silenciar cualquier tipo de sonido.
+            
+            \item Opciones de pantalla: a través de esta ventana podremos activar o desactivar el modo de pantalla completa.
+            
+            \item Opciones de control: en esta ventana podremos modificar los controles del juego. Tanto de dirección, lanzamiento
+            de ítems y pausa del juego.
+        \end{itemize}
+
+        \figura{imagenes/analisis/boceto_opciones.png}{scale=0.5}{Análisis: Boceto del menú de opciones}{fig:boceto-opciones}{}
+
+    \item \textbf{Ventana de créditos} En esta pantalla (figura \ref{fig:boceto-creditos})se mostrarán los creadores de \emph{Zycars}. Tendremos a nuestra 
+    disposición un botón para volver al menú principal.
+
+        \figura{imagenes/analisis/boceto_creditos.png}{scale=0.5}{Análisis: Boceto de la pantalla de créditos}{fig:boceto-creditos}{}
+    
+    \item \textbf{Ventana de selección de personaje} Esta ventana (figura \ref{fig:boceto_menu_personaje}) será compartida por los tres modos de juego disponibles. En ella 
+    podremos elegir al personaje que desearemos controlar a lo largo de las carreras. De estos jugadores se nos mostrarán sus 
+    distintas habilidades.
+
+        \figura{imagenes/analisis/boceto_menu_personaje.png}{scale=0.5}{Análisis: Boceto del menú de selección de personaje}{fig:boceto_menu_personaje}{H}
+    
+    \item \textbf{Ventana de selección de circuito} Ventana (figura \ref{fig:boceto_menu_circuito}) compartida por el modo carrera rápida y contrarreloj. En esta ventana
+    deberemos elegir el circuito en el que deseamos competir. Se nos mostrará una imagen de cada circuito que seleccionemos.
+
+        \figura{imagenes/analisis/boceto_menu_circuito.png}{scale=0.5}{Análisis: Boceto del menú de selección de circuito}{fig:boceto_menu_circuito}{H}
+    
+    \item \textbf{Ventana de selección de campeonato} Ventana muy similar a la descrita anteriormente. En ella se nos mostrarán
+    todos los circuitos de cada campeonato disponible. Pero al contrario que la anterior en esta ventana elegiremos el campeonato 
+    del circuito seleccionado en el momento.
+    
+    \item \textbf{Ventana de juego} Ventana principal de todo el juego (figura \ref{fig:boceto_juego}). Mostrará la carrera actual que se esté disputando, así como
+    los distinto marcadores aclaratorios sobre el estado de la carrera, como
+    pueden ser posiciones de los jugadores, ítem actual y
+    tiempos de carrera. Según la tecla indicada en los controles del menú de opciones (ESC o p) se podrá acceder al menú
+    de pausa del juego.
+
+        \figura{imagenes/analisis/boceto_juego.png}{scale=0.5}{Análisis: Boceto de ventana de juego}{fig:boceto_juego}{}
+    
+    \item \textbf{Ventana de pausa} Únicamente accesible desde la ventana de juego (figura \ref{fig:boceto_pausa}). Esta nos permitirá detener el juego en curso, 
+    siendo posible reanudar el juego, reiniciar el mismo o volver al menú principal.
+
+        \figura{imagenes/analisis/boceto_pausa.png}{scale=0.5}{Análisis: Boceto de menú de pausa}{fig:boceto_pausa}{}
+    
+    \item \textbf{Ventana de posiciones de carrera} Ventana mostrada (figura \ref{fig:boceto_resultados_carrera}) al terminar alguna de las carreras. En ella nos muestra el 
+    resultado de la última carrera disputada. Nos permite continuar al siguiente circuito, en el caso del modo campeonato, o seguir
+    hacia el menú principal, en el modo carrera rápida. También se nos permite
+    reiniciar la última carrera disputada.
+
+        \figura{imagenes/analisis/boceto_resultados_carrera.png}{scale=0.5}{Análisis: Boceto de la ventana de posiciones}{fig:boceto_resultados_carrera}{H}
+        
+    \item \textbf{Ventana de posiciones de campeonato} Ventana mostrada en el modo campeonato tras la ventana de posiciones 
+    de carrera, en ella se nos muestra las posiciones de los competidores en el campeonato actual.
+    
+    \item \textbf{Ventana de tiempos de contrarreloj} Ventana (figura \ref{fig:boceto_tiempos}) mostrada al completar algún circuito en el modo contrarreloj. En ella
+    se nos muestran los distintos tiempos conseguidos a lo largo del circuito y
+    se nos indicará si hemos batido algún récord.
+    Esta ventana nos permite continuar hacia el menú principal, así como reiniciar el circuito disputado.
+
+        \figura{imagenes/analisis/boceto_tiempos.png}{scale=0.5}{Análisis: Boceto de la ventana de tiempos}{fig:boceto_tiempos}{H}
+    
+\end{description}
+
+\subsection{Requisitos funcionales}
+
+\paragraph{}
+Los requisitos funcionales que el sistema debe ofrecer son los siguientes:
+
+\begin{itemize}
+    \item Salir de la aplicación desde cualquier ventana.
+    \item Seleccionar los distintos modos de juego.
+    \item Permitir al jugador competir contra coches dirigidos por el ordenador.
+    \item Modificar la configuración (audio, pantalla y controles) del juego.
+    \item Pausar el juego.
+    \item Seleccionar uno de los jugadores propuestos.
+    \item Seleccionar cualquiera de los circuitos disponibles.
+    \item Seleccionar cualquiera de los campeonatos disponibles.
+    \item Reiniciar cualquier carrera una vez terminada o en curso.
+    \item Reiniciar cualquier campeonato una vez terminado o en curso.
+    \item Lanzamientos de ítems durante cualquier carrera.
+    \item Extender el juego mediante la incorporación de nuevos circuitos y personajes.
+\end{itemize}
+
+\paragraph{}
+Los distintos tipos de jugadores son:
+
+\begin{itemize}
+    \item \textbf{Humano}: es el controlado por una persona
+    \item \textbf{Máquina}: controlado por el ordenador.
+\end{itemize}
+
+\paragraph{}
+Existes tres modos de juego:
+
+\begin{itemize}
+	\item \textbf{Carrera rápida}: consiste en la realización de un único circuito, compitiendo contra coches dirigidos 
+    por el ordenador.
+	\item \textbf{Campeonato}: el jugador competirá contra coches dirigidos por el ordenador a lo largo de 4 carreras, 
+    en las que obtendrá una puntuación
+	según la posición obtenida en cada una de las carreras. El ganador será el que mejor puntuación haya conseguido al concluir
+	el campeonato.
+	\item \textbf{Contrarreloj}: en este modo de juego, el jugador competirá solo, con el fin de mejorar las marcas de tiempo de cada uno de los 
+	circuitos.
+\end{itemize}
+
+
+\subsection{Requisitos de rendimiento}
+
+\paragraph{}
+El rendimiento de la aplicación debe ser tal que permita un desempeño agradable de juego. 
+
+\begin{itemize}
+    \item Por lo que la respuesta a las acciones realizadas por el usuario deben ser respondidas lo más rápido posible,
+    sacrificando en el caso de que sea necesario el consumo de la memoria principal.
+    
+    \item La inteligencia artificial debe estar optimizada de forma que no se ralentice la partida en el tiempo dedicado a los
+    cálculos necesarios para tomar decisiones.
+\end{itemize}
+    
+
+\subsection{Restricciones de diseño}
+
+\paragraph{}
+Como comento en uno de los puntos del apartado anterior el tiempo de respuesta tiene que primar sobre el consumo de 
+memoria principal o secundaria. Esta será la principal restricción de diseño que tendrá nuestra aplicación.
+
+\paragraph{}
+Los videojuegos están pensados como aplicación principal, de forma que no tenga que compartir recursos con otros procesos,
+por lo que se permitirá que consuma muchos recursos del sistema.
+
+\subsection{Requisitos del sistema software}
+
+\paragraph{}
+La aplicación deberá cumplir los siguiente requisitos del sistema:
+
+\begin{itemize}
+    \item Deberá ser multiplataforma, al menos en los siguiente sistemas:
+    \begin{itemize}
+        \item \textbf{Microsoft Windows}: realizando las pruebas sobre la versión Windows 7.
+        \item \textbf{GNU/Linux}: usando la distribución Ubuntu 10.10 como principal sistema para pruebas.
+    \end{itemize}
+    
+    \item El código con el que se desarrolle la aplicación no debe ser
+    dependiente del sistema en el que se desarrolle.
+    
+    \item El código debe ser mantenible y fácilmente ampliable para futuras versiones.
+\end{itemize}
+
+%%%%%%%%%%%%%%%% MODELO DE CASOS DE USO %%%%%%%%%%%%%%%%%%%%%%%
+\section{Modelo de casos de uso}
+
+\paragraph{}
+Para describir los distintos comportamientos que tendrá el sistema, usaremos el lenguaje de modelado de sistemas \emph{UML}; que
+representa los requisitos funcionales del sistema, centrando en que hace y no cómo lo hace.
+
+\subsection{Diagrama de los casos de uso}
+
+\paragraph{}
+En primer lugar mostramos el modelo de casos de uso (figura \ref{fig:diagrama_casos_uso}), que representa la funcionalidad completa de la aplicación. Se ha usado el 
+siguiente esquema:
+
+\begin{enumerate}
+    \item Identificar los usuarios del sistema y los roles que pueden tener.
+    \item Para cada rol, identificar las distintas formas de interactuar en el sistema. En el caso de \emph{Zycars} existe
+    un único rol de acceso a la aplicación, por lo que la especificación del usuario será única.
+    \item Creación de los casos de uso para todos los objetivos que queramos cumplir.
+    \item Estructurar dichos casos de uso.
+\end{enumerate}
+
+\figura{imagenes/analisis/diagrama_casos.png}{scale=0.56, angle=90}{Análisis: Diagrama de casos de uso}{fig:diagrama_casos_uso}{}
+
+\subsection{Descripción de los casos de uso}
+
+\paragraph{}
+A continuación pasamos a la descripción de cada uno de los casos de uso, para la cual usaremos una notación forma usando plantillas.
+El texto debe ser legible y comprendido por un usuario que no sea experto.
+
+\subsubsection{Caso de uso: Menú principal}
+
+\begin{description}
+    \item[Caso de uso] Menú principal
+    \item[Descripción] Se muestra el menú principal de la aplicación, donde es
+    posible elegir uno de los modos de juego disponibles
+    o acceder al menú de opciones.
+    \item[Actores] Usuario
+    \item[Precondiciones] Ninguna
+    \item[Postcondiciones] Ninguna
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario inicia la aplicación
+            \item El sistema muestra el menú principal del juego en pantalla.
+            \item El usuario selecciona la opción \textbf{carrera rápida}, \textbf{campeonato} o \textbf{contrarreloj}.
+            \item El sistema inicia el modo de elección de personaje.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+            
+            %\item[2a ] El usuario seleccion la opción \textbf{campeonato}.
+            %\begin{enumerate}
+            %    \item El sistema inicia el modo de elección de personaje
+            %\end{enumerate}
+            
+            %\item[2b ] El usuario seleccion la opción \textbf{contrarreloj}.
+            %\begin{enumerate}
+            %    \item El sistema inicia el modo de elección de personaje
+            %\end{enumerate}
+            
+            \item[2a ] El usuario selección la opción \textbf{opciones}.
+            \begin{enumerate}
+                \item El sistema inicia las opciones
+            \end{enumerate}
+            
+            \item[2b ] El usuario selección la opción \textbf{créditos}.
+            \begin{enumerate}
+                \item El sistema inicia la opción créditos
+            \end{enumerate}
+            
+            \item[2c ] El usuario selección la opción \textbf{salir}.
+            \begin{enumerate}
+                \item El sistema sale de la aplicación.
+            \end{enumerate}
+            
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Elegir personaje}
+
+\begin{description}
+    \item[Caso de uso] Elegir personaje
+    
+    \item[Descripción] El usuario desea seleccionar el personaje con el que competirá en el juego, ya sea carrera rápida, 
+    campeonato o contrarreloj.
+    
+    \item[Actores] Usuario
+    
+    \item[Precondiciones] Ninguna
+    
+    \item[Postcondiciones] Se selecciona un jugador y se almacenará en la configuración de juego.
+    
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario desea seleccionar al personaje que usará en el juego.
+            \item El sistema muestra la pantalla de elección de personaje y carga todos los personajes disponibles.
+            \item El usuario selecciona un personaje de la lista y pulsa la opción aceptar.
+            \item El sistema almacena en la configuración el jugador seleccionado.
+            \item El sistema pasa a selección de circuito%, si la precondición es \textbf{carrera rápida} o \textbf{contrarreloj}
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+            
+            \item[*b ] El usuario pulsa la opción cancelar.
+            \begin{enumerate}
+                \item El sistema vuelve al menú principal
+            \end{enumerate}
+            
+            \item [5a ] El sistema pasa a selección de campeonato.
+            
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Elegir circuito}
+
+\begin{description}
+    \item[Caso de uso] Elegir circuito
+    \item[Descripción] El usuario desea seleccionar el circuito en el que desea competir.
+    \item[Actores] Usuario
+    \item[Precondiciones] El usuario ha elegido previamente en el menú principal una de las opciones: \textbf{carrera rápida} 
+    o \textbf{contrarreloj} y ya ha seleccionado un personaje.
+    
+    \item[Postcondiciones] Se selecciona un circuito y se almacena en la configuración del juego.
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario desea seleccionar el circuito en el que competir.
+            \item El sistema muestra todos los circuitos disponibles (icono e imagen) para cada campeonato.
+            \item El usuario selecciona un circuito y pulsa aceptar
+            \item El sistema almacena el circuito en la configuración del sistema.
+            \item El sistema accede a la pantalla de jugar carrera.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+            \item[*b ] El usuario pulsa la opción cancelar.
+            \begin{enumerate}
+                \item El sistema vuelve a la selección de personaje.
+            \end{enumerate}
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Elegir campeonato}
+
+\begin{description}
+    \item[Caso de uso] Elegir campeonato
+    \item[Descripción] El usuario desea seleccionar el campeonato que desea realizar.
+    \item[Actores] Usuario
+    \item[Precondiciones] El usuario ha elegido previamente en el menú principal una de las opciones: \textbf{campeonato} y ha
+    elegido un personaje.
+    \item[Postcondiciones] Selecciona un campeonato y se almacena en la configuración del juego.
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario desea seleccionar el circuito en el que competir.
+            \item El sistema muestra los campeonatos disponibles
+            \item El usuario selecciona un campeonato y pulsa sobre la opción aceptar.
+            \item El sistema almacena todos los circuitos del campeonato en la configuración del sistema.
+            \item El sistema inicia el modo jugar campeonato.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+            \item[*b ] El usuario pulsa la opción cancelar.
+            \begin{enumerate}
+                \item El sistema vuelve a la selección de personaje.
+            \end{enumerate}
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Jugar carrera}
+
+\begin{description}
+    \item[Caso de uso] Jugar carrera
+    \item[Descripción] El usuario juega una carrera
+    \item[Actores] Usuario
+    \item[Precondiciones] El usuario ha seleccionado un circuito o un campeonato.
+    \item[Postcondiciones] El usuario completa una carrera.
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El sistema carga el circuito, el jugador, inteligencia artificial y los ítems.
+            \item El sistema muestra la pantalla de juego.
+            \item El usuario y el sistema interactúan durante la carrera.
+            \item El usuario completa la carrera.
+            \item El sistema muestra las posiciones finales de la carrera.
+            \item El usuario pulsa continuar.
+            \item El sistema pasa al menú principal
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+            %\item[*b] El usuario pulsa el botón de pausa.
+             %   \begin{enumerate}
+              %      \item El sistema muestra el menú de pausa.
+               % \end{enumerate}
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Pausar}
+
+\begin{description}
+    \item[Caso de uso] Pausar
+    \item[Descripción] El usuario selecciona pausar el juego y puede reanudarlo, reiniciarlo o volver al menú principal.
+    \item[Actores] Usuario
+    \item[Precondiciones] Se está jugando una carrera
+    \item[Postcondiciones] Ninguna.
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario pulsa el botón de pausa.
+            \item El sistema detiene todos los elementos del juego y muestra el menú de pausa.
+            \item El usuario pulsa la opción reanudar.
+            \item El sistema reanudar la carrera.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+
+            \item[*b] El usuario pulsa la opción reiniciar.
+                \begin{enumerate}
+                    \item El sistema reinicia la carrera.
+                \end{enumerate}
+                
+            \item[*b] El usuario pulsa la opción menú.
+                \begin{enumerate}
+                    \item El sistema vuelve al menú principal.
+                \end{enumerate}
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Lanzar ítem}
+
+\begin{description}
+    \item[Caso de uso] Salir
+    \item[Descripción] El usuario lanza el ítem que tenga actualmente.
+    \item[Actores] Usuario
+    \item[Precondiciones] Se esta jugando una carrera y el usuario a recogido un ítem.
+    \item[Postcondiciones] Se añade el ítem a la carrera.
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario pulsa la opción de lanzar ítem.
+            \item El sistema comprueba que el usuario posee un ítem y añade el ítem a la carrera.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Mover vehículo}
+
+\begin{description}
+    \item[Caso de uso] Mover vehículo
+    \item[Descripción] El usuario desplaza al vehículo por el circuito.
+    \item[Actores] Usuario
+    \item[Precondiciones] Se está jugando una carrera.
+    \item[Postcondiciones] Ninguna.
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario pulsa sobre una de las teclas de movimiento. W o Flecha hacia arriba, para mover el vehículo
+            hacia adelante o S o Flecha hacia abajo, para moverlo marcha atrás.
+            \item El sistema mueve al vehículo teniendo en cuenta su orientación, velocidad y ángulo.
+            \item El sistema comprueba que no ha colisionado con ningún obstáculo u otro competidor.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+            \item[1a ] El usuario pulsa las teclas de dirección a la vez que avanza. D o Flecha hacia la derecha, para girar
+            a la derecha o, A o Flecha hacia la izquierda, para girar a la izquierda.
+                \begin{enumerate}
+                    \item El sistema gira al coche hacia la zona deseada.
+                \end{enumerate}
+            \item[3a ] El sistema detecta que ha colisionado con un competidor
+            o con algún obstáculo.
+                \begin{enumerate}
+                    \item El sistema corrige la posición del vehículo.
+                \end{enumerate}
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Jugar campeonato}
+
+\begin{description}
+    \item[Caso de uso] Jugar campeonato
+    \item[Descripción] El usuario juega un campeonato.
+    \item[Actores] Usuario
+    \item[Precondiciones] El usuario selección previamente la opción \textbf{campeonato} en el menú principal.
+    \item[Postcondiciones] Se juega un campeonato.
+    
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario desea jugar un campeonato
+            \item El sistema carga el circuito actual
+            \item El sistema y usuario interactúan en la carrera. Include Jugar carrera.
+            \item Una vez terminada la carrera el sistema muestras las posiciones del campeonato.
+            \item El usuario selección la opción continuar.
+            \item El sistema pasar al siguiente circuito.
+            \item Volveremos al punto 2.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+            
+            \item[2a ] Ya no hay más circuitos restantes.
+                \begin{enumerate}
+                    \item El sistema muestra la clasificación final de todos los jugadores del campeonato.
+                    \item El usuario pulsa la opción continuar.
+                    \item El sistema muestra la posición del jugador.
+                \end{enumerate}
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Opciones}
+
+\begin{description}
+    \item[Caso de uso] Opciones
+    \item[Descripción] El usuario desea modificar las opciones del juego.
+    \item[Actores] Usuario
+    
+    \item[Precondiciones] El usuario seleccionó en el menú principal la opción \textbf{Opciones}.
+    \item[Postcondiciones] El usuario modifica las opciones del juego.
+    
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario desea modificar las opciones del juego.
+            \item El sistema muestra las opciones de juego.
+            \item El usuario modifica las distintas opciones de juego.
+            \item El usuario esta conforme con los cambios realizados y pulsa sobre el botón aceptar.
+            \item El sistema almacena todos los cambios en la configuración.
+            \item El sistema vuelve al menú principal.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación.
+            \item[*b ] El usuario selecciona la opción cancelar.
+                \begin{enumerate}
+                    \item El sistema vuelve al menú principal.
+                \end{enumerate}
+            
+            %\item [4a ] El usuario desea modificar las opciones de pantalla y pulsa sobre el boton de opciones de pantalla.
+             %   \begin{enumerate}
+              %      \item El sistema muestra las opciones de pantalla.
+               %     \item El usuario modifica las distintas opciones de pantalla.
+                %\end{enumerate}
+            
+            %\item [4b ] El usuario desea modificar las opciones de controles y pulsa sobre el boton de opciones de controles.
+             %   \begin{enumerate}
+              %      \item El sistema muestra las opciones de controles.
+               %     \item El usuario modifica las distintas opciones de control.
+                %\end{enumerate}
+            
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Créditos}
+
+\begin{description}
+    \item[Caso de uso] Salir
+    \item[Descripción] Se muestran la pantalla de créditos donde se reflejan los creadores del juego.
+    \item[Actores] Usuario
+    \item[Precondiciones] Ninguna.
+    \item[Postcondiciones] Ninguna.
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El sistema muestra la pantalla de créditos.
+            \item El usuario pulsa la opción volver.
+            \item El sistema vuelve al menú principal.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+        \end{description}
+\end{description}
+
+\subsubsection{Caso de uso: Salir}
+
+\begin{description}
+    \item[Caso de uso] Salir
+    \item[Descripción] El usuario desea cerrar la aplicación.
+    \item[Actores] Usuario
+    \item[Precondiciones] Ninguna
+    \item[Postcondiciones] Se sale de la aplicación.
+    \item[Escenario principal] $\quad$
+        \begin{enumerate}
+            \item El usuario desea salir de la aplicación.
+            \item El usuario pulsa la opción salir del menú principal.
+            \item El sistema cierra la aplicación.
+        \end{enumerate}
+    \item[Extensiones --- flujo alternativo] $\quad$
+        \begin{description}
+            \item[*a ] El usuario cierra la ventana de la aplicación y sale de la aplicación
+        \end{description}
+\end{description}
+
+%%%%%%%%%%%%%% MODELO CONCEPTUAL DE DATOS %%%%%%%%%%%%%%%%%%%5
+\section{Modelo conceptual de datos}
+
+\paragraph{}
+Este apartado del análisis sirve para especificar los requisitos del sistema y las relaciones estáticas que
+existen entre ellos.
+
+\paragraph{}
+Para este fin se utiliza como herramienta los diagramas de clase. En estos diagramas se representan
+las clases de objetos, las asociaciones entre dichas clases, los atributos que componen las clases y las
+relaciones de integridad.
+
+
+\subsection{Diagrama de clases conceptuales}
+
+\paragraph{}
+En este apartado se muestra una lista con las diferentes clases necesarias para la realización de sistema. Junto a cada una de
+las clases habrá una pequeña descripción sobre la labro que desempeña cada una.
+
+\begin{description}
+    \item [Juego] Clase principal de la aplicación, encargada de inicializar el sistema y el flujo entre unos apartados y otros.
+    \item [Estado] Clase virtual, con las necesidades básicas de los estados del juego.
+    
+    \item [Menú Básico] Clase virtual, con las necesidades básicas de los menús.
+    \item [Menú principal] Clase que gestiona el menú principal.
+    \item [Menú selección personaje] Clase que gestiona el menú de selección de personaje.
+    \item [Menú selección circuito] Clase que gestiona el menú de selección de circuito.
+    \item [Menú opciones] Clase que gestiona el menú de opciones.
+    \item [Menú de pausa] Clase que gestiona el menú de pausa.
+    \item [Cursor] Cursor de los menús.
+    \item [Botón] Clase que representa el botón en los menús.
+    
+    \item [Modo de juego] Clase virtual, con las necesidades básicas de los distintos modos de juego.
+    \item [Carrera rápida] Clase que gestiona el modo de juego carrera rápida.
+    \item [Campeonato] Clase que gestiona el modo de juego campeonato.
+    \item [Contrarreloj] Clase que gestiona el modo de juego contrarreloj.
+    
+    \item [Control de juego] Clase encargada del control de la carrera, controlando la interacción del jugador con el circuito, así 
+    como el jugador con los coches dirigidos por el ordenador. Aspectos básico como colisiones, scroll de pantalla, 
+    control de vueltas, control
+    de posiciones.
+    
+    \item [Circuito] Clase encargada de cargar y dibujar el circuito.
+    \item [Gestor de colisiones] Clase encargada de detectar y gestionar las colisiones.
+    
+    \item [Objeto de juego] Clase virtual con las necesidades básicas de los objetos del juego.
+    \item [Caja de ítem] Clase que representa las cajas que proporcionan ítems a los jugadores.
+    \item [Vehículo básico] Clase virtual con las necesidades básicas de los vehículos del juego.
+    \item [IA] Clase que representa el comportamiento de los vehículos dirigidos por el ordenador
+    \item [Jugador] Clase que que representa al vehículo controlado por el jugador.
+\end{description}
+
+\paragraph{}
+En las siguientes imágenes podemos ver los diagrama de clases asociado a los requisitos obtenidos. Por razones de espacio en el
+documento y para una mejor apreciación de las clases necesarias, se ha visto conveniente dividir en dos partes diferenciadas
+principalmente.
+
+\paragraph{}
+La primera figura muestra el primer diagrama las clases relacionadas con las pantalla de juego, como pueden ser menús y 
+modos de juego.
+
+\begin{figure}[H]
+  \label{diagrama_clases_conceptuales}
+  \begin{center}
+    \includegraphics[scale=0.45]{imagenes/analisis/diagrama_clases_conceptuales2.png}
+  \end{center}
+  \caption{Análisis: Diagrama de clases conceptuales 1}
+\end{figure}
+
+\paragraph{}
+En la segunda figura vemos el diagrama de clases referente a las clases principales que intervienen en la gestión de la pantalla
+de juego.
+
+\begin{figure}[H]
+  \label{diagrama_clases_conceptuales}
+  \begin{center}
+    \includegraphics[scale=0.4, angle=90]{imagenes/analisis/diagrama_clases_conceptuales1.png}
+  \end{center}
+  \caption{Análisis: Diagrama de clases conceptuales 2}
+\end{figure}
+
+\section{Modelo de comportamiento del sistema}
+
+\paragraph{}
+El modelo de comportamiento especifica como debe actuar el sistema. El sistema es el que engloba todos los objetos, y el modelo
+consta de dos partes:
+
+\begin{itemize}
+    \item Diagramas de secuencias del sistema: muestran la secuencia de eventos entre el usuario y el sistema.
+    \item Contrato de las operaciones del sistema: describen el efecto que producen las operaciones en el sistema.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Diagramas de secuencia y contrato de las operaciones del sistema.}
+
+\paragraph{}
+No todos los posibles diagramas de secuencia aparecerán, nos centraremos en los más importantes, los que implican algún tipo de 
+cambio en el sistema.
+
+\subsubsection{Caso de uso: Menú principal(escenario principal)}
+
+\begin{figure}[H]
+  \label{secuencia_menu_principal1}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_menu_principal1.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Menú principal (escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] InicioAplicacion()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] inicia la aplicación y muestra el menú principal.
+    \item [Precondiciones] Ninguna
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item El sistema inicia todos los subsistemas necesarios para la correcta ejecución de la aplicación.
+            \item El sistema crea un objeto con el Menú principal
+        \end{itemize}
+\end{description}
+
+\begin{description}
+    \item [Operación] ElegirPersonaje()
+    \item [Actores] Jugador, Sistema.
+    \item [Responsabilidades] salir del menú principal y acceder a la pantalla de elección de personaje.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe u objeto del menú principal.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se destruye el objeto del menú principal.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Menú principal(escenario 2a)}
+
+\begin{figure}[H]
+  \label{secuencia_menu_principal2}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_menu_principal2.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Menú principal (escenario 2a)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] SeleccionarOpciones()
+    \item [Actores] Jugador, Sistema
+    \item [Responsabilidades] salir del menú principal y entrar en el menú de opciones.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto del menú principal.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se destruye el objeto del menú principal.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Menú principal(escenario 2b)}
+
+\begin{figure}[H] 
+  \label{secuencia_menu_principal3}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_menu_principal3.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Menú principal (escenario 2b)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] SeleccionarCréditos()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] salir del menú principal y entrar en la pantalla de créditos.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto del menú principal.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se destruye el objeto del menú principal.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Menú principal(escenario 2c)}
+
+\begin{figure}[H] 
+  \label{secuencia_menu_principal4}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_menu_principal4.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Menú principal (escenario 2c)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] SeleccionarSalir()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] Salir de menú principal y salir de la aplicación
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto del menú principal.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se destruye el objeto del menú principal.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Elegir personaje (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_elegir_personaje}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_elegir_personaje1.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Elegir personaje (escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] PantallaElegirPersonaje()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] carga y muestra la pantalla de elección de personaje
+    \item [Precondiciones] Ninguna
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Crea un objeto de la clase Menú personaje.
+        \end{itemize}
+\end{description}
+
+\begin{description}
+    \item [Operación] SeleccionarPersonaje()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] marca un personaje como seleccionado
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto del menú de personaje.
+            \item Existe el personaje seleccionado.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se marca el personaje como seleccionado.
+            \item Se destruye el objeto del menú de personaje.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Elegir circuito (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_elegir_circuito}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_elegir_circuito.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Elegir circuito (escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] PantallaElegirCircuito()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] crea y muestra la pantalla de elección de circuito.
+    \item [Precondiciones] Ninguna.
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Crea un objeto de la clase menú de circuito.
+        \end{itemize}
+\end{description}
+
+\begin{description}
+    \item [Operación] SeleccionarCircuito()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] marca un circuito como seleccionado.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe el circuito seleccionado.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se marca el circuito como seleccionado.
+            \item Se destruye el objeto de menú de circuito.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Elegir campeonato (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_elegir_campeonato}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_elegir_campeonato.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Elegir campeonato (escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] PantallaElegirCampeonato()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] crea y muestra la pantalla de selección de campeonato
+    \item [Precondiciones] Ninguna.
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Crea un objeto de la clase menú campeonato.
+        \end{itemize}
+\end{description}
+
+\begin{description}
+    \item [Operación] SeleccionarCampeonato()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] selecciona un campeonato.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe el campeonato seleccionado.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se marca el campeonato seleccionado.
+            \item Se destruye el objeto de menú campeonato.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Jugar carrera (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_jugar}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_jugar.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Jugar carrera (escenario principal)}
+\end{figure}
+
+\begin{description} 
+    \item [Operación] PantallaJuego()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] carga y muestra la pantalla de jugo con el circuito seleccionado, inicia el juego.
+    \item [Precondiciones] Ninguna
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se crea un objeto de Control de juego.
+            \item Se crea un objeto de Circuito
+            \item Se crea un objeto de Jugador.
+            \item Se crea un objeto de Gestor de colisiones.
+            \item Se crea un objeto de IA por cada competidor de carrera.
+            \item Se crea un objeto de Caja de ítem por cada caja del circuito.
+        \end{itemize}
+\end{description}
+
+\begin{description}
+    \item [Operación] Interactuar()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] permite al jugador interactuar con el mundo 2D y los elementos que este posee.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de Control de juego.
+            \item Existe un objeto de Jugador.
+        \end{itemize}
+    \item [Postcondiciones] Ninguna.
+\end{description}
+
+\subsubsection{Caso de uso: Pausar (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_pausar1}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_pausar1.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Pausar(escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] PausarJuego()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] pausa el juego y detiene todos los elementos de este.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de Control juego.
+            \item Se está jugando una carrera.
+        \end{itemize}
+    \item [Postcondiciones]
+        \begin{itemize}
+            \item Se crea un objeto de Menú de pausa.
+        \end{itemize}
+\end{description}
+
+\begin{description}
+    \item [Operación] ReanudarJuego()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] reanuda la partida y quita el menú de pausa.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de Control juego.
+            \item La carrera estaba pausada
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se destruye el objeto del menú de pausa.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Pausar (escenario *b)}
+
+\begin{figure}[H] 
+  \label{secuencia_pausar2}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_pausar2.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Pausar (escenario *b)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] ReiniciarJuego()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] reinicia la carrera que se estaba jugando.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de Control juego.
+            \item La carrera estaba pausada
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se destruye el objeto del menú de pausa.
+            \item Se reinicia la carrera.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Pausar (escenario *c)}
+
+\begin{figure}[H] 
+  \label{secuencia_pausar3}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_pausar3.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia (escenario )}
+\end{figure}
+
+\begin{description}
+    \item [Operación] VolverMenuPrincipal()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] se para la carrera jugada y se vuelve al menú principal.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de Control juego.
+            \item La carrera estaba pausada
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se destruye el objeto del menú de pausa.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Lanzar ítem (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_lanzar_item}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_lanzar_item.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Lanzar ítem (escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] LanzarItem()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] hace que el jugador lance el ítem que tiene en ese momento.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de Control juego.
+            \item Existe un objeto de jugador.
+            \item El jugador posee un ítem.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se crea un objeto ítem.
+            \item Se añade el objeto ítem a Control de juego.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Mover vehículo (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_mover_vehiculo}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_mover_vehiculo.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Mover vehículo (escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] MoverVehiculo()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] mueve al personaje por el mundo 2D.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de Control juego.
+            \item Existe un objeto de jugador.        
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se modifica la posición del objeto jugador.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Opciones (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_opciones}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_opciones.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia opciones (escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] PantallaOpciones()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] se crea y muestra la pantalla de opciones.
+    \item [Precondiciones] Ninguna.
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se crea un objeto de menú de opciones
+        \end{itemize}
+\end{description}
+
+\begin{description}
+    \item [Operación] ModificarOpciones
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] se modifican las opciones y se vuelve al menú principal.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de menú de opciones
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se aplican los cambios de opciones.
+            \item Se destruye el objeto de menú de opciones.
+        \end{itemize}
+\end{description}
+
+\subsubsection{Caso de uso: Créditos (escenario principal)}
+
+\begin{figure}[H] 
+  \label{secuencia_creditos}
+  \begin{center}
+    \includegraphics[scale=0.7]{imagenes/analisis/secuencia_creditos.png}
+  \end{center}
+  \caption{Análisis: Diagrama de secuencia Créditos(escenario principal)}
+\end{figure}
+
+\begin{description}
+    \item [Operación] PantallaCréditos()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] crea y muestra la pantalla de créditos
+    \item [Precondiciones] Ninguna.
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se crea un objeto de Menú de créditos.
+        \end{itemize}
+\end{description}
+
+\begin{description}
+    \item [Operación] SeleccionarMenu()
+    \item [Actores] Jugador, sistema.
+    \item [Responsabilidades] destruye la pantalla de créditos y vuelve el menú principal.
+    \item [Precondiciones] $\quad$
+        \begin{itemize}
+            \item Existe un objeto de Menú de créditos.
+        \end{itemize}
+    \item [Postcondiciones] $\quad$
+        \begin{itemize}
+            \item Se destruye el objeto de Menú de créditos.
+        \end{itemize}
+\end{description}

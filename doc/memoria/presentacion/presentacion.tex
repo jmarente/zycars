@@ -1,0 +1,61 @@
+% ===================================================================
+% Presentación con Latex Beamer -> EN proceso de modificación -> CCF
+% ===================================================================
+\documentclass[9pt,xcolor=svgnames]{beamer}
+%\documentclass[handout,xcolor=svgnames]{beamer} %Version imprimible
+% -------------------------------------------------------------------
+\usepackage{paquetes}
+\usepackage{licencia}
+% -------------------------------------------------------------------
+\usepackage{modo}
+% -------------------------------------------------------------------
+
+% Comienza el documento
+\begin{document}
+% Tikz -> Imágenes
+\tikzstyle{every picture}+=[remember picture]
+% Entorno matemático
+\everymath{\displaystyle}
+
+% Transparencia de Inicio -> Título
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\normalsize
+
+% Transparencia de índice
+\begin{frame}
+ \frametitle{Índice} 
+ %\transboxin
+ \tableofcontents
+\end{frame}
+
+\section{Introducción}
+\input{contenido/introduccion.tex}
+
+\section{Descripción}
+\input{contenido/descripcion.tex}
+
+\section{Calendario}
+\input{contenido/calendario.tex}
+
+\section{Implementación}
+\input{contenido/implementacion.tex}
+
+\section{Herramientas}
+\input{contenido/herramientas.tex}
+
+\section{Conclusiones}
+\input{contenido/conclusiones.tex}
+
+%\section{Mejoras y ampliaciones}
+%\input{contenido/mejoras.tex}
+
+\section{Bibliografía}
+\input{contenido/bibliografia.tex}
+
+%\section{Preguntas}
+
+\end{document}
+  
